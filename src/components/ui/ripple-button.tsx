@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/utilities/ui'
 import React, { MouseEvent, useEffect, useState } from 'react'
 
 interface RippleButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
