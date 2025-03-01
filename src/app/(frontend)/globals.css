@@ -1,8 +1,60 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@config '../../../tailwind.config.mjs';
+
+@theme {
+  --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
+  --background-image-gradient-conic: conic-gradient(
+  from 180deg at 50% 50%,
+  var(--tw-gradient-stops)
+  );
+  
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  
+  
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  }
 
 @layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+
   h1,
   h2,
   h3,
@@ -11,42 +63,6 @@
   h6 {
     font-size: unset;
     font-weight: unset;
-  }
-
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 240 5% 96%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 240 6% 80%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.2rem;
-
-    --success: 196 52% 74%;
-    --warning: 34 89% 85%;
-    --error: 10 100% 86%;
   }
 
   [data-theme='dark'] {
@@ -82,22 +98,177 @@
     --warning: 34 51% 25%;
     --error: 10 39% 43%;
   }
+  
 }
+
+@layer utilities {
+  :root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+  }
+  }
+  
 
 @layer base {
+  :root {
+    --primary-rgb: 216, 78, 116;
+    --secondary-rgb: 140, 206, 217;
+    --background: 340 100% 99%;
+    --foreground: 340 60% 30%;
+    --card: 340 100% 98%;
+    --card-foreground: 340 60% 30%;
+    --popover: 340 100% 98%;
+    --popover-foreground: 340 60% 30%;
+    --primary: 340 85% 65%;
+    --primary-foreground: 340 100% 98%;
+    --secondary: 180 75% 85%;
+    --secondary-foreground: 180 60% 25%;
+    --muted: 340 30% 96%;
+    --muted-foreground: 340 40% 50%;
+    --accent: 180 75% 85%;
+    --accent-foreground: 180 60% 25%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 340 65% 90%;
+    --input: 340 65% 90%;
+    --ring: 340 85% 65%;
+    --radius: 0.5rem;
+    --color-1: 283 100% 63%;
+    --color-2: 304 100% 63%;
+    --color-3: 340 100% 63%;
+    --color-4: 5 100% 63%;
+    --color-5: 15 100% 63%;
+    }
+    
   * {
-    @apply border-border;
+  @apply border-border;
   }
   body {
-    @apply bg-background text-foreground min-h-[100vh] flex flex-col;
+  @apply bg-background text-foreground relative;
+  background-image: linear-gradient(
+  to bottom right,
+  transparent,
+  rgba(var(--background-rgb), 0.98)
+  );
   }
+  
+  /* Enable smooth scrolling */
+  html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  }
+  
+  /* Smooth focus transitions */
+  input:focus,
+  textarea:focus {
+  @apply transition-shadow duration-200 ease-in-out;
+  }
+  
+  /* Gradient text utility */
+  .gradient-heading {
+  @apply bg-clip-text text-transparent bg-linear-to-r from-[#8B2942] to-[#B65B73] px-1 pb-2 mb-[-0.5rem];
+  }
+
+  @keyframes accordion-down {
+    from {
+    height: 0;
+    }
+    to {
+    height: var(--radix-accordion-content-height);
+    }
+    }
+    @keyframes accordion-up {
+    from {
+    height: var(--radix-accordion-content-height);
+    }
+    to {
+    height: 0;
+    }
+    }
+
+  @keyframes rainbow {
+    0% {
+    background-position: 0%;
+    }
+    100% {
+    background-position: 200%;
+    }
+    }
+    
+    .animate-rainbow {
+    background-image: linear-gradient(
+    to right,
+    hsl(var(--color-1)),
+    hsl(var(--color-2)),
+    hsl(var(--color-3)),
+    hsl(var(--color-4)),
+    hsl(var(--color-5))
+    );
+    background-size: 200%;
+    animation: rainbow var(--speed, 6s) infinite linear;
+    }
+    
+    @keyframes rippling {
+    0% {
+    opacity: 1;
+    }
+    100% {
+    transform: scale(2);
+    opacity: 0;
+    }
+    }
+    
+    .animate-rippling {
+    animation: rippling var(--duration, 1s) ease-out;
+    }
+    
+    @keyframes shine {
+    0% {
+    background-position: 0% 0%;
+    }
+    50% {
+    background-position: 100% 100%;
+    }
+    to {
+    background-position: 0% 0%;
+    }
+    }
+    
+    .animate-shine {
+    animation: shine var(--duration, 2s) infinite linear;
+    }
+    
+    @keyframes gradient {
+    to {
+    background-position: var(--bg-size) 0;
+    }
+    }
+    
+    .animate-gradient {
+    animation: gradient var(--duration, 60s) linear infinite;
+    }
+  }
+
+
+  html {
+    opacity: 0;
+  }
+  
+  html[data-theme='dark'],
+  html[data-theme='light'] {
+    opacity: initial;
+  }
+
+.rdp-button {
+  width: 2rem;
+  height: 2rem;
 }
 
-html {
-  opacity: 0;
+.rdp-button_previous:before {
+  content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>');
 }
 
-html[data-theme='dark'],
-html[data-theme='light'] {
-  opacity: initial;
+.rdp-button_next:before {
+  content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>');
 }
