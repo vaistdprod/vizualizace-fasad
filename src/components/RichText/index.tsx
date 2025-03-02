@@ -11,7 +11,6 @@ import {
   RichText as RichTextWithoutBlocks,
 } from '@payloadcms/richtext-lexical/react'
 
-import { CodeBlock, CodeBlockProps } from '@/blocks/Code/Component'
 import { HeroSectionBlock } from '@/blocks/HeroSectionBlock/Component'
 import { ServicesSectionBlock } from '@/blocks/ServicesSectionBlock/Component'
 import { TeamSectionBlock } from '@/blocks/TeamSectionBlock/Component'
@@ -48,7 +47,6 @@ type NodeTypes =
       | CTABlockProps
       | MediaBlockProps
       | BannerBlockProps
-      | CodeBlockProps
       | HeroSectionBlockProps
       | ServicesSectionBlockProps
       | TeamSectionBlockProps
@@ -85,7 +83,6 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
         disableInnerContainer={true}
       />
     ),
-    code: ({ node }) => <CodeBlock className="col-start-2" {...node.fields} />,
     cta: ({ node }) => <CallToActionBlock {...node.fields} />,
     heroSection: ({ node }) => <HeroSectionBlock {...node.fields} />,
     servicesSection: ({ node }) => <ServicesSectionBlock {...node.fields} />,

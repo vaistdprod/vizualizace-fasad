@@ -75,7 +75,7 @@ export const ServicesSectionBlock: React.FC<
                 className="h-full"
               >
                 <MagicCard
-                  className="h-full p-6 cursor-pointer flex flex-col"
+                  className="h-full p-6 flex flex-col"
                   gradientColor={gradientColor}
                   gradientFrom="hsl(var(--primary))"
                   gradientTo="hsl(var(--secondary))"

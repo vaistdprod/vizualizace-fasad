@@ -158,19 +158,19 @@ export const seed = async ({
   payload.logger.info(`— Seeding posts...`)
   const post1Doc = await payload.create({
     collection: 'posts',
-    depth: 0,
+    depth: 3,
     context: { disableRevalidate: true },
     data: post1({ heroImage: galleryImage1Doc, author: demoAuthor }),
   })
   const post2Doc = await payload.create({
     collection: 'posts',
-    depth: 0,
+    depth: 3,
     context: { disableRevalidate: true },
     data: post2({ heroImage: galleryImage2Doc, author: demoAuthor }),
   })
   const post3Doc = await payload.create({
     collection: 'posts',
-    depth: 0,
+    depth: 3,
     context: { disableRevalidate: true },
     data: post3({ heroImage: galleryImage3Doc, author: demoAuthor }),
   })
@@ -178,7 +178,7 @@ export const seed = async ({
   payload.logger.info(`— Seeding home page...`)
   await payload.create({
     collection: 'pages',
-    depth: 0,
+    depth: 3,
     data: home({
       heroImage: heroImageDoc,
       teamImage: teamImageDoc,

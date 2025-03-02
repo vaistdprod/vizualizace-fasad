@@ -1,12 +1,13 @@
 'use client'
-import { useHeaderTheme } from '@/providers/HeaderTheme'
+
 import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { Heart } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { useHeaderTheme } from '@/providers/HeaderTheme'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
-import { Logo } from '@/components/Logo/Logo'
-import { Button } from '@/components/ui/button'
-
 import type { Header } from '@/payload-types'
 
 interface HeaderClientProps {
@@ -29,33 +30,53 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen)
 
+  const navItems = data.navItems || []
+  const button = data.button || { label: 'Objednat se', url: '#objednani', type: 'custom' }
+
   return (
-    <header className="container relative z-20 py-4" {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="flex items-center justify-between">
-        {/* Logo Left */}
-        <Link href="/" className="flex items-center">
-          <Logo loading="eager" priority="high" className="w-10 h-10" />
-        </Link>
+    <header
+      className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+      {...(theme ? { 'data-theme': theme } : {})}
+    >
+      <div className="container flex h-16 items-center px-4 md:px-6 mx-auto max-w-7xl">
+        {/* Logo and Name (Left) */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
+          className="mr-4 flex items-center space-x-2 hover:text-primary transition-colors"
+        >
+          <Heart className="h-6 w-6 text-primary" />
+          <Link href="/" className="text-lg font-bold transition-colors hover:text-primary">
+            Pediatr Zbiroh
+          </Link>
+        </motion.div>
 
-        {/* Nav Center (Desktop) */}
-        <nav className="hidden md:flex flex-1 justify-center gap-4">
-          {data.navItems?.map(({ link }, i) => (
-            <Link
-              key={i}
-              href={link.url || '#'}
-              className="text-muted-foreground hover:text-primary transition-colors"
+        {/* Nav and Buttons (Right, Desktop) */}
+        <nav className="flex flex-1 items-center justify-end space-x-6">
+          {navItems.map((item, index) => (
+            <motion.div
+              key={item.link.url}
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.2,
+                delay: index * 0.05,
+                ease: 'easeOut',
+              }}
             >
-              {link.label}
-            </Link>
+              <Link
+                href={item.link.url || '#'}
+                className="text-sm font-medium transition-colors hover:text-primary whitespace-nowrap hidden md:inline-block"
+              >
+                {item.link.label}
+              </Link>
+            </motion.div>
           ))}
-        </nav>
-
-        {/* Button Right (Desktop) */}
-        <div className="hidden md:block">
-          <Button asChild>
-            <Link href={data.button?.url || '#'}>{data.button?.label}</Link>
+          <Button variant="default" size="sm">
+            <Link href={button.url || '#'}>{button.label}</Link>
           </Button>
-        </div>
+        </nav>
 
         {/* Mobile Menu Toggle */}
         <button className="md:hidden" onClick={toggleMobileMenu}>
@@ -66,23 +87,27 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <nav className="md:hidden flex flex-col items-center gap-4 mt-4">
-          {data.navItems?.map(({ link }, i) => (
+        <motion.nav
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.3 }}
+          className="md:hidden flex flex-col items-center gap-4 p-4 bg-background border-t"
+        >
+          {navItems.map((item, index) => (
             <Link
-              key={i}
-              href={link.url || '#'}
-              className="text-muted-foreground hover:text-primary transition-colors"
+              key={item.link.url}
+              href={item.link.url || '#'}
+              className="text-sm font-medium transition-colors hover:text-primary"
               onClick={toggleMobileMenu}
             >
-              {link.label}
+              {item.link.label}
             </Link>
           ))}
-          <Button asChild>
-            <Link href={data.button?.url || '#'} onClick={toggleMobileMenu}>
-              {data.button?.label}
-            </Link>
+          <Button variant="default" size="sm" onClick={toggleMobileMenu}>
+            <Link href={button.url || '#'}>{button.label}</Link>
           </Button>
-        </nav>
+        </motion.nav>
       )}
     </header>
   )

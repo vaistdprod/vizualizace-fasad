@@ -57,13 +57,13 @@ export const FormBlock: React.FC<
           value,
         }))
 
-        // delay loading indicator by 1s
         loadingTimerID = setTimeout(() => {
           setIsLoading(true)
         }, 1000)
 
         try {
-          const req = await fetch(`${getClientSideURL()}/api/form-submissions`, {
+          const req = await fetch(`${getClientSideURL()}/api/custom-form-submissions`, {
+            // Changed to custom endpoint
             body: JSON.stringify({
               form: formID,
               submissionData: dataToSend,
@@ -80,12 +80,10 @@ export const FormBlock: React.FC<
 
           if (req.status >= 400) {
             setIsLoading(false)
-
             setError({
-              message: res.errors?.[0]?.message || 'Internal Server Error',
-              status: res.status,
+              message: res.error?.message || 'Internal Server Error',
+              status: res.status?.toString(),
             })
-
             return
           }
 
@@ -94,16 +92,15 @@ export const FormBlock: React.FC<
 
           if (confirmationType === 'redirect' && redirect) {
             const { url } = redirect
-
-            const redirectUrl = url
-
-            if (redirectUrl) router.push(redirectUrl)
+            if (url) router.push(url)
           }
+
+          console.log('Form submitted successfully, emails triggered')
         } catch (err) {
-          console.warn(err)
+          console.warn('Error submitting form:', err)
           setIsLoading(false)
           setError({
-            message: 'Something went wrong.',
+            message: 'Something went wrong. Please try again later.',
           })
         }
       }
@@ -124,22 +121,22 @@ export const FormBlock: React.FC<
             <RichText data={confirmationMessage} />
           )}
           {isLoading && !hasSubmitted && <p>Loading, please wait...</p>}
-          {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
+          {error && (
+            <p className="text-sm text-destructive">{`${error.status || '500'}: ${error.message || ''}`}</p>
+          )}
           {!hasSubmitted && (
             <form id={formID} onSubmit={handleSubmit(onSubmit)}>
-              <div className="mb-4 last:mb-0">
+              <div className="space-y-4 mb-4 last:mb-0">
                 {formFromProps &&
                   formFromProps.fields &&
-                  formFromProps.fields?.map((field, index) => {
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    const Field: React.FC<any> = fields?.[field.blockType as keyof typeof fields]
+                  formFromProps.fields.map((field: FormFieldBlock, index) => {
+                    const Field: React.FC<any> = fields[field.blockType as keyof typeof fields]
                     if (Field) {
                       return (
                         <div className="mb-6 last:mb-0" key={index}>
                           <Field
                             form={formFromProps}
                             {...field}
-                            {...formMethods}
                             control={control}
                             errors={errors}
                             register={register}
@@ -151,8 +148,8 @@ export const FormBlock: React.FC<
                   })}
               </div>
 
-              <Button form={formID} type="submit" variant="default">
-                {submitButtonLabel}
+              <Button form={formID} type="submit" variant="default" disabled={isLoading}>
+                {submitButtonLabel || 'Submit'}
               </Button>
             </form>
           )}

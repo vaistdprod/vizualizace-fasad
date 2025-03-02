@@ -25,7 +25,7 @@ export const NewsSection: Block = {
       admin: {
         description: 'Select posts to display in the news section.',
       },
-      maxDepth: 1, // Ensure full Post objects are populated
+      maxDepth: 3, // Ensure full Post objects are populated
     },
   ],
   labels: {

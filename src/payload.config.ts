@@ -1,7 +1,9 @@
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
+import { resendAdapter } from '@payloadcms/email-resend'
+import type { FormSubmission } from '@payloadcms/plugin-form-builder/types'
 
-import sharp from 'sharp' // sharp-import
+import sharp from 'sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
@@ -25,11 +27,7 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   admin: {
     components: {
-      // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below and the import `BeforeLogin` statement on line 15.
       beforeLogin: ['@/components/BeforeLogin'],
-      // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below and the import `BeforeDashboard` statement on line 15.
       beforeDashboard: ['@/components/BeforeDashboard'],
     },
     importMap: {
@@ -38,28 +36,12 @@ export default buildConfig({
     user: Users.slug,
     livePreview: {
       breakpoints: [
-        {
-          label: 'Mobile',
-          name: 'mobile',
-          width: 375,
-          height: 667,
-        },
-        {
-          label: 'Tablet',
-          name: 'tablet',
-          width: 768,
-          height: 1024,
-        },
-        {
-          label: 'Desktop',
-          name: 'desktop',
-          width: 1440,
-          height: 900,
-        },
+        { label: 'Mobile', name: 'mobile', width: 375, height: 667 },
+        { label: 'Tablet', name: 'tablet', width: 768, height: 1024 },
+        { label: 'Desktop', name: 'desktop', width: 1440, height: 900 },
       ],
     },
   },
-  // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
   db: vercelPostgresAdapter({
     pool: {
@@ -70,15 +52,18 @@ export default buildConfig({
     supportedLanguages: { en, cs },
     fallbackLanguage: 'cs',
   },
+  email: resendAdapter({
+    defaultFromAddress: process.env.DEFAULT_FROM_ADDRESS || 'info@pediatr-zbiroh.cz',
+    defaultFromName: 'Dětská ordinace Zbiroh',
+    apiKey: process.env.RESEND_API_KEY || '',
+  }),
   collections: [Pages, Posts, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [
     ...plugins,
     vercelBlobStorage({
-      collections: {
-        media: true,
-      },
+      collections: { media: true },
       token: process.env.BLOB_READ_WRITE_TOKEN || '',
     }),
   ],
@@ -90,16 +75,84 @@ export default buildConfig({
   jobs: {
     access: {
       run: ({ req }: { req: PayloadRequest }): boolean => {
-        // Allow logged in users to execute this endpoint (default)
         if (req.user) return true
-
-        // If there is no logged in user, then check
-        // for the Vercel Cron secret to be present as an
-        // Authorization header:
         const authHeader = req.headers.get('authorization')
         return authHeader === `Bearer ${process.env.CRON_SECRET}`
       },
     },
     tasks: [],
   },
+  endpoints: [
+    {
+      path: '/custom-form-submissions',
+      method: 'post',
+      handler: async (req: PayloadRequest) => {
+        try {
+          // Safely handle req.body
+          if (!req.body) {
+            throw new Error('Požadavek je prázdný.')
+          }
+          const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body
+          const { form, submissionData } = body
+
+          // Call the handler
+          const response = await handleFormSubmission({ form, submissionData }, req)
+          return new Response(JSON.stringify(response), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+          })
+        } catch (error) {
+          console.error('Error handling form submission:', error)
+          return new Response(JSON.stringify({ error: 'Chyba na serveru.' }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' },
+          })
+        }
+      },
+    },
+  ],
 })
+
+export async function handleFormSubmission(submission: FormSubmission, req: PayloadRequest) {
+  const { payload } = req
+  const { submissionData } = submission
+
+  // Extract form data
+  const emailField = submissionData.find((field) => field.field === 'email')
+  const senderEmail = emailField?.value as string
+  const nameField = submissionData.find((field) => field.field === 'name')
+  const senderName = nameField?.value as string
+  const phoneField = submissionData.find((field) => field.field === 'phone')
+  const phone = phoneField?.value as string
+  const messageField = submissionData.find((field) => field.field === 'message')
+  const message = messageField?.value as string
+
+  // Send email to admin
+  await payload.sendEmail({
+    to: process.env.DEFAULT_TO_ADDRESS || 'info@pediatr-zbiroh.cz',
+    from: process.env.DEFAULT_FROM_ADDRESS || 'info@pediatr-zbiroh.cz',
+    subject: 'Nová zpráva z kontaktního formuláře',
+    html: `
+      <h1>Nová zpráva z kontaktního formuláře</h1>
+      <p><strong>Jméno:</strong> ${senderName || 'Neuvedeno'}</p>
+      <p><strong>E-mail:</strong> ${senderEmail || 'Neuvedeno'}</p>
+      <p><strong>Telefon:</strong> ${phone || 'Neuvedeno'}</p>
+      <p><strong>Zpráva:</strong> ${message || 'Neuvedeno'}</p>
+    `,
+  })
+
+  // Send confirmation email to submitter
+  await payload.sendEmail({
+    to: senderEmail,
+    from: process.env.DEFAULT_FROM_ADDRESS || 'info@pediatr-zbiroh.cz',
+    subject: 'Děkujeme za Vaši zprávu',
+    html: `
+      <h1>Dobrý den, ${senderName || ''}!</h1>
+      <p>Vaše zpráva byla úspěšně odeslána, brzy se vám ozveme zpět. Zde je kopie Vaší zprávy:</p>
+      <p><strong>Zpráva:</strong> ${message || 'Zpráva nemá obsah.'}</p>
+      <p>S pozdravem<br/>Dětská ordinace Zbiroh</p>
+    `,
+  })
+
+  return { success: true }
+}

@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { Calendar, Clock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { ShineBorder } from '@/components/ui/shine-border'
+import { BorderBeam } from '@/components/ui/border-beam'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -57,25 +57,30 @@ export const AppointmentSectionBlock: React.FC<
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
+                className="relative" // Add relative positioning for ShineBorder
               >
-                <ShineBorder
-                  className="rounded-lg w-full"
-                  color={['hsl(var(--primary))', 'hsl(var(--secondary))', 'hsl(var(--accent))']}
-                  borderRadius={8}
-                  duration={10}
-                >
-                  <Card className="p-6 flex flex-col justify-between bg-transparent border-0 w-full">
-                    <div>
-                      <h3 className="text-xl font-semibold mb-2">{type.title}</h3>
-                      <div className="flex items-center text-sm text-muted-foreground mb-3">
-                        <Clock className="w-4 h-4 mr-2" />
-                        {type.duration}
-                      </div>
-                      <p className="text-muted-foreground">{type.description}</p>
+                <Card className="p-6 flex flex-col justify-between w-full bg-card border-border/40 border-1 relative rounded-lg overflow-hidden">
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2">{type.title}</h3>
+                    <div className="flex items-center text-sm text-muted-foreground mb-3">
+                      <Clock className="w-4 h-4 mr-2" />
+                      {type.duration}
                     </div>
-                    <Button className="mt-4 w-full">{type.buttonText}</Button>
-                  </Card>
-                </ShineBorder>
+                    <p className="text-muted-foreground">{type.description}</p>
+                  </div>
+                  <Button className="mt-4 w-full">{type.buttonText}</Button>
+                  <BorderBeam
+                    duration={30}
+                    size={200}
+                    className="from-transparent via-rose-200 to-transparent"
+                  />
+                  <BorderBeam
+                    duration={30}
+                    delay={15}
+                    size={200}
+                    className="from-transparent via-rose-200 to-transparent"
+                  />
+                </Card>
               </motion.div>
             ))}
           </div>
@@ -99,18 +104,14 @@ export const AppointmentSectionBlock: React.FC<
                     typeof imageSection.image === 'object' && imageSection.image?.alt
                       ? imageSection.image.alt
                       : 'Appointment image'
-                  } // Use Media's alt field
+                  }
                   fill
                   className="object-cover rounded-xl"
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent rounded-xl">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent rounded-xl">
                   <div className="absolute bottom-0 left-0 p-6 text-white">
-                    <h3 className="text-2xl font-semibold mb-2">
-                      {imageSection.title || 'Our Office'}
-                    </h3>
-                    <p>
-                      {imageSection.description || 'A welcoming environment for kids and parents'}
-                    </p>
+                    <h3 className="text-2xl font-semibold mb-2">{imageSection.title}</h3>
+                    <p>{imageSection.description}</p>
                   </div>
                 </div>
               </div>

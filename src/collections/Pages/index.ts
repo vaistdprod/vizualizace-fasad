@@ -17,7 +17,6 @@ import { HoursSection } from '@/blocks/HoursSectionBlock/config'
 import { AppointmentSection } from '@/blocks/AppointmentSectionBlock/config'
 import { NewsSection } from '@/blocks/NewsSectionBlock/config'
 import { ContactSection } from '@/blocks/ContactSectionBlock/config' // Added import
-import { hero } from '@/heros/config'
 import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
@@ -72,10 +71,6 @@ export const Pages: CollectionConfig<'pages'> = {
     {
       type: 'tabs',
       tabs: [
-        // {
-        //   fields: [hero],
-        //   label: 'Hero',
-        // },
         {
           fields: [
             {

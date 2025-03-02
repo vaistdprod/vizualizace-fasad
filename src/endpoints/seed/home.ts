@@ -195,7 +195,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
       blockType: 'newsSection',
       heading: 'Aktuality',
       description: 'Čtěte nejnovější informace z naší ordinace.',
-      posts: posts.map((post) => post.id),
+      posts: posts,
     },
     {
       blockType: 'appointmentSection',
