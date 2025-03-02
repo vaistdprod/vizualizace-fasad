@@ -1,6 +1,5 @@
 import type { GlobalConfig } from 'payload'
 
-import { link } from '@/fields/link'
 import { revalidateFooter } from './hooks/revalidateFooter'
 
 export const Footer: GlobalConfig = {
@@ -10,20 +9,62 @@ export const Footer: GlobalConfig = {
   },
   fields: [
     {
-      name: 'navItems',
+      name: 'description',
+      type: 'text',
+    },
+    {
+      name: 'socialLinks',
       type: 'array',
       fields: [
-        link({
-          appearances: false,
-        }),
+        {
+          name: 'platform',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'url',
+          type: 'text',
+          required: true,
+        },
       ],
-      maxRows: 6,
       admin: {
         initCollapsed: true,
-        components: {
-          RowLabel: '@/Footer/RowLabel#RowLabel',
-        },
       },
+    },
+    {
+      name: 'footerColumns',
+      type: 'array',
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'links',
+          type: 'array',
+          fields: [
+            {
+              name: 'label',
+              type: 'text',
+              required: true,
+            },
+            {
+              name: 'url',
+              type: 'text',
+              required: true,
+            },
+          ],
+        },
+      ],
+      admin: {
+        initCollapsed: true,
+      },
+    },
+    {
+      name: 'copyrightText',
+      type: 'text',
+      required: true,
     },
   ],
   hooks: {

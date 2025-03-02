@@ -1,27 +1,20 @@
 import { RequiredDataFromCollectionSlug } from 'payload'
 
 export const contactForm: RequiredDataFromCollectionSlug<'forms'> = {
+  title: 'Contact Form',
+  submitButtonLabel: 'Odeslat zprávu',
+  confirmationType: 'message',
   confirmationMessage: {
     root: {
       type: 'root',
       children: [
         {
           type: 'heading',
-          children: [
-            {
-              type: 'text',
-              detail: 0,
-              format: 0,
-              mode: 'normal',
-              style: '',
-              text: 'The contact form has been submitted successfully.',
-              version: 1,
-            },
-          ],
+          tag: 'h2',
+          children: [{ type: 'text', text: 'Zpráva byla úspěšně odeslána!', version: 1 }],
           direction: 'ltr',
           format: '',
           indent: 0,
-          tag: 'h2',
           version: 1,
         },
       ],
@@ -31,33 +24,51 @@ export const contactForm: RequiredDataFromCollectionSlug<'forms'> = {
       version: 1,
     },
   },
-  confirmationType: 'message',
-  createdAt: '2023-01-12T21:47:41.374Z',
+  fields: [
+    {
+      blockType: 'text',
+      name: 'name',
+      label: 'Vaše jméno',
+      required: true,
+      width: 100,
+    },
+    {
+      blockType: 'email',
+      name: 'email',
+      label: 'E-mail',
+      required: true,
+      width: 100,
+    },
+    {
+      blockType: 'number',
+      name: 'phone',
+      label: 'Telefonní číslo',
+      required: true,
+      width: 100,
+    },
+    {
+      blockType: 'textarea',
+      name: 'message',
+      label: 'Zpráva',
+      required: true,
+      width: 100,
+    },
+  ],
   emails: [
     {
-      emailFrom: '"Payload" \u003Cdemo@payloadcms.com\u003E',
+      emailFrom: '"Dětská ordinace Zbiroh" <info@pediatr-zbiroh.cz>',
       emailTo: '{{email}}',
+      subject: 'Nová zpráva z kontaktního formuláře',
       message: {
         root: {
           type: 'root',
           children: [
             {
               type: 'paragraph',
-              children: [
-                {
-                  type: 'text',
-                  detail: 0,
-                  format: 0,
-                  mode: 'normal',
-                  style: '',
-                  text: 'Your contact form submission was successfully received.',
-                  version: 1,
-                },
-              ],
+              children: [{ type: 'text', text: 'Vaše zpráva byla úspěšně odeslána.', version: 1 }],
               direction: 'ltr',
               format: '',
               indent: 0,
-              textFormat: 0,
               version: 1,
             },
           ],
@@ -67,45 +78,6 @@ export const contactForm: RequiredDataFromCollectionSlug<'forms'> = {
           version: 1,
         },
       },
-      subject: "You've received a new message.",
     },
   ],
-  fields: [
-    {
-      name: 'full-name',
-      blockName: 'full-name',
-      blockType: 'text',
-      label: 'Full Name',
-      required: true,
-      width: 100,
-    },
-    {
-      name: 'email',
-      blockName: 'email',
-      blockType: 'email',
-      label: 'Email',
-      required: true,
-      width: 100,
-    },
-    {
-      name: 'phone',
-      blockName: 'phone',
-      blockType: 'number',
-      label: 'Phone',
-      required: false,
-      width: 100,
-    },
-    {
-      name: 'message',
-      blockName: 'message',
-      blockType: 'textarea',
-      label: 'Message',
-      required: true,
-      width: 100,
-    },
-  ],
-  redirect: undefined,
-  submitButtonLabel: 'Submit',
-  title: 'Contact Form',
-  updatedAt: '2023-01-12T21:47:41.374Z',
 }

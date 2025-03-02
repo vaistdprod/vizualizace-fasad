@@ -190,7 +190,23 @@ export interface Page {
       | null;
     media?: (number | null) | Media;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock | HeroSectionBlock)[];
+  layout: (
+    | CallToActionBlock
+    | ContentBlock
+    | MediaBlock
+    | ArchiveBlock
+    | FormBlock
+    | HeroSectionBlock
+    | ServicesSectionBlock
+    | TeamSectionBlock
+    | GallerySectionBlock
+    | FAQSectionBlock
+    | InsuranceSectionBlock
+    | HoursSectionBlock
+    | AppointmentSectionBlock
+    | NewsSectionBlock
+    | ContactSectionBlock
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -743,6 +759,202 @@ export interface HeroSectionBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServicesSectionBlock".
+ */
+export interface ServicesSectionBlock {
+  heading: string;
+  description: string;
+  services?:
+    | {
+        icon?:
+          | (
+              | 'Stethoscope'
+              | 'Syringe'
+              | 'Star'
+              | 'Heart'
+              | 'HeartPulse'
+              | 'Activity'
+              | 'Bandage'
+              | 'MessageCircle'
+              | 'Microscope'
+            )
+          | null;
+        title: string;
+        shortDescription?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'servicesSection';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TeamSectionBlock".
+ */
+export interface TeamSectionBlock {
+  heading: string;
+  description: string;
+  teamMembers?:
+    | {
+        title: string;
+        role: string;
+        description?: string | null;
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'teamSection';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "GallerySectionBlock".
+ */
+export interface GallerySectionBlock {
+  heading: string;
+  description: string;
+  images?:
+    | {
+        title: string;
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'gallerySection';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FAQSectionBlock".
+ */
+export interface FAQSectionBlock {
+  heading: string;
+  description: string;
+  faqs?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  contactPrompt?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'faqSection';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "InsuranceSectionBlock".
+ */
+export interface InsuranceSectionBlock {
+  heading: string;
+  description: string;
+  partners?:
+    | {
+        title: string;
+        logo: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  contactPrompt?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'insuranceSection';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HoursSectionBlock".
+ */
+export interface HoursSectionBlock {
+  heading: string;
+  description: string;
+  hours?:
+    | {
+        day: string;
+        /**
+         * Enter hours, use new lines for multiple entries (e.g., "8:00-12:00 (Note)" for additional info).
+         */
+        hours: string;
+        id?: string | null;
+      }[]
+    | null;
+  bloodDrawInfo?: string | null;
+  emergencyContactInfo?: string | null;
+  emergencyPhone?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hoursSection';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AppointmentSectionBlock".
+ */
+export interface AppointmentSectionBlock {
+  heading: string;
+  description: string;
+  appointmentTypes?:
+    | {
+        title: string;
+        duration: string;
+        description: string;
+        buttonText: string;
+        id?: string | null;
+      }[]
+    | null;
+  imageSection: {
+    image: number | Media;
+    title?: string | null;
+    description?: string | null;
+  };
+  contactPrompt?: string | null;
+  contactLinkText?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'appointmentSection';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NewsSectionBlock".
+ */
+export interface NewsSectionBlock {
+  heading: string;
+  description: string;
+  /**
+   * Select posts to display in the news section.
+   */
+  posts?: (number | Post)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'newsSection';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactSectionBlock".
+ */
+export interface ContactSectionBlock {
+  heading?: string | null;
+  description?: string | null;
+  /**
+   * Select a form with fields: Name, Email, Phone, and Message.
+   */
+  form: number | Form;
+  address: string;
+  phone: string;
+  email: string;
+  /**
+   * Paste the Google Maps embed URL for your location.
+   */
+  mapEmbedUrl?: string | null;
+  navigationButtonText?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contactSection';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1032,6 +1244,15 @@ export interface PagesSelect<T extends boolean = true> {
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
         heroSection?: T | HeroSectionBlockSelect<T>;
+        servicesSection?: T | ServicesSectionBlockSelect<T>;
+        teamSection?: T | TeamSectionBlockSelect<T>;
+        gallerySection?: T | GallerySectionBlockSelect<T>;
+        faqSection?: T | FAQSectionBlockSelect<T>;
+        insuranceSection?: T | InsuranceSectionBlockSelect<T>;
+        hoursSection?: T | HoursSectionBlockSelect<T>;
+        appointmentSection?: T | AppointmentSectionBlockSelect<T>;
+        newsSection?: T | NewsSectionBlockSelect<T>;
+        contactSection?: T | ContactSectionBlockSelect<T>;
       };
   meta?:
     | T
@@ -1143,6 +1364,171 @@ export interface HeroSectionBlockSelect<T extends boolean = true> {
   secondaryButtonText?: T;
   secondaryButtonLink?: T;
   image?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServicesSectionBlock_select".
+ */
+export interface ServicesSectionBlockSelect<T extends boolean = true> {
+  heading?: T;
+  description?: T;
+  services?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        shortDescription?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TeamSectionBlock_select".
+ */
+export interface TeamSectionBlockSelect<T extends boolean = true> {
+  heading?: T;
+  description?: T;
+  teamMembers?:
+    | T
+    | {
+        title?: T;
+        role?: T;
+        description?: T;
+        image?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "GallerySectionBlock_select".
+ */
+export interface GallerySectionBlockSelect<T extends boolean = true> {
+  heading?: T;
+  description?: T;
+  images?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FAQSectionBlock_select".
+ */
+export interface FAQSectionBlockSelect<T extends boolean = true> {
+  heading?: T;
+  description?: T;
+  faqs?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  contactPrompt?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "InsuranceSectionBlock_select".
+ */
+export interface InsuranceSectionBlockSelect<T extends boolean = true> {
+  heading?: T;
+  description?: T;
+  partners?:
+    | T
+    | {
+        title?: T;
+        logo?: T;
+        id?: T;
+      };
+  contactPrompt?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HoursSectionBlock_select".
+ */
+export interface HoursSectionBlockSelect<T extends boolean = true> {
+  heading?: T;
+  description?: T;
+  hours?:
+    | T
+    | {
+        day?: T;
+        hours?: T;
+        id?: T;
+      };
+  bloodDrawInfo?: T;
+  emergencyContactInfo?: T;
+  emergencyPhone?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AppointmentSectionBlock_select".
+ */
+export interface AppointmentSectionBlockSelect<T extends boolean = true> {
+  heading?: T;
+  description?: T;
+  appointmentTypes?:
+    | T
+    | {
+        title?: T;
+        duration?: T;
+        description?: T;
+        buttonText?: T;
+        id?: T;
+      };
+  imageSection?:
+    | T
+    | {
+        image?: T;
+        title?: T;
+        description?: T;
+      };
+  contactPrompt?: T;
+  contactLinkText?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NewsSectionBlock_select".
+ */
+export interface NewsSectionBlockSelect<T extends boolean = true> {
+  heading?: T;
+  description?: T;
+  posts?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactSectionBlock_select".
+ */
+export interface ContactSectionBlockSelect<T extends boolean = true> {
+  heading?: T;
+  description?: T;
+  form?: T;
+  address?: T;
+  phone?: T;
+  email?: T;
+  mapEmbedUrl?: T;
+  navigationButtonText?: T;
   id?: T;
   blockName?: T;
 }
@@ -1585,6 +1971,12 @@ export interface Header {
         id?: string | null;
       }[]
     | null;
+  button: {
+    type?: ('custom' | 'reference') | null;
+    label: string;
+    url?: string | null;
+    reference?: (number | null) | Page;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1594,26 +1986,28 @@ export interface Header {
  */
 export interface Footer {
   id: number;
-  navItems?:
+  description?: string | null;
+  socialLinks?:
     | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: number | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: number | Post;
-              } | null);
-          url?: string | null;
-          label: string;
-        };
+        platform: string;
+        url: string;
         id?: string | null;
       }[]
     | null;
+  footerColumns?:
+    | {
+        title: string;
+        links?:
+          | {
+              label: string;
+              url: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  copyrightText: string;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1636,6 +2030,14 @@ export interface HeaderSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  button?:
+    | T
+    | {
+        type?: T;
+        label?: T;
+        url?: T;
+        reference?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -1645,20 +2047,28 @@ export interface HeaderSelect<T extends boolean = true> {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
-  navItems?:
+  description?: T;
+  socialLinks?:
     | T
     | {
-        link?:
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
+  footerColumns?:
+    | T
+    | {
+        title?: T;
+        links?:
           | T
           | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
               label?: T;
+              url?: T;
+              id?: T;
             };
         id?: T;
       };
+  copyrightText?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

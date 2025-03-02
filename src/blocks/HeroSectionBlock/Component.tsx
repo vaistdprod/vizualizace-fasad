@@ -1,9 +1,10 @@
+'use client'
+
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
 import Image from 'next/image'
-
 import type { HeroSectionBlock as HeroSectionBlockProps } from '@/payload-types'
 
 export const HeroSectionBlock: React.FC<
@@ -77,11 +78,11 @@ export const HeroSectionBlock: React.FC<
             >
               <div className="relative w-full">
                 <Image
-                  alt="Hero image"
+                  alt={typeof image === 'object' ? image.alt || 'Hero image' : 'Hero image'}
                   className="mx-auto rounded-xl object-cover"
                   src={
-                    typeof image === 'object' && image?.url
-                      ? image.url
+                    typeof image === 'object'
+                      ? image.url || '/media/hero-placeholder.jpg'
                       : '/media/hero-placeholder.jpg'
                   }
                   width={500}

@@ -1,14 +1,23 @@
 import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from 'payload'
 
-import { contactForm as contactFormData } from './contact-form'
-import { contact as contactPageData } from './contact-page'
+import { contactForm } from './contact-form'
 import { home } from './home'
-import { image1 } from './image-1'
-import { image2 } from './image-2'
-import { imageHero1 } from './image-hero-1'
 import { post1 } from './post-1'
 import { post2 } from './post-2'
 import { post3 } from './post-3'
+import { heroImage } from './hero-image.ts'
+import { teamImage } from './team-image.ts'
+import { galleryImage1 } from './gallery-image-1.ts'
+import { galleryImage2 } from './gallery-image-2.ts'
+import { galleryImage3 } from './gallery-image-3.ts'
+import { insuranceVZP } from './insurance-vzp.ts'
+import { insuranceZPMV } from './insurance-zpmv.ts'
+import { insuranceOZP } from './insurance-ozp.ts'
+import { insuranceRBP } from './insurance-rbp.ts'
+import { insuranceCPZP } from './insurance-cpzp.ts'
+import { insuranceVOZP } from './insurance-vozp.ts'
+import type { Header, Footer } from '@/payload-types'
+import { fileURLToPath } from 'url'
 
 const collections: CollectionSlug[] = [
   'categories',
@@ -17,14 +26,10 @@ const collections: CollectionSlug[] = [
   'posts',
   'forms',
   'form-submissions',
-  'search',
+  'users',
 ]
 const globals: GlobalSlug[] = ['header', 'footer']
 
-// Next.js revalidation errors are normal when seeding the database without a server running
-// i.e. running `yarn seed` locally instead of using the admin UI within an active app
-// The app is not running to revalidate the pages and so the API routes are not available
-// These error messages can be ignored: `Error hitting revalidate route for...`
 export const seed = async ({
   payload,
   req,
@@ -34,337 +39,223 @@ export const seed = async ({
 }): Promise<void> => {
   payload.logger.info('Seeding database...')
 
-  // we need to clear the media directory before seeding
-  // as well as the collections and globals
-  // this is because while `yarn seed` drops the database
-  // the custom `/api/seed` endpoint does not
+  // Clear collections and globals
   payload.logger.info(`— Clearing collections and globals...`)
-
-  // clear the database
   await Promise.all(
     globals.map((global) =>
       payload.updateGlobal({
         slug: global,
-        data: {
-          navItems: [],
-        },
+        data:
+          global === 'header'
+            ? ({ button: { type: 'custom' as const, label: 'temp' } } as Partial<Header>)
+            : global === 'footer'
+              ? ({ copyrightText: 'temp' } as Partial<Footer>)
+              : {},
         depth: 0,
-        context: {
-          disableRevalidate: true,
-        },
+        context: { disableRevalidate: true },
       }),
     ),
   )
-
   await Promise.all(
     collections.map((collection) => payload.db.deleteMany({ collection, req, where: {} })),
   )
-
   await Promise.all(
     collections
       .filter((collection) => Boolean(payload.collections[collection].config.versions))
       .map((collection) => payload.db.deleteVersions({ collection, req, where: {} })),
   )
 
-  payload.logger.info(`— Seeding demo author and user...`)
-
+  // Seed demo author
+  payload.logger.info(`— Seeding demo author...`)
   await payload.delete({
     collection: 'users',
     depth: 0,
-    where: {
-      email: {
-        equals: 'demo-author@example.com',
-      },
+    where: { email: { equals: 'info@pediatr-zbiroh.cz' } },
+  })
+  const demoAuthor = await payload.create({
+    collection: 'users',
+    data: {
+      name: 'MUDr. Lucie Šťastná',
+      email: 'info@pediatr-zbiroh.cz',
+      password: 'password',
     },
   })
 
+  // Seed media with explicit file pairing, including SVG support
   payload.logger.info(`— Seeding media...`)
-
-  const [image1Buffer, image2Buffer, image3Buffer, hero1Buffer] = await Promise.all([
-    fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-post1.webp',
-    ),
-    fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-post2.webp',
-    ),
-    fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-post3.webp',
-    ),
-    fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-hero1.webp',
-    ),
-  ])
-
-  const [
-    demoAuthor,
-    image1Doc,
-    image2Doc,
-    image3Doc,
-    imageHomeDoc,
-    technologyCategory,
-    newsCategory,
-    financeCategory,
-  ] = await Promise.all([
-    payload.create({
-      collection: 'users',
-      data: {
-        name: 'Demo Author',
-        email: 'demo-author@example.com',
-        password: 'password',
-      },
-    }),
-    payload.create({
-      collection: 'media',
-      data: image1,
-      file: image1Buffer,
-    }),
-    payload.create({
-      collection: 'media',
-      data: image2,
-      file: image2Buffer,
-    }),
-    payload.create({
-      collection: 'media',
-      data: image2,
-      file: image3Buffer,
-    }),
-    payload.create({
-      collection: 'media',
-      data: imageHero1,
-      file: hero1Buffer,
-    }),
-
-    payload.create({
-      collection: 'categories',
-      data: {
-        title: 'Technology',
-        breadcrumbs: [
-          {
-            label: 'Technology',
-            url: '/technology',
-          },
-        ],
-      },
-    }),
-
-    payload.create({
-      collection: 'categories',
-      data: {
-        title: 'News',
-        breadcrumbs: [
-          {
-            label: 'News',
-            url: '/news',
-          },
-        ],
-      },
-    }),
-
-    payload.create({
-      collection: 'categories',
-      data: {
-        title: 'Finance',
-        breadcrumbs: [
-          {
-            label: 'Finance',
-            url: '/finance',
-          },
-        ],
-      },
-    }),
-    payload.create({
-      collection: 'categories',
-      data: {
-        title: 'Design',
-        breadcrumbs: [
-          {
-            label: 'Design',
-            url: '/design',
-          },
-        ],
-      },
-    }),
-
-    payload.create({
-      collection: 'categories',
-      data: {
-        title: 'Software',
-        breadcrumbs: [
-          {
-            label: 'Software',
-            url: '/software',
-          },
-        ],
-      },
-    }),
-
-    payload.create({
-      collection: 'categories',
-      data: {
-        title: 'Engineering',
-        breadcrumbs: [
-          {
-            label: 'Engineering',
-            url: '/engineering',
-          },
-        ],
-      },
-    }),
-  ])
-
-  let demoAuthorID: number | string = demoAuthor.id
-
-  let image1ID: number | string = image1Doc.id
-  let image2ID: number | string = image2Doc.id
-  let image3ID: number | string = image3Doc.id
-  let imageHomeID: number | string = imageHomeDoc.id
-
-  if (payload.db.defaultIDType === 'text') {
-    image1ID = `"${image1Doc.id}"`
-    image2ID = `"${image2Doc.id}"`
-    image3ID = `"${image3Doc.id}"`
-    imageHomeID = `"${imageHomeDoc.id}"`
-    demoAuthorID = `"${demoAuthorID}"`
-  }
-
-  payload.logger.info(`— Seeding posts...`)
-
-  // Do not create posts with `Promise.all` because we want the posts to be created in order
-  // This way we can sort them by `createdAt` or `publishedAt` and they will be in the expected order
-  const post1Doc = await payload.create({
-    collection: 'posts',
-    depth: 0,
-    context: {
-      disableRevalidate: true,
-    },
-    data: post1({ heroImage: image1Doc, blockImage: image2Doc, author: demoAuthor }),
+  const heroImageDoc = await payload.create({
+    collection: 'media',
+    data: heroImage,
+    file: await fetchFileByPath('./ruka.jpg'), // In src/seed/
   })
 
-  const post2Doc = await payload.create({
-    collection: 'posts',
-    depth: 0,
-    context: {
-      disableRevalidate: true,
-    },
-    data: post2({ heroImage: image2Doc, blockImage: image3Doc, author: demoAuthor }),
+  const teamImageDoc = await payload.create({
+    collection: 'media',
+    data: teamImage,
+    file: await fetchFileByPath('./lucie-stastna.jpg'), // In src/seed/
   })
 
-  const post3Doc = await payload.create({
-    collection: 'posts',
-    depth: 0,
-    context: {
-      disableRevalidate: true,
-    },
-    data: post3({ heroImage: image3Doc, blockImage: image1Doc, author: demoAuthor }),
+  const galleryImage1Doc = await payload.create({
+    collection: 'media',
+    data: galleryImage1,
+    file: await fetchFileByPath('./ordinace.jpg'), // In src/seed/
   })
 
-  // update each post with related posts
-  await payload.update({
-    id: post1Doc.id,
-    collection: 'posts',
-    data: {
-      relatedPosts: [post2Doc.id, post3Doc.id],
-    },
+  const galleryImage2Doc = await payload.create({
+    collection: 'media',
+    data: galleryImage2,
+    file: await fetchFileByPath('./hracky.jpg'), // In src/seed/
   })
-  await payload.update({
-    id: post2Doc.id,
-    collection: 'posts',
-    data: {
-      relatedPosts: [post1Doc.id, post3Doc.id],
-    },
+
+  const galleryImage3Doc = await payload.create({
+    collection: 'media',
+    data: galleryImage3,
+    file: await fetchFileByPath('./trava.jpg'), // In src/seed/
   })
-  await payload.update({
-    id: post3Doc.id,
-    collection: 'posts',
-    data: {
-      relatedPosts: [post1Doc.id, post2Doc.id],
-    },
+
+  const vzpImageDoc = await payload.create({
+    collection: 'media',
+    data: insuranceVZP,
+    file: await fetchFileByPath('./vzp.svg'), // SVG in src/seed/
+  })
+
+  const zpmvImageDoc = await payload.create({
+    collection: 'media',
+    data: insuranceZPMV,
+    file: await fetchFileByPath('./zpmv.svg'), // SVG in src/seed/
+  })
+
+  const ozpImageDoc = await payload.create({
+    collection: 'media',
+    data: insuranceOZP,
+    file: await fetchFileByPath('./ozp.svg'), // SVG in src/seed/
+  })
+
+  const rbpImageDoc = await payload.create({
+    collection: 'media',
+    data: insuranceRBP,
+    file: await fetchFileByPath('./rbp.svg'), // SVG in src/seed/
+  })
+
+  const cpzpImageDoc = await payload.create({
+    collection: 'media',
+    data: insuranceCPZP,
+    file: await fetchFileByPath('./cpzp.svg'), // SVG in src/seed/
+  })
+
+  const vozpImageDoc = await payload.create({
+    collection: 'media',
+    data: insuranceVOZP,
+    file: await fetchFileByPath('./vozp.png'), // PNG in src/seed/
   })
 
   payload.logger.info(`— Seeding contact form...`)
-
-  const contactForm = await payload.create({
+  const contactFormDoc = await payload.create({
     collection: 'forms',
-    depth: 0,
-    data: contactFormData,
+    data: contactForm,
   })
 
-  let contactFormID: number | string = contactForm.id
+  payload.logger.info(`— Seeding posts...`)
+  const post1Doc = await payload.create({
+    collection: 'posts',
+    depth: 0,
+    context: { disableRevalidate: true },
+    data: post1({ heroImage: galleryImage1Doc, author: demoAuthor }),
+  })
+  const post2Doc = await payload.create({
+    collection: 'posts',
+    depth: 0,
+    context: { disableRevalidate: true },
+    data: post2({ heroImage: galleryImage2Doc, author: demoAuthor }),
+  })
+  const post3Doc = await payload.create({
+    collection: 'posts',
+    depth: 0,
+    context: { disableRevalidate: true },
+    data: post3({ heroImage: galleryImage3Doc, author: demoAuthor }),
+  })
 
-  if (payload.db.defaultIDType === 'text') {
-    contactFormID = `"${contactFormID}"`
-  }
-
-  payload.logger.info(`— Seeding pages...`)
-
-  const [_, contactPage] = await Promise.all([
-    payload.create({
-      collection: 'pages',
-      depth: 0,
-      data: home({ heroImage: imageHomeDoc, metaImage: image2Doc }),
+  payload.logger.info(`— Seeding home page...`)
+  await payload.create({
+    collection: 'pages',
+    depth: 0,
+    data: home({
+      heroImage: heroImageDoc,
+      teamImage: teamImageDoc,
+      galleryImage1: galleryImage1Doc,
+      galleryImage2: galleryImage2Doc,
+      galleryImage3: galleryImage3Doc,
+      vzpImage: vzpImageDoc,
+      zpmvImage: zpmvImageDoc,
+      ozpImage: ozpImageDoc,
+      rbpImage: rbpImageDoc,
+      cpzpImage: cpzpImageDoc,
+      vozpImage: vozpImageDoc,
+      contactForm: contactFormDoc,
+      posts: [post1Doc, post2Doc, post3Doc],
     }),
-    payload.create({
-      collection: 'pages',
-      depth: 0,
-      data: contactPageData({ contactForm: contactForm }),
-    }),
-  ])
+  })
 
   payload.logger.info(`— Seeding globals...`)
-
+  const navigation = [
+    { label: 'Aktuality', url: '#aktuality' },
+    { label: 'Služby', url: '#sluzby' },
+    { label: 'Objednání', url: '#objednani' },
+    { label: 'Náš tým', url: '#nas-tym' },
+    { label: 'Galerie', url: '#galerie' },
+    { label: 'Ordinační hodiny', url: '#ordinacni-hodiny' },
+    { label: 'Pojišťovny', url: '#pojistovny' },
+    { label: 'Dotazy', url: '#dotazy' },
+    { label: 'Kontakty', url: '#kontakty' },
+  ]
   await Promise.all([
     payload.updateGlobal({
       slug: 'header',
       data: {
-        navItems: [
-          {
-            link: {
-              type: 'custom',
-              label: 'Posts',
-              url: '/posts',
-            },
-          },
-          {
-            link: {
-              type: 'reference',
-              label: 'Contact',
-              reference: {
-                relationTo: 'pages',
-                value: contactPage.id,
-              },
-            },
-          },
-        ],
-      },
+        navItems: navigation.map((item) => ({
+          link: { type: 'custom' as const, label: item.label, url: item.url },
+        })),
+        button: { type: 'custom' as const, label: 'Objednat se', url: '#objednani' },
+      } as Header, // Explicitly type as Header
     }),
     payload.updateGlobal({
       slug: 'footer',
       data: {
-        navItems: [
+        description: 'Poskytujeme lékařskou péči pro vaše děti od novorozenců až po dospívající.',
+        socialLinks: [
+          { platform: 'Facebook', url: '#' },
+          { platform: 'Instagram', url: '#' },
+        ],
+        footerColumns: [
           {
-            link: {
-              type: 'custom',
-              label: 'Admin',
-              url: '/admin',
-            },
+            title: 'Rychlé odkazy',
+            links: [
+              { label: 'Aktuality', url: '#aktuality' },
+              { label: 'Služby', url: '#sluzby' },
+              { label: 'Objednání', url: '#objednani' },
+              { label: 'Náš tým', url: '#nas-tym' },
+            ],
           },
           {
-            link: {
-              type: 'custom',
-              label: 'Source Code',
-              newTab: true,
-              url: 'https://github.com/payloadcms/payload/tree/main/templates/website',
-            },
+            title: 'Další informace',
+            links: [
+              { label: 'Galerie', url: '#galerie' },
+              { label: 'Ordinační hodiny', url: '#ordinacni-hodiny' },
+              { label: 'Pojišťovny', url: '#pojistovny' },
+              { label: 'Dotazy', url: '#dotazy' },
+            ],
           },
           {
-            link: {
-              type: 'custom',
-              label: 'Payload',
-              newTab: true,
-              url: 'https://payloadcms.com/',
-            },
+            title: 'Kontakty',
+            links: [
+              { label: 'Spojte se s námi', url: '#kontakty' },
+              { label: 'Pohotovost', url: 'tel:155' },
+              { label: 'Kde nás najdete', url: '#kontakty' },
+              { label: 'Objednání', url: '#objednani' },
+            ],
           },
         ],
+        copyrightText: '© 2025 Dětská ambulance Zbiroh s.r.o. by TD Productions.',
       },
     }),
   ])
@@ -372,22 +263,26 @@ export const seed = async ({
   payload.logger.info('Seeded database successfully!')
 }
 
-async function fetchFileByURL(url: string): Promise<File> {
-  const res = await fetch(url, {
-    credentials: 'include',
-    method: 'GET',
-  })
-
-  if (!res.ok) {
-    throw new Error(`Failed to fetch file from ${url}, status: ${res.status}`)
+async function fetchFileByPath(filePath: string): Promise<File> {
+  const { readFile } = await import('fs/promises')
+  const path = await import('path')
+  // Get the directory of the current file (src/endpoints/seed/)
+  const __filename = fileURLToPath(import.meta.url)
+  const __dirname = path.dirname(__filename)
+  const fullPath = path.resolve(__dirname, filePath) // Still resolves from src/endpoints/seed/
+  const data = await readFile(fullPath)
+  let mimeType: string
+  if (filePath.endsWith('.svg')) {
+    mimeType = 'image/svg+xml'
+  } else if (filePath.endsWith('.png')) {
+    mimeType = 'image/png'
+  } else {
+    mimeType = 'image/jpeg' // Default for .jpg
   }
-
-  const data = await res.arrayBuffer()
-
   return {
-    name: url.split('/').pop() || `file-${Date.now()}`,
-    data: Buffer.from(data),
-    mimetype: `image/${url.split('.').pop()}`,
-    size: data.byteLength,
+    name: path.basename(filePath),
+    data,
+    mimetype: mimeType,
+    size: data.length,
   }
 }

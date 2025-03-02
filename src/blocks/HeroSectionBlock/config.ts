@@ -41,6 +41,7 @@ export const HeroSection: Block = {
       type: 'upload',
       relationTo: 'media',
       label: 'Hero Image',
+      maxDepth: 1, // Ensure the full Media object is populated
     },
   ],
   labels: {

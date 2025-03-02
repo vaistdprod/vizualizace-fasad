@@ -7,7 +7,16 @@ import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
-import { HeroSectionBlock } from '@/blocks/HeroSectionBlock/Component' // Added import
+import { HeroSectionBlock } from '@/blocks/HeroSectionBlock/Component'
+import { ServicesSectionBlock } from '@/blocks/ServicesSectionBlock/Component'
+import { TeamSectionBlock } from '@/blocks/TeamSectionBlock/Component'
+import { GallerySectionBlock } from '@/blocks/GallerySectionBlock/Component'
+import { FAQSectionBlock } from '@/blocks/FAQSectionBlock/Component'
+import { InsuranceSectionBlock } from '@/blocks/InsuranceSectionBlock/Component'
+import { HoursSectionBlock } from '@/blocks/HoursSectionBlock/Component'
+import { AppointmentSectionBlock } from '@/blocks/AppointmentSectionBlock/Component'
+import { NewsSectionBlock } from '@/blocks/NewsSectionBlock/Component'
+import { ContactSectionBlock } from '@/blocks/ContactSectionBlock/Component' // Added import
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -15,7 +24,16 @@ const blockComponents = {
   cta: CallToActionBlock,
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
-  heroSection: HeroSectionBlock, // Added HeroSectionBlock
+  heroSection: HeroSectionBlock,
+  servicesSection: ServicesSectionBlock,
+  teamSection: TeamSectionBlock,
+  gallerySection: GallerySectionBlock,
+  faqSection: FAQSectionBlock,
+  insuranceSection: InsuranceSectionBlock,
+  hoursSection: HoursSectionBlock,
+  appointmentSection: AppointmentSectionBlock,
+  newsSection: NewsSectionBlock,
+  contactSection: ContactSectionBlock, // Added ContactSectionBlock
 }
 
 export const RenderBlocks: React.FC<{

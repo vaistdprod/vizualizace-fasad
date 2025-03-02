@@ -7,7 +7,16 @@ import { CallToAction } from '../../blocks/CallToAction/config'
 import { Content } from '../../blocks/Content/config'
 import { FormBlock } from '../../blocks/Form/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
-import { HeroSection } from '../../blocks/HeroSectionBlock/config' // Added import
+import { HeroSection } from '../../blocks/HeroSectionBlock/config'
+import { ServicesSection } from '../../blocks/ServicesSectionBlock/config'
+import { TeamSection } from '../../blocks/TeamSectionBlock/config'
+import { GallerySection } from '../../blocks/GallerySectionBlock/config'
+import { FAQSection } from '../../blocks/FAQSectionBlock/config'
+import { InsuranceSection } from '@/blocks/InsuranceSectionBlock/config'
+import { HoursSection } from '@/blocks/HoursSectionBlock/config'
+import { AppointmentSection } from '@/blocks/AppointmentSectionBlock/config'
+import { NewsSection } from '@/blocks/NewsSectionBlock/config'
+import { ContactSection } from '@/blocks/ContactSectionBlock/config' // Added import
 import { hero } from '@/heros/config'
 import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
@@ -30,9 +39,6 @@ export const Pages: CollectionConfig<'pages'> = {
     read: authenticatedOrPublished,
     update: authenticated,
   },
-  // This config controls what's populated by default when a page is referenced
-  // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property
-  // Type safe if the collection slug generic is passed to `CollectionConfig` - `CollectionConfig<'pages'>
   defaultPopulate: {
     title: true,
     slug: true,
@@ -46,7 +52,6 @@ export const Pages: CollectionConfig<'pages'> = {
           collection: 'pages',
           req,
         })
-
         return path
       },
     },
@@ -76,7 +81,23 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, HeroSection], // Added HeroSection
+              blocks: [
+                CallToAction,
+                Content,
+                MediaBlock,
+                Archive,
+                FormBlock,
+                HeroSection,
+                ServicesSection,
+                TeamSection,
+                GallerySection,
+                FAQSection,
+                InsuranceSection,
+                HoursSection,
+                AppointmentSection,
+                NewsSection,
+                ContactSection, // Added ContactSection
+              ],
               required: true,
               admin: {
                 initCollapsed: true,
@@ -100,13 +121,9 @@ export const Pages: CollectionConfig<'pages'> = {
             MetaImageField({
               relationTo: 'media',
             }),
-
             MetaDescriptionField({}),
             PreviewField({
-              // if the `generateUrl` function is configured
               hasGenerateFn: true,
-
-              // field paths to match the target field for data
               titlePath: 'meta.title',
               descriptionPath: 'meta.description',
             }),
@@ -131,7 +148,7 @@ export const Pages: CollectionConfig<'pages'> = {
   versions: {
     drafts: {
       autosave: {
-        interval: 100, // We set this interval for optimal live preview
+        interval: 100,
       },
       schedulePublish: true,
     },

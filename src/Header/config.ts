@@ -17,13 +17,45 @@ export const Header: GlobalConfig = {
           appearances: false,
         }),
       ],
-      maxRows: 6,
+      maxRows: 9,
       admin: {
         initCollapsed: true,
         components: {
           RowLabel: '@/Header/RowLabel#RowLabel',
         },
       },
+    },
+    {
+      name: 'button',
+      type: 'group',
+      fields: [
+        {
+          name: 'type',
+          type: 'select',
+          options: ['custom', 'reference'],
+          defaultValue: 'custom',
+        },
+        {
+          name: 'label',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'url',
+          type: 'text',
+          admin: {
+            condition: (_, siblingData) => siblingData.type === 'custom',
+          },
+        },
+        {
+          name: 'reference',
+          type: 'relationship',
+          relationTo: 'pages',
+          admin: {
+            condition: (_, siblingData) => siblingData.type === 'reference',
+          },
+        },
+      ],
     },
   ],
   hooks: {
