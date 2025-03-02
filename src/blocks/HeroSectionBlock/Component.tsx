@@ -31,7 +31,7 @@ export const HeroSectionBlock: React.FC<
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="flex flex-col justify-center space-y-4 mx-auto max-w-xl"
+            className="flex flex-col justify-center space-y-4 max-w-xl" // Removed mx-auto
           >
             <div className="space-y-2">
               <AnimatedGradientText
@@ -74,21 +74,17 @@ export const HeroSectionBlock: React.FC<
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="mx-auto aspect-video relative"
+              className="max-w-[500px] mx-auto lg:mx-0" // Added max-w-[500px], removed aspect-video
             >
-              <div className="relative w-full">
-                <Image
-                  alt={typeof image === 'object' ? image.alt || 'Hero image' : 'Hero image'}
-                  className="mx-auto rounded-xl object-cover"
-                  src={
-                    typeof image === 'object'
-                      ? image.url || '/media/hero-placeholder.jpg'
-                      : '/media/hero-placeholder.jpg'
-                  }
-                  width={500}
-                  height={750}
-                />
-              </div>
+              <Image
+                alt={typeof image === 'object' ? image.alt || 'Hero image' : 'Hero image'}
+                className="rounded-xl object-cover w-full h-auto"
+                src={
+                  typeof image === 'object' && image.url ? image.url : '/media/hero-placeholder.jpg'
+                }
+                width={500}
+                height={750}
+              />
             </motion.div>
           )}
         </div>

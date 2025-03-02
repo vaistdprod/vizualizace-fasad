@@ -4,6 +4,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { Newspaper } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
 import type { NewsSectionBlock as NewsSectionBlockProps, Post } from '@/payload-types'
 
@@ -14,7 +15,7 @@ export const NewsSectionBlock: React.FC<
 > = (props) => {
   const { id, heading, description, posts } = props
 
-  // Filter out numbers, ensure only Post objects are processed
+  // Filter out numbers, ensure only Post objects
   const validPosts = posts?.filter((post): post is Post => typeof post !== 'number') || []
 
   return (
@@ -40,43 +41,44 @@ export const NewsSectionBlock: React.FC<
         </motion.div>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {validPosts.map((post, index) => (
-            <motion.article
-              key={post.slug || `post-${index}`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="group bg-card rounded-xl overflow-hidden flex flex-col"
-            >
-              <div className="w-full h-48 overflow-hidden">
-                <Image
-                  src={
-                    typeof post.heroImage === 'object' && post.heroImage?.url
-                      ? post.heroImage.url
-                      : '/media/news-placeholder.jpg'
-                  }
-                  alt={
-                    typeof post.heroImage === 'object' && post.heroImage?.alt
-                      ? post.heroImage.alt
-                      : 'News image'
-                  }
-                  width={600}
-                  height={400}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-              <div className="p-6 flex-1">
-                <time className="text-sm text-primary font-medium">
-                  {post.publishedAt && typeof post.publishedAt === 'string'
-                    ? new Date(post.publishedAt).toLocaleDateString()
-                    : 'Date not available'}
-                </time>
-                <h3 className="mt-2 text-xl font-semibold leading-tight">{post.title}</h3>
-                <p className="mt-3 text-muted-foreground">
-                  {post.meta?.description || 'No description available'}
-                </p>
-              </div>
-            </motion.article>
+            <Link href={`/posts/${post.slug}`} key={post.slug || `post-${index}`}>
+              <motion.article
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="group bg-card rounded-xl overflow-hidden flex flex-col"
+              >
+                <div className="w-full h-48 overflow-hidden">
+                  <Image
+                    src={
+                      typeof post.heroImage === 'object' && post.heroImage?.url
+                        ? post.heroImage.url
+                        : '/media/news-placeholder.jpg'
+                    }
+                    alt={
+                      typeof post.heroImage === 'object' && post.heroImage?.alt
+                        ? post.heroImage.alt
+                        : post.title || 'News image'
+                    }
+                    width={600}
+                    height={400}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-6 flex-1">
+                  <time className="text-sm text-primary font-medium">
+                    {post.publishedAt && typeof post.publishedAt === 'string'
+                      ? new Date(post.publishedAt).toLocaleDateString('cs-CZ') // Czech format
+                      : 'Datum není k dispozici'}
+                  </time>
+                  <h3 className="mt-2 text-xl font-semibold leading-tight">{post.title}</h3>
+                  <p className="mt-3 text-muted-foreground">
+                    {post.meta?.description || 'Žádný popis není k dispozici'}
+                  </p>
+                </div>
+              </motion.article>
+            </Link>
           ))}
         </div>
       </div>

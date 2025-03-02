@@ -1,12 +1,11 @@
-import type { RequiredDataFromCollectionSlug } from 'payload'
-import type { Media, User } from '@/payload-types'
+import type { Post, Media, User } from '@/payload-types'
 
 type PostArgs = { heroImage: Media; author: User }
 
-export const post3: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> = ({
+export const post3 = ({
   heroImage,
   author,
-}) => ({
+}: PostArgs): Omit<Post, 'id' | 'createdAt' | 'updatedAt'> => ({
   slug: 'prevence-respiracnich-onemocneni',
   _status: 'published',
   title: 'Prevence respiračních onemocnění',
@@ -42,5 +41,5 @@ export const post3: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
     description: 'Připravili jsme pro vás přehled doporučení pro zimní období.',
     image: heroImage.id,
   },
-  publishedAt: '2025-02-15',
+  publishedAt: '2025-02-15T00:00:00.000Z', // Full ISO string
 })

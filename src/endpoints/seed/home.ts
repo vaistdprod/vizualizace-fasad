@@ -35,63 +35,18 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
   slug: 'home',
   _status: 'published',
   title: 'Dětská ordinace Zbiroh',
-  hero: {
-    type: 'highImpact',
-    richText: {
-      root: {
-        type: 'root',
-        children: [
-          {
-            type: 'heading',
-            tag: 'h1',
-            children: [{ type: 'text', text: 'Dětská ordinace Zbiroh', version: 1 }],
-            direction: 'ltr',
-            format: '',
-            indent: 0,
-            version: 1,
-          },
-          {
-            type: 'paragraph',
-            children: [
-              {
-                type: 'text',
-                text: 'Poskytujeme plnou péči o jakékoliv dítě od narození do 19 let včetně nedonošených a rizikových dětí.\n\nI při sebemenším vyšetření dbáme na pečlivé zvážení všech příznaků a neváháme kontaktovat specialisty, abychom předešli budoucím komplikacím.\n\nDbáme i na preventivní úkony na ochranu zdraví dětí a dorostu, jako je očkování nebo monitorování vývoje dětí pravidelnými preventivními prohlídkami.\n\nO naší kvalitě bezesporu svědčí i fakt, že odchované děti se k nám velmi často vrací s vlastními dětmi, a tak se často staráme o několik generací v jedné rodině.',
-                version: 1,
-              },
-            ],
-            direction: 'ltr',
-            format: '',
-            indent: 0,
-            version: 1,
-          },
-        ],
-        direction: 'ltr',
-        format: '',
-        indent: 0,
-        version: 1,
-      },
-    },
-    media: heroImage.id,
-    links: [
-      {
-        link: {
-          type: 'custom',
-          appearance: 'default',
-          label: 'Objednat se',
-          url: '#objednani',
-        },
-      },
-      {
-        link: {
-          type: 'custom',
-          appearance: 'outline',
-          label: 'Naše služby',
-          url: '#nase-sluzby',
-        },
-      },
-    ],
-  },
   layout: [
+    {
+      blockType: 'heroSection',
+      title: 'Dětská ordinace Zbiroh',
+      description:
+        'Poskytujeme plnou péči o jakékoliv dítě od narození do 19 let včetně nedonošených a rizikových dětí.\n\nI při sebemenším vyšetření dbáme na pečlivé zvážení všech příznaků a neváháme kontaktovat specialisty, abychom předešli budoucím komplikacím.\n\nDbáme i na preventivní úkony na ochranu zdraví dětí a dorostu, jako je očkování nebo monitorování vývoje dětí pravidelnými preventivními prohlídkami.\n\nO naší kvalitě bezesporu svědčí i fakt, že odchované děti se k nám velmi často vrací s vlastními dětmi, a tak se často staráme o několik generací v jedné rodině.',
+      primaryButtonText: 'Objednat se',
+      primaryButtonLink: '#objednani',
+      secondaryButtonText: 'Naše služby',
+      secondaryButtonLink: '#nase-sluzby',
+      image: heroImage, // Pass the full Media object
+    },
     {
       blockType: 'servicesSection',
       heading: 'Služby',

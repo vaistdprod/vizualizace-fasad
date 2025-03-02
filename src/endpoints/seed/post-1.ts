@@ -1,12 +1,11 @@
-import type { RequiredDataFromCollectionSlug } from 'payload'
-import type { Media, User } from '@/payload-types'
+import type { Post, Media, User } from '@/payload-types'
 
 type PostArgs = { heroImage: Media; author: User }
 
-export const post1: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> = ({
+export const post1 = ({
   heroImage,
   author,
-}) => ({
+}: PostArgs): Omit<Post, 'id' | 'createdAt' | 'updatedAt'> => ({
   slug: 'nova-vakcina-proti-chripce',
   _status: 'published',
   title: 'Nová očkovací vakcína proti chřipce',
@@ -42,5 +41,5 @@ export const post1: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
     description: 'Od příštího měsíce bude v naší ordinaci dostupná nová vakcína proti chřipce.',
     image: heroImage.id,
   },
-  publishedAt: '2025-02-25',
+  publishedAt: '2025-02-25T00:00:00.000Z', // Full ISO string
 })

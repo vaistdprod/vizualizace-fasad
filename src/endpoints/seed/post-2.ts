@@ -1,12 +1,11 @@
-import type { RequiredDataFromCollectionSlug } from 'payload'
-import type { Media, User } from '@/payload-types'
+import type { Post, Media, User } from '@/payload-types'
 
 type PostArgs = { heroImage: Media; author: User }
 
-export const post2: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> = ({
+export const post2 = ({
   heroImage,
   author,
-}) => ({
+}: PostArgs): Omit<Post, 'id' | 'createdAt' | 'updatedAt'> => ({
   slug: 'zmena-ordinacnich-hodin-prazdniny',
   _status: 'published',
   title: 'Změna ordinačních hodin během letních prázdnin',
@@ -42,5 +41,5 @@ export const post2: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
     description: 'Informujeme rodiče o upravené ordinační době během letních prázdnin.',
     image: heroImage.id,
   },
-  publishedAt: '2025-02-20',
+  publishedAt: '2025-02-20T00:00:00.000Z', // Full ISO string
 })
