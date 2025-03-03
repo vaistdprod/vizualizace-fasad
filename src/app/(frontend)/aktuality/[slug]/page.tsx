@@ -8,9 +8,9 @@ import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 import RichText from '@/components/RichText'
 
-import type { Aktualita } from '@/payload-types'
+import type { Aktuality } from '@/payload-types'
 
-import { AktualitaHero } from '@/heros/AktualitaHero'
+import { AktualityHero } from '@/heros/AktualityHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
@@ -41,11 +41,11 @@ type Args = {
   }>
 }
 
-export default async function Aktualita({ params: paramsPromise }: Args) {
+export default async function Aktuality({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
   const { slug = '' } = await paramsPromise
   const url = '/aktuality/' + slug
-  const aktualita = await queryAktualitaBySlug({ slug })
+  const aktualita = await queryAktualityBySlug({ slug })
 
   if (!aktualita) return <PayloadRedirects url={url} />
 
@@ -58,7 +58,7 @@ export default async function Aktualita({ params: paramsPromise }: Args) {
 
       {draft && <LivePreviewListener />}
 
-      <AktualitaHero aktualita={aktualita} />
+      <AktualityHero aktualita={aktualita} />
 
       <div className="flex flex-col items-center gap-4 pt-8">
         <div className="container">
@@ -81,12 +81,12 @@ export default async function Aktualita({ params: paramsPromise }: Args) {
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug = '' } = await paramsPromise
-  const aktualita = await queryAktualitaBySlug({ slug })
+  const aktualita = await queryAktualityBySlug({ slug })
 
   return generateMeta({ doc: aktualita })
 }
 
-const queryAktualitaBySlug = cache(async ({ slug }: { slug: string }) => {
+const queryAktualityBySlug = cache(async ({ slug }: { slug: string }) => {
   const { isEnabled: draft } = await draftMode()
 
   const payload = await getPayload({ config: configPromise })

@@ -11,14 +11,14 @@ import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/
 import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
 
-import { Page, Aktualita } from '@/payload-types'
+import { Page, Aktuality } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 
-const generateTitle: GenerateTitle<Aktualita | Page> = ({ doc }) => {
+const generateTitle: GenerateTitle<Aktuality | Page> = ({ doc }) => {
   return doc?.title ? `${doc.title} | Dětská ordinace Zbiroh` : 'Dětská ordinace Zbiroh'
 }
 
-const generateURL: GenerateURL<Aktualita | Page> = ({ doc }) => {
+const generateURL: GenerateURL<Aktuality | Page> = ({ doc }) => {
   const url = getServerSideURL()
 
   return doc?.slug ? `${url}/${doc.slug}` : url

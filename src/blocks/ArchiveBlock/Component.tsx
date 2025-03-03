@@ -1,4 +1,4 @@
-import type { Aktualita, ArchiveBlock as ArchiveBlockProps } from '@/payload-types'
+import type { Aktuality, ArchiveBlock as ArchiveBlockProps } from '@/payload-types'
 
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
@@ -16,7 +16,7 @@ export const ArchiveBlock: React.FC<
 
   const limit = limitFromProps || 3
 
-  let aktuality: Aktualita[] = []
+  let aktuality: Aktuality[] = []
 
   if (populateBy === 'collection') {
     const payload = await getPayload({ config: configPromise })
@@ -46,7 +46,7 @@ export const ArchiveBlock: React.FC<
     if (selectedDocs?.length) {
       const filteredSelectedAktuality = selectedDocs.map((aktualita) => {
         if (typeof aktualita.value === 'object') return aktualita.value
-      }) as Aktualita[]
+      }) as Aktuality[]
 
       aktuality = filteredSelectedAktuality
     }

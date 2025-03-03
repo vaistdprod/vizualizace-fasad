@@ -1,5 +1,5 @@
 import type { RequiredDataFromCollectionSlug } from 'payload'
-import type { Form, Media, Aktualita } from '@/payload-types'
+import type { Form, Media, Aktuality } from '@/payload-types'
 
 type HomeArgs = {
   heroImage: Media
@@ -14,7 +14,7 @@ type HomeArgs = {
   cpzpImage: Media
   vozpImage: Media
   contactForm: Form
-  aktuality: Aktualita[]
+  aktuality: Aktuality[]
 }
 
 export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> = ({

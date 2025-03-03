@@ -15,7 +15,7 @@ import { Banner } from '../../blocks/Banner/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
-import { revalidateDelete, revalidateAktualita } from './hooks/revalidateAktualita'
+import { revalidateDelete, revalidateAktuality } from './hooks/revalidateAktuality.ts'
 
 import {
   MetaDescriptionField,
@@ -229,7 +229,7 @@ export const Aktuality: CollectionConfig<'aktuality'> = {
     ...slugField(),
   ],
   hooks: {
-    afterChange: [revalidateAktualita],
+    afterChange: [revalidateAktuality],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],
   },

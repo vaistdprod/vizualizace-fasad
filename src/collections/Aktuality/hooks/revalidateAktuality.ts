@@ -2,9 +2,9 @@ import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from 'paylo
 
 import { revalidatePath, revalidateTag } from 'next/cache'
 
-import type { Aktualita } from '../../../payload-types'
+import type { Aktuality } from '../../../payload-types'
 
-export const revalidateAktualita: CollectionAfterChangeHook<Aktualita> = ({
+export const revalidateAktuality: CollectionAfterChangeHook<Aktuality> = ({
   doc,
   previousDoc,
   req: { payload, context },
@@ -32,7 +32,7 @@ export const revalidateAktualita: CollectionAfterChangeHook<Aktualita> = ({
   return doc
 }
 
-export const revalidateDelete: CollectionAfterDeleteHook<Aktualita> = ({
+export const revalidateDelete: CollectionAfterDeleteHook<Aktuality> = ({
   doc,
   req: { context },
 }) => {

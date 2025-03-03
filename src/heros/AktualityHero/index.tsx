@@ -1,13 +1,13 @@
 import { formatDateTime } from 'src/utilities/formatDateTime'
 import React from 'react'
 
-import type { Aktualita } from '@/payload-types'
+import type { Aktuality } from '@/payload-types'
 
 import { Media } from '@/components/Media'
 import { formatAuthors } from '@/utilities/formatAuthors'
 
-export const AktualitaHero: React.FC<{
-  aktualita: Aktualita
+export const AktualityHero: React.FC<{
+  aktualita: Aktuality
 }> = ({ aktualita }) => {
   const { categories, heroImage, populatedAuthors, publishedAt, title } = aktualita
 

@@ -1,8 +1,8 @@
-import { Aktualita } from '@/payload-types'
+import { Aktuality } from '@/payload-types'
 
 /**
  * Formats an array of populatedAuthors from Aktuality into a prettified string.
- * @param authors - The populatedAuthors array from a Aktualita.
+ * @param authors - The populatedAuthors array from a Aktuality.
  * @returns A prettified string of authors.
  * @example
  *
@@ -11,7 +11,7 @@ import { Aktualita } from '@/payload-types'
  *
  */
 export const formatAuthors = (
-  authors: NonNullable<NonNullable<Aktualita['populatedAuthors']>[number]>[],
+  authors: NonNullable<NonNullable<Aktuality['populatedAuthors']>[number]>[],
 ) => {
   // Ensure we don't have any authors without a name
   const authorNames = authors.map((author) => author.name).filter(Boolean)

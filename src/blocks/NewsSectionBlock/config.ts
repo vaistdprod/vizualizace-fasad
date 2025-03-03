@@ -29,7 +29,7 @@ export const NewsSection: Block = {
       admin: {
         description: 'Vyberte články, které se zobrazí v sekci novinek.',
       },
-      maxDepth: 3, // Ensure full Aktualita objects are populated
+      maxDepth: 3, // Ensure full Aktuality objects are populated
     },
   ],
 }

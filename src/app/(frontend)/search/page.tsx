@@ -6,7 +6,7 @@ import { getPayload } from 'payload'
 import React from 'react'
 import { Search } from '@/search/Component'
 import PageClient from './page.client'
-import { CardAktualitaData } from '@/components/Card'
+import { CardAktualityData } from '@/components/Card'
 
 type Args = {
   searchParams: Promise<{
@@ -73,7 +73,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       </div>
 
       {aktuality.totalDocs > 0 ? (
-        <CollectionArchive aktuality={aktuality.docs as CardAktualitaData[]} />
+        <CollectionArchive aktuality={aktuality.docs as CardAktualityData[]} />
       ) : (
         <div className="container">Nebyly nalezeny žádné výsledky.</div>
       )}

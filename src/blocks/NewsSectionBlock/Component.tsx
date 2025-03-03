@@ -6,7 +6,7 @@ import { Newspaper } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
-import type { NewsSectionBlock as NewsSectionBlockProps, Aktualita, Media } from '@/payload-types'
+import type { NewsSectionBlock as NewsSectionBlockProps, Aktuality, Media } from '@/payload-types'
 
 export const NewsSectionBlock: React.FC<
   NewsSectionBlockProps & {
@@ -14,18 +14,18 @@ export const NewsSectionBlock: React.FC<
   }
 > = (props) => {
   const { id, heading, description, aktuality: aktualitaIds } = props
-  const [aktuality, setAktuality] = useState<Aktualita[]>([])
+  const [aktuality, setAktuality] = useState<Aktuality[]>([])
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    console.log('Aktualita IDs:', aktualitaIds) // Debug: log aktualitaIds to confirm
+    console.log('Aktuality IDs:', aktualitaIds) // Debug: log aktualitaIds to confirm
     async function fetchAktuality() {
       if (!aktualitaIds || aktualitaIds.length === 0) {
         setAktuality([])
         return
       }
 
-      // Extract IDs from Aktualita objects or use numbers directly
+      // Extract IDs from Aktuality objects or use numbers directly
       const ids = aktualitaIds
         .map((aktualita) => (typeof aktualita === 'number' ? aktualita : aktualita.id))
         .filter((id): id is number => typeof id === 'number')

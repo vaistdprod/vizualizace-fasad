@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import type { Aktualita } from '@/payload-types'
+import type { Aktuality } from '@/payload-types'
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
@@ -26,9 +26,9 @@ export async function GET(req: NextRequest) {
           const aktualita = await payload.findByID({
             collection: 'aktuality',
             id: aktualitaId.toString(),
-            depth: 3, // Ensure full Aktualita object with heroImage.url and publishedAt
+            depth: 3, // Ensure full Aktuality object with heroImage.url and publishedAt
           })
-          return aktualita as Aktualita
+          return aktualita as Aktuality
         } catch (error) {
           return null
         }
@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
 
     // Filter out null or undefined aktuality and log for debugging
     const validAktuality = fullAktuality.filter(
-      (aktualita): aktualita is Aktualita => aktualita !== null && aktualita !== undefined,
+      (aktualita): aktualita is Aktuality => aktualita !== null && aktualita !== undefined,
     )
 
     if (!validAktuality.length) {

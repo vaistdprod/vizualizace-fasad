@@ -1,11 +1,11 @@
-import type { Aktualita, Media, User } from '@/payload-types'
+import type { Aktuality, Media, User } from '@/payload-types'
 
-type AktualitaArgs = { heroImage: Media; author: User }
+type AktualityArgs = { heroImage: Media; author: User }
 
 export const aktualita3 = ({
   heroImage,
   author,
-}: AktualitaArgs): Omit<Aktualita, 'id' | 'createdAt' | 'updatedAt'> => ({
+}: AktualityArgs): Omit<Aktuality, 'id' | 'createdAt' | 'updatedAt'> => ({
   slug: 'prevence-respiracnich-onemocneni',
   _status: 'published',
   title: 'Prevence respiračních onemocnění',
