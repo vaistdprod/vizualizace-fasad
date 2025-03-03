@@ -3,49 +3,49 @@ import type { Block } from 'payload'
 export const HeroSection: Block = {
   slug: 'heroSection',
   interfaceName: 'HeroSectionBlock',
+  labels: {
+    singular: 'Úvodní sekce',
+    plural: 'Úvodní sekce',
+  },
   fields: [
     {
       name: 'title',
       type: 'text',
       required: true,
-      label: 'Title',
+      label: 'Nadpis',
     },
     {
       name: 'description',
       type: 'textarea',
       required: true,
-      label: 'Description',
+      label: 'Popis',
     },
     {
       name: 'primaryButtonText',
       type: 'text',
-      label: 'Primary Button Text',
+      label: 'Text hlavního tlačítka',
     },
     {
       name: 'primaryButtonLink',
       type: 'text',
-      label: 'Primary Button Link',
+      label: 'Odkaz hlavního tlačítka',
     },
     {
       name: 'secondaryButtonText',
       type: 'text',
-      label: 'Secondary Button Text',
+      label: 'Text vedlejšího tlačítka',
     },
     {
       name: 'secondaryButtonLink',
       type: 'text',
-      label: 'Secondary Button Link',
+      label: 'Odkaz vedlejšího tlačítka',
     },
     {
       name: 'image',
       type: 'upload',
       relationTo: 'media',
-      label: 'Hero Image',
+      label: 'Obrázek',
       maxDepth: 1, // Ensure the full Media object is populated
     },
   ],
-  labels: {
-    plural: 'Hero Sections',
-    singular: 'Hero Section',
-  },
 }

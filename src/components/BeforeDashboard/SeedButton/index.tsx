@@ -7,9 +7,9 @@ import './index.scss'
 
 const SuccessMessage: React.FC = () => (
   <div>
-    Database seeded! You can now{' '}
+    Databáze naplněna! Nyní můžete{' '}
     <a target="_blank" href="/">
-      visit your website
+      navštívit váš web
     </a>
   </div>
 )
@@ -24,15 +24,15 @@ export const SeedButton: React.FC = () => {
       e.preventDefault()
 
       if (seeded) {
-        toast.info('Database already seeded.')
+        toast.info('Databáze již byla naplněna.')
         return
       }
       if (loading) {
-        toast.info('Seeding already in progress.')
+        toast.info('Plnění databáze již probíhá.')
         return
       }
       if (error) {
-        toast.error(`An error occurred, please refresh and try again.`)
+        toast.error(`Došlo k chybě, obnovte stránku a zkuste to znovu.`)
         return
       }
 
@@ -48,7 +48,7 @@ export const SeedButton: React.FC = () => {
                     resolve(true)
                     setSeeded(true)
                   } else {
-                    reject('An error occurred while seeding.')
+                    reject('Při plnění databáze došlo k chybě.')
                   }
                 })
                 .catch((error) => {
@@ -59,9 +59,9 @@ export const SeedButton: React.FC = () => {
             }
           }),
           {
-            loading: 'Seeding with data....',
+            loading: 'Plním databázi daty...',
             success: <SuccessMessage />,
-            error: 'An error occurred while seeding.',
+            error: 'Při plnění databáze došlo k chybě.',
           },
         )
       } catch (err) {
@@ -73,14 +73,14 @@ export const SeedButton: React.FC = () => {
   )
 
   let message = ''
-  if (loading) message = ' (seeding...)'
-  if (seeded) message = ' (done!)'
-  if (error) message = ` (error: ${error})`
+  if (loading) message = ' (plním...)'
+  if (seeded) message = ' (hotovo!)'
+  if (error) message = ` (chyba: ${error})`
 
   return (
     <Fragment>
       <button className="seedButton" onClick={handleClick}>
-        Seed your database
+        Naplnit databázi
       </button>
       {message}
     </Fragment>

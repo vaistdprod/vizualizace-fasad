@@ -11,14 +11,13 @@ import { fileURLToPath } from 'url'
 import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
-import { Posts } from './collections/Posts'
+import { Aktuality } from './collections/Aktuality'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
-import { en } from '@payloadcms/translations/languages/en'
 import { cs } from '@payloadcms/translations/languages/cs'
 
 const filename = fileURLToPath(import.meta.url)
@@ -49,7 +48,7 @@ export default buildConfig({
     },
   }),
   i18n: {
-    supportedLanguages: { en, cs },
+    supportedLanguages: { cs },
     fallbackLanguage: 'cs',
   },
   email: resendAdapter({
@@ -57,7 +56,7 @@ export default buildConfig({
     defaultFromName: 'Dětská ordinace Zbiroh',
     apiKey: process.env.RESEND_API_KEY || '',
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [Pages, Aktuality, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [

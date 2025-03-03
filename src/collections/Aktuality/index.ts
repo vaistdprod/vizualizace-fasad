@@ -15,7 +15,7 @@ import { Banner } from '../../blocks/Banner/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
-import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
+import { revalidateDelete, revalidateAktualita } from './hooks/revalidateAktualita'
 
 import {
   MetaDescriptionField,
@@ -26,17 +26,21 @@ import {
 } from '@payloadcms/plugin-seo/fields'
 import { slugField } from '@/fields/slug'
 
-export const Posts: CollectionConfig<'posts'> = {
-  slug: 'posts',
+export const Aktuality: CollectionConfig<'aktuality'> = {
+  slug: 'aktuality',
+  labels: {
+    singular: 'Článek',
+    plural: 'Články',
+  },
   access: {
     create: authenticated,
     delete: authenticated,
     read: authenticatedOrPublished,
     update: authenticated,
   },
-  // This config controls what's populated by default when a post is referenced
+  // This config controls what's populated by default when a aktualita is referenced
   // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property
-  // Type safe if the collection slug generic is passed to `CollectionConfig` - `CollectionConfig<'posts'>
+  // Type safe if the collection slug generic is passed to `CollectionConfig` - `CollectionConfig<'aktuality'>
   defaultPopulate: {
     title: true,
     slug: true,
@@ -52,7 +56,7 @@ export const Posts: CollectionConfig<'posts'> = {
       url: ({ data, req }) => {
         const path = generatePreviewPath({
           slug: typeof data?.slug === 'string' ? data.slug : '',
-          collection: 'posts',
+          collection: 'aktuality',
           req,
         })
 
@@ -62,7 +66,7 @@ export const Posts: CollectionConfig<'posts'> = {
     preview: (data, { req }) =>
       generatePreviewPath({
         slug: typeof data?.slug === 'string' ? data.slug : '',
-        collection: 'posts',
+        collection: 'aktuality',
         req,
       }),
     useAsTitle: 'title',
@@ -72,6 +76,7 @@ export const Posts: CollectionConfig<'posts'> = {
       name: 'title',
       type: 'text',
       required: true,
+      label: 'Název',
     },
     {
       type: 'tabs',
@@ -102,12 +107,12 @@ export const Posts: CollectionConfig<'posts'> = {
               required: true,
             },
           ],
-          label: 'Content',
+          label: 'Obsah',
         },
         {
           fields: [
             {
-              name: 'relatedPosts',
+              name: 'relatedAktuality',
               type: 'relationship',
               admin: {
                 position: 'sidebar',
@@ -120,7 +125,7 @@ export const Posts: CollectionConfig<'posts'> = {
                 }
               },
               hasMany: true,
-              relationTo: 'posts',
+              relationTo: 'aktuality',
             },
             {
               name: 'categories',
@@ -166,6 +171,7 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       name: 'publishedAt',
       type: 'date',
+      label: 'Datum publikace',
       admin: {
         date: {
           pickerAppearance: 'dayAndTime',
@@ -186,6 +192,7 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       name: 'authors',
       type: 'relationship',
+      label: 'Autoři',
       admin: {
         position: 'sidebar',
       },
@@ -198,6 +205,7 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       name: 'populatedAuthors',
       type: 'array',
+      label: 'Načtení autoři',
       access: {
         update: () => false,
       },
@@ -209,17 +217,19 @@ export const Posts: CollectionConfig<'posts'> = {
         {
           name: 'id',
           type: 'text',
+          label: 'ID',
         },
         {
           name: 'name',
           type: 'text',
+          label: 'Jméno',
         },
       ],
     },
     ...slugField(),
   ],
   hooks: {
-    afterChange: [revalidatePost],
+    afterChange: [revalidateAktualita],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],
   },

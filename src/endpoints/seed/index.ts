@@ -2,9 +2,9 @@ import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from '
 
 import { contactForm } from './contact-form'
 import { home } from './home'
-import { post1 } from './post-1'
-import { post2 } from './post-2'
-import { post3 } from './post-3'
+import { aktualita1 } from './aktualita-1'
+import { aktualita2 } from './aktualita-2'
+import { aktualita3 } from './aktualita-3'
 import { heroImage } from './hero-image.ts'
 import { teamImage } from './team-image.ts'
 import { galleryImage1 } from './gallery-image-1.ts'
@@ -23,7 +23,7 @@ const collections: CollectionSlug[] = [
   'categories',
   'media',
   'pages',
-  'posts',
+  'aktuality',
   'forms',
   'form-submissions',
   'users',
@@ -155,24 +155,24 @@ export const seed = async ({
     data: contactForm,
   })
 
-  payload.logger.info(`— Seeding posts...`)
-  const post1Doc = await payload.create({
-    collection: 'posts',
+  payload.logger.info(`— Seeding aktuality...`)
+  const aktualita1Doc = await payload.create({
+    collection: 'aktuality',
     depth: 3,
     context: { disableRevalidate: true },
-    data: post1({ heroImage: galleryImage1Doc, author: demoAuthor }),
+    data: aktualita1({ heroImage: galleryImage1Doc, author: demoAuthor }),
   })
-  const post2Doc = await payload.create({
-    collection: 'posts',
+  const aktualita2Doc = await payload.create({
+    collection: 'aktuality',
     depth: 3,
     context: { disableRevalidate: true },
-    data: post2({ heroImage: galleryImage2Doc, author: demoAuthor }),
+    data: aktualita2({ heroImage: galleryImage2Doc, author: demoAuthor }),
   })
-  const post3Doc = await payload.create({
-    collection: 'posts',
+  const aktualita3Doc = await payload.create({
+    collection: 'aktuality',
     depth: 3,
     context: { disableRevalidate: true },
-    data: post3({ heroImage: galleryImage3Doc, author: demoAuthor }),
+    data: aktualita3({ heroImage: galleryImage3Doc, author: demoAuthor }),
   })
 
   payload.logger.info(`— Seeding home page...`)
@@ -192,7 +192,7 @@ export const seed = async ({
       cpzpImage: cpzpImageDoc,
       vozpImage: vozpImageDoc,
       contactForm: contactFormDoc,
-      posts: [post1Doc, post2Doc, post3Doc],
+      aktuality: [aktualita1Doc, aktualita2Doc, aktualita3Doc],
     }),
   })
 

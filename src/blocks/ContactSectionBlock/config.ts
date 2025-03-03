@@ -3,27 +3,31 @@ import type { Block } from 'payload'
 export const ContactSection: Block = {
   slug: 'contactSection',
   interfaceName: 'ContactSectionBlock',
+  labels: {
+    singular: 'Kontaktní sekce',
+    plural: 'Kontaktní sekce',
+  },
   fields: [
     {
       name: 'heading',
       type: 'text',
-      label: 'Heading',
-      defaultValue: 'Contact Us',
+      label: 'Nadpis',
+      defaultValue: 'Kontaktujte nás',
     },
     {
       name: 'description',
       type: 'textarea',
-      label: 'Description',
-      defaultValue: 'We are here for you',
+      label: 'Popis',
+      defaultValue: 'Jsme tu pro vás',
     },
     {
       name: 'form',
       type: 'relationship',
       relationTo: 'forms',
       required: true,
-      label: 'Contact Form',
+      label: 'Kontaktní formulář',
       admin: {
-        description: 'Select a form with fields: Name, Email, Phone, and Message.',
+        description: 'Vyberte formulář s poli: Jméno, E-mail, Telefon a Zpráva.',
       },
       maxDepth: 1, // Ensure the full Form object is populated
     },
@@ -31,37 +35,33 @@ export const ContactSection: Block = {
       name: 'address',
       type: 'text',
       required: true,
-      label: 'Address',
+      label: 'Adresa',
     },
     {
       name: 'phone',
       type: 'text',
       required: true,
-      label: 'Phone Number',
+      label: 'Telefonní číslo',
     },
     {
       name: 'email',
       type: 'text',
       required: true,
-      label: 'Email',
+      label: 'E-mail',
     },
     {
       name: 'mapEmbedUrl',
       type: 'text',
-      label: 'Map Embed URL',
+      label: 'URL vložené mapy',
       admin: {
-        description: 'Paste the Google Maps embed URL for your location.',
+        description: 'Vložte URL Google Maps pro vaši lokaci.',
       },
     },
     {
       name: 'navigationButtonText',
       type: 'text',
-      label: 'Navigation Button Text',
-      defaultValue: 'Navigate',
+      label: 'Text navigačního tlačítka',
+      defaultValue: 'Navigovat',
     },
   ],
-  labels: {
-    plural: 'Contact Sections',
-    singular: 'Contact Section',
-  },
 }

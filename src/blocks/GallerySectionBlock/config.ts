@@ -3,43 +3,43 @@ import type { Block } from 'payload'
 export const GallerySection: Block = {
   slug: 'gallerySection',
   interfaceName: 'GallerySectionBlock',
+  labels: {
+    singular: 'Galerie',
+    plural: 'Galerie',
+  },
   fields: [
     {
       name: 'heading',
       type: 'text',
       required: true,
-      label: 'Heading',
+      label: 'Nadpis',
     },
     {
       name: 'description',
       type: 'textarea',
       required: true,
-      label: 'Description',
+      label: 'Popis',
     },
     {
       name: 'images',
       type: 'array',
-      label: 'Images',
+      label: 'Obrázky',
       minRows: 1,
       fields: [
         {
           name: 'title',
           type: 'text',
           required: true,
-          label: 'Title',
+          label: 'Název',
         },
         {
           name: 'image',
           type: 'upload',
           relationTo: 'media',
           required: true,
-          label: 'Image',
+          label: 'Obrázek',
         },
       ],
     },
   ],
-  labels: {
-    plural: 'Gallery Sections',
-    singular: 'Gallery Section',
-  },
 }

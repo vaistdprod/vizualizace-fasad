@@ -7,14 +7,40 @@ const SITE_URL =
 module.exports = {
   siteUrl: SITE_URL,
   generateRobotsTxt: true,
-  exclude: ['/posts-sitemap.xml', '/pages-sitemap.xml', '/*', '/posts/*'],
+  exclude: ['/aktuality-sitemap.xml', '/pages-sitemap.xml', '/*', '/aktuality/*'],
+  changefreq: 'weekly',
+  priority: 0.7,
+  sitemapSize: 5000,
   robotsTxtOptions: {
     policies: [
       {
         userAgent: '*',
-        disallow: '/admin/*',
+        disallow: ['/admin/*', '/_next/*', '/api/*'],
+        allow: '/',
       },
     ],
-    additionalSitemaps: [`${SITE_URL}/pages-sitemap.xml`, `${SITE_URL}/posts-sitemap.xml`],
+    additionalSitemaps: [`${SITE_URL}/pages-sitemap.xml`, `${SITE_URL}/aktuality-sitemap.xml`],
+  },
+  transform: async (config, path) => {
+    // Custom transform function for sitemap entries
+    // Customize priority based on path
+    let priority = config.priority
+
+    // Home page gets highest priority
+    if (path === '/') {
+      priority = 1.0
+    }
+    // Aktuality aktuality get medium priority
+    else if (path.startsWith('/aktuality/')) {
+      priority = 0.8
+    }
+
+    return {
+      loc: path,
+      changefreq: config.changefreq,
+      priority,
+      lastmod: config.autoLastmod ? new Date().toISOString() : undefined,
+      alternateRefs: config.alternateRefs ?? [],
+    }
   },
 }

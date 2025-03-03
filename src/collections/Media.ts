@@ -16,6 +16,10 @@ const dirname = path.dirname(filename)
 
 export const Media: CollectionConfig = {
   slug: 'media',
+  labels: {
+    singular: 'Médium',
+    plural: 'Média',
+  },
   access: {
     create: authenticated,
     delete: authenticated,
@@ -26,11 +30,17 @@ export const Media: CollectionConfig = {
     {
       name: 'alt',
       type: 'text',
-      //required: true,
+      label: 'Alternativní text',
+      required: true,
+      admin: {
+        description:
+          'Popis obrázku pro nevidomé uživatele a vyhledávače. Měl by být výstižný a popisovat obsah obrázku.',
+      },
     },
     {
       name: 'caption',
       type: 'richText',
+      label: 'Popisek',
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {
           return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]

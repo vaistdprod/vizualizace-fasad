@@ -3,37 +3,41 @@ import type { Block } from 'payload'
 export const InsuranceSection: Block = {
   slug: 'insuranceSection',
   interfaceName: 'InsuranceSectionBlock',
+  labels: {
+    singular: 'Sekce pojišťoven',
+    plural: 'Sekce pojišťoven',
+  },
   fields: [
     {
       name: 'heading',
       type: 'text',
       required: true,
-      label: 'Heading',
+      label: 'Nadpis',
     },
     {
       name: 'description',
       type: 'textarea',
       required: true,
-      label: 'Description',
+      label: 'Popis',
     },
     {
       name: 'partners',
       type: 'array',
-      label: 'Partners',
+      label: 'Pojišťovny',
       minRows: 1,
       fields: [
         {
           name: 'title',
           type: 'text',
           required: true,
-          label: 'Partner Name',
+          label: 'Název pojišťovny',
         },
         {
           name: 'logo',
           type: 'upload',
           relationTo: 'media',
           required: true,
-          label: 'Logo',
+          label: 'Logo pojišťovny',
           maxDepth: 1, // Ensure full Media objects are populated
         },
       ],
@@ -41,12 +45,8 @@ export const InsuranceSection: Block = {
     {
       name: 'contactPrompt',
       type: 'text',
-      label: 'Contact Prompt',
-      defaultValue: 'Have questions about insurance?',
+      label: 'Text pro kontakt',
+      defaultValue: 'Máte otázky ohledně pojištění?',
     },
   ],
-  labels: {
-    plural: 'Insurance Sections',
-    singular: 'Insurance Section',
-  },
 }

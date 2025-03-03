@@ -56,11 +56,13 @@ export const TeamSectionBlock: React.FC<
                   alt={
                     typeof member.image === 'object' && member.image?.alt
                       ? member.image.alt
-                      : 'Team member'
-                  } // Use Media's alt field
+                      : `${member.title} - ${member.role || 'Člen týmu'} - Dětská ordinace Zbiroh`
+                  }
                   width={300}
                   height={400}
                   className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
+                  loading={index < 3 ? 'eager' : 'lazy'} // Load first 3 images eagerly
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Responsive sizing
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>

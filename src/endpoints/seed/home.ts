@@ -1,5 +1,5 @@
 import type { RequiredDataFromCollectionSlug } from 'payload'
-import type { Form, Media, Post } from '@/payload-types'
+import type { Form, Media, Aktualita } from '@/payload-types'
 
 type HomeArgs = {
   heroImage: Media
@@ -14,7 +14,7 @@ type HomeArgs = {
   cpzpImage: Media
   vozpImage: Media
   contactForm: Form
-  posts: Post[]
+  aktuality: Aktualita[]
 }
 
 export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
@@ -30,7 +30,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
   cpzpImage,
   vozpImage,
   contactForm,
-  posts,
+  aktuality,
 }) => ({
   slug: 'home',
   _status: 'published',
@@ -195,7 +195,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
       blockType: 'newsSection',
       heading: 'Aktuality',
       description: 'Čtěte nejnovější informace z naší ordinace.',
-      posts: posts,
+      aktuality: aktuality,
     },
     {
       blockType: 'appointmentSection',

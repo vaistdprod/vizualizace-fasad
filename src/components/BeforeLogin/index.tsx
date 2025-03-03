@@ -4,8 +4,8 @@ const BeforeLogin: React.FC = () => {
   return (
     <div>
       <p>
-        <b>Welcome to your dashboard!</b>
-        {' This is where site admins will log in to manage your website.'}
+        <b>Vítejte ve vašem administračním rozhraní!</b>
+        {' Zde se budou přihlašovat administrátoři pro správu vašeho webu.'}
       </p>
     </div>
   )

@@ -32,6 +32,10 @@ import {
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
+  labels: {
+    singular: 'Stránka',
+    plural: 'Stránky',
+  },
   access: {
     create: authenticated,
     delete: authenticated,
@@ -67,6 +71,7 @@ export const Pages: CollectionConfig<'pages'> = {
       name: 'title',
       type: 'text',
       required: true,
+      label: 'Název',
     },
     {
       type: 'tabs',
@@ -99,7 +104,7 @@ export const Pages: CollectionConfig<'pages'> = {
               },
             },
           ],
-          label: 'Content',
+          label: 'Obsah',
         },
         {
           name: 'meta',

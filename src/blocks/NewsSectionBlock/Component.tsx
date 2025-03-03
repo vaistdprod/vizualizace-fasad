@@ -6,48 +6,50 @@ import { Newspaper } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
-import type { NewsSectionBlock as NewsSectionBlockProps, Post, Media } from '@/payload-types'
+import type { NewsSectionBlock as NewsSectionBlockProps, Aktualita, Media } from '@/payload-types'
 
 export const NewsSectionBlock: React.FC<
   NewsSectionBlockProps & {
     id?: string
   }
 > = (props) => {
-  const { id, heading, description, posts: postIds } = props
-  const [posts, setPosts] = useState<Post[]>([])
+  const { id, heading, description, aktuality: aktualitaIds } = props
+  const [aktuality, setAktuality] = useState<Aktualita[]>([])
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    console.log('Post IDs:', postIds) // Debug: log postIds to confirm
-    async function fetchPosts() {
-      if (!postIds || postIds.length === 0) {
-        setPosts([])
+    console.log('Aktualita IDs:', aktualitaIds) // Debug: log aktualitaIds to confirm
+    async function fetchAktuality() {
+      if (!aktualitaIds || aktualitaIds.length === 0) {
+        setAktuality([])
         return
       }
 
-      // Extract IDs from Post objects or use numbers directly
-      const ids = postIds
-        .map((post) => (typeof post === 'number' ? post : post.id))
+      // Extract IDs from Aktualita objects or use numbers directly
+      const ids = aktualitaIds
+        .map((aktualita) => (typeof aktualita === 'number' ? aktualita : aktualita.id))
         .filter((id): id is number => typeof id === 'number')
         .join(',')
       console.log('Extracted IDs:', ids) // Debug: log extracted IDs
 
       if (!ids) {
-        setPosts([])
+        setAktuality([])
         return
       }
 
       try {
-        const response = await fetch(`/api/posts?ids=${ids}`)
+        const response = await fetch(`/api/aktuality?ids=${ids}`)
         console.log('API Response:', response) // Debug: log the response
         if (!response.ok)
-          throw new Error(`Failed to fetch posts: ${response.status} ${response.statusText}`)
+          throw new Error(
+            `Failed to fetch aktuality aktuality: ${response.status} ${response.statusText}`,
+          )
         const data = await response.json()
         console.log('API Data:', data) // Debug: log the parsed data
         if (Array.isArray(data)) {
-          setPosts(data)
+          setAktuality(data)
         } else {
-          throw new Error('Invalid response format: expected an array of posts')
+          throw new Error('Invalid response format: expected an array of aktuality')
         }
       } catch (err) {
         let errorMessage: string
@@ -60,12 +62,12 @@ export const NewsSectionBlock: React.FC<
         }
         console.error('Fetch error:', err)
         setError(errorMessage)
-        setPosts([]) // Fallback to empty posts
+        setAktuality([]) // Fallback to empty aktuality
       }
     }
 
-    fetchPosts()
-  }, [postIds])
+    fetchAktuality()
+  }, [aktualitaIds])
 
   if (error) {
     return (
@@ -99,8 +101,11 @@ export const NewsSectionBlock: React.FC<
           <p className="mt-4 text-muted-foreground md:text-lg">{description}</p>
         </motion.div>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post, index) => (
-            <Link href={`/posts/${post.slug}`} key={post.slug || `post-${index}`}>
+          {aktuality.map((aktualita, index) => (
+            <Link
+              href={`/aktuality/${aktualita.slug}`}
+              key={aktualita.slug || `aktualita-${index}`}
+            >
               <motion.article
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -111,11 +116,11 @@ export const NewsSectionBlock: React.FC<
                 <div className="w-full h-48 overflow-hidden">
                   <Image
                     src={
-                      (post.heroImage as Media)?.url || '/media/news-placeholder.jpg' // Narrow to Media type
+                      (aktualita.heroImage as Media)?.url || '/media/news-placeholder.jpg' // Narrow to Media type
                     }
                     alt={
-                      (post.heroImage as Media)?.alt || // Narrow to Media type
-                      post.title ||
+                      (aktualita.heroImage as Media)?.alt || // Narrow to Media type
+                      aktualita.title ||
                       'News image'
                     }
                     width={600}
@@ -123,18 +128,18 @@ export const NewsSectionBlock: React.FC<
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Add sizes for performance
                     priority={index === 0} // Add priority for LCP on first image
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    onError={(e) => console.error('Image load error:', e, post.heroImage)}
+                    onError={(e) => console.error('Image load error:', e, aktualita.heroImage)}
                   />
                 </div>
                 <div className="p-6 flex-1">
                   <time className="text-sm text-primary font-medium">
-                    {post.publishedAt && typeof post.publishedAt === 'string'
-                      ? new Date(post.publishedAt).toLocaleDateString('cs-CZ')
+                    {aktualita.publishedAt && typeof aktualita.publishedAt === 'string'
+                      ? new Date(aktualita.publishedAt).toLocaleDateString('cs-CZ')
                       : 'Datum není k dispozici'}
                   </time>
-                  <h3 className="mt-2 text-xl font-semibold leading-tight">{post.title}</h3>
+                  <h3 className="mt-2 text-xl font-semibold leading-tight">{aktualita.title}</h3>
                   <p className="mt-3 text-muted-foreground">
-                    {post.meta?.description || 'Žádný popis není k dispozici'}
+                    {aktualita.meta?.description || 'Žádný popis není k dispozici'}
                   </p>
                 </div>
               </motion.article>

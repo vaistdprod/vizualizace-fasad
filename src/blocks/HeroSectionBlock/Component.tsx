@@ -77,13 +77,20 @@ export const HeroSectionBlock: React.FC<
               className="max-w-[500px] mx-auto lg:mx-0" // Added max-w-[500px], removed aspect-video
             >
               <Image
-                alt={typeof image === 'object' ? image.alt || 'Hero image' : 'Hero image'}
+                alt={
+                  typeof image === 'object'
+                    ? image.alt || 'Dětská ordinace Zbiroh - úvodní obrázek'
+                    : 'Dětská ordinace Zbiroh - úvodní obrázek'
+                }
                 className="rounded-xl object-cover w-full h-auto"
                 src={
                   typeof image === 'object' && image.url ? image.url : '/media/hero-placeholder.jpg'
                 }
                 width={500}
                 height={750}
+                priority={true} // Load with priority as it's above the fold
+                sizes="(max-width: 768px) 100vw, 500px" // Responsive sizing
+                quality={90} // High quality for hero image
               />
             </motion.div>
           )}

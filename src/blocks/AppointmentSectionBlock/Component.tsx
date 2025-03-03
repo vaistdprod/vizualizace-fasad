@@ -68,16 +68,18 @@ export const AppointmentSectionBlock: React.FC<
                     </div>
                     <p className="text-muted-foreground">{type.description}</p>
                   </div>
-                  <Button className="mt-4 w-full">{type.buttonText}</Button>
+                  <Button className="mt-4 w-full cursor-pointer">{type.buttonText}</Button>
                   <BorderBeam
                     duration={30}
-                    size={200}
+                    size={300}
+                    initialOffset={20}
                     className="from-transparent via-rose-200 to-transparent"
                   />
                   <BorderBeam
                     duration={30}
                     delay={15}
-                    size={200}
+                    size={300}
+                    initialOffset={20}
                     className="from-transparent via-rose-200 to-transparent"
                   />
                 </Card>

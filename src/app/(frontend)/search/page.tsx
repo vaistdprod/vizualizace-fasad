@@ -6,7 +6,7 @@ import { getPayload } from 'payload'
 import React from 'react'
 import { Search } from '@/search/Component'
 import PageClient from './page.client'
-import { CardPostData } from '@/components/Card'
+import { CardAktualitaData } from '@/components/Card'
 
 type Args = {
   searchParams: Promise<{
@@ -17,7 +17,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
   const { q: query } = await searchParamsPromise
   const payload = await getPayload({ config: configPromise })
 
-  const posts = await payload.find({
+  const aktuality = await payload.find({
     collection: 'search',
     depth: 1,
     limit: 12,
@@ -64,7 +64,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       <PageClient />
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none text-center">
-          <h1 className="mb-8 lg:mb-16">Search</h1>
+          <h1 className="mb-8 lg:mb-16">Hledat</h1>
 
           <div className="max-w-[50rem] mx-auto">
             <Search />
@@ -72,10 +72,10 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
         </div>
       </div>
 
-      {posts.totalDocs > 0 ? (
-        <CollectionArchive posts={posts.docs as CardPostData[]} />
+      {aktuality.totalDocs > 0 ? (
+        <CollectionArchive aktuality={aktuality.docs as CardAktualitaData[]} />
       ) : (
-        <div className="container">No results found.</div>
+        <div className="container">Nebyly nalezeny žádné výsledky.</div>
       )}
     </div>
   )
@@ -83,6 +83,6 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
 
 export function generateMetadata(): Metadata {
   return {
-    title: `Payload Website Template Search`,
+    title: `Dětská ordinace Zbiroh`,
   }
 }

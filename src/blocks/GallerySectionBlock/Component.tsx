@@ -77,11 +77,14 @@ export const GallerySectionBlock: React.FC<
                       alt={
                         typeof image.image === 'object' && image.image?.alt
                           ? image.image.alt
-                          : 'Gallery image'
-                      } // Use Media's alt field
+                          : `${image.title || 'Fotografie'} - Dětská ordinace Zbiroh`
+                      }
                       width={1600}
                       height={900}
                       className="w-full h-full object-cover"
+                      loading={index === 0 ? 'eager' : 'lazy'} // Load first image eagerly
+                      sizes="(max-width: 768px) 100vw, 1200px" // Responsive sizing
+                      quality={85} // High quality for gallery images
                     />
                     <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent">
                       <div className="absolute bottom-0 left-0 right-0 p-6">
@@ -97,6 +100,7 @@ export const GallerySectionBlock: React.FC<
             className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-xs w-10 h-10 border border-primary/20 shadow-lg hover:bg-background/40 transition-colors"
             rippleColor="hsl(var(--primary) / 0.4)"
             onClick={scrollPrev}
+            aria-label="Předchozí fotografie"
           >
             ←
           </RippleButton>
@@ -104,6 +108,7 @@ export const GallerySectionBlock: React.FC<
             className="absolute right-4 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-xs w-10 h-10 border border-primary/20 shadow-lg hover:bg-background/40 transition-colors"
             rippleColor="hsl(var(--primary) / 0.4)"
             onClick={scrollNext}
+            aria-label="Další fotografie"
           >
             →
           </RippleButton>
@@ -112,7 +117,8 @@ export const GallerySectionBlock: React.FC<
               <button
                 key={index}
                 className={`w-2 h-2 rounded-full transition-colors ${index === selectedIndex ? 'bg-primary' : 'bg-primary/20'}`}
-                aria-label={`Go to slide ${index + 1}`}
+                aria-label={`Přejít na fotografii ${index + 1}`}
+                onClick={() => emblaApi?.scrollTo(index)}
               />
             ))}
           </div>

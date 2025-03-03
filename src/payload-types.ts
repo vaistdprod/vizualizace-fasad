@@ -67,7 +67,7 @@ export interface Config {
   blocks: {};
   collections: {
     pages: Page;
-    posts: Post;
+    aktuality: Aktuality;
     media: Media;
     categories: Category;
     users: User;
@@ -83,7 +83,7 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
-    posts: PostsSelect<false> | PostsSelect<true>;
+    aktuality: AktualitySelect<false> | AktualitySelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -210,8 +210,8 @@ export interface CallToActionBlock {
                 value: number | Page;
               } | null)
             | ({
-                relationTo: 'posts';
-                value: number | Post;
+                relationTo: 'aktuality';
+                value: number | Aktuality;
               } | null);
           url?: string | null;
           label: string;
@@ -229,9 +229,9 @@ export interface CallToActionBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
+ * via the `definition` "aktuality".
  */
-export interface Post {
+export interface Aktuality {
   id: number;
   title: string;
   heroImage?: (number | null) | Media;
@@ -250,7 +250,7 @@ export interface Post {
     };
     [k: string]: unknown;
   };
-  relatedPosts?: (number | Post)[] | null;
+  relatedAktuality?: (number | Aktuality)[] | null;
   categories?: (number | Category)[] | null;
   meta?: {
     title?: string | null;
@@ -280,7 +280,10 @@ export interface Post {
  */
 export interface Media {
   id: number;
-  alt?: string | null;
+  /**
+   * Popis obrázku pro nevidomé uživatele a vyhledávače. Měl by být výstižný a popisovat obsah obrázku.
+   */
+  alt: string;
   caption?: {
     root: {
       type: string;
@@ -438,8 +441,8 @@ export interface ContentBlock {
                 value: number | Page;
               } | null)
             | ({
-                relationTo: 'posts';
-                value: number | Post;
+                relationTo: 'aktuality';
+                value: number | Aktuality;
               } | null);
           url?: string | null;
           label: string;
@@ -486,13 +489,13 @@ export interface ArchiveBlock {
     [k: string]: unknown;
   } | null;
   populateBy?: ('collection' | 'selection') | null;
-  relationTo?: 'posts' | null;
+  relationTo?: 'aktuality' | null;
   categories?: (number | Category)[] | null;
   limit?: number | null;
   selectedDocs?:
     | {
-        relationTo: 'posts';
-        value: number | Post;
+        relationTo: 'aktuality';
+        value: number | Aktuality;
       }[]
     | null;
   id?: string | null;
@@ -832,7 +835,7 @@ export interface HoursSectionBlock {
     | {
         day: string;
         /**
-         * Enter hours, use new lines for multiple entries (e.g., "8:00-12:00 (Note)" for additional info).
+         * Zadejte hodiny, použijte nové řádky pro více záznamů (např. "8:00-12:00 (Poznámka)" pro dodatečné informace).
          */
         hours: string;
         id?: string | null;
@@ -880,9 +883,9 @@ export interface NewsSectionBlock {
   heading: string;
   description: string;
   /**
-   * Select posts to display in the news section.
+   * Vyberte články, které se zobrazí v sekci novinek.
    */
-  posts?: (number | Post)[] | null;
+  aktuality?: (number | Aktuality)[] | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'newsSection';
@@ -895,14 +898,14 @@ export interface ContactSectionBlock {
   heading?: string | null;
   description?: string | null;
   /**
-   * Select a form with fields: Name, Email, Phone, and Message.
+   * Vyberte formulář s poli: Jméno, E-mail, Telefon a Zpráva.
    */
   form: number | Form;
   address: string;
   phone: string;
   email: string;
   /**
-   * Paste the Google Maps embed URL for your location.
+   * Vložte URL Google Maps pro vaši lokaci.
    */
   mapEmbedUrl?: string | null;
   navigationButtonText?: string | null;
@@ -928,8 +931,8 @@ export interface Redirect {
           value: number | Page;
         } | null)
       | ({
-          relationTo: 'posts';
-          value: number | Post;
+          relationTo: 'aktuality';
+          value: number | Aktuality;
         } | null);
     url?: string | null;
   };
@@ -964,8 +967,8 @@ export interface Search {
   title?: string | null;
   priority?: number | null;
   doc: {
-    relationTo: 'posts';
-    value: number | Post;
+    relationTo: 'aktuality';
+    value: number | Aktuality;
   };
   slug?: string | null;
   meta?: {
@@ -1087,8 +1090,8 @@ export interface PayloadLockedDocument {
         value: number | Page;
       } | null)
     | ({
-        relationTo: 'posts';
-        value: number | Post;
+        relationTo: 'aktuality';
+        value: number | Aktuality;
       } | null)
     | ({
         relationTo: 'media';
@@ -1447,7 +1450,7 @@ export interface AppointmentSectionBlockSelect<T extends boolean = true> {
 export interface NewsSectionBlockSelect<T extends boolean = true> {
   heading?: T;
   description?: T;
-  posts?: T;
+  aktuality?: T;
   id?: T;
   blockName?: T;
 }
@@ -1469,13 +1472,13 @@ export interface ContactSectionBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts_select".
+ * via the `definition` "aktuality_select".
  */
-export interface PostsSelect<T extends boolean = true> {
+export interface AktualitySelect<T extends boolean = true> {
   title?: T;
   heroImage?: T;
   content?: T;
-  relatedPosts?: T;
+  relatedAktuality?: T;
   categories?: T;
   meta?:
     | T
@@ -1897,8 +1900,8 @@ export interface Header {
                 value: number | Page;
               } | null)
             | ({
-                relationTo: 'posts';
-                value: number | Post;
+                relationTo: 'aktuality';
+                value: number | Aktuality;
               } | null);
           url?: string | null;
           label: string;
@@ -2022,8 +2025,8 @@ export interface TaskSchedulePublish {
           value: number | Page;
         } | null)
       | ({
-          relationTo: 'posts';
-          value: number | Post;
+          relationTo: 'aktuality';
+          value: number | Aktuality;
         } | null);
     global?: string | null;
     user?: (number | null) | User;

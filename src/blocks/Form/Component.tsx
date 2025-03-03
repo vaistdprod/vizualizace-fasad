@@ -120,7 +120,7 @@ export const FormBlock: React.FC<
           {!isLoading && hasSubmitted && confirmationType === 'message' && (
             <RichText data={confirmationMessage} />
           )}
-          {isLoading && !hasSubmitted && <p>Loading, please wait...</p>}
+          {isLoading && !hasSubmitted && <p>Načítání, prosím čekejte...</p>}
           {error && (
             <p className="text-sm text-destructive">{`${error.status || '500'}: ${error.message || ''}`}</p>
           )}
@@ -149,7 +149,7 @@ export const FormBlock: React.FC<
               </div>
 
               <Button form={formID} type="submit" variant="default" disabled={isLoading}>
-                {submitButtonLabel || 'Submit'}
+                {submitButtonLabel || 'Odeslat'}
               </Button>
             </form>
           )}

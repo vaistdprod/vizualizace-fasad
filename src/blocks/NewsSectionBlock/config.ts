@@ -3,33 +3,33 @@ import type { Block } from 'payload'
 export const NewsSection: Block = {
   slug: 'newsSection',
   interfaceName: 'NewsSectionBlock',
+  labels: {
+    singular: 'Sekce novinek',
+    plural: 'Sekce novinek',
+  },
   fields: [
     {
       name: 'heading',
       type: 'text',
       required: true,
-      label: 'Heading',
+      label: 'Nadpis',
     },
     {
       name: 'description',
       type: 'textarea',
       required: true,
-      label: 'Description',
+      label: 'Popis',
     },
     {
-      name: 'posts',
+      name: 'aktuality',
       type: 'relationship',
-      relationTo: 'posts',
+      relationTo: 'aktuality',
       hasMany: true,
-      label: 'Posts',
+      label: 'Články',
       admin: {
-        description: 'Select posts to display in the news section.',
+        description: 'Vyberte články, které se zobrazí v sekci novinek.',
       },
-      maxDepth: 3, // Ensure full Post objects are populated
+      maxDepth: 3, // Ensure full Aktualita objects are populated
     },
   ],
-  labels: {
-    plural: 'News Sections',
-    singular: 'News Section',
-  },
 }

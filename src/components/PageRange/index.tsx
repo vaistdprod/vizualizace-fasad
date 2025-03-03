@@ -1,14 +1,14 @@
 import React from 'react'
 
 const defaultLabels = {
-  plural: 'Docs',
-  singular: 'Doc',
+  plural: 'Dokumenty',
+  singular: 'Dokument',
 }
 
 const defaultCollectionLabels = {
-  posts: {
-    plural: 'Posts',
-    singular: 'Post',
+  aktuality: {
+    plural: 'Články',
+    singular: 'Článek',
   },
 }
 
@@ -46,10 +46,11 @@ export const PageRange: React.FC<{
 
   return (
     <div className={[className, 'font-semibold'].filter(Boolean).join(' ')}>
-      {(typeof totalDocs === 'undefined' || totalDocs === 0) && 'Search produced no results.'}
+      {(typeof totalDocs === 'undefined' || totalDocs === 0) &&
+        'Vyhledávání nenalezlo žádné výsledky.'}
       {typeof totalDocs !== 'undefined' &&
         totalDocs > 0 &&
-        `Showing ${indexStart}${indexStart > 0 ? ` - ${indexEnd}` : ''} of ${totalDocs} ${
+        `Zobrazeno ${indexStart}${indexStart > 0 ? ` - ${indexEnd}` : ''} z ${totalDocs} ${
           totalDocs > 1 ? plural : singular
         }`}
     </div>

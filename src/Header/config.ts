@@ -4,6 +4,7 @@ import { revalidateHeader } from './hooks/revalidateHeader'
 
 export const Header: GlobalConfig = {
   slug: 'header',
+  label: 'Hlavička',
   access: {
     read: () => true,
   },
@@ -11,6 +12,7 @@ export const Header: GlobalConfig = {
     {
       name: 'navItems',
       type: 'array',
+      label: 'Položky navigace',
       fields: [
         link({
           appearances: false,
@@ -27,21 +29,28 @@ export const Header: GlobalConfig = {
     {
       name: 'button',
       type: 'group',
+      label: 'Tlačítko',
       fields: [
         {
           name: 'type',
           type: 'select',
-          options: ['custom', 'reference'],
+          options: [
+            { label: 'Vlastní', value: 'custom' },
+            { label: 'Odkaz na stránku', value: 'reference' },
+          ],
           defaultValue: 'custom',
+          label: 'Typ',
         },
         {
           name: 'label',
           type: 'text',
           required: true,
+          label: 'Text',
         },
         {
           name: 'url',
           type: 'text',
+          label: 'URL',
           admin: {
             condition: (_, siblingData) => siblingData.type === 'custom',
           },
@@ -50,6 +59,7 @@ export const Header: GlobalConfig = {
           name: 'reference',
           type: 'relationship',
           relationTo: 'pages',
+          label: 'Odkaz na stránku',
           admin: {
             condition: (_, siblingData) => siblingData.type === 'reference',
           },

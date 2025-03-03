@@ -3,39 +3,43 @@ import type { Block } from 'payload'
 export const HoursSection: Block = {
   slug: 'hoursSection',
   interfaceName: 'HoursSectionBlock',
+  labels: {
+    singular: 'Ordinační hodiny',
+    plural: 'Ordinační hodiny',
+  },
   fields: [
     {
       name: 'heading',
       type: 'text',
       required: true,
-      label: 'Heading',
+      label: 'Nadpis',
     },
     {
       name: 'description',
       type: 'textarea',
       required: true,
-      label: 'Description',
+      label: 'Popis',
     },
     {
       name: 'hours',
       type: 'array',
-      label: 'Hours',
+      label: 'Ordinační hodiny',
       minRows: 1,
       fields: [
         {
           name: 'day',
           type: 'text',
           required: true,
-          label: 'Day',
+          label: 'Den',
         },
         {
           name: 'hours',
           type: 'textarea',
           required: true,
-          label: 'Hours',
+          label: 'Hodiny',
           admin: {
             description:
-              'Enter hours, use new lines for multiple entries (e.g., "8:00-12:00 (Note)" for additional info).',
+              'Zadejte hodiny, použijte nové řádky pro více záznamů (např. "8:00-12:00 (Poznámka)" pro dodatečné informace).',
           },
         },
       ],
@@ -43,21 +47,17 @@ export const HoursSection: Block = {
     {
       name: 'bloodDrawInfo',
       type: 'text',
-      label: 'Blood Draw Information',
+      label: 'Informace o odběrech krve',
     },
     {
       name: 'emergencyContactInfo',
       type: 'text',
-      label: 'Emergency Contact Info',
+      label: 'Informace o pohotovosti',
     },
     {
       name: 'emergencyPhone',
       type: 'text',
-      label: 'Emergency Phone Number',
+      label: 'Telefonní číslo na pohotovost',
     },
   ],
-  labels: {
-    plural: 'Hours Sections',
-    singular: 'Hours Section',
-  },
 }

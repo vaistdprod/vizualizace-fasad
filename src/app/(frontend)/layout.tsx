@@ -5,6 +5,7 @@ import { Quicksand } from 'next/font/google'
 import React from 'react'
 
 import { AdminBar } from '@/components/AdminBar'
+import { StructuredData } from '@/components/StructuredData'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
@@ -44,6 +45,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <Header />
           {children}
           <Footer />
+          <StructuredData />
         </Providers>
       </body>
     </html>

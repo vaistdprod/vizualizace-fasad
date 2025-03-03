@@ -10,63 +10,64 @@ const BeforeDashboard: React.FC = () => {
   return (
     <div className={baseClass}>
       <Banner className={`${baseClass}__banner`} type="success">
-        <h4>Welcome to your dashboard!</h4>
+        <h4>Vítejte ve vašem administračním rozhraní!</h4>
       </Banner>
-      Here&apos;s what to do next:
+      Co dělat dále:
       <ul className={`${baseClass}__instructions`}>
         <li>
           <SeedButton />
-          {' with a few pages, posts, and projects to jump-start your new site, then '}
+          {' s několika stránkami, články a projekty pro rychlý start vašeho nového webu, poté '}
           <a href="/" target="_blank">
-            visit your website
+            navštivte váš web
           </a>
-          {' to see the results.'}
+          {' pro zobrazení výsledků.'}
         </li>
         <li>
-          If you created this repo using Payload Cloud, head over to GitHub and clone it to your
-          local machine. It will be under the <i>GitHub Scope</i> that you selected when creating
-          this project.
+          Pokud jste vytvořili tento repozitář pomocí Payload Cloud, přejděte na GitHub a naklonujte
+          si ho na váš lokální počítač. Bude pod <i>GitHub Scope</i>, který jste vybrali při
+          vytváření tohoto projektu.
         </li>
         <li>
-          {'Modify your '}
+          {'Upravte vaše '}
           <a
             href="https://payloadcms.com/docs/configuration/collections"
             rel="noopener noreferrer"
             target="_blank"
           >
-            collections
+            kolekce
           </a>
-          {' and add more '}
+          {' a přidejte další '}
           <a
             href="https://payloadcms.com/docs/fields/overview"
             rel="noopener noreferrer"
             target="_blank"
           >
-            fields
+            pole
           </a>
-          {' as needed. If you are new to Payload, we also recommend you check out the '}
+          {' podle potřeby. Pokud jste v Payload nováčkem, doporučujeme také prozkoumat '}
           <a
             href="https://payloadcms.com/docs/getting-started/what-is-payload"
             rel="noopener noreferrer"
             target="_blank"
           >
-            Getting Started
+            Začínáme
           </a>
-          {' docs.'}
+          {' dokumentaci.'}
         </li>
         <li>
-          Commit and push your changes to the repository to trigger a redeployment of your project.
+          Commitněte a pushněte vaše změny do repozitáře pro spuštění opětovného nasazení vašeho
+          projektu.
         </li>
       </ul>
-      {'Pro Tip: This block is a '}
+      {'Pro Tip: Tento blok je '}
       <a
         href="https://payloadcms.com/docs/admin/custom-components/overview#base-component-overrides"
         rel="noopener noreferrer"
         target="_blank"
       >
-        custom component
+        vlastní komponenta
       </a>
-      , you can remove it at any time by updating your <strong>payload.config</strong>.
+      , můžete ji kdykoliv odstranit aktualizací vašeho <strong>payload.config</strong>.
     </div>
   )
 }

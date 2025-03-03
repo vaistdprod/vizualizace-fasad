@@ -1,11 +1,11 @@
-import type { Post, Media, User } from '@/payload-types'
+import type { Aktualita, Media, User } from '@/payload-types'
 
-type PostArgs = { heroImage: Media; author: User }
+type AktualitaArgs = { heroImage: Media; author: User }
 
-export const post2 = ({
+export const aktualita2 = ({
   heroImage,
   author,
-}: PostArgs): Omit<Post, 'id' | 'createdAt' | 'updatedAt'> => ({
+}: AktualitaArgs): Omit<Aktualita, 'id' | 'createdAt' | 'updatedAt'> => ({
   slug: 'zmena-ordinacnich-hodin-prazdniny',
   _status: 'published',
   title: 'Změna ordinačních hodin během letních prázdnin',
