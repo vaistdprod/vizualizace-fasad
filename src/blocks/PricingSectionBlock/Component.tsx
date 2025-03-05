@@ -30,7 +30,7 @@ export const PricingSectionBlock: React.FC<
             <Coins className="w-8 h-8 mr-2" />
             <AnimatedGradientText
               as="h2"
-              className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl flex items-center justify-center pb-4 -mb-4"
+              className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl pb-4 -mb-4"
             >
               {heading}
             </AnimatedGradientText>

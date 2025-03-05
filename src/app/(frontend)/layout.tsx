@@ -21,7 +21,7 @@ const quicksand = Quicksand({
   variable: '--font-quicksand',
   display: 'swap', // Ensures text remains visible during font loading
   preload: true,
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['400', '500', '600', '700'],
   fallback: ['system-ui', 'sans-serif'], // Fallback fonts to minimize CLS
   adjustFontFallback: true, // Automatically adjust the size of the fallback font
 })

@@ -39,7 +39,7 @@ export const AppointmentSectionBlock: React.FC<
             <Calendar className="w-8 h-8 mr-2" />
             <AnimatedGradientText
               as="h2"
-              className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl flex items-center justify-center pb-4 -mb-4"
+              className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl pb-4 -mb-4"
             >
               {heading}
             </AnimatedGradientText>
@@ -113,7 +113,6 @@ export const AppointmentSectionBlock: React.FC<
                   blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFeAJ5jYI2iwAAAABJRU5ErkJggg=="
                   fetchPriority="high"
                   style={{
-                    objectFit: 'cover',
                     objectPosition: 'center',
                     willChange: 'transform',
                   }}

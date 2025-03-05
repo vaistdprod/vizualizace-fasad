@@ -89,7 +89,7 @@ export const NewsSectionBlock: React.FC<
             <Newspaper className="w-8 h-8 mr-2" />
             <AnimatedGradientText
               as="h2"
-              className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl flex items-center justify-center pb-4 -mb-4"
+              className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl pb-4 -mb-4"
             >
               {heading}
             </AnimatedGradientText>
@@ -120,7 +120,7 @@ export const NewsSectionBlock: React.FC<
                   size={600}
                   className="from-transparent via-rose-200 to-transparent"
                 />
-                <article className="flex flex-col">
+                <article>
                   <div className="w-full aspect-[3/2] relative">
                     <Image
                       src={(aktualita.heroImage as Media)?.url || '/media/news-placeholder.jpg'}

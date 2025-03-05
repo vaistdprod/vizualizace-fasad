@@ -110,7 +110,6 @@ export const HeroSectionBlock: React.FC<
                   placeholder="blur"
                   blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFeAJ5jYI2iwAAAABJRU5ErkJggg=="
                   style={{
-                    objectFit: 'cover',
                     maxWidth: '100%',
                     height: 'auto',
                   }}

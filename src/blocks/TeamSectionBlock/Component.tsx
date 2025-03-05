@@ -29,7 +29,7 @@ export const TeamSectionBlock: React.FC<
             <User className="w-8 h-8 mr-2" />
             <AnimatedGradientText
               as="h2"
-              className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl flex items-center justify-center pb-4 -mb-4"
+              className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl pb-4 -mb-4"
             >
               {heading}
             </AnimatedGradientText>
@@ -66,7 +66,6 @@ export const TeamSectionBlock: React.FC<
                   blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFeAJ5jYI2iwAAAABJRU5ErkJggg=="
                   fetchPriority={index === 0 ? 'high' : 'auto'}
                   style={{
-                    objectFit: 'cover',
                     maxWidth: '100%',
                     height: '100%',
                     willChange: 'transform',
