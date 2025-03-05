@@ -40,6 +40,7 @@
     "@radix-ui/react-toast": "^1.2.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "critters": "^0.0.25",
     "cross-env": "^7.0.3",
     "depcheck": "^1.4.7",
     "embla-carousel-react": "^8.5.2",
