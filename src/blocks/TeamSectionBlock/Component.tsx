@@ -61,6 +61,23 @@ export const TeamSectionBlock: React.FC<
                   className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
                   loading={index < 3 ? 'eager' : 'lazy'}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  quality={index < 3 ? 90 : 85} // Higher quality for first three team members
+                  placeholder="blur"
+                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFeAJ5jYI2iwAAAABJRU5ErkJggg=="
+                  fetchPriority={index === 0 ? 'high' : 'auto'}
+                  style={{
+                    objectFit: 'cover',
+                    maxWidth: '100%',
+                    height: '100%',
+                    willChange: 'transform',
+                  }}
+                  onLoad={(e) => {
+                    if (e.target) {
+                      const img = e.target as HTMLImageElement
+                      img.setAttribute('data-loaded', 'true')
+                      img.classList.add('img-loaded')
+                    }
+                  }}
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-stone-950/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>

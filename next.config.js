@@ -32,7 +32,7 @@ const nextConfig = {
   },
   experimental: {
     optimizeCss: true,
-    optimizePackageImports: ['framer-motion', 'lucide-react'],
+    optimizePackageImports: ['framer-motion'],
   },
   // Enable HTTP/2 for better performance
   httpAgentOptions: {

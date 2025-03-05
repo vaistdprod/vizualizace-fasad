@@ -28,16 +28,31 @@ export const BackgroundImageBlock: React.FC<
         <div className="absolute inset-0 w-full h-full">
           <Image
             src={backgroundImageUrl}
-            alt="Obrázek na pozadí"
+            alt={
+              typeof image === 'object' && 'alt' in image && image.alt
+                ? image.alt
+                : 'Obrázek na pozadí'
+            }
             fill
             sizes="100vw"
-            loading="lazy"
-            quality={85}
+            loading="eager" // Background images should load eagerly for better UX
+            priority={true} // Background images are critical for page appearance
+            quality={75} // Slightly lower quality for background images is acceptable
+            placeholder="blur"
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFeAJ5jYI2iwAAAABJRU5ErkJggg=="
+            fetchPriority="high"
             style={{
               objectFit: 'cover',
               objectPosition: 'center',
               zIndex: 0,
               opacity,
+              willChange: 'transform',
+            }}
+            onLoad={(e) => {
+              if (e.target) {
+                const img = e.target as HTMLImageElement
+                img.setAttribute('data-loaded', 'true')
+              }
             }}
           />
         </div>

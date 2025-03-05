@@ -106,6 +106,24 @@ export const AppointmentSectionBlock: React.FC<
                   }
                   fill
                   className="object-cover rounded-xl"
+                  priority={true} // This is an important image that should load quickly
+                  quality={90} // High quality for this prominent image
+                  sizes="(max-width: 768px) 100vw, 50vw" // Responsive sizing
+                  placeholder="blur"
+                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFeAJ5jYI2iwAAAABJRU5ErkJggg=="
+                  fetchPriority="high"
+                  style={{
+                    objectFit: 'cover',
+                    objectPosition: 'center',
+                    willChange: 'transform',
+                  }}
+                  onLoad={(e) => {
+                    if (e.target) {
+                      const img = e.target as HTMLImageElement
+                      img.setAttribute('data-loaded', 'true')
+                      img.classList.add('img-loaded')
+                    }
+                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-stone-950/50 to-transparent rounded-xl">
                   <div className="absolute bottom-0 left-0 p-6 text-white">

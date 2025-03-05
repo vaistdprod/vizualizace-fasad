@@ -82,7 +82,23 @@ export const GallerySectionBlock: React.FC<
                       className="w-full h-full object-cover"
                       loading={index === 0 ? 'eager' : 'lazy'} // Load first image eagerly
                       sizes="(max-width: 768px) 100vw, 1200px" // Responsive sizing
-                      quality={85} // High quality for gallery images
+                      quality={index === 0 ? 90 : 85} // Higher quality for first image
+                      placeholder="blur"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFeAJ5jYI2iwAAAABJRU5ErkJggg=="
+                      fetchPriority={index === 0 ? 'high' : 'auto'}
+                      style={{
+                        objectFit: 'cover',
+                        maxWidth: '100%',
+                        height: '100%',
+                        willChange: 'transform',
+                      }}
+                      onLoad={(e) => {
+                        if (e.target) {
+                          const img = e.target as HTMLImageElement
+                          img.setAttribute('data-loaded', 'true')
+                          img.classList.add('img-loaded')
+                        }
+                      }}
                     />
                     <div className="absolute inset-0 bg-linear-to-t from-stone-950/60 to-transparent">
                       <div className="absolute bottom-0 left-0 right-0 p-6">

@@ -70,6 +70,18 @@ export const InsuranceSectionBlock: React.FC<
                       width={200}
                       height={200}
                       className="w-full h-full object-contain"
+                      loading={index < 3 ? 'eager' : 'lazy'} // Load first three logos eagerly
+                      sizes="(max-width: 640px) 120px, 200px" // Smaller sizes for logos
+                      quality={80} // Lower quality is fine for logos (often SVGs or simple graphics)
+                      placeholder="blur"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                      fetchPriority={index === 0 ? 'high' : 'auto'}
+                      onLoad={(e) => {
+                        if (e.target) {
+                          const img = e.target as HTMLImageElement
+                          img.setAttribute('data-loaded', 'true')
+                        }
+                      }}
                     />
                   </div>
                   <p className="text-sm font-medium text-center">{partner.title}</p>

@@ -132,8 +132,17 @@ export const FormBlock: React.FC<
                 {formFromProps &&
                   formFromProps.fields &&
                   formFromProps.fields.map((field: FormFieldBlock, index) => {
-                    // Using any here is acceptable since we're dealing with a complex component type
-                    const Field: React.FC<any> = fields[field.blockType as keyof typeof fields]
+                    // Using type assertion here because each field component has its own specific type
+                    // that extends FormFieldBlock with additional properties
+                    const Field = fields[field.blockType as keyof typeof fields] as React.FC<
+                      FormFieldBlock & {
+                        form: FormType
+                        control: typeof control
+                        errors: typeof errors
+                        register: typeof register
+                        [key: string]: unknown
+                      }
+                    >
                     if (Field) {
                       return (
                         <div className="mb-6 last:mb-0 w-full" key={index}>
