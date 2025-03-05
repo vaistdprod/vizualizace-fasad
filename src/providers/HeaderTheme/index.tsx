@@ -12,19 +12,18 @@ export interface ContextType {
 }
 
 const initialContext: ContextType = {
-  headerTheme: undefined,
+  headerTheme: 'light',
   setHeaderTheme: () => null,
 }
 
 const HeaderThemeContext = createContext(initialContext)
 
 export const HeaderThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [headerTheme, setThemeState] = useState<Theme | undefined | null>(
-    canUseDOM ? (document.documentElement.getAttribute('data-theme') as Theme) : undefined,
-  )
+  // Always use light theme
+  const [headerTheme] = useState<Theme>('light')
 
-  const setHeaderTheme = useCallback((themeToSet: Theme | null) => {
-    setThemeState(themeToSet)
+  const setHeaderTheme = useCallback((_themeToSet: Theme | null) => {
+    // Do nothing - we only support light theme
   }, [])
 
   return (

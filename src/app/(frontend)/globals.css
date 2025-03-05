@@ -69,14 +69,6 @@
     --primary-rgb: 216, 78, 116; /* Soft rose pink */
     --secondary-rgb: 140, 206, 217; /* Gentle aqua */
   }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --foreground-rgb: 255, 255, 255;
-      --background-start-rgb: 0, 0, 0;
-      --background-end-rgb: 0, 0, 0;
-    }
-  }
 }
 
 @layer base {
