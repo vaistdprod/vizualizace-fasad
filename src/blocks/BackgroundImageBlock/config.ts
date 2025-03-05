@@ -33,7 +33,7 @@ export const BackgroundImageBlock: Block = {
       max: 1,
       defaultValue: 0.15,
       admin: {
-        step: 0.05,
+        step: 0.01,
         description: 'Hodnota mezi 0 (neviditelný) a 1 (plně viditelný)',
       },
     },

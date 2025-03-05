@@ -76,7 +76,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="mr-4 flex items-center space-x-2 hover:opacity-80 transition-opacity"
+          className="mr-4 flex items-center space-x-2 hover:opacity-80 transition-opacity min-w-[48px] flex-shrink-0"
         >
           <Link href="/" className="flex items-center">
             <Image
@@ -85,6 +85,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               width={48}
               height={48}
               className="object-contain"
+              priority
             />
           </Link>
         </motion.div>

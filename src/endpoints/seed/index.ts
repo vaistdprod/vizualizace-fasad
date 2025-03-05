@@ -216,9 +216,9 @@ export const seed = async ({
       backgroundImageMraky: backgroundImageMrakyDoc,
       backgroundImagePuntiky: backgroundImagePuntikyDoc,
       backgroundImageMalovanky: backgroundImageMalovankyDoc,
-      mrakyOpacity: 0.1, // Slightly visible for top section
-      puntikyOpacity: 0.15, // Default for middle section
-      malovankyOpacity: 0.1, // More faded for bottom section
+      mrakyOpacity: 0.08, // Slightly visible for top section
+      puntikyOpacity: 0.24, // Default for middle section
+      malovankyOpacity: 0.08, // More faded for bottom section
     }),
   })
 

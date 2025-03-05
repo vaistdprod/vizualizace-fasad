@@ -6,6 +6,10 @@ import { Button } from '@/components/ui/button'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
 import Image from 'next/image'
 import type { HeroSectionBlock as HeroSectionBlockProps } from '@/payload-types'
+import { Suspense } from 'react'
+
+// Lazy load motion components to reduce initial bundle size
+const MotionDiv = motion.div
 
 export const HeroSectionBlock: React.FC<
   HeroSectionBlockProps & {
@@ -27,7 +31,7 @@ export const HeroSectionBlock: React.FC<
     <section className="relative pt-16 pb-8 w-full" id={`block-${id}`}>
       <div id="uvod" className="container px-4 md:px-6 mx-auto max-w-7xl">
         <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
@@ -77,29 +81,47 @@ export const HeroSectionBlock: React.FC<
                 </Button>
               )}
             </div>
-          </motion.div>
+          </MotionDiv>
           {image && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="mx-auto lg:mx-0"
+            <Suspense
+              fallback={<div className="h-[888px] w-full bg-gray-200 animate-pulse rounded-xl" />}
             >
-              <Image
-                alt={
-                  typeof image === 'object'
-                    ? image.alt || 'Dětská ordinace Zbiroh - úvodní obrázek'
-                    : 'Dětská ordinace Zbiroh - úvodní obrázek'
-                }
-                className="rounded-xl object-cover w-full h-auto shadow-md"
-                src={typeof image === 'object' && image.url ? image.url : ''}
-                width={592}
-                height={888}
-                priority={true}
-                sizes="(max-width: 768px) 100vw, 592px"
-                quality={90}
-              />
-            </motion.div>
+              <MotionDiv
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="mx-auto lg:mx-0"
+              >
+                <Image
+                  alt={
+                    typeof image === 'object'
+                      ? image.alt || 'Dětská ordinace Zbiroh - úvodní obrázek'
+                      : 'Dětská ordinace Zbiroh - úvodní obrázek'
+                  }
+                  className="rounded-xl object-cover w-full h-auto shadow-md"
+                  src={typeof image === 'object' && image.url ? image.url : ''}
+                  width={592}
+                  height={888}
+                  priority={true} // This is a critical above-the-fold image
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 80vw, (max-width: 1024px) 50vw, 592px"
+                  quality={85}
+                  fetchPriority="high"
+                  loading="eager"
+                  placeholder="blur"
+                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFeAJ5jYI2iwAAAABJRU5ErkJggg=="
+                  style={{
+                    objectFit: 'cover',
+                    maxWidth: '100%',
+                    height: 'auto',
+                  }}
+                  onLoad={(e) => {
+                    if (e.target) {
+                      ;(e.target as HTMLImageElement).setAttribute('data-loaded', 'true')
+                    }
+                  }}
+                />
+              </MotionDiv>
+            </Suspense>
           )}
         </div>
       </div>

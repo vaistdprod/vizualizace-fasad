@@ -938,6 +938,7 @@ export interface PricingSectionBlock {
   pricingItems?:
     | {
         title: string;
+        description: string;
         price: string;
         id?: string | null;
       }[]
@@ -1524,6 +1525,7 @@ export interface PricingSectionBlockSelect<T extends boolean = true> {
     | T
     | {
         title?: T;
+        description?: T;
         price?: T;
         id?: T;
       };

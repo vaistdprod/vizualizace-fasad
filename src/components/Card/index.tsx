@@ -2,7 +2,7 @@
 import { cn } from '@/utilities/ui'
 import useClickableCard from '@/utilities/useClickableCard'
 import Link from 'next/link'
-import React, { Fragment } from 'react'
+import React, { Fragment, memo } from 'react'
 
 import type { Aktuality } from '@/payload-types'
 
@@ -10,6 +10,7 @@ import { Media } from '@/components/Media'
 
 export type CardAktualityData = Pick<Aktuality, 'slug' | 'categories' | 'meta' | 'title'>
 
+// Memoize the Card component to prevent unnecessary re-renders
 export const Card: React.FC<{
   alignItems?: 'center'
   className?: string
@@ -17,7 +18,7 @@ export const Card: React.FC<{
   relationTo?: 'aktuality'
   showCategories?: boolean
   title?: string
-}> = (props) => {
+}> = memo((props) => {
   const { card, link } = useClickableCard({})
   const { className, doc, relationTo, showCategories, title: titleFromProps } = props
 
@@ -37,9 +38,16 @@ export const Card: React.FC<{
       )}
       ref={card.ref}
     >
-      <div className="relative w-full ">
+      <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
         {!metaImage && <div className="">Žádný obrázek</div>}
-        {metaImage && typeof metaImage !== 'string' && <Media resource={metaImage} size="33vw" />}
+        {metaImage && typeof metaImage !== 'string' && (
+          <Media
+            resource={metaImage}
+            size="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            loading="lazy"
+            fill={true}
+          />
+        )}
       </div>
       <div className="p-4">
         {showCategories && hasCategories && (
@@ -71,7 +79,12 @@ export const Card: React.FC<{
         {titleToUse && (
           <div className="prose">
             <h3>
-              <Link className="not-prose" href={href} ref={link.ref}>
+              <Link
+                className="not-prose"
+                href={href}
+                ref={link.ref}
+                prefetch={false} // Only prefetch on hover to reduce network requests
+              >
                 {titleToUse}
               </Link>
             </h3>
@@ -81,4 +94,7 @@ export const Card: React.FC<{
       </div>
     </article>
   )
-}
+})
+
+// Add display name for better debugging
+Card.displayName = 'Card'

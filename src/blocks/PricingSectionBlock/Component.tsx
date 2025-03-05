@@ -42,10 +42,10 @@ export const PricingSectionBlock: React.FC<
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="max-w-3xl mx-auto"
+          className="max-w-5xl mx-auto" // Increased max width for better spacing
         >
           <MagicCard
-            className="p-6 rounded-xl"
+            className="p-8 rounded-xl"
             gradientColor="hsl(var(--muted))"
             gradientFrom="hsl(var(--primary))"
             gradientTo="hsl(var(--secondary))"
@@ -59,10 +59,19 @@ export const PricingSectionBlock: React.FC<
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  className="py-4 first:pt-0 last:pb-0 flex justify-between items-center"
+                  className="py-6 first:pt-0 last:pb-0"
                 >
-                  <span className="font-medium">{item.title}</span>
-                  <span className="text-primary font-bold">{item.price}</span>
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                    <div className="flex-1">
+                      <h3 className="text-lg font-medium">{item.title}</h3>
+                      <p className="text-muted-foreground mt-1">{item.description}</p>
+                    </div>
+                    <div className="md:text-right mt-2 md:mt-0">
+                      <span className="text-primary font-bold text-lg bg-primary/5 px-4 py-2 rounded-full">
+                        {item.price}
+                      </span>
+                    </div>
+                  </div>
                 </motion.li>
               ))}
             </ul>
@@ -78,7 +87,7 @@ export const PricingSectionBlock: React.FC<
           <p className="text-muted-foreground">
             {contactPrompt || 'Máte dotazy k ceníku?'}{' '}
             <Link href="#kontakty" className="text-primary font-medium">
-              Kontaktujte nás
+              Kontaktujte nás.
             </Link>
           </p>
         </motion.div>

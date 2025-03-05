@@ -1,7 +1,7 @@
 import type { Block } from 'payload'
 
 export const PricingSectionBlock: Block = {
-  slug: 'pricingSection', // Update slug to match the naming convention
+  slug: 'pricingSection',
   interfaceName: 'PricingSectionBlock',
   labels: {
     singular: 'Ceník',
@@ -31,6 +31,12 @@ export const PricingSectionBlock: Block = {
           type: 'text',
           required: true,
           label: 'Název služby',
+        },
+        {
+          name: 'description',
+          type: 'text',
+          required: true,
+          label: 'Popis služby',
         },
         {
           name: 'price',

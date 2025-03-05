@@ -46,17 +46,21 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     src = `${getClientSideURL()}${url}?${cacheTag}`
   }
 
+  // Determine if this image is above the fold based on priority
+  // This helps with Core Web Vitals by prioritizing important images
   const loading = loadingFromProps || (!priority ? 'lazy' : undefined)
 
-  // NOTE: this is used by the browser to determine which image to download at different screen sizes
+  // Improved sizes attribute for responsive images
+  // This helps the browser select the right image size based on viewport
   const sizes = sizeFromProps
     ? sizeFromProps
     : Object.entries(breakpoints)
-        .map(([, value]) => `(max-width: ${value}px) ${value * 2}w`)
-        .join(', ')
+        .map(([, value]) => `(max-width: ${value}px) ${value}px`)
+        .join(', ') + ', 100vw'
 
   return (
     <picture>
+      {/* Modern image formats will be automatically used based on browser support */}
       <NextImage
         alt={alt || ''}
         className={cn(imgClassName)}
@@ -65,11 +69,24 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         placeholder="blur"
         blurDataURL={placeholderBlur}
         priority={priority}
-        quality={100}
+        quality={85} // Slightly reduced quality for better performance while maintaining visual quality
         loading={loading}
         sizes={sizes}
         src={src}
         width={!fill ? width : undefined}
+        fetchPriority={priority ? 'high' : 'auto'}
+        // Prevent layout shift
+        style={{
+          objectFit: 'cover',
+          ...(fill ? {} : { maxWidth: '100%', height: 'auto' }),
+        }}
+        // Improve Core Web Vitals
+        onLoad={(e) => {
+          // Mark the image as loaded to help with performance metrics
+          if (e.target) {
+            ;(e.target as HTMLImageElement).setAttribute('data-loaded', 'true')
+          }
+        }}
       />
     </picture>
   )
