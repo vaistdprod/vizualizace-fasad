@@ -1,4 +1,4 @@
-import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+import { s3Storage } from '@payloadcms/storage-s3'
 import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
 import { resendAdapter } from '@payloadcms/email-resend'
 import type { FormSubmission } from '@payloadcms/plugin-form-builder/types'
@@ -22,6 +22,18 @@ import { cs } from '@payloadcms/translations/languages/cs'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+
+// Ensure required env vars are defined
+const R2_BUCKET = process.env.R2_BUCKET ?? throwError('R2_BUCKET')
+const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID ?? throwError('R2_ACCESS_KEY_ID')
+const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY ?? throwError('R2_SECRET_ACCESS_KEY')
+const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID ?? throwError('R2_ACCOUNT_ID')
+
+function throwError(varName: string): never {
+  throw new Error(
+    `Environment variable ${varName} is missing. Please set it in your .env file or Vercel settings.`,
+  )
+}
 
 export default buildConfig({
   admin: {
@@ -65,9 +77,19 @@ export default buildConfig({
   globals: [Header, Footer],
   plugins: [
     ...plugins,
-    vercelBlobStorage({
-      collections: { media: true },
-      token: process.env.BLOB_READ_WRITE_TOKEN || '',
+    s3Storage({
+      collections: {
+        media: true,
+      },
+      bucket: R2_BUCKET, // Now typed as string
+      config: {
+        credentials: {
+          accessKeyId: R2_ACCESS_KEY_ID, // Now typed as string
+          secretAccessKey: R2_SECRET_ACCESS_KEY, // Now typed as string
+        },
+        endpoint: `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`, // Now typed as string
+        region: 'auto',
+      },
     }),
   ],
   secret: process.env.PAYLOAD_SECRET,
@@ -91,14 +113,12 @@ export default buildConfig({
       method: 'post',
       handler: async (req: PayloadRequest) => {
         try {
-          // Safely handle req.body
           if (!req.body) {
             throw new Error('Požadavek je prázdný.')
           }
           const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body
           const { form, submissionData } = body
 
-          // Call the handler
           const response = await handleFormSubmission({ form, submissionData }, req)
           return new Response(JSON.stringify(response), {
             status: 200,
@@ -119,7 +139,6 @@ export async function handleFormSubmission(submission: FormSubmission, req: Payl
   const { payload } = req
   const { submissionData } = submission
 
-  // Extract form data
   const emailField = submissionData.find((field) => field.field === 'email')
   const senderEmail = emailField?.value as string
   const nameField = submissionData.find((field) => field.field === 'name')
@@ -129,7 +148,6 @@ export async function handleFormSubmission(submission: FormSubmission, req: Payl
   const messageField = submissionData.find((field) => field.field === 'message')
   const message = messageField?.value as string
 
-  // Send email to admin
   await payload.sendEmail({
     to: process.env.DEFAULT_TO_ADDRESS || 'info@pediatr-zbiroh.cz',
     from: process.env.DEFAULT_FROM_ADDRESS || 'info@pediatr-zbiroh.cz',
@@ -143,7 +161,6 @@ export async function handleFormSubmission(submission: FormSubmission, req: Payl
     `,
   })
 
-  // Send confirmation email to submitter
   await payload.sendEmail({
     to: senderEmail,
     from: process.env.DEFAULT_FROM_ADDRESS || 'info@pediatr-zbiroh.cz',
