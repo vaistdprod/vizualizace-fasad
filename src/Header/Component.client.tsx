@@ -4,7 +4,6 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import Image from 'next/image'
@@ -16,7 +15,6 @@ interface HeaderClientProps {
 
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const pathname = usePathname()
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen)
 

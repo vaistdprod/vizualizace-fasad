@@ -46,17 +46,14 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     height = fullHeight!
     alt = altFromResource || ''
 
-    // Add cache busting parameter based on updatedAt timestamp
-    // This ensures fresh images when content is updated while allowing caching otherwise
-    const cacheTag = resource.updatedAt
-
-    // Optimize URL format to work with CDN caching
-    src = `${getClientSideURL()}${url}?v=${cacheTag}`
+    // Use the URL directly without cache-busting to leverage Next.js image optimization and caching
+    src = `${getClientSideURL()}${url}`
   }
 
-  // Determine if this image is above the fold based on priority
-  // This helps with Core Web Vitals by prioritizing important images
-  const loading = loadingFromProps || (!priority ? 'lazy' : undefined)
+  // Improved loading strategy:
+  // - Use 'eager' for priority images (above the fold)
+  // - Use 'lazy' for all other images to defer offscreen images
+  const loading = loadingFromProps || (priority ? 'eager' : 'lazy')
 
   // Improved sizes attribute for responsive images
   // This helps the browser select the right image size based on viewport
@@ -73,9 +70,11 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
       ? highQualityPlaceholderBlur
       : placeholderBlur
 
-  // Determine optimal quality setting based on image content and size
-  // Use higher quality for important images (priority), lower for others
-  const quality = priority ? 90 : 85
+  // Optimize quality based on image importance and size
+  // - Higher quality (85) for priority images
+  // - Lower quality (75) for non-priority images to reduce file size
+  // This helps balance quality and performance
+  const quality = priority ? 85 : 75
 
   return (
     <picture>
