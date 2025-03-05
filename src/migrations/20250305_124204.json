@@ -1,5 +1,5 @@
 {
-  "id": "1d3f0c07-e32f-469d-8aaf-5e42920f94d8",
+  "id": "08a77257-e2b5-440c-822c-a34c1401db35",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -2799,6 +2799,12 @@
         },
         "title": {
           "name": "title",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
@@ -6429,6 +6435,12 @@
         },
         "title": {
           "name": "title",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false

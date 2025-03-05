@@ -216,9 +216,9 @@ export const seed = async ({
       backgroundImageMraky: backgroundImageMrakyDoc,
       backgroundImagePuntiky: backgroundImagePuntikyDoc,
       backgroundImageMalovanky: backgroundImageMalovankyDoc,
-      mrakyOpacity: 0.08, // Slightly visible for top section
+      mrakyOpacity: 0.06, // Slightly visible for top section
       puntikyOpacity: 0.24, // Default for middle section
-      malovankyOpacity: 0.08, // More faded for bottom section
+      malovankyOpacity: 0.06, // More faded for bottom section
     }),
   })
 
@@ -280,10 +280,13 @@ export const seed = async ({
           {
             title: 'Kontakty',
             links: [
-              { label: 'Spojte se s námi', url: '#kontakty' },
-              { label: 'Pohotovost', url: 'tel:155' },
-              { label: 'Kde nás najdete', url: '#kontakty' },
-              { label: 'Objednání', url: '#objednani' },
+              {
+                label: 'Navigovat do ordinace',
+                url: 'https://maps.google.com/?q=Masarykovo%20n%C3%A1m%C4%9Bst%C3%AD%20275%2C%20338%2008%20Zbiroh',
+              },
+              { label: 'Napište nám e-mail', url: 'tel:+420 371 794 225' },
+              { label: 'Zavolejte nám', url: 'tel:+420 371 794 225' },
+              { label: 'Web obce Zbiroh', url: 'https://zbiroh.cz' },
             ],
           },
         ],

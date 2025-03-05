@@ -84,7 +84,7 @@ export const GallerySectionBlock: React.FC<
                       sizes="(max-width: 768px) 100vw, 1200px" // Responsive sizing
                       quality={85} // High quality for gallery images
                     />
-                    <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent">
+                    <div className="absolute inset-0 bg-linear-to-t from-stone-950/60 to-transparent">
                       <div className="absolute bottom-0 left-0 right-0 p-6">
                         <h3 className="text-white text-xl font-semibold">{image.title}</h3>
                       </div>

@@ -55,7 +55,7 @@ export const InsuranceSectionBlock: React.FC<
                   gradientTo="hsl(var(--secondary))"
                   gradientOpacity={0.5}
                 >
-                  <div className="relative w-40 h-40 justify-self-center mb-3">
+                  <div className="relative sm:w-40 sm:h-40 w-24 h-24 justify-self-center mb-3">
                     <Image
                       src={
                         typeof partner.logo === 'object' && partner.logo?.url

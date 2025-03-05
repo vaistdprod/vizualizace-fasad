@@ -45,7 +45,7 @@ export const PricingSectionBlock: React.FC<
           className="max-w-5xl mx-auto" // Increased max width for better spacing
         >
           <MagicCard
-            className="p-8 rounded-xl"
+            className="p-8 rounded-xl shadow-xs"
             gradientColor="hsl(var(--muted))"
             gradientFrom="hsl(var(--primary))"
             gradientTo="hsl(var(--secondary))"

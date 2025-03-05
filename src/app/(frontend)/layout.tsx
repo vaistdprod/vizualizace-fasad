@@ -87,11 +87,3 @@ export const metadata: Metadata = {
     google: 'verification-code', // Replace with actual verification code if available
   },
 }
-
-export const viewport = {
-  themeColor: '#ffffff',
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 5,
-  viewportFit: 'cover',
-}

@@ -62,7 +62,7 @@ export const TeamSectionBlock: React.FC<
                   loading={index < 3 ? 'eager' : 'lazy'}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-linear-to-t from-stone-950/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
               <div className="relative p-4 bg-card rounded-b-lg overflow-hidden">
                 <h3 className="text-xl font-semibold">{member.title}</h3>

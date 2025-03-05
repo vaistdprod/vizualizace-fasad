@@ -49,66 +49,70 @@ export const generateMedicalPracticeSchema = () => {
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',
-        dayOfWeek: 'Monday',
+        dayOfWeek: 'https://schema.org/Monday',
         opens: '08:00',
         closes: '13:00',
       },
       {
         '@type': 'OpeningHoursSpecification',
-        dayOfWeek: 'Tuesday',
+        dayOfWeek: 'https://schema.org/Tuesday',
         opens: '08:00',
         closes: '12:00', // Poradna pro zdravé
         description: 'Poradna pro zdravé pozvané děti',
       },
       {
         '@type': 'OpeningHoursSpecification',
-        dayOfWeek: 'Tuesday',
+        dayOfWeek: 'https://schema.org/Tuesday',
         opens: '13:00',
         closes: '16:00', // Pro nemocné
         description: 'Pro nemocné děti',
       },
       {
         '@type': 'OpeningHoursSpecification',
-        dayOfWeek: 'Wednesday',
+        dayOfWeek: 'https://schema.org/Wednesday',
         opens: '08:00',
         closes: '13:00',
       },
       {
         '@type': 'OpeningHoursSpecification',
-        dayOfWeek: 'Thursday',
+        dayOfWeek: 'https://schema.org/Thursday',
         opens: '08:00',
         closes: '11:00', // Poradna pro zdravé
         description: 'Poradna pro zdravé pozvané děti',
       },
       {
         '@type': 'OpeningHoursSpecification',
-        dayOfWeek: 'Thursday',
+        dayOfWeek: 'https://schema.org/Thursday',
         opens: '13:00',
         closes: '15:00', // Nemocné děti
         description: 'Pro nemocné děti',
       },
       {
         '@type': 'OpeningHoursSpecification',
-        dayOfWeek: 'Thursday',
+        dayOfWeek: 'https://schema.org/Thursday',
         opens: '15:00',
         closes: '18:00', // Poradna pro pozvané
         description: 'Poradna pro pozvané děti',
       },
       {
         '@type': 'OpeningHoursSpecification',
-        dayOfWeek: 'Friday',
+        dayOfWeek: 'https://schema.org/Friday',
         opens: '08:00',
         closes: '13:00',
       },
       {
         '@type': 'OpeningHoursSpecification',
-        dayOfWeek: ['Monday', 'Wednesday', 'Friday'],
+        dayOfWeek: [
+          'https://schema.org/Monday',
+          'https://schema.org/Wednesday',
+          'https://schema.org/Friday',
+        ],
         opens: '08:00',
         closes: '09:00', // Odběry krve
         description: 'Odběry krve',
       },
     ],
-    medicalSpecialty: 'Pediatrics',
+    medicalSpecialty: 'Pediatrie',
     availableService: [
       {
         '@type': 'MedicalProcedure',
@@ -159,7 +163,7 @@ export const generateMedicalPracticeSchema = () => {
     healthPlanNetworkId: ['VZP', 'ZPMV', 'OZP', 'RBP', 'ČPZP', 'VOZP'], // Exact match to your insurers
     availableLanguage: {
       '@type': 'Language',
-      name: 'Czech',
+      name: 'Čeština',
       alternateName: 'cs',
     },
   }

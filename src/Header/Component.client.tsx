@@ -71,16 +71,16 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
       {...(theme ? { 'data-theme': theme } : {})}
     >
-      <div className="container flex h-16 items-center px-4 md:px-6 mx-auto max-w-7xl">
+      <div className="container flex h-16 items-center justify-between px-4 md:px-6 mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="mr-4 flex items-center space-x-2 hover:opacity-80 transition-opacity min-w-[48px] flex-shrink-0"
+          className="flex items-center space-x-2 hover:opacity-80 transition-opacity min-w-[48px] flex-shrink-0"
         >
           <Link href="/" className="flex items-center">
             <Image
-              src={logo.url} // Now TypeScript knows it's a string
+              src={logo.url}
               alt="Logo Pediatr Zbiroh"
               width={48}
               height={48}
@@ -90,7 +90,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           </Link>
         </motion.div>
 
-        <nav className="flex flex-1 items-center justify-end space-x-6">
+        <nav className="items-center space-x-6 hidden lg:flex">
           {navItems.map((item, index) => (
             <motion.div
               key={item.link.url}
@@ -100,7 +100,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             >
               <Link
                 href={item.link.url || '#'}
-                className="text-sm font-medium transition-colors hover:text-primary whitespace-nowrap hidden lg:inline-block"
+                className="text-sm font-medium transition-colors hover:text-primary whitespace-nowrap"
               >
                 {item.link.label}
               </Link>
@@ -117,18 +117,23 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           </motion.div>
         </nav>
 
-        <motion.button
-          className="lg:hidden ml-4 cursor-pointer"
-          onClick={toggleMobileMenu}
-          whileTap={{ scale: 0.95 }}
-          aria-label="Přepnout menu"
-        >
-          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          <span className="sr-only">Přepnout menu</span>
-        </motion.button>
+        <div className="flex items-center lg:hidden">
+          <Button variant="rainbow" size="sm" className="mr-4">
+            <Link href={button.url || '#'}>{button.label}</Link>
+          </Button>
+          <motion.button
+            className="cursor-pointer"
+            onClick={toggleMobileMenu}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Přepnout menu"
+          >
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <span className="sr-only">Přepnout menu</span>
+          </motion.button>
+        </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile menu remains the same */}
       {isMobileMenuOpen && (
         <motion.div
           className="top-0 left-0 right-0 z-40 border-b shadow-lg lg:hidden mobile-menu relative before:absolute before:inset-0 before:-z-10"
@@ -143,7 +148,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.2 }}
         >
-          {/* Using the before: pseudo-element for backdrop filter to fix Chrome nested filter bug */}
           <div className="container px-4 py-4 mx-auto max-w-7xl">
             <nav className="flex flex-col space-y-4">
               {navItems.map((item, index) => (

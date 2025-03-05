@@ -86,7 +86,7 @@ export const AppointmentSectionBlock: React.FC<
 
           {imageSection && (
             <motion.div
-              className="lg:w-1/2 rounded-xl overflow-hidden"
+              className="lg:w-1/2 rounded-xl overflow-hidden shadow-md"
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
@@ -107,7 +107,7 @@ export const AppointmentSectionBlock: React.FC<
                   fill
                   className="object-cover rounded-xl"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent rounded-xl">
+                <div className="absolute inset-0 bg-gradient-to-t from-stone-950/50 to-transparent rounded-xl">
                   <div className="absolute bottom-0 left-0 p-6 text-white">
                     <h3 className="text-2xl font-semibold mb-2">{imageSection.title}</h3>
                     <p>{imageSection.description}</p>

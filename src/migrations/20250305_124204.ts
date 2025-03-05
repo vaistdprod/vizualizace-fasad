@@ -273,6 +273,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_parent_id" varchar NOT NULL,
   	"id" varchar PRIMARY KEY NOT NULL,
   	"title" varchar,
+  	"description" varchar,
   	"price" varchar
   );
   
@@ -587,6 +588,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_parent_id" integer NOT NULL,
   	"id" serial PRIMARY KEY NOT NULL,
   	"title" varchar,
+  	"description" varchar,
   	"price" varchar,
   	"_uuid" varchar
   );

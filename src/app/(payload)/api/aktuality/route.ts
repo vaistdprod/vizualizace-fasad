@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
       .map((id) => Number(id.trim())) || []
 
   if (!ids.length) {
-    return NextResponse.json({ error: 'No aktualita IDs provided' }, { status: 400 })
+    return NextResponse.json({ error: 'Nebyly poskytnuty žádné ID článků' }, { status: 400 })
   }
 
   try {
@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
     )
 
     if (!validAktuality.length) {
-      return NextResponse.json({ error: 'No valid aktuality found' }, { status: 404 })
+      return NextResponse.json({ error: 'Nebyly nalezeny žádné platné články' }, { status: 404 })
     }
 
     return NextResponse.json(validAktuality)
@@ -52,10 +52,10 @@ export async function GET(req: NextRequest) {
     } else if (typeof error === 'string') {
       errorMessage = error
     } else {
-      errorMessage = 'Unknown error occurred'
+      errorMessage = 'Došlo k neznámé chybě'
     }
     return NextResponse.json(
-      { error: 'Internal server error', details: errorMessage },
+      { error: 'Interní chyba serveru', details: errorMessage },
       { status: 500 },
     )
   }

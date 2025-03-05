@@ -81,7 +81,7 @@ export const ContactSectionBlock: React.FC<
             viewport={{ once: true }}
           >
             <MagicCard
-              className="p-6 rounded-xl"
+              className="p-6 rounded-xl shadow-xs"
               gradientColor="hsl(var(--muted))"
               gradientFrom="hsl(var(--primary))"
               gradientTo="hsl(var(--secondary))"
