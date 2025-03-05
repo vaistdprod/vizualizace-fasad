@@ -24,7 +24,7 @@ export const RelatedAktuality: React.FC<RelatedAktualityProps> = (props) => {
         {docs?.map((doc, index) => {
           if (typeof doc === 'string') return null
 
-          return <Card key={index} doc={doc} relationTo="aktuality" showCategories />
+          return <Card key={index} doc={doc} _relationTo="aktuality" showCategories />
         })}
       </div>
     </div>
