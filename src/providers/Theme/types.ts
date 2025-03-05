@@ -1,4 +1,4 @@
-export type Theme = 'light'
+export type Theme = 'dark' | 'light'
 
 export interface ThemeContextType {
   setTheme: (theme: Theme | null) => void
@@ -6,7 +6,5 @@ export interface ThemeContextType {
 }
 
 export function themeIsValid(string: null | string): string is Theme {
-  return string ? ['light'].includes(string) : false
+  return string ? ['dark', 'light'].includes(string) : false
 }
-
-export const themeLocalStorageKey = 'payload-theme'

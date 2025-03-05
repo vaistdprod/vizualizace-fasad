@@ -44,6 +44,7 @@ export const ThemeSelector: React.FC = () => {
       <SelectContent>
         <SelectItem value="auto">Automaticky</SelectItem>
         <SelectItem value="light">Světlé</SelectItem>
+        <SelectItem value="dark">Tmavé</SelectItem>
       </SelectContent>
     </Select>
   )
