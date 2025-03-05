@@ -40,7 +40,7 @@ export const ServicesSectionBlock: React.FC<
 
   return (
     <section className="py-16" id={`block-${id}`}>
-      <div className="container px-4 md:px-6 mx-auto max-w-7xl">
+      <div id="sluzby" className="container px-4 md:px-6 mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -75,7 +75,7 @@ export const ServicesSectionBlock: React.FC<
                 className="h-full"
               >
                 <MagicCard
-                  className="h-full p-6 flex flex-col"
+                  className="h-full p-6 flex flex-col shadow-xs"
                   gradientColor={gradientColor}
                   gradientFrom="hsl(var(--primary))"
                   gradientTo="hsl(var(--secondary))"
@@ -86,7 +86,7 @@ export const ServicesSectionBlock: React.FC<
                   </div>
                   <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
                   <p className="text-muted-foreground">
-                    {service.shortDescription || 'No description available'}
+                    {service.shortDescription || 'Popis není k dispozici'}
                   </p>
                 </MagicCard>
               </motion.div>

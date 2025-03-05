@@ -1,12 +1,11 @@
 import type { TextField } from '@payloadcms/plugin-form-builder/types'
 import type { FieldErrorsImpl, FieldValues, UseFormRegister } from 'react-hook-form'
-
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import React from 'react'
-
 import { Error } from '../Error'
 import { Width } from '../Width'
+
 export const Number: React.FC<
   TextField & {
     errors: Partial<FieldErrorsImpl>
@@ -17,7 +16,6 @@ export const Number: React.FC<
     <Width width={width}>
       <Label htmlFor={name}>
         {label}
-
         {required && (
           <span className="required">
             * <span className="sr-only">(povinné)</span>
@@ -27,8 +25,14 @@ export const Number: React.FC<
       <Input
         defaultValue={defaultValue}
         id={name}
-        type="number"
-        {...register(name, { required })}
+        type="tel" // Changed from "number" to "tel"
+        {...register(name, {
+          required: required ? `${label} je povinné` : false,
+          pattern: {
+            value: /^\+?\d{9,}$/, // Basic phone number validation (optional + and at least 9 digits)
+            message: `Zadejte platné telefonní číslo (např. +420123456789)`,
+          },
+        })}
       />
       {errors[name] && <Error />}
     </Width>

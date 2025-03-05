@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { Newspaper } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { BorderBeam } from '@/components/ui/border-beam'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
 import type { NewsSectionBlock as NewsSectionBlockProps, Aktuality, Media } from '@/payload-types'
 
@@ -18,7 +19,6 @@ export const NewsSectionBlock: React.FC<
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    console.log('Aktuality IDs:', aktualitaIds) // Debug: log aktualitaIds to confirm
     async function fetchAktuality() {
       if (!aktualitaIds || aktualitaIds.length === 0) {
         setAktuality([])
@@ -30,7 +30,6 @@ export const NewsSectionBlock: React.FC<
         .map((aktualita) => (typeof aktualita === 'number' ? aktualita : aktualita.id))
         .filter((id): id is number => typeof id === 'number')
         .join(',')
-      console.log('Extracted IDs:', ids) // Debug: log extracted IDs
 
       if (!ids) {
         setAktuality([])
@@ -39,17 +38,15 @@ export const NewsSectionBlock: React.FC<
 
       try {
         const response = await fetch(`/api/aktuality?ids=${ids}`)
-        console.log('API Response:', response) // Debug: log the response
         if (!response.ok)
           throw new Error(
-            `Failed to fetch aktuality aktuality: ${response.status} ${response.statusText}`,
+            `Nepodařilo se načíst aktuality: ${response.status} ${response.statusText}`,
           )
         const data = await response.json()
-        console.log('API Data:', data) // Debug: log the parsed data
         if (Array.isArray(data)) {
           setAktuality(data)
         } else {
-          throw new Error('Invalid response format: expected an array of aktuality')
+          throw new Error('Neplatný formát odpovědi: očekáván seznam aktualit')
         }
       } catch (err) {
         let errorMessage: string
@@ -58,9 +55,8 @@ export const NewsSectionBlock: React.FC<
         } else if (typeof err === 'string') {
           errorMessage = err
         } else {
-          errorMessage = 'Unknown error occurred'
+          errorMessage = 'Došlo k neznámé chybě'
         }
-        console.error('Fetch error:', err)
         setError(errorMessage)
         setAktuality([]) // Fallback to empty aktuality
       }
@@ -72,8 +68,8 @@ export const NewsSectionBlock: React.FC<
   if (error) {
     return (
       <section className="py-16" id={`block-${id}`}>
-        <div className="container px-4 md:px-6 mx-auto max-w-7xl">
-          <p className="text-center text-muted-foreground">Error loading news: {error}</p>
+        <div id="aktuality" className="container px-4 md:px-6 mx-auto max-w-7xl">
+          <p className="text-center text-muted-foreground">Chyba při načítání aktualit: {error}</p>
         </div>
       </section>
     )
@@ -81,7 +77,7 @@ export const NewsSectionBlock: React.FC<
 
   return (
     <section className="py-16" id={`block-${id}`}>
-      <div className="container px-4 md:px-6 mx-auto max-w-7xl">
+      <div id="aktuality" className="container px-4 md:px-6 mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -106,43 +102,55 @@ export const NewsSectionBlock: React.FC<
               href={`/aktuality/${aktualita.slug}`}
               key={aktualita.slug || `aktualita-${index}`}
             >
-              <motion.article
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="group bg-card rounded-xl overflow-hidden flex flex-col"
+                className="group bg-card relative rounded-xl overflow-hidden flex flex-col shadow-xs"
               >
-                <div className="w-full h-48 overflow-hidden">
-                  <Image
-                    src={
-                      (aktualita.heroImage as Media)?.url || '/media/news-placeholder.jpg' // Narrow to Media type
-                    }
-                    alt={
-                      (aktualita.heroImage as Media)?.alt || // Narrow to Media type
-                      aktualita.title ||
-                      'News image'
-                    }
-                    width={600}
-                    height={400}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Add sizes for performance
-                    priority={index === 0} // Add priority for LCP on first image
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    onError={(e) => console.error('Image load error:', e, aktualita.heroImage)}
-                  />
-                </div>
-                <div className="p-6 flex-1">
-                  <time className="text-sm text-primary font-medium">
-                    {aktualita.publishedAt && typeof aktualita.publishedAt === 'string'
-                      ? new Date(aktualita.publishedAt).toLocaleDateString('cs-CZ')
-                      : 'Datum není k dispozici'}
-                  </time>
-                  <h3 className="mt-2 text-xl font-semibold leading-tight">{aktualita.title}</h3>
-                  <p className="mt-3 text-muted-foreground">
-                    {aktualita.meta?.description || 'Žádný popis není k dispozici'}
-                  </p>
-                </div>
-              </motion.article>
+                <BorderBeam
+                  duration={30}
+                  size={600}
+                  className="from-transparent via-rose-200 to-transparent"
+                />
+                <BorderBeam
+                  duration={30}
+                  delay={15}
+                  size={600}
+                  className="from-transparent via-rose-200 to-transparent"
+                />
+                <article className="flex flex-col">
+                  <div className="w-full h-48 overflow-hidden">
+                    <Image
+                      src={(aktualita.heroImage as Media)?.url || '/media/news-placeholder.jpg'}
+                      alt={
+                        (aktualita.heroImage as Media)?.alt ||
+                        aktualita.title ||
+                        'Obrázek aktuality'
+                      }
+                      width={600}
+                      height={400}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      onError={(e) =>
+                        console.error('Chyba načítání obrázku:', e, aktualita.heroImage)
+                      }
+                    />
+                  </div>
+                  <div className="p-6 flex-1 bg-muted/50">
+                    <time className="text-sm text-primary font-medium">
+                      {aktualita.publishedAt && typeof aktualita.publishedAt === 'string'
+                        ? new Date(aktualita.publishedAt).toLocaleDateString('cs-CZ')
+                        : 'Datum není k dispozici'}
+                    </time>
+                    <h3 className="mt-2 text-xl font-semibold leading-tight">{aktualita.title}</h3>
+                    <p className="mt-3 text-muted-foreground">
+                      {aktualita.meta?.description || 'Žádný popis není k dispozici'}
+                    </p>
+                  </div>
+                </article>
+              </motion.div>
             </Link>
           ))}
         </div>

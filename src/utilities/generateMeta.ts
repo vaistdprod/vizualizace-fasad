@@ -8,7 +8,7 @@ import { getServerSideURL } from './getURL'
 const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
   const serverUrl = getServerSideURL()
 
-  let url = serverUrl + '/website-template-OG.webp'
+  let url = serverUrl + '/favicon.svg'
 
   if (image && typeof image === 'object' && 'url' in image) {
     const ogUrl = image.sizes?.og?.url
@@ -35,8 +35,9 @@ export const generateMeta = async (args: {
 
   const ogImage = getImageURL(doc?.meta?.image)
 
+  // Prioritize page title, then site title
   const title = doc?.meta?.title
-    ? doc?.meta?.title + ' | Dětská ordinace Zbiroh'
+    ? `${doc.meta.title} | Dětská ordinace Zbiroh`
     : 'Dětská ordinace Zbiroh'
 
   // Ensure description exists and has reasonable length
@@ -61,16 +62,26 @@ export const generateMeta = async (args: {
               alt: doc?.meta?.title || 'Dětská ordinace Zbiroh',
             },
           ]
-        : undefined,
+        : [
+            {
+              url: `${getServerSideURL()}/media/news-placeholder.jpg`,
+              width: 1200,
+              height: 630,
+              alt: 'Dětská ordinace Zbiroh',
+            },
+          ],
       title,
       url: pageUrl.replace(/\/$/, ''), // Remove trailing slash if present
       locale: 'cs_CZ',
       type: 'website',
     }),
     title,
-    // Add canonical URL to prevent duplicate content issues
+    // Add canonical URL and language alternates
     alternates: {
       canonical: pageUrl,
+      languages: {
+        'cs-CZ': pageUrl,
+      },
     },
     // Add additional metadata for better SEO
     authors: [{ name: 'Dětská ordinace Zbiroh' }],

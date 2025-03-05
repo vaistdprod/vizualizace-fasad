@@ -17,8 +17,8 @@ export const InsuranceSectionBlock: React.FC<
   const { id, heading, description, partners, contactPrompt } = props
 
   return (
-    <section className="py-16 bg-muted/50" id={`block-${id}`}>
-      <div className="container px-4 md:px-6 mx-auto max-w-7xl">
+    <section className="py-16" id={`block-${id}`}>
+      <div id="pojistovny" className="container px-4 md:px-6 mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -37,7 +37,7 @@ export const InsuranceSectionBlock: React.FC<
           </div>
           <p className="mt-4 text-muted-foreground md:text-lg">{description}</p>
         </motion.div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
           {partners?.map((partner, index) => (
             <motion.div
               key={index}
@@ -47,32 +47,34 @@ export const InsuranceSectionBlock: React.FC<
               viewport={{ once: true }}
               className="flex h-full"
             >
-              <MagicCard
-                className="h-full p-4 cursor-pointer flex flex-col items-center justify-center w-full"
-                gradientColor="hsl(var(--muted))"
-                gradientFrom="hsl(var(--primary))"
-                gradientTo="hsl(var(--secondary))"
-                gradientOpacity={0.5}
-              >
-                <div className="relative w-20 h-20 mb-3">
-                  <Image
-                    src={
-                      typeof partner.logo === 'object' && partner.logo?.url
-                        ? partner.logo.url
-                        : '/media/insurance-placeholder.jpg'
-                    }
-                    alt={
-                      typeof partner.logo === 'object' && partner.logo?.alt
-                        ? partner.logo.alt
-                        : 'Insurance partner logo'
-                    } // Use Media's alt field
-                    width={200}
-                    height={200}
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <p className="text-sm font-medium text-center">{partner.title}</p>
-              </MagicCard>
+              <Link href={partner.url} target="_blank" rel="noopener noreferrer" className="w-full">
+                <MagicCard
+                  className="h-full p-4 cursor-pointer flex flex-col items-center justify-center w-full shadow-xs"
+                  gradientColor="hsl(var(--muted))"
+                  gradientFrom="hsl(var(--primary))"
+                  gradientTo="hsl(var(--secondary))"
+                  gradientOpacity={0.5}
+                >
+                  <div className="relative w-40 h-40 justify-self-center mb-3">
+                    <Image
+                      src={
+                        typeof partner.logo === 'object' && partner.logo?.url
+                          ? partner.logo.url
+                          : ''
+                      }
+                      alt={
+                        typeof partner.logo === 'object' && partner.logo?.alt
+                          ? partner.logo.alt
+                          : 'Logo pojišťovny'
+                      }
+                      width={200}
+                      height={200}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <p className="text-sm font-medium text-center">{partner.title}</p>
+                </MagicCard>
+              </Link>
             </motion.div>
           ))}
         </div>
@@ -84,11 +86,11 @@ export const InsuranceSectionBlock: React.FC<
           className="text-center mt-12 text-muted-foreground"
         >
           <p>
-            {contactPrompt || 'Have questions about insurance?'}{' '}
+            {contactPrompt}{' '}
             <Link href="#kontakty" className="text-primary font-medium">
-              Contact us
+              Kontaktujte nás
             </Link>{' '}
-            for more information.
+            pro více informací.
           </p>
         </motion.div>
       </div>

@@ -11,12 +11,13 @@ import { HeroSection } from '../../blocks/HeroSectionBlock/config'
 import { ServicesSection } from '../../blocks/ServicesSectionBlock/config'
 import { TeamSection } from '../../blocks/TeamSectionBlock/config'
 import { GallerySection } from '../../blocks/GallerySectionBlock/config'
-import { FAQSection } from '../../blocks/FAQSectionBlock/config'
 import { InsuranceSection } from '@/blocks/InsuranceSectionBlock/config'
 import { HoursSection } from '@/blocks/HoursSectionBlock/config'
 import { AppointmentSection } from '@/blocks/AppointmentSectionBlock/config'
 import { NewsSection } from '@/blocks/NewsSectionBlock/config'
 import { ContactSection } from '@/blocks/ContactSectionBlock/config' // Added import
+import { BackgroundImageBlock } from '@/blocks/BackgroundImageBlock/config' // Already included
+import { PricingSectionBlock } from '@/blocks/PricingSectionBlock/config' // Updated to PricingSectionBlock
 import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
@@ -91,12 +92,13 @@ export const Pages: CollectionConfig<'pages'> = {
                 ServicesSection,
                 TeamSection,
                 GallerySection,
-                FAQSection,
                 InsuranceSection,
                 HoursSection,
                 AppointmentSection,
                 NewsSection,
                 ContactSection, // Added ContactSection
+                BackgroundImageBlock, // Already included
+                PricingSectionBlock, // Updated to PricingSectionBlock
               ],
               required: true,
               admin: {

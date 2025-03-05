@@ -16,8 +16,8 @@ export const HoursSectionBlock: React.FC<
     props
 
   return (
-    <section className="py-16 bg-muted/50" id={`block-${id}`}>
-      <div className="container px-4 md:px-6 mx-auto max-w-7xl">
+    <section className="py-16" id={`block-${id}`}>
+      <div id="ordinacni-hodiny" className="container px-4 md:px-6 mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -41,9 +41,9 @@ export const HoursSectionBlock: React.FC<
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="max-w-2xl mx-auto rounded-xl overflow-hidden bg-card"
+          className="max-w-2xl mx-auto rounded-xl bg-card"
         >
-          <div className="divide-y divide-border">
+          <div className="divide-y divide-border rounded-xl shadow-md">
             {hours?.map((schedule, index) => (
               <motion.div
                 key={index}

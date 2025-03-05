@@ -4,7 +4,7 @@ import React, { useCallback, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Camera } from 'lucide-react'
 import useEmblaCarousel from 'embla-carousel-react'
-import { RippleButton } from '@/components/ui/ripple-button'
+import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
 import type { GallerySectionBlock as GallerySectionBlockProps } from '@/payload-types'
@@ -36,7 +36,7 @@ export const GallerySectionBlock: React.FC<
 
   return (
     <section className="py-16" id={`block-${id}`}>
-      <div className="container px-4 md:px-6 mx-auto max-w-7xl">
+      <div id="galerie" className="container px-4 md:px-6 mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -56,7 +56,7 @@ export const GallerySectionBlock: React.FC<
           <p className="mt-4 text-muted-foreground md:text-lg">{description}</p>
         </motion.div>
         <div className="relative">
-          <div className="overflow-hidden rounded-xl" ref={emblaRef}>
+          <div className="overflow-hidden rounded-xl shadow-md" ref={emblaRef}>
             <div className="flex">
               {images?.map((image, index) => (
                 <motion.div
@@ -70,9 +70,7 @@ export const GallerySectionBlock: React.FC<
                   <div className="relative w-full aspect-video">
                     <Image
                       src={
-                        typeof image.image === 'object' && image.image?.url
-                          ? image.image.url
-                          : '/media/gallery-placeholder.jpg'
+                        typeof image.image === 'object' && image.image?.url ? image.image.url : ''
                       }
                       alt={
                         typeof image.image === 'object' && image.image?.alt
@@ -96,28 +94,32 @@ export const GallerySectionBlock: React.FC<
               ))}
             </div>
           </div>
-          <RippleButton
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-xs w-10 h-10 border border-primary/20 shadow-lg hover:bg-background/40 transition-colors"
+          <Button
+            variant="ripple"
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-xs w-10 h-10 border border-primary/20 shadow-md hover:bg-background/40 transition-colors"
             rippleColor="hsl(var(--primary) / 0.4)"
             onClick={scrollPrev}
-            aria-label="Předchozí fotografie"
+            aria-label="Předchozí"
           >
             ←
-          </RippleButton>
-          <RippleButton
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-xs w-10 h-10 border border-primary/20 shadow-lg hover:bg-background/40 transition-colors"
+          </Button>
+          <Button
+            variant="ripple"
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-xs w-10 h-10 border border-primary/20 shadow-md hover:bg-background/40 transition-colors"
             rippleColor="hsl(var(--primary) / 0.4)"
             onClick={scrollNext}
-            aria-label="Další fotografie"
+            aria-label="Další"
           >
             →
-          </RippleButton>
+          </Button>
           <div className="flex justify-center gap-2 mt-4">
             {images?.map((_, index) => (
               <button
                 key={index}
-                className={`w-2 h-2 rounded-full transition-colors ${index === selectedIndex ? 'bg-primary' : 'bg-primary/20'}`}
-                aria-label={`Přejít na fotografii ${index + 1}`}
+                className={`w-2 h-2 rounded-full transition-colors ${
+                  index === selectedIndex ? 'bg-primary' : 'bg-primary/20'
+                }`}
+                aria-label={`Přejít na ${index + 1}`}
                 onClick={() => emblaApi?.scrollTo(index)}
               />
             ))}

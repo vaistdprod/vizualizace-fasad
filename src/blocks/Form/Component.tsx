@@ -1,13 +1,12 @@
 'use client'
 import type { FormFieldBlock, Form as FormType } from '@payloadcms/plugin-form-builder/types'
-
 import { useRouter } from 'next/navigation'
 import React, { useCallback, useState } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import RichText from '@/components/RichText'
 import { Button } from '@/components/ui/button'
+import { MagicCard } from '@/components/ui/magic-card'
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
-
 import { fields } from './fields'
 import { getClientSideURL } from '@/utilities/getURL'
 
@@ -63,7 +62,6 @@ export const FormBlock: React.FC<
 
         try {
           const req = await fetch(`${getClientSideURL()}/api/custom-form-submissions`, {
-            // Changed to custom endpoint
             body: JSON.stringify({
               form: formID,
               submissionData: dataToSend,
@@ -81,7 +79,7 @@ export const FormBlock: React.FC<
           if (req.status >= 400) {
             setIsLoading(false)
             setError({
-              message: res.error?.message || 'Internal Server Error',
+              message: res.error?.message || 'Interní chyba serveru',
               status: res.status?.toString(),
             })
             return
@@ -94,13 +92,10 @@ export const FormBlock: React.FC<
             const { url } = redirect
             if (url) router.push(url)
           }
-
-          console.log('Form submitted successfully, emails triggered')
         } catch (err) {
-          console.warn('Error submitting form:', err)
           setIsLoading(false)
           setError({
-            message: 'Something went wrong. Please try again later.',
+            message: 'Něco se pokazilo. Zkuste to prosím později.',
           })
         }
       }
@@ -115,7 +110,13 @@ export const FormBlock: React.FC<
       {enableIntro && introContent && !hasSubmitted && (
         <RichText className="mb-8 lg:mb-12" data={introContent} enableGutter={false} />
       )}
-      <div className="p-4 lg:p-6 border border-border rounded-[0.8rem]">
+      <MagicCard
+        className="p-4 lg:p-6 bg-card rounded-[0.8rem] overflow-hidden shadow-xs"
+        gradientColor="hsl(var(--muted))"
+        gradientFrom="hsl(var(--primary))"
+        gradientTo="hsl(var(--secondary))"
+        gradientOpacity={0.5}
+      >
         <FormProvider {...formMethods}>
           {!isLoading && hasSubmitted && confirmationType === 'message' && (
             <RichText data={confirmationMessage} />
@@ -125,7 +126,7 @@ export const FormBlock: React.FC<
             <p className="text-sm text-destructive">{`${error.status || '500'}: ${error.message || ''}`}</p>
           )}
           {!hasSubmitted && (
-            <form id={formID} onSubmit={handleSubmit(onSubmit)}>
+            <form id={formID} onSubmit={handleSubmit(onSubmit)} className="w-full">
               <div className="space-y-4 mb-4 last:mb-0">
                 {formFromProps &&
                   formFromProps.fields &&
@@ -133,7 +134,7 @@ export const FormBlock: React.FC<
                     const Field: React.FC<any> = fields[field.blockType as keyof typeof fields]
                     if (Field) {
                       return (
-                        <div className="mb-6 last:mb-0" key={index}>
+                        <div className="mb-6 last:mb-0 w-full" key={index}>
                           <Field
                             form={formFromProps}
                             {...field}
@@ -148,13 +149,19 @@ export const FormBlock: React.FC<
                   })}
               </div>
 
-              <Button form={formID} type="submit" variant="default" disabled={isLoading}>
+              <Button
+                form={formID}
+                type="submit"
+                variant="default"
+                disabled={isLoading}
+                className="w-full"
+              >
                 {submitButtonLabel || 'Odeslat'}
               </Button>
             </form>
           )}
         </FormProvider>
-      </div>
+      </MagicCard>
     </div>
   )
 }

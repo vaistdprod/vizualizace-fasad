@@ -1,7 +1,7 @@
 import { RequiredDataFromCollectionSlug } from 'payload'
 
 export const contactForm: RequiredDataFromCollectionSlug<'forms'> = {
-  title: 'Contact Form',
+  title: 'Kontaktní formulář',
   submitButtonLabel: 'Odeslat zprávu',
   confirmationType: 'message',
   confirmationMessage: {

@@ -15,12 +15,13 @@ import { HeroSectionBlock } from '@/blocks/HeroSectionBlock/Component'
 import { ServicesSectionBlock } from '@/blocks/ServicesSectionBlock/Component'
 import { TeamSectionBlock } from '@/blocks/TeamSectionBlock/Component'
 import { GallerySectionBlock } from '@/blocks/GallerySectionBlock/Component'
-import { FAQSectionBlock } from '@/blocks/FAQSectionBlock/Component'
 import { InsuranceSectionBlock } from '@/blocks/InsuranceSectionBlock/Component'
 import { HoursSectionBlock } from '@/blocks/HoursSectionBlock/Component'
 import { AppointmentSectionBlock } from '@/blocks/AppointmentSectionBlock/Component'
 import { NewsSectionBlock } from '@/blocks/NewsSectionBlock/Component'
 import { ContactSectionBlock } from '@/blocks/ContactSectionBlock/Component' // Added import
+import { BackgroundImageBlock } from '@/blocks/BackgroundImageBlock/Component' // Already included
+import { PricingSectionBlock } from '@/blocks/PricingSectionBlock/Component' // Updated to PricingSectionBlock
 
 import type {
   BannerBlock as BannerBlockProps,
@@ -30,12 +31,13 @@ import type {
   ServicesSectionBlock as ServicesSectionBlockProps,
   TeamSectionBlock as TeamSectionBlockProps,
   GallerySectionBlock as GallerySectionBlockProps,
-  FAQSectionBlock as FAQSectionBlockProps,
   InsuranceSectionBlock as InsuranceSectionBlockProps,
   HoursSectionBlock as HoursSectionBlockProps,
   AppointmentSectionBlock as AppointmentSectionBlockProps,
   NewsSectionBlock as NewsSectionBlockProps,
   ContactSectionBlock as ContactSectionBlockProps, // Added type
+  BackgroundImageBlock as BackgroundImageBlockProps, // Already included
+  PricingSectionBlock as PricingSectionBlockProps, // Updated to PricingSectionBlock
 } from '@/payload-types'
 import { BannerBlock } from '@/blocks/Banner/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
@@ -51,12 +53,13 @@ type NodeTypes =
       | ServicesSectionBlockProps
       | TeamSectionBlockProps
       | GallerySectionBlockProps
-      | FAQSectionBlockProps
       | InsuranceSectionBlockProps
       | HoursSectionBlockProps
       | AppointmentSectionBlockProps
       | NewsSectionBlockProps
       | ContactSectionBlockProps // Added ContactSectionBlockProps
+      | BackgroundImageBlockProps // Already included
+      | PricingSectionBlockProps // Updated to PricingSectionBlock
     >
 
 const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
@@ -88,12 +91,13 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
     servicesSection: ({ node }) => <ServicesSectionBlock {...node.fields} />,
     teamSection: ({ node }) => <TeamSectionBlock {...node.fields} />,
     gallerySection: ({ node }) => <GallerySectionBlock {...node.fields} />,
-    faqSection: ({ node }) => <FAQSectionBlock {...node.fields} />,
     insuranceSection: ({ node }) => <InsuranceSectionBlock {...node.fields} />,
     hoursSection: ({ node }) => <HoursSectionBlock {...node.fields} />,
     appointmentSection: ({ node }) => <AppointmentSectionBlock {...node.fields} />,
     newsSection: ({ node }) => <NewsSectionBlock {...node.fields} />,
     contactSection: ({ node }) => <ContactSectionBlock {...node.fields} />, // Added ContactSectionBlock
+    backgroundImageBlock: ({ node }) => <BackgroundImageBlock {...node.fields} />, // Already included
+    pricingSection: ({ node }) => <PricingSectionBlock {...node.fields} />, // Updated to pricingSection
   },
 })
 

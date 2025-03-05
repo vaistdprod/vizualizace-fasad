@@ -40,13 +40,22 @@ export const InsuranceSection: Block = {
           label: 'Logo pojišťovny',
           maxDepth: 1, // Ensure full Media objects are populated
         },
+        {
+          name: 'url',
+          type: 'text',
+          required: true,
+          label: 'Web pojišťovny',
+          admin: {
+            description: 'Zadejte URL webové stránky pojišťovny (např. https://www.vzp.cz).',
+          },
+        },
       ],
     },
     {
       name: 'contactPrompt',
       type: 'text',
       label: 'Text pro kontakt',
-      defaultValue: 'Máte otázky ohledně pojištění?',
+      defaultValue: 'Nevidíte zde svou pojišťovnu? Napište nám pro více informací.',
     },
   ],
 }

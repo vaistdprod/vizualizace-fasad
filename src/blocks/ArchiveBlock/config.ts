@@ -24,7 +24,7 @@ export const Archive: Block = {
           ]
         },
       }),
-      label: 'Intro Content',
+      label: 'Úvodní obsah',
     },
     {
       name: 'populateBy',
@@ -32,11 +32,11 @@ export const Archive: Block = {
       defaultValue: 'collection',
       options: [
         {
-          label: 'Collection',
+          label: 'Kolekce',
           value: 'collection',
         },
         {
-          label: 'Individual Selection',
+          label: 'Individuální výběr',
           value: 'selection',
         },
       ],
@@ -48,7 +48,7 @@ export const Archive: Block = {
         condition: (_, siblingData) => siblingData.populateBy === 'collection',
       },
       defaultValue: 'aktuality',
-      label: 'Collections To Show',
+      label: 'Kolekce k zobrazení',
       options: [
         {
           label: 'Aktuality',
@@ -63,7 +63,7 @@ export const Archive: Block = {
         condition: (_, siblingData) => siblingData.populateBy === 'collection',
       },
       hasMany: true,
-      label: 'Categories To Show',
+      label: 'Kategorie k zobrazení',
       relationTo: 'categories',
     },
     {
@@ -83,12 +83,12 @@ export const Archive: Block = {
         condition: (_, siblingData) => siblingData.populateBy === 'selection',
       },
       hasMany: true,
-      label: 'Selection',
+      label: 'Výběr',
       relationTo: ['aktuality'],
     },
   ],
   labels: {
-    plural: 'Archives',
-    singular: 'Archive',
+    plural: 'Archivy',
+    singular: 'Archiv',
   },
 }

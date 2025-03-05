@@ -4,8 +4,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { Calendar, Clock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
-import { BorderBeam } from '@/components/ui/border-beam'
+import { MagicCard } from '@/components/ui/magic-card'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -28,7 +27,7 @@ export const AppointmentSectionBlock: React.FC<
 
   return (
     <section className="py-16" id={`block-${id}`}>
-      <div className="container px-4 md:px-6 mx-auto max-w-7xl">
+      <div id="objednani" className="container px-4 md:px-6 mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -57,9 +56,15 @@ export const AppointmentSectionBlock: React.FC<
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="relative" // Add relative positioning for ShineBorder
+                className="relative"
               >
-                <Card className="p-6 flex flex-col justify-between w-full bg-card border-border/40 border-1 relative rounded-lg overflow-hidden">
+                <MagicCard
+                  className="p-6 flex flex-col justify-between w-full bg-card rounded-xl overflow-hidden shadow-xs"
+                  gradientColor="hsl(var(--muted))"
+                  gradientFrom="hsl(var(--primary))"
+                  gradientTo="hsl(var(--secondary))"
+                  gradientOpacity={0.5}
+                >
                   <div>
                     <h3 className="text-xl font-semibold mb-2">{type.title}</h3>
                     <div className="flex items-center text-sm text-muted-foreground mb-3">
@@ -68,21 +73,13 @@ export const AppointmentSectionBlock: React.FC<
                     </div>
                     <p className="text-muted-foreground">{type.description}</p>
                   </div>
-                  <Button className="mt-4 w-full cursor-pointer">{type.buttonText}</Button>
-                  <BorderBeam
-                    duration={30}
-                    size={300}
-                    initialOffset={20}
-                    className="from-transparent via-rose-200 to-transparent"
-                  />
-                  <BorderBeam
-                    duration={30}
-                    delay={15}
-                    size={300}
-                    initialOffset={20}
-                    className="from-transparent via-rose-200 to-transparent"
-                  />
-                </Card>
+                  <Button
+                    className="mt-4 w-full cursor-pointer"
+                    onClick={() => (window.location.href = type.buttonLink || '#')}
+                  >
+                    {type.buttonText}
+                  </Button>
+                </MagicCard>
               </motion.div>
             ))}
           </div>
@@ -100,12 +97,12 @@ export const AppointmentSectionBlock: React.FC<
                   src={
                     typeof imageSection.image === 'object' && imageSection.image?.url
                       ? imageSection.image.url
-                      : '/media/appointment-placeholder.jpg'
+                      : ''
                   }
                   alt={
                     typeof imageSection.image === 'object' && imageSection.image?.alt
                       ? imageSection.image.alt
-                      : 'Appointment image'
+                      : 'Obrázek schůzky'
                   }
                   fill
                   className="object-cover rounded-xl"

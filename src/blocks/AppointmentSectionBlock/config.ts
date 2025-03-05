@@ -50,6 +50,12 @@ export const AppointmentSection: Block = {
           required: true,
           label: 'Text tlačítka',
         },
+        {
+          name: 'buttonLink',
+          type: 'text',
+          required: true,
+          label: 'Odkaz tlačítka',
+        }, // New field for the button link
       ],
     },
     {

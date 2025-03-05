@@ -16,19 +16,19 @@ const columnFields: Field[] = [
     defaultValue: 'oneThird',
     options: [
       {
-        label: 'One Third',
+        label: 'Třetina',
         value: 'oneThird',
       },
       {
-        label: 'Half',
+        label: 'Polovina',
         value: 'half',
       },
       {
-        label: 'Two Thirds',
+        label: 'Dvě třetiny',
         value: 'twoThirds',
       },
       {
-        label: 'Full',
+        label: 'Celá šířka',
         value: 'full',
       },
     ],
@@ -51,6 +51,7 @@ const columnFields: Field[] = [
   {
     name: 'enableLink',
     type: 'checkbox',
+    label: 'Povolit odkaz',
   },
   link({
     overrides: {

@@ -1,11 +1,11 @@
 import type { Block } from 'payload'
 
-export const FAQSection: Block = {
-  slug: 'faqSection',
-  interfaceName: 'FAQSectionBlock',
+export const PricingSectionBlock: Block = {
+  slug: 'pricingSection', // Update slug to match the naming convention
+  interfaceName: 'PricingSectionBlock',
   labels: {
-    singular: 'Sekce častých dotazů',
-    plural: 'Sekce častých dotazů',
+    singular: 'Ceník',
+    plural: 'Ceníky',
   },
   fields: [
     {
@@ -21,22 +21,22 @@ export const FAQSection: Block = {
       label: 'Popis',
     },
     {
-      name: 'faqs',
+      name: 'pricingItems',
       type: 'array',
-      label: 'Časté dotazy',
+      label: 'Položky ceníku',
       minRows: 1,
       fields: [
         {
-          name: 'question',
+          name: 'title',
           type: 'text',
           required: true,
-          label: 'Otázka',
+          label: 'Název služby',
         },
         {
-          name: 'answer',
-          type: 'textarea',
+          name: 'price',
+          type: 'text',
           required: true,
-          label: 'Odpověď',
+          label: 'Cena',
         },
       ],
     },
@@ -44,7 +44,7 @@ export const FAQSection: Block = {
       name: 'contactPrompt',
       type: 'text',
       label: 'Text pro kontakt',
-      defaultValue: 'Máte další otázky?',
+      defaultValue: 'Máte dotazy k ceníku? Kontaktujte nás.',
     },
   ],
 }

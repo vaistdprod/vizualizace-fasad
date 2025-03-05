@@ -2,23 +2,49 @@
 
 .dashboard .before-dashboard {
   margin-bottom: base(1.5);
+  background-color: var(--color-base-50);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  border: 1px solid var(--color-base-150);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: 'Quicksand', var(--font-quicksand), sans-serif;
 
   &__banner {
+    background-color: var(--color-secondary-100);
+    border-color: var(--color-secondary-300);
+    color: var(--color-secondary-900);
+    margin-bottom: 1rem;
+    border-radius: 0.375rem;
+    
     & h4 {
       margin: 0;
+      color: var(--color-secondary-900);
+      font-weight: 600;
+      font-size: 1.125rem;
     }
   }
 
   &__instructions {
     list-style: decimal;
     margin-bottom: base(0.5);
+    padding-left: 1.5rem;
 
     & li {
       width: 100%;
+      margin-bottom: 0.75rem;
+      color: var(--color-base-650);
     }
+  }
+
+  & a {
+    color: var(--color-primary-500);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
   }
 
   & a:hover {
     opacity: 0.85;
+    text-decoration: underline;
   }
 }

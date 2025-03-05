@@ -1,21 +1,25 @@
+// src/endpoints/seed/index.ts
 import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from 'payload'
-
 import { contactForm } from './contact-form'
 import { home } from './home'
 import { aktualita1 } from './aktualita-1'
 import { aktualita2 } from './aktualita-2'
 import { aktualita3 } from './aktualita-3'
-import { heroImage } from './hero-image.ts'
-import { teamImage } from './team-image.ts'
-import { galleryImage1 } from './gallery-image-1.ts'
-import { galleryImage2 } from './gallery-image-2.ts'
-import { galleryImage3 } from './gallery-image-3.ts'
-import { insuranceVZP } from './insurance-vzp.ts'
-import { insuranceZPMV } from './insurance-zpmv.ts'
-import { insuranceOZP } from './insurance-ozp.ts'
-import { insuranceRBP } from './insurance-rbp.ts'
-import { insuranceCPZP } from './insurance-cpzp.ts'
-import { insuranceVOZP } from './insurance-vozp.ts'
+import { heroImage } from './hero-image'
+import { teamImage } from './team-image'
+import { galleryImage1 } from './gallery-image-1'
+import { galleryImage2 } from './gallery-image-2'
+import { galleryImage3 } from './gallery-image-3'
+import { insuranceVZP } from './insurance-vzp'
+import { insuranceZPMV } from './insurance-zpmv'
+import { insuranceOZP } from './insurance-ozp'
+import { insuranceRBP } from './insurance-rbp'
+import { insuranceCPZP } from './insurance-cpzp'
+import { insuranceVOZP } from './insurance-vozp'
+import { logo } from './logo'
+import { mraky } from './mraky'
+import { malovanky } from './malovanky'
+import { puntiky } from './puntiky'
 import type { Header, Footer } from '@/payload-types'
 import { fileURLToPath } from 'url'
 
@@ -28,6 +32,7 @@ const collections: CollectionSlug[] = [
   'form-submissions',
   'users',
 ]
+
 const globals: GlobalSlug[] = ['header', 'footer']
 
 export const seed = async ({
@@ -39,23 +44,24 @@ export const seed = async ({
 }): Promise<void> => {
   payload.logger.info('Seeding database...')
 
-  // Clear collections and globals
-  payload.logger.info(`— Clearing collections and globals...`)
+  // First clear globals to avoid foreign key constraint issues
+  payload.logger.info('— Clearing globals...')
   await Promise.all(
-    globals.map((global) =>
-      payload.updateGlobal({
-        slug: global,
-        data:
-          global === 'header'
-            ? ({ button: { type: 'custom' as const, label: 'temp' } } as Partial<Header>)
-            : global === 'footer'
-              ? ({ copyrightText: 'temp' } as Partial<Footer>)
-              : {},
-        depth: 0,
-        context: { disableRevalidate: true },
-      }),
-    ),
+    globals.map(async (global) => {
+      try {
+        if (global === 'header') {
+          await payload.db.drizzle.delete(payload.db.tables.header).execute()
+        } else if (global === 'footer') {
+          await payload.db.drizzle.delete(payload.db.tables.footer).execute()
+        }
+      } catch (err) {
+        payload.logger.error(`Error clearing global ${global}: ${err}`)
+      }
+    }),
   )
+
+  // Then clear collections
+  payload.logger.info('— Clearing collections...')
   await Promise.all(
     collections.map((collection) => payload.db.deleteMany({ collection, req, where: {} })),
   )
@@ -66,7 +72,7 @@ export const seed = async ({
   )
 
   // Seed demo author
-  payload.logger.info(`— Seeding demo author...`)
+  payload.logger.info('— Seeding demo author...')
   await payload.delete({
     collection: 'users',
     depth: 0,
@@ -81,81 +87,94 @@ export const seed = async ({
     },
   })
 
-  // Seed media with explicit file pairing, including SVG support
-  payload.logger.info(`— Seeding media...`)
+  // Seed media
+  payload.logger.info('— Seeding media...')
+  const logoDoc = await payload.create({
+    collection: 'media',
+    data: logo,
+    file: await fetchFileByPath('./logo.svg'),
+  })
+  payload.logger.info(`LogoDoc: ${JSON.stringify(logoDoc)}`)
   const heroImageDoc = await payload.create({
     collection: 'media',
     data: heroImage,
-    file: await fetchFileByPath('./ruka.jpg'), // In src/seed/
+    file: await fetchFileByPath('./ruka.jpg'),
   })
-
   const teamImageDoc = await payload.create({
     collection: 'media',
     data: teamImage,
-    file: await fetchFileByPath('./lucie-stastna.jpg'), // In src/seed/
+    file: await fetchFileByPath('./lucie-stastna.jpg'),
   })
-
   const galleryImage1Doc = await payload.create({
     collection: 'media',
     data: galleryImage1,
-    file: await fetchFileByPath('./ordinace.jpg'), // In src/seed/
+    file: await fetchFileByPath('./ordinace.jpg'),
   })
-
   const galleryImage2Doc = await payload.create({
     collection: 'media',
     data: galleryImage2,
-    file: await fetchFileByPath('./hracky.jpg'), // In src/seed/
+    file: await fetchFileByPath('./hracky.jpg'),
   })
-
   const galleryImage3Doc = await payload.create({
     collection: 'media',
     data: galleryImage3,
-    file: await fetchFileByPath('./trava.jpg'), // In src/seed/
+    file: await fetchFileByPath('./trava.jpg'),
   })
-
   const vzpImageDoc = await payload.create({
     collection: 'media',
     data: insuranceVZP,
-    file: await fetchFileByPath('./vzp.svg'), // SVG in src/seed/
+    file: await fetchFileByPath('./vzp.svg'),
   })
-
   const zpmvImageDoc = await payload.create({
     collection: 'media',
     data: insuranceZPMV,
-    file: await fetchFileByPath('./zpmv.svg'), // SVG in src/seed/
+    file: await fetchFileByPath('./zpmv.svg'),
   })
-
   const ozpImageDoc = await payload.create({
     collection: 'media',
     data: insuranceOZP,
-    file: await fetchFileByPath('./ozp.svg'), // SVG in src/seed/
+    file: await fetchFileByPath('./ozp.svg'),
   })
-
   const rbpImageDoc = await payload.create({
     collection: 'media',
     data: insuranceRBP,
-    file: await fetchFileByPath('./rbp.svg'), // SVG in src/seed/
+    file: await fetchFileByPath('./rbp.svg'),
   })
-
   const cpzpImageDoc = await payload.create({
     collection: 'media',
     data: insuranceCPZP,
-    file: await fetchFileByPath('./cpzp.svg'), // SVG in src/seed/
+    file: await fetchFileByPath('./cpzp.svg'),
   })
-
   const vozpImageDoc = await payload.create({
     collection: 'media',
     data: insuranceVOZP,
-    file: await fetchFileByPath('./vozp.png'), // PNG in src/seed/
+    file: await fetchFileByPath('./vozp.png'),
+  })
+  const backgroundImageMrakyDoc = await payload.create({
+    collection: 'media',
+    data: mraky,
+    file: await fetchFileByPath('./mraky.svg'),
+  })
+  const backgroundImagePuntikyDoc = await payload.create({
+    collection: 'media',
+    data: puntiky,
+    file: await fetchFileByPath('./puntiky.svg'),
+  })
+  const backgroundImageMalovankyDoc = await payload.create({
+    collection: 'media',
+    data: malovanky,
+    file: await fetchFileByPath('./malovanky.svg'),
   })
 
-  payload.logger.info(`— Seeding contact form...`)
+  // Seed contact form
+  payload.logger.info('— Seeding contact form...')
   const contactFormDoc = await payload.create({
     collection: 'forms',
     data: contactForm,
   })
 
-  payload.logger.info(`— Seeding aktuality...`)
+  // Seed aktuality
+  payload.logger.info('— Seeding aktuality...')
   const aktualita1Doc = await payload.create({
     collection: 'aktuality',
     depth: 3,
@@ -175,7 +194,8 @@ export const seed = async ({
     data: aktualita3({ heroImage: galleryImage3Doc, author: demoAuthor }),
   })
 
-  payload.logger.info(`— Seeding home page...`)
+  // Seed home page
+  payload.logger.info('— Seeding home page...')
   await payload.create({
     collection: 'pages',
     depth: 3,
@@ -193,10 +213,17 @@ export const seed = async ({
       vozpImage: vozpImageDoc,
       contactForm: contactFormDoc,
       aktuality: [aktualita1Doc, aktualita2Doc, aktualita3Doc],
+      backgroundImageMraky: backgroundImageMrakyDoc,
+      backgroundImagePuntiky: backgroundImagePuntikyDoc,
+      backgroundImageMalovanky: backgroundImageMalovankyDoc,
+      mrakyOpacity: 0.1, // Slightly visible for top section
+      puntikyOpacity: 0.15, // Default for middle section
+      malovankyOpacity: 0.1, // More faded for bottom section
     }),
   })
 
-  payload.logger.info(`— Seeding globals...`)
+  // Seed globals
+  payload.logger.info('— Seeding globals...')
   const navigation = [
     { label: 'Aktuality', url: '#aktuality' },
     { label: 'Služby', url: '#sluzby' },
@@ -205,18 +232,23 @@ export const seed = async ({
     { label: 'Galerie', url: '#galerie' },
     { label: 'Ordinační hodiny', url: '#ordinacni-hodiny' },
     { label: 'Pojišťovny', url: '#pojistovny' },
-    { label: 'Dotazy', url: '#dotazy' },
+    { label: 'Ceník', url: '#cenik' },
     { label: 'Kontakty', url: '#kontakty' },
   ]
+  const headerData = {
+    logo: logoDoc.id,
+    navItems: navigation.map((item) => ({
+      link: { type: 'custom' as const, label: item.label, url: item.url },
+    })),
+    button: { type: 'custom' as const, label: 'Objednat se', url: '#objednani' },
+  }
+  payload.logger.info(`Header data before update: ${JSON.stringify(headerData)}`)
   await Promise.all([
     payload.updateGlobal({
       slug: 'header',
-      data: {
-        navItems: navigation.map((item) => ({
-          link: { type: 'custom' as const, label: item.label, url: item.url },
-        })),
-        button: { type: 'custom' as const, label: 'Objednat se', url: '#objednani' },
-      } as Header, // Explicitly type as Header
+      data: headerData as Header,
+      depth: 0,
+      context: { disableRevalidate: true },
     }),
     payload.updateGlobal({
       slug: 'footer',
@@ -242,7 +274,7 @@ export const seed = async ({
               { label: 'Galerie', url: '#galerie' },
               { label: 'Ordinační hodiny', url: '#ordinacni-hodiny' },
               { label: 'Pojišťovny', url: '#pojistovny' },
-              { label: 'Dotazy', url: '#dotazy' },
+              { label: 'Ceník', url: '#cenik' },
             ],
           },
           {
@@ -257,6 +289,8 @@ export const seed = async ({
         ],
         copyrightText: '© 2025 Dětská ambulance Zbiroh s.r.o. by TD Productions.',
       },
+      depth: 0,
+      context: { disableRevalidate: true },
     }),
   ])
 
@@ -266,10 +300,9 @@ export const seed = async ({
 async function fetchFileByPath(filePath: string): Promise<File> {
   const { readFile } = await import('fs/promises')
   const path = await import('path')
-  // Get the directory of the current file (src/endpoints/seed/)
   const __filename = fileURLToPath(import.meta.url)
   const __dirname = path.dirname(__filename)
-  const fullPath = path.resolve(__dirname, filePath) // Still resolves from src/endpoints/seed/
+  const fullPath = path.resolve(__dirname, filePath)
   const data = await readFile(fullPath)
   let mimeType: string
   if (filePath.endsWith('.svg')) {
@@ -277,7 +310,7 @@ async function fetchFileByPath(filePath: string): Promise<File> {
   } else if (filePath.endsWith('.png')) {
     mimeType = 'image/png'
   } else {
-    mimeType = 'image/jpeg' // Default for .jpg
+    mimeType = 'image/jpeg'
   }
   return {
     name: path.basename(filePath),

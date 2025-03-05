@@ -28,6 +28,10 @@ export default buildConfig({
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
       beforeDashboard: ['@/components/BeforeDashboard'],
+      graphics: {
+        Logo: '@/components/Logo/AdminLogo',
+        Icon: '@/components/Logo/AdminLogo',
+      },
     },
     importMap: {
       baseDir: path.resolve(dirname),
@@ -101,7 +105,6 @@ export default buildConfig({
             headers: { 'Content-Type': 'application/json' },
           })
         } catch (error) {
-          console.error('Error handling form submission:', error)
           return new Response(JSON.stringify({ error: 'Chyba na serveru.' }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' },

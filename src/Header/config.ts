@@ -10,6 +10,13 @@ export const Header: GlobalConfig = {
   },
   fields: [
     {
+      name: 'logo',
+      type: 'upload',
+      relationTo: 'media', // Assumes you have a 'media' collection for images
+      label: 'Logo',
+      required: true,
+    },
+    {
       name: 'navItems',
       type: 'array',
       label: 'Položky navigace',

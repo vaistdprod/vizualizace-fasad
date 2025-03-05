@@ -157,12 +157,13 @@ export interface Page {
     | ServicesSectionBlock
     | TeamSectionBlock
     | GallerySectionBlock
-    | FAQSectionBlock
     | InsuranceSectionBlock
     | HoursSectionBlock
     | AppointmentSectionBlock
     | NewsSectionBlock
     | ContactSectionBlock
+    | BackgroundImageBlock
+    | PricingSectionBlock
   )[];
   meta?: {
     title?: string | null;
@@ -216,7 +217,7 @@ export interface CallToActionBlock {
           url?: string | null;
           label: string;
           /**
-           * Choose how the link should be rendered.
+           * Vyberte, jak má být odkaz zobrazen.
            */
           appearance?: ('default' | 'outline') | null;
         };
@@ -447,7 +448,7 @@ export interface ContentBlock {
           url?: string | null;
           label: string;
           /**
-           * Choose how the link should be rendered.
+           * Vyberte, jak má být odkaz zobrazen.
            */
           appearance?: ('default' | 'outline') | null;
         };
@@ -788,25 +789,6 @@ export interface GallerySectionBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FAQSectionBlock".
- */
-export interface FAQSectionBlock {
-  heading: string;
-  description: string;
-  faqs?:
-    | {
-        question: string;
-        answer: string;
-        id?: string | null;
-      }[]
-    | null;
-  contactPrompt?: string | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'faqSection';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "InsuranceSectionBlock".
  */
 export interface InsuranceSectionBlock {
@@ -816,6 +798,10 @@ export interface InsuranceSectionBlock {
     | {
         title: string;
         logo: number | Media;
+        /**
+         * Zadejte URL webové stránky pojišťovny (např. https://www.vzp.cz).
+         */
+        url: string;
         id?: string | null;
       }[]
     | null;
@@ -861,6 +847,7 @@ export interface AppointmentSectionBlock {
         duration: string;
         description: string;
         buttonText: string;
+        buttonLink: string;
         id?: string | null;
       }[]
     | null;
@@ -915,12 +902,59 @@ export interface ContactSectionBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BackgroundImageBlock".
+ */
+export interface BackgroundImageBlock {
+  image: number | Media;
+  /**
+   * Hodnota mezi 0 (neviditelný) a 1 (plně viditelný)
+   */
+  opacity?: number | null;
+  blocks?:
+    | (
+        | HeroSectionBlock
+        | ServicesSectionBlock
+        | TeamSectionBlock
+        | GallerySectionBlock
+        | HoursSectionBlock
+        | InsuranceSectionBlock
+        | NewsSectionBlock
+        | AppointmentSectionBlock
+        | ContactSectionBlock
+        | PricingSectionBlock
+      )[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'backgroundImageBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PricingSectionBlock".
+ */
+export interface PricingSectionBlock {
+  heading: string;
+  description: string;
+  pricingItems?:
+    | {
+        title: string;
+        price: string;
+        id?: string | null;
+      }[]
+    | null;
+  contactPrompt?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'pricingSection';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
   id: number;
   /**
-   * You will need to rebuild the website when changing this field.
+   * Při změně tohoto pole budete muset znovu sestavit webové stránky.
    */
   from: string;
   to?: {
@@ -1185,12 +1219,13 @@ export interface PagesSelect<T extends boolean = true> {
         servicesSection?: T | ServicesSectionBlockSelect<T>;
         teamSection?: T | TeamSectionBlockSelect<T>;
         gallerySection?: T | GallerySectionBlockSelect<T>;
-        faqSection?: T | FAQSectionBlockSelect<T>;
         insuranceSection?: T | InsuranceSectionBlockSelect<T>;
         hoursSection?: T | HoursSectionBlockSelect<T>;
         appointmentSection?: T | AppointmentSectionBlockSelect<T>;
         newsSection?: T | NewsSectionBlockSelect<T>;
         contactSection?: T | ContactSectionBlockSelect<T>;
+        backgroundImageBlock?: T | BackgroundImageBlockSelect<T>;
+        pricingSection?: T | PricingSectionBlockSelect<T>;
       };
   meta?:
     | T
@@ -1361,24 +1396,6 @@ export interface GallerySectionBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FAQSectionBlock_select".
- */
-export interface FAQSectionBlockSelect<T extends boolean = true> {
-  heading?: T;
-  description?: T;
-  faqs?:
-    | T
-    | {
-        question?: T;
-        answer?: T;
-        id?: T;
-      };
-  contactPrompt?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "InsuranceSectionBlock_select".
  */
 export interface InsuranceSectionBlockSelect<T extends boolean = true> {
@@ -1389,6 +1406,7 @@ export interface InsuranceSectionBlockSelect<T extends boolean = true> {
     | {
         title?: T;
         logo?: T;
+        url?: T;
         id?: T;
       };
   contactPrompt?: T;
@@ -1429,6 +1447,7 @@ export interface AppointmentSectionBlockSelect<T extends boolean = true> {
         duration?: T;
         description?: T;
         buttonText?: T;
+        buttonLink?: T;
         id?: T;
       };
   imageSection?:
@@ -1467,6 +1486,48 @@ export interface ContactSectionBlockSelect<T extends boolean = true> {
   email?: T;
   mapEmbedUrl?: T;
   navigationButtonText?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BackgroundImageBlock_select".
+ */
+export interface BackgroundImageBlockSelect<T extends boolean = true> {
+  image?: T;
+  opacity?: T;
+  blocks?:
+    | T
+    | {
+        heroSection?: T | HeroSectionBlockSelect<T>;
+        servicesSection?: T | ServicesSectionBlockSelect<T>;
+        teamSection?: T | TeamSectionBlockSelect<T>;
+        gallerySection?: T | GallerySectionBlockSelect<T>;
+        hoursSection?: T | HoursSectionBlockSelect<T>;
+        insuranceSection?: T | InsuranceSectionBlockSelect<T>;
+        newsSection?: T | NewsSectionBlockSelect<T>;
+        appointmentSection?: T | AppointmentSectionBlockSelect<T>;
+        contactSection?: T | ContactSectionBlockSelect<T>;
+        pricingSection?: T | PricingSectionBlockSelect<T>;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PricingSectionBlock_select".
+ */
+export interface PricingSectionBlockSelect<T extends boolean = true> {
+  heading?: T;
+  description?: T;
+  pricingItems?:
+    | T
+    | {
+        title?: T;
+        price?: T;
+        id?: T;
+      };
+  contactPrompt?: T;
   id?: T;
   blockName?: T;
 }
@@ -1889,6 +1950,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Header {
   id: number;
+  logo: number | Media;
   navItems?:
     | {
         link: {
@@ -1954,6 +2016,7 @@ export interface Footer {
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
+  logo?: T;
   navItems?:
     | T
     | {
