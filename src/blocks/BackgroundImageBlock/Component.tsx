@@ -11,8 +11,8 @@ export const BackgroundImageBlock: React.FC<
 > = (props) => {
   const { id, image, children } = props
   // Access opacity with a fallback to 0.15 if not provided
-  // Using this approach to avoid TypeScript errors until types are regenerated
-  const opacity = (props as any).opacity ?? 0.15
+  // Using a more specific type instead of any
+  const opacity = (props as { opacity?: number }).opacity ?? 0.15
 
   const backgroundImageUrl =
     typeof image === 'object' && 'url' in image && image.url

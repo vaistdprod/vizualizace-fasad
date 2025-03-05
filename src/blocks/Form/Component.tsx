@@ -30,8 +30,9 @@ export const FormBlock: React.FC<
     introContent,
   } = props
 
+  // Using unknown as an intermediate step to avoid type errors
   const formMethods = useForm({
-    defaultValues: formFromProps.fields as any,
+    defaultValues: formFromProps.fields as unknown as Record<string, unknown>,
   })
   const {
     control,
@@ -46,7 +47,7 @@ export const FormBlock: React.FC<
   const router = useRouter()
 
   const onSubmit = useCallback(
-    (data: FormFieldBlock[]) => {
+    (data: Record<string, unknown>) => {
       let loadingTimerID: ReturnType<typeof setTimeout>
       const submitForm = async () => {
         setError(undefined)
@@ -92,7 +93,7 @@ export const FormBlock: React.FC<
             const { url } = redirect
             if (url) router.push(url)
           }
-        } catch (err) {
+        } catch (_err) {
           setIsLoading(false)
           setError({
             message: 'Něco se pokazilo. Zkuste to prosím později.',
@@ -131,6 +132,7 @@ export const FormBlock: React.FC<
                 {formFromProps &&
                   formFromProps.fields &&
                   formFromProps.fields.map((field: FormFieldBlock, index) => {
+                    // Using any here is acceptable since we're dealing with a complex component type
                     const Field: React.FC<any> = fields[field.blockType as keyof typeof fields]
                     if (Field) {
                       return (

@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
             depth: 3, // Ensure full Aktuality object with heroImage.url and publishedAt
           })
           return aktualita as Aktuality
-        } catch (error) {
+        } catch (_error) {
           return null
         }
       }),
