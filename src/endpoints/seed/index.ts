@@ -284,7 +284,7 @@ export const seed = async ({
                 label: 'Navigovat do ordinace',
                 url: 'https://maps.google.com/?q=Masarykovo%20n%C3%A1m%C4%9Bst%C3%AD%20275%2C%20338%2008%20Zbiroh',
               },
-              { label: 'Napište nám e-mail', url: 'tel:+420 371 794 225' },
+              { label: 'Napište nám e-mail', url: 'mailto:info@pediatr-zbiroh.cz' },
               { label: 'Zavolejte nám', url: 'tel:+420 371 794 225' },
               { label: 'Web obce Zbiroh', url: 'https://zbiroh.cz' },
             ],

@@ -86,44 +86,6 @@
   --font-mono: monospace;
 }
 
-/* Dark mode overrides */
-html[data-theme='dark'] {
-  --color-base-0: hsl(340, 60%, 5%);
-  --color-base-50: hsl(340, 60%, 7%);
-  --color-base-100: hsl(340, 60%, 10%);
-  --color-base-150: hsl(340, 60%, 13%);
-  --color-base-200: hsl(340, 60%, 16%);
-  --color-base-250: hsl(340, 60%, 20%);
-  --color-base-300: hsl(340, 60%, 25%);
-  --color-base-350: hsl(340, 60%, 30%);
-  --color-base-400: hsl(340, 60%, 35%);
-  --color-base-450: hsl(340, 60%, 40%);
-  --color-base-500: hsl(340, 40%, 45%);
-  --color-base-550: hsl(340, 40%, 50%);
-  --color-base-600: hsl(340, 40%, 60%);
-  --color-base-650: hsl(340, 40%, 70%);
-  --color-base-700: hsl(340, 40%, 80%);
-  --color-base-750: hsl(340, 40%, 85%);
-  --color-base-800: hsl(340, 40%, 90%);
-  --color-base-850: hsl(340, 40%, 95%);
-  --color-base-900: hsl(340, 40%, 97%);
-  --color-base-950: hsl(340, 40%, 99%);
-  --color-base-1000: hsl(0, 0%, 100%);
-
-  /* Elevation colors for dark mode */
-  --color-elevation-0: var(--color-base-0);
-  --color-elevation-50: var(--color-base-50);
-  --color-elevation-100: var(--color-base-100);
-  --color-elevation-150: var(--color-base-150);
-  --color-elevation-200: var(--color-base-200);
-  --color-elevation-250: var(--color-base-250);
-  --color-elevation-300: var(--color-base-300);
-  --color-elevation-350: var(--color-base-350);
-  --color-elevation-400: var(--color-base-400);
-  --color-elevation-450: var(--color-base-450);
-  --color-elevation-500: var(--color-base-500);
-}
-
 /* Apply custom styling to the admin interface */
 
 /* Global styles */
