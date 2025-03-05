@@ -48,12 +48,6 @@ export const BackgroundImageBlock: React.FC<
               opacity,
               willChange: 'transform',
             }}
-            onLoad={(e) => {
-              if (e.target) {
-                const img = e.target as HTMLImageElement
-                img.setAttribute('data-loaded', 'true')
-              }
-            }}
           />
         </div>
       )}
