@@ -7,7 +7,7 @@ const SITE_URL =
 module.exports = {
   siteUrl: SITE_URL,
   generateRobotsTxt: true,
-  exclude: ['/aktuality-sitemap.xml', '/pages-sitemap.xml', '/*', '/aktuality/*'],
+  exclude: ['/aktuality-sitemap.xml', '/pages-sitemap.xml', '/admin/*', '/api/*', '/_next/*'],
   changefreq: 'weekly',
   priority: 0.7,
   sitemapSize: 5000,

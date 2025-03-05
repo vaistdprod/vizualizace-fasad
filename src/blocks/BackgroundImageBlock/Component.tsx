@@ -31,7 +31,7 @@ export const BackgroundImageBlock: React.FC<
             alt="Obrázek na pozadí"
             fill
             sizes="100vw"
-            priority
+            loading="lazy"
             quality={85}
             style={{
               objectFit: 'cover',

@@ -135,6 +135,7 @@ export const ContactSectionBlock: React.FC<
                   }
                   allowFullScreen
                   loading="lazy"
+                  title="Mapa s umístěním ordinace"
                   className="w-full h-full border-0"
                 />
               </div>

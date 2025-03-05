@@ -42,9 +42,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         {/* Preload critical assets */}
         <link rel="preconnect" href={getServerSideURL()} />
         <link rel="dns-prefetch" href={getServerSideURL()} />
-
-        {/* Add preload hints for critical CSS */}
-        <link rel="preload" href="/_next/static/css/app.css" as="style" />
       </head>
       <body className="antialiased">
         <Providers>
