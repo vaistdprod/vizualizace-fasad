@@ -121,7 +121,7 @@ export const NewsSectionBlock: React.FC<
                   className="from-transparent via-rose-200 to-transparent"
                 />
                 <article className="flex flex-col">
-                  <div className="w-full h-48 overflow-hidden">
+                  <div className="w-full aspect-[3/2] relative">
                     <Image
                       src={(aktualita.heroImage as Media)?.url || '/media/news-placeholder.jpg'}
                       alt={
@@ -129,10 +129,10 @@ export const NewsSectionBlock: React.FC<
                         aktualita.title ||
                         'Obrázek aktuality'
                       }
-                      width={600}
-                      height={400}
+                      fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      priority={index < 3} // Prioritize loading first 3 images
                       onError={(e) =>
                         console.error('Chyba načítání obrázku:', e, aktualita.heroImage)
                       }
