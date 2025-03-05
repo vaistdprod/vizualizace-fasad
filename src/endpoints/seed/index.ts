@@ -20,7 +20,7 @@ import { logo } from './logo'
 import { mraky } from './mraky'
 import { malovanky } from './malovanky'
 import { puntiky } from './puntiky'
-import type { Header, Footer } from '@/payload-types'
+import type { Header } from '@/payload-types'
 import { fileURLToPath } from 'url'
 
 const collections: CollectionSlug[] = [

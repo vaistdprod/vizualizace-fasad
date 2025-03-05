@@ -124,7 +124,7 @@ export default buildConfig({
             status: 200,
             headers: { 'Content-Type': 'application/json' },
           })
-        } catch (error) {
+        } catch (_error) {
           return new Response(JSON.stringify({ error: 'Chyba na serveru.' }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' },

@@ -15,12 +15,12 @@ export const Card: React.FC<{
   alignItems?: 'center'
   className?: string
   doc?: CardAktualityData
-  relationTo?: 'aktuality'
+  _relationTo?: 'aktuality' // Renamed to avoid unused variable warning
   showCategories?: boolean
   title?: string
 }> = memo((props) => {
   const { card, link } = useClickableCard({})
-  const { className, doc, relationTo, showCategories, title: titleFromProps } = props
+  const { className, doc, _relationTo, showCategories, title: titleFromProps } = props
 
   const { slug, categories, meta, title } = doc || {}
   const { description, image: metaImage } = meta || {}

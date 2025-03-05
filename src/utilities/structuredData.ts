@@ -1,7 +1,14 @@
 /**
  * Utility for generating structured data (JSON-LD) for the medical practice
  */
-export const generateArticleSchema = (article: any) => {
+import type { Aktuality } from '@/payload-types'
+
+// Define a type for the article schema with required properties
+export const generateArticleSchema = (
+  article: Pick<Aktuality, 'title' | 'publishedAt' | 'updatedAt' | 'authors'> & {
+    authors?: Array<{ name?: string | null } | number> | null
+  },
+) => {
   return {
     '@context': 'https://schema.org',
     '@type': 'MedicalWebPage',
@@ -10,7 +17,12 @@ export const generateArticleSchema = (article: any) => {
     dateModified: article.updatedAt,
     author: {
       '@type': 'Person',
-      name: article.author?.name || 'MUDr. Šťastná',
+      name:
+        Array.isArray(article.authors) &&
+        article.authors.length > 0 &&
+        typeof article.authors[0] === 'object'
+          ? article.authors[0]?.name || 'MUDr. Šťastná'
+          : 'MUDr. Šťastná',
     },
     publisher: {
       '@type': 'Organization',

@@ -20,6 +20,7 @@ import { BackgroundImageBlock } from '@/blocks/BackgroundImageBlock/Component'
 import { PricingSectionBlock } from '@/blocks/PricingSectionBlock/Component'
 
 // Define a generic component type that accepts specific block props plus optional extras
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type BlockComponent<T = any> = React.FC<
   T & { children?: React.ReactNode; disableInnerContainer?: boolean }
 >

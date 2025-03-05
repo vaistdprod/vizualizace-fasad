@@ -4,8 +4,12 @@ import { generateMedicalPracticeSchema, generateArticleSchema } from '@/utilitie
 import Script from 'next/script'
 import { usePathname } from 'next/navigation'
 
+import type { Aktuality } from '@/payload-types'
+
 interface StructuredDataProps {
-  article?: any
+  article?: Pick<Aktuality, 'title' | 'publishedAt' | 'updatedAt' | 'authors'> & {
+    authors?: Array<{ name?: string | null } | number> | null
+  }
 }
 
 export const StructuredData: React.FC<StructuredDataProps> = ({ article }) => {

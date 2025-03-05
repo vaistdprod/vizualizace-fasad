@@ -34,8 +34,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html className={cn('font-sans', quicksand.variable)} lang="cs" suppressHydrationWarning>
       <head>
         <InitTheme />
-        <link href="/favicon.ico" rel="icon" sizes="32x32" />
+        <link href="/favicon.png" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+        <link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />
+        <link href="/favicon-192x192.png" rel="icon" sizes="192x192" />
 
         {/* Preload critical assets */}
         <link rel="preconnect" href={getServerSideURL()} />
