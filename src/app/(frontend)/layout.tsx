@@ -9,7 +9,6 @@ import { StructuredData } from '@/components/StructuredData'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
-import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
 
@@ -31,9 +30,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const { isEnabled } = await draftMode()
 
   return (
-    <html className={cn('font-sans', quicksand.variable)} lang="cs" suppressHydrationWarning>
+    <html
+      className={cn('font-sans', quicksand.variable)}
+      lang="cs"
+      data-theme="light"
+      suppressHydrationWarning
+    >
       <head>
-        <InitTheme />
         <link href="/favicon.png" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
         <link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />

@@ -1,14 +1,8 @@
 'use client'
-import { useHeaderTheme } from '@/providers/HeaderTheme'
-import React, { useEffect } from 'react'
+import React from 'react'
 
 const PageClient: React.FC = () => {
-  /* Set the header theme for this page */
-  const { setHeaderTheme } = useHeaderTheme()
-
-  useEffect(() => {
-    setHeaderTheme('light')
-  }, [setHeaderTheme])
+  // No theme handling needed anymore - only light theme is used
   return <React.Fragment />
 }
 
