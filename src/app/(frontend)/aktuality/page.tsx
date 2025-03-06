@@ -13,10 +13,11 @@ export const revalidate = 86400
 
 type PageProps = {
   params: Promise<{ slug?: string }>
-  searchParams: { page?: string }
+  searchParams: Promise<{ page?: string }>
 }
 
-export default async function Page({ searchParams }: PageProps) {
+export default async function Page({ searchParams: searchParamsPromise }: PageProps) {
+  const searchParams = await searchParamsPromise
   const payload = await getPayload({ config: configPromise })
 
   // If page parameter is provided, redirect to the paginated URL
