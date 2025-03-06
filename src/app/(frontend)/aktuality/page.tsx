@@ -12,7 +12,7 @@ export const dynamic = 'force-static'
 export const revalidate = 86400
 
 type PageProps = {
-  params: { slug?: string }
+  params: Promise<{ slug?: string }>
   searchParams: { page?: string }
 }
 
