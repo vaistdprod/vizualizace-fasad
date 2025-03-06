@@ -57,11 +57,11 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
 
   // Improved sizes attribute for responsive images
   // This helps the browser select the right image size based on viewport
-  const sizes = sizeFromProps
-    ? sizeFromProps
-    : Object.entries(breakpoints)
-        .map(([, value]) => `(max-width: ${value}px) ${value}px`)
-        .join(', ') + ', 100vw'
+  const sizes =
+    sizeFromProps ||
+    Object.entries(breakpoints)
+      .map(([, value]) => `(max-width: ${value}px) ${value}px`)
+      .join(', ') + ', 100vw'
 
   // Choose appropriate blur placeholder based on image size
   // Smaller placeholder for small images, higher quality for larger ones

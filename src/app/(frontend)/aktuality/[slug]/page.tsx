@@ -7,9 +7,6 @@ import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 import RichText from '@/components/RichText'
-
-import type { Aktuality } from '@/payload-types'
-
 import { AktualityHero } from '@/heros/AktualityHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
@@ -36,8 +33,8 @@ export async function generateStaticParams() {
 }
 
 type Args = {
-  params: Promise<{
-    slug?: string
+  readonly params: Promise<{
+    readonly slug?: string
   }>
 }
 

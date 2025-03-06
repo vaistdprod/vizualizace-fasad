@@ -26,7 +26,7 @@ const quicksand = Quicksand({
   adjustFontFallback: true, // Automatically adjust the size of the fallback font
 })
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { readonly children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
 
   return (

@@ -14,12 +14,13 @@ export const BackgroundImageBlock: React.FC<
   // Using a more specific type instead of any
   const opacity = (props as { opacity?: number }).opacity ?? 0.15
 
-  const backgroundImageUrl =
-    typeof image === 'object' && 'url' in image && image.url
-      ? image.url
-      : typeof image === 'string'
-        ? image // If image is an ID, this won't work directly—Payload resolves it server-side
-        : ''
+  // Extract the nested ternary into a more readable form
+  let backgroundImageUrl = ''
+  if (typeof image === 'object' && 'url' in image && image.url) {
+    backgroundImageUrl = image.url
+  } else if (typeof image === 'string') {
+    backgroundImageUrl = image // If image is an ID, this won't work directly—Payload resolves it server-side
+  }
 
   return (
     <section className="relative w-full overflow-hidden" id={`block-${id}`}>

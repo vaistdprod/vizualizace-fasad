@@ -42,14 +42,12 @@ export const ArchiveBlock: React.FC<
     })
 
     aktuality = fetchedAktuality.docs
-  } else {
-    if (selectedDocs?.length) {
-      const filteredSelectedAktuality = selectedDocs.map((aktualita) => {
-        if (typeof aktualita.value === 'object') return aktualita.value
-      }) as Aktuality[]
+  } else if (selectedDocs?.length) {
+    const filteredSelectedAktuality = selectedDocs.map((aktualita) => {
+      if (typeof aktualita.value === 'object') return aktualita.value
+    }) as Aktuality[]
 
-      aktuality = filteredSelectedAktuality
-    }
+    aktuality = filteredSelectedAktuality
   }
 
   return (

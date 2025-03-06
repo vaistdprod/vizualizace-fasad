@@ -9,7 +9,7 @@ import PageClient from './page.client'
 import { CardAktualityData } from '@/components/Card'
 
 type Args = {
-  searchParams: Promise<{
+  readonly searchParams: Promise<{
     q: string
   }>
 }
