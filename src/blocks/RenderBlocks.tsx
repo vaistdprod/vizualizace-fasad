@@ -17,6 +17,7 @@ import { ContactSectionBlock } from '@/blocks/ContactSectionBlock/Component'
 import { BackgroundImageBlock } from '@/blocks/BackgroundImageBlock/Component'
 import { PricingSectionBlock } from '@/blocks/PricingSectionBlock/Component'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type BlockComponent<T = any> = React.FC<
   T & { children?: React.ReactNode; disableInnerContainer?: boolean }
 >
@@ -66,6 +67,7 @@ export const RenderBlocks: React.FC<{
                 } = block as {
                   blockType: 'backgroundImageBlock'
                   blocks?: Page['layout'][0][]
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   image: any
                   id?: string
                   blockName?: string

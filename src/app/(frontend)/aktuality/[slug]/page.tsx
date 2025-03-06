@@ -28,8 +28,8 @@ export async function generateStaticParams() {
     },
   })
 
-  const params = aktuality.docs.map(({ slug }) => {
-    return { slug }
+  const params = aktuality.docs.map(({ slug: docSlug }) => {
+    return { slug: docSlug }
   })
 
   return params

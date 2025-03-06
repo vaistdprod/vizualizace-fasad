@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import type { Aktuality } from '@/payload-types'
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
