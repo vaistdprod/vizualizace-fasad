@@ -1,6 +1,6 @@
-'use client' // Keep for Framer Motion animations
-
-import React, { useEffect, useState } from 'react'
+'use client'
+import React from 'react'
+import useSWR from 'swr'
 import { motion } from 'framer-motion'
 import { Newspaper } from 'lucide-react'
 import Image from 'next/image'
@@ -9,67 +9,32 @@ import { BorderBeam } from '@/components/ui/border-beam'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
 import type { NewsSectionBlock as NewsSectionBlockProps, Aktuality, Media } from '@/payload-types'
 
-export const NewsSectionBlock: React.FC<
-  NewsSectionBlockProps & {
-    id?: string
-  }
-> = (props) => {
+const fetcher = (url: string) => fetch(url).then((res) => res.json())
+
+export const NewsSectionBlock: React.FC<NewsSectionBlockProps & { id?: string }> = (props) => {
   const { id, heading, description, aktuality: aktualitaIds } = props
-  const [aktuality, setAktuality] = useState<Aktuality[]>([])
-  const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    async function fetchAktuality() {
-      if (!aktualitaIds || aktualitaIds.length === 0) {
-        setAktuality([])
-        return
-      }
+  const ids = aktualitaIds
+    ?.map((aktualita) => (typeof aktualita === 'number' ? aktualita : aktualita.id))
+    .filter((id): id is number => typeof id === 'number')
+    .join(',')
 
-      // Extract IDs from Aktuality objects or use numbers directly
-      const ids = aktualitaIds
-        .map((aktualita) => (typeof aktualita === 'number' ? aktualita : aktualita.id))
-        .filter((id): id is number => typeof id === 'number')
-        .join(',')
-
-      if (!ids) {
-        setAktuality([])
-        return
-      }
-
-      try {
-        const response = await fetch(`/api/aktuality?ids=${ids}`)
-        if (!response.ok)
-          throw new Error(
-            `Nepodařilo se načíst aktuality: ${response.status} ${response.statusText}`,
-          )
-        const data = await response.json()
-        if (Array.isArray(data)) {
-          setAktuality(data)
-        } else {
-          throw new Error('Neplatný formát odpovědi: očekáván seznam aktualit')
-        }
-      } catch (err) {
-        let errorMessage: string
-        if (err instanceof Error) {
-          errorMessage = err.message
-        } else if (typeof err === 'string') {
-          errorMessage = err
-        } else {
-          errorMessage = 'Došlo k neznámé chybě'
-        }
-        setError(errorMessage)
-        setAktuality([]) // Fallback to empty aktuality
-      }
-    }
-
-    fetchAktuality()
-  }, [aktualitaIds])
+  const { data: aktuality, error } = useSWR(ids ? `/api/aktuality?ids=${ids}` : null, fetcher, {
+    dedupingInterval: 43200000, // Cache for 12 hours (43,200 seconds)
+    revalidateOnFocus: false, // No refetch on window focus
+    revalidateOnReconnect: false, // No refetch on network reconnect
+    refreshInterval: 0, // No automatic polling
+    keepPreviousData: true, // Keep old data during rare refetches
+    fallbackData: [], // Initial empty array for layout stability
+  })
 
   if (error) {
     return (
       <section className="py-16" id={`block-${id}`}>
         <div id="aktuality" className="container px-4 md:px-6 mx-auto max-w-7xl">
-          <p className="text-center text-muted-foreground">Chyba při načítání aktualit: {error}</p>
+          <p className="text-center text-muted-foreground">
+            Chyba při načítání aktualit: {error.message}
+          </p>
         </div>
       </section>
     )
@@ -96,8 +61,8 @@ export const NewsSectionBlock: React.FC<
           </div>
           <p className="mt-4 text-muted-foreground md:text-lg">{description}</p>
         </motion.div>
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {aktuality.map((aktualita, index) => (
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 min-h-[400px]">
+          {aktuality.map((aktualita: Aktuality, index: number) => (
             <Link
               href={`/aktuality/${aktualita.slug}`}
               key={aktualita.slug || `aktualita-${index}`}
@@ -132,7 +97,7 @@ export const NewsSectionBlock: React.FC<
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
-                      priority={index < 3} // Prioritize loading first 3 images
+                      priority={index < 3}
                       onError={(e) =>
                         console.error('Chyba načítání obrázku:', e, aktualita.heroImage)
                       }

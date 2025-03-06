@@ -9,7 +9,8 @@ export async function GET(req: NextRequest) {
     searchParams
       .get('ids')
       ?.split(',')
-      .map((id) => Number(id.trim())) || []
+      .map((id) => Number(id.trim()))
+      .filter((id) => !isNaN(id)) || []
 
   if (!ids.length) {
     return NextResponse.json({ error: 'Nebyly poskytnuty žádné ID článků' }, { status: 400 })
@@ -17,34 +18,29 @@ export async function GET(req: NextRequest) {
 
   try {
     const payload = await getPayload({ config: configPromise })
-    const fullAktuality = await Promise.all(
-      ids.map(async (aktualitaId) => {
-        if (isNaN(aktualitaId)) {
-          return null
-        }
-        try {
-          const aktualita = await payload.findByID({
-            collection: 'aktuality',
-            id: aktualitaId.toString(),
-            depth: 3, // Ensure full Aktuality object with heroImage.url and publishedAt
-          })
-          return aktualita as Aktuality
-        } catch (_error) {
-          return null
-        }
-      }),
-    )
 
-    // Filter out null or undefined aktuality and log for debugging
-    const validAktuality = fullAktuality.filter(
-      (aktualita): aktualita is Aktuality => aktualita !== null && aktualita !== undefined,
-    )
+    const aktualityResult = await payload.find({
+      collection: 'aktuality',
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+      depth: 3,
+    })
+
+    const validAktuality = aktualityResult.docs
 
     if (!validAktuality.length) {
       return NextResponse.json({ error: 'Nebyly nalezeny žádné platné články' }, { status: 404 })
     }
 
-    return NextResponse.json(validAktuality)
+    const response = NextResponse.json(validAktuality)
+    response.headers.set(
+      'Cache-Control',
+      'public, s-maxage=43200, stale-while-revalidate=43200', // 12 hours cache, 12 hours stale-while-revalidate
+    )
+    return response
   } catch (error) {
     let errorMessage: string
     if (error instanceof Error) {
