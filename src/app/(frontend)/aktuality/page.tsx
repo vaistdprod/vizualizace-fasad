@@ -1,4 +1,4 @@
-import type { Metadata } from 'next/types'
+import type { Metadata } from 'next'
 import { PageRange } from '@/components/PageRange'
 import { Pagination } from '@/components/Pagination'
 import configPromise from '@payload-config'
@@ -11,7 +11,12 @@ import type { Aktuality } from '@/payload-types'
 export const dynamic = 'force-static'
 export const revalidate = 86400
 
-export default async function Page({ searchParams }: { searchParams: { page?: string } }) {
+type PageProps = {
+  params: { slug?: string }
+  searchParams: { page?: string }
+}
+
+export default async function Page({ searchParams }: PageProps) {
   const payload = await getPayload({ config: configPromise })
 
   // If page parameter is provided, redirect to the paginated URL

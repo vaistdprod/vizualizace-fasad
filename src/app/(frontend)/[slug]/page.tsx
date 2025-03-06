@@ -59,7 +59,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       .then((res) => {
         return res.docs || []
       })
-  } catch (error) {
+  } catch (_error) {
     aktualityData = []
   }
 
@@ -79,7 +79,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   return generateMeta({ doc: page })
 }
 
-const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
+const queryPageBySlug = cache(async ({ slug: pageSlug }: { slug: string }) => {
   const { isEnabled: draft } = await draftMode()
   const payload = await getPayload({ config: configPromise })
 
@@ -90,6 +90,11 @@ const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
     pagination: false,
     overrideAccess: draft,
     depth: 3,
+    where: {
+      slug: {
+        equals: pageSlug,
+      },
+    },
   })
 
   return result.docs?.[0] || null
