@@ -18,11 +18,10 @@ export const dynamic = 'force-static'
 export const revalidate = 86400
 
 type PageProps = {
-  params: Promise<{ slug?: string }>
   searchParams: Promise<{ page?: string }>
 }
 
-export default async function Page({ searchParams: searchParamsPromise }: PageProps) {
+export default async function Page({ searchParams: searchParamsPromise }: Readonly<PageProps>) {
   const searchParams = await searchParamsPromise
   const payload = await getPayload({ config: configPromise })
 
@@ -35,7 +34,7 @@ export default async function Page({ searchParams: searchParamsPromise }: PagePr
     }
   }
 
-  const pageNumber = parseInt(searchParams.page || '1', 10)
+  const pageNumber = parseInt(searchParams.page ?? '1', 10)
   const limit = 12
   const cacheKey = `aktuality_page_${pageNumber}`
 
@@ -83,7 +82,7 @@ export default async function Page({ searchParams: searchParamsPromise }: PagePr
         aktualityData={aktualityData}
       />
       <div className="container">
-        {aktuality.totalPages > 1 && aktuality.page && (
+        {aktuality.totalPages > 1 && !!aktuality.page && (
           <Pagination page={aktuality.page} totalPages={aktuality.totalPages} />
         )}
       </div>

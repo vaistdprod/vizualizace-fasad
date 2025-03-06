@@ -52,12 +52,15 @@ export const HoursSectionBlock: React.FC<
             gradientOpacity={0.2}
           >
             <div className="divide-y divide-border">
-              {hours?.map((schedule, index) => (
+              {hours?.map((schedule) => (
                 <motion.div
-                  key={index}
+                  key={schedule.day}
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                  transition={{
+                    duration: 0.3,
+                    delay: hours.findIndex((s) => s.day === schedule.day) * 0.1,
+                  }}
                   viewport={{ once: true }}
                   className="flex flex-col p-4 hover:bg-accent/10 transition-colors"
                 >
@@ -66,8 +69,11 @@ export const HoursSectionBlock: React.FC<
                   </div>
                   <div className="grid grid-cols-1 gap-2">
                     {schedule.hours?.includes('\n') ? (
-                      schedule.hours.split('\n').map((line, i) => (
-                        <div key={i} className="flex flex-col sm:flex-row sm:justify-between">
+                      schedule.hours.split('\n').map((line) => (
+                        <div
+                          key={`${schedule.day}-${line}`}
+                          className="flex flex-col sm:flex-row sm:justify-between"
+                        >
                           <div className="text-muted-foreground font-medium mr-4">
                             {line?.split(' (')[0] || ''}
                           </div>

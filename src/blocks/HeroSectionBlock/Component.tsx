@@ -1,12 +1,11 @@
 'use client'
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
 import Image from 'next/image'
 import type { HeroSectionBlock as HeroSectionBlockProps } from '@/payload-types'
-import { Suspense } from 'react'
 
 // Lazy load motion components to reduce initial bundle size
 const MotionDiv = motion.div
@@ -56,9 +55,11 @@ export const HeroSectionBlock: React.FC<
               <div className="max-w-[600px] text-muted-foreground md:text-xl my-2 space-y-4">
                 {description
                   ?.split('\n\n')
-                  .map((paragraph, index) => <p key={index}>{paragraph}</p>) || (
-                  <p>Popis není k dispozici</p>
-                )}
+                  .map((paragraph, index) => (
+                    <p key={`para-${index}-${paragraph.substring(0, 10).replace(/\s+/g, '')}`}>
+                      {paragraph}
+                    </p>
+                  )) || <p>Popis není k dispozici</p>}
               </div>
             </div>
             <div className="flex flex-col gap-2 min-[400px]:flex-row">

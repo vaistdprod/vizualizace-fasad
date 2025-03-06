@@ -18,12 +18,13 @@ export const GallerySectionBlock: React.FC<
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true })
   const [selectedIndex, setSelectedIndex] = useState(0)
 
-  const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi])
-  const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi])
-  const onSelect = useCallback(
-    () => emblaApi && setSelectedIndex(emblaApi.selectedScrollSnap()),
-    [emblaApi],
-  )
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi])
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi])
+  const onSelect = useCallback(() => {
+    if (emblaApi) {
+      setSelectedIndex(emblaApi.selectedScrollSnap())
+    }
+  }, [emblaApi])
 
   useEffect(() => {
     if (!emblaApi) return
@@ -60,7 +61,11 @@ export const GallerySectionBlock: React.FC<
             <div className="flex">
               {images?.map((image, index) => (
                 <motion.div
-                  key={index}
+                  key={
+                    typeof image.image === 'object' && image.image?.id
+                      ? image.image.id
+                      : `image-${image.title || index}`
+                  }
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -128,9 +133,13 @@ export const GallerySectionBlock: React.FC<
             →
           </Button>
           <div className="flex justify-center gap-2 mt-4">
-            {images?.map((_, index) => (
+            {images?.map((image, index) => (
               <button
-                key={index}
+                key={
+                  typeof image.image === 'object' && image.image?.id
+                    ? `dot-${image.image.id}`
+                    : `dot-${image.title || index}`
+                }
                 className={`w-2 h-2 rounded-full transition-colors ${
                   index === selectedIndex ? 'bg-primary' : 'bg-primary/20'
                 }`}

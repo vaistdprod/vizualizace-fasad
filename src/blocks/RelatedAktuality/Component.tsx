@@ -23,10 +23,10 @@ export const RelatedAktuality: React.FC<RelatedAktualityProps> = (props) => {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-stretch px-4 lg:px-0">
-        {docs?.map((doc, index) => {
+        {docs?.map((doc) => {
           if (typeof doc === 'string') return null
 
-          return <Card key={index} doc={doc} _relationTo="aktuality" showCategories />
+          return <Card key={doc.id} doc={doc} _relationTo="aktuality" showCategories />
         })}
       </div>
     </div>

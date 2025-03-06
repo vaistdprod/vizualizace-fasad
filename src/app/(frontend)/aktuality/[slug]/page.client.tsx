@@ -3,7 +3,7 @@ import React from 'react'
 
 const PageClient: React.FC = () => {
   // No theme handling needed anymore - only light theme is used
-  return <React.Fragment />
+  return null
 }
 
 export default PageClient

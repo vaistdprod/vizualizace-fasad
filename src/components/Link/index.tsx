@@ -33,12 +33,15 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
     url,
   } = props
 
-  const href =
-    type === 'reference' && typeof reference?.value === 'object' && reference.value.slug
-      ? `${reference?.relationTo !== 'pages' ? `/${reference?.relationTo}` : ''}/${
-          reference.value.slug
-        }`
-      : url
+  // Extract the path prefix logic to avoid nested template literals
+  let href = url
+  if (type === 'reference' && typeof reference?.value === 'object' && reference.value.slug) {
+    let pathPrefix = ''
+    if (reference?.relationTo !== 'pages') {
+      pathPrefix = `/${reference.relationTo}`
+    }
+    href = `${pathPrefix}/${reference.value.slug}`
+  }
 
   if (!href) return null
 
@@ -49,8 +52,8 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
   if (appearance === 'inline') {
     return (
       <Link className={cn(className)} href={href || url || ''} {...newTabProps}>
-        {label && label}
-        {children && children}
+        {label}
+        {children}
       </Link>
     )
   }
@@ -58,8 +61,8 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
   return (
     <Button asChild className={className} size={size} variant={appearance}>
       <Link className={cn(className)} href={href || url || ''} {...newTabProps}>
-        {label && label}
-        {children && children}
+        {label}
+        {children}
       </Link>
     </Button>
   )

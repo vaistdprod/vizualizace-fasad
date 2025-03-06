@@ -54,7 +54,7 @@ export const PricingSectionBlock: React.FC<
             <ul className="divide-y divide-border">
               {pricingItems?.map((item, index) => (
                 <motion.li
-                  key={`pricing-${index}`}
+                  key={item.id || `pricing-${item.title}-${item.price}`}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}

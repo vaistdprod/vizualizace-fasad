@@ -76,7 +76,11 @@ export const RenderBlocks: React.FC<{
                   blockName?: string
                 }
                 return (
-                  <BackgroundImageBlock key={index} image={image} {...rest}>
+                  <BackgroundImageBlock
+                    key={block.id || `${blockType}-${index}`}
+                    image={image}
+                    {...rest}
+                  >
                     {nestedBlocks && nestedBlocks.length > 0 ? (
                       <RenderBlocks blocks={nestedBlocks} aktualityData={aktualityData} />
                     ) : null}
@@ -85,13 +89,13 @@ export const RenderBlocks: React.FC<{
               }
               if (blockType === 'newsSection') {
                 return (
-                  <div key={index}>
+                  <div key={block.id || `${blockType}-${index}`}>
                     <Block {...block} aktualityData={aktualityData} disableInnerContainer />
                   </div>
                 )
               }
               return (
-                <div key={index}>
+                <div key={block.id || `${blockType}-${index}`}>
                   <Block {...block} disableInnerContainer />
                 </div>
               )

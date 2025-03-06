@@ -17,9 +17,9 @@ const aktualityCache: { [key: string]: PartialAktuality[] } = {}
 
 export const revalidate = 86400
 
-type Args = {
+type Args = Readonly<{
   params: Promise<{ pageNumber: string }>
-}
+}>
 
 export default async function Page({ params: paramsPromise }: Args) {
   const { pageNumber } = await paramsPromise
@@ -80,7 +80,7 @@ export default async function Page({ params: paramsPromise }: Args) {
         aktualityData={aktualityData}
       />
       <div className="container">
-        {aktuality?.page && aktuality?.totalPages > 1 && (
+        {!!aktuality?.page && aktuality?.totalPages > 1 && (
           <Pagination page={aktuality.page} totalPages={aktuality.totalPages} />
         )}
       </div>

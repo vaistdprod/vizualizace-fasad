@@ -63,11 +63,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       Array<{ x: number; y: number; size: number; key: number }>
     >([])
 
-    const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-      if (variant === 'ripple') {
-        createRipple(event)
-      }
-      onClick?.(event)
+    // Function to remove a ripple by its key
+    const removeRipple = (rippleKey: number) => {
+      setRipples((prevRipples) => prevRipples.filter((ripple) => ripple.key !== rippleKey))
     }
 
     const createRipple = (event: MouseEvent<HTMLButtonElement>) => {
@@ -81,15 +79,18 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       setRipples((prevRipples) => [...prevRipples, newRipple])
     }
 
+    const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+      if (variant === 'ripple') {
+        createRipple(event)
+      }
+      onClick?.(event)
+    }
+
     useEffect(() => {
       if (ripples.length > 0 && variant === 'ripple') {
         const lastRipple = ripples[ripples.length - 1]
         if (lastRipple) {
-          const timeout = setTimeout(() => {
-            setRipples((prevRipples) =>
-              prevRipples.filter((ripple) => ripple.key !== lastRipple.key),
-            )
-          }, parseInt(rippleDuration))
+          const timeout = setTimeout(() => removeRipple(lastRipple.key), parseInt(rippleDuration))
           return () => clearTimeout(timeout)
         }
       }

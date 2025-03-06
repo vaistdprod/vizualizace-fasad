@@ -32,7 +32,7 @@ export async function generateStaticParams() {
 }
 
 type Args = {
-  params: Promise<{ slug?: string }>
+  readonly params: Promise<{ slug?: string }>
 }
 
 export const revalidate = 86400

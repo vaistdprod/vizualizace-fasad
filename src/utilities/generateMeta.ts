@@ -31,7 +31,7 @@ export const generateMeta = async (args: {
   // Get the page URL for canonical links
   const pageUrl = Array.isArray(doc?.slug)
     ? `${serverUrl}/${doc?.slug.join('/')}`
-    : `${serverUrl}/${doc?.slug || ''}`
+    : `${serverUrl}/${doc?.slug ?? ''}`
 
   const ogImage = getImageURL(doc?.meta?.image)
 
@@ -41,7 +41,7 @@ export const generateMeta = async (args: {
     : 'Dětská ordinace Zbiroh'
 
   // Ensure description exists and has reasonable length
-  let description = doc?.meta?.description || ''
+  let description = doc?.meta?.description ?? ''
   if (!description) {
     description = 'Dětská ordinace Zbiroh - Pediatrická péče pro děti a dorost'
   } else if (description.length > 160) {
@@ -59,7 +59,7 @@ export const generateMeta = async (args: {
               url: ogImage,
               width: 1200,
               height: 630,
-              alt: doc?.meta?.title || 'Dětská ordinace Zbiroh',
+              alt: doc?.meta?.title ?? 'Dětská ordinace Zbiroh',
             },
           ]
         : [

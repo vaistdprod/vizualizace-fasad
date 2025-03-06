@@ -46,7 +46,7 @@ export const NewsSectionBlock: React.FC<
           {aktualityData.map((aktualita: PartialAktuality, index: number) => (
             <Link
               href={`/aktuality/${aktualita.slug}`}
-              key={aktualita.slug || `aktualita-${index}`}
+              key={aktualita.slug ?? `aktualita-${index}`}
             >
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -69,10 +69,10 @@ export const NewsSectionBlock: React.FC<
                 <article>
                   <div className="w-full aspect-[3/2] relative">
                     <Image
-                      src={(aktualita.heroImage as Media)?.url || '/media/news-placeholder.jpg'}
+                      src={(aktualita.heroImage as Media)?.url ?? '/media/news-placeholder.jpg'}
                       alt={
-                        (aktualita.heroImage as Media)?.alt ||
-                        aktualita.title ||
+                        (aktualita.heroImage as Media)?.alt ??
+                        aktualita.title ??
                         'Obrázek aktuality'
                       }
                       fill
@@ -92,7 +92,7 @@ export const NewsSectionBlock: React.FC<
                     </time>
                     <h3 className="mt-2 text-xl font-semibold leading-tight">{aktualita.title}</h3>
                     <p className="mt-3 text-muted-foreground">
-                      {aktualita.meta?.description || 'Žádný popis není k dispozici'}
+                      {aktualita.meta?.description ?? 'Žádný popis není k dispozici'}
                     </p>
                   </div>
                 </article>

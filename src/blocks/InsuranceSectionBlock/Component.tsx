@@ -40,7 +40,7 @@ export const InsuranceSectionBlock: React.FC<
         <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
           {partners?.map((partner, index) => (
             <motion.div
-              key={index}
+              key={partner.url || `partner-${partner.title}-${index}`}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
