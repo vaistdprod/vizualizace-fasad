@@ -35,7 +35,7 @@ export const beforeSyncWithSearch: BeforeSync = async ({ originalDoc, searchDoc 
       modifiedDoc.categories = mappedCategories
     } catch (_err) {
       console.error(
-        `Selhalo. Kategorie nebyla nalezena při synchronizaci kolekce '${collection}' s id: '${id}' do vyhledávání.`,
+        `Proces selhal. Kategorie nebyla nalezena při synchronizaci kolekce '${collection}' s id: '${id}' do vyhledávání.`,
       )
     }
   }

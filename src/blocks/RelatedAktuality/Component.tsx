@@ -18,9 +18,11 @@ export const RelatedAktuality: React.FC<RelatedAktualityProps> = (props) => {
 
   return (
     <div className={clsx('lg:container', className)}>
-      {introContent && <RichText data={introContent} enableGutter={false} />}
+      {introContent && (
+        <RichText data={introContent} enableGutter={false} className="px-4 lg:px-0" />
+      )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-stretch">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-stretch px-4 lg:px-0">
         {docs?.map((doc, index) => {
           if (typeof doc === 'string') return null
 

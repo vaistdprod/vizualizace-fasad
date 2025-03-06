@@ -28,28 +28,35 @@ export const Pagination: React.FC<{
 
   return (
     <div className={cn('my-12', className)}>
-      <PaginationComponent>
-        <PaginationContent>
+      <PaginationComponent className="bg-muted/30 p-2 rounded-lg shadow-sm border border-border">
+        <PaginationContent className="gap-2">
           <PaginationItem>
             <PaginationPrevious
+              className={cn(
+                'transition-all duration-200',
+                hasPrevPage ? 'hover:bg-primary hover:text-primary-foreground' : 'opacity-50',
+              )}
               disabled={!hasPrevPage}
               onClick={() => {
-                router.push(`/aktuality/page/${page - 1}`)
+                if (hasPrevPage) {
+                  router.push(`/aktuality/stranka/${page - 1}`)
+                }
               }}
             />
           </PaginationItem>
 
           {hasExtraPrevPages && (
             <PaginationItem>
-              <PaginationEllipsis />
+              <PaginationEllipsis className="text-muted-foreground" />
             </PaginationItem>
           )}
 
           {hasPrevPage && (
             <PaginationItem>
               <PaginationLink
+                className="hover:bg-primary hover:text-primary-foreground transition-all duration-200"
                 onClick={() => {
-                  router.push(`/aktuality/page/${page - 1}`)
+                  router.push(`/aktuality/stranka/${page - 1}`)
                 }}
               >
                 {page - 1}
@@ -60,8 +67,9 @@ export const Pagination: React.FC<{
           <PaginationItem>
             <PaginationLink
               isActive
+              className="bg-primary text-primary-foreground font-medium"
               onClick={() => {
-                router.push(`/aktuality/page/${page}`)
+                router.push(`/aktuality/stranka/${page}`)
               }}
             >
               {page}
@@ -71,8 +79,9 @@ export const Pagination: React.FC<{
           {hasNextPage && (
             <PaginationItem>
               <PaginationLink
+                className="hover:bg-primary hover:text-primary-foreground transition-all duration-200"
                 onClick={() => {
-                  router.push(`/aktuality/page/${page + 1}`)
+                  router.push(`/aktuality/stranka/${page + 1}`)
                 }}
               >
                 {page + 1}
@@ -82,15 +91,21 @@ export const Pagination: React.FC<{
 
           {hasExtraNextPages && (
             <PaginationItem>
-              <PaginationEllipsis />
+              <PaginationEllipsis className="text-muted-foreground" />
             </PaginationItem>
           )}
 
           <PaginationItem>
             <PaginationNext
+              className={cn(
+                'transition-all duration-200',
+                hasNextPage ? 'hover:bg-primary hover:text-primary-foreground' : 'opacity-50',
+              )}
               disabled={!hasNextPage}
               onClick={() => {
-                router.push(`/aktuality/page/${page + 1}`)
+                if (hasNextPage) {
+                  router.push(`/aktuality/stranka/${page + 1}`)
+                }
               }}
             />
           </PaginationItem>

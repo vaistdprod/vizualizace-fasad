@@ -1,4 +1,5 @@
 import React from 'react'
+import { cn } from '@/utilities/ui'
 
 const defaultLabels = {
   plural: 'Dokumenty',
@@ -45,14 +46,28 @@ export const PageRange: React.FC<{
     {}
 
   return (
-    <div className={[className, 'font-semibold'].filter(Boolean).join(' ')}>
-      {(typeof totalDocs === 'undefined' || totalDocs === 0) &&
-        'Vyhledávání nenalezlo žádné výsledky.'}
-      {typeof totalDocs !== 'undefined' &&
-        totalDocs > 0 &&
-        `Zobrazeno ${indexStart}${indexStart > 0 ? ` - ${indexEnd}` : ''} z ${totalDocs} ${
-          totalDocs > 1 ? plural : singular
-        }`}
+    <div
+      className={cn(
+        'font-medium text-sm text-muted-foreground rounded-md py-2 px-3 inline-flex items-center',
+        'bg-muted/50 border border-border shadow-sm',
+        className,
+      )}
+    >
+      {(typeof totalDocs === 'undefined' || totalDocs === 0) && (
+        <span className="text-primary">Vyhledávání nenalezlo žádné výsledky.</span>
+      )}
+      {typeof totalDocs !== 'undefined' && totalDocs > 0 && (
+        <>
+          <span className="mr-1">Zobrazeno</span>
+          <span className="font-semibold text-primary mx-1">
+            {indexStart}
+            {indexStart > 0 ? ` - ${indexEnd}` : ''}
+          </span>
+          <span className="mr-1">z</span>
+          <span className="font-semibold text-primary mx-1">{totalDocs}</span>
+          <span>{totalDocs > 1 ? plural : singular}</span>
+        </>
+      )}
     </div>
   )
 }

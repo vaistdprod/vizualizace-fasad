@@ -17,6 +17,18 @@ const nextConfig = {
           protocol: url.protocol.replace(':', ''),
         }
       }),
+      {
+        hostname: 'localhost',
+        protocol: 'http',
+      },
+      {
+        hostname: 'pediatr.tdprod.cz',
+        protocol: 'https',
+      },
+      {
+        hostname: 'pediatr-zbiroh.cz',
+        protocol: 'https',
+      },
     ],
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],

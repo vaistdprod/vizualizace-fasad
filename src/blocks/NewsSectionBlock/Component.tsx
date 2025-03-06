@@ -1,6 +1,5 @@
 'use client'
 import React from 'react'
-import useSWR from 'swr'
 import { motion } from 'framer-motion'
 import { Newspaper } from 'lucide-react'
 import Image from 'next/image'
@@ -9,36 +8,10 @@ import { BorderBeam } from '@/components/ui/border-beam'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
 import type { NewsSectionBlock as NewsSectionBlockProps, Aktuality, Media } from '@/payload-types'
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json())
-
-export const NewsSectionBlock: React.FC<NewsSectionBlockProps & { id?: string }> = (props) => {
-  const { id, heading, description, aktuality: aktualitaIds } = props
-
-  const ids = aktualitaIds
-    ?.map((aktualita) => (typeof aktualita === 'number' ? aktualita : aktualita.id))
-    .filter((id): id is number => typeof id === 'number')
-    .join(',')
-
-  const { data: aktuality, error } = useSWR(ids ? `/api/aktuality?ids=${ids}` : null, fetcher, {
-    dedupingInterval: 43200000, // Cache for 12 hours (43,200 seconds)
-    revalidateOnFocus: false, // No refetch on window focus
-    revalidateOnReconnect: false, // No refetch on network reconnect
-    refreshInterval: 0, // No automatic polling
-    keepPreviousData: true, // Keep old data during rare refetches
-    fallbackData: [], // Initial empty array for layout stability
-  })
-
-  if (error) {
-    return (
-      <section className="py-16" id={`block-${id}`}>
-        <div id="aktuality" className="container px-4 md:px-6 mx-auto max-w-7xl">
-          <p className="text-center text-muted-foreground">
-            Chyba při načítání aktualit: {error.message}
-          </p>
-        </div>
-      </section>
-    )
-  }
+export const NewsSectionBlock: React.FC<
+  NewsSectionBlockProps & { id?: string; aktualityData?: Aktuality[] }
+> = (props) => {
+  const { id, heading, description, aktualityData = [] } = props
 
   return (
     <section className="py-16" id={`block-${id}`}>
@@ -61,8 +34,13 @@ export const NewsSectionBlock: React.FC<NewsSectionBlockProps & { id?: string }>
           </div>
           <p className="mt-4 text-muted-foreground md:text-lg">{description}</p>
         </motion.div>
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 min-h-[400px]">
-          {aktuality.map((aktualita: Aktuality, index: number) => (
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {aktualityData.length === 0 && (
+            <p className="text-center text-muted-foreground col-span-full">
+              Žádné aktuality k zobrazení.
+            </p>
+          )}
+          {aktualityData.map((aktualita: Aktuality, index: number) => (
             <Link
               href={`/aktuality/${aktualita.slug}`}
               key={aktualita.slug || `aktualita-${index}`}

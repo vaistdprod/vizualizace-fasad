@@ -1,51 +1,62 @@
 import type { Metadata } from 'next/types'
-
-import { CollectionArchive } from '@/components/CollectionArchive'
 import { PageRange } from '@/components/PageRange'
 import { Pagination } from '@/components/Pagination'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from './page.client'
+import { NewsSectionBlock } from '@/blocks/NewsSectionBlock/Component'
+import type { Aktuality } from '@/payload-types'
 
 export const dynamic = 'force-static'
-export const revalidate = 600
+export const revalidate = 86400
 
-export default async function Page() {
+export default async function Page({ searchParams }: { searchParams: { page?: string } }) {
   const payload = await getPayload({ config: configPromise })
+
+  // If page parameter is provided, redirect to the paginated URL
+  if (searchParams.page && searchParams.page !== '1') {
+    return {
+      redirect: {
+        destination: `/aktuality/stranka/${searchParams.page}`,
+        permanent: true,
+      },
+    }
+  }
+
+  const pageNumber = parseInt(searchParams.page || '1', 10)
+  const limit = 12
 
   const aktuality = await payload.find({
     collection: 'aktuality',
     depth: 1,
-    limit: 12,
+    limit,
+    page: pageNumber,
     overrideAccess: false,
-    select: {
-      title: true,
-      slug: true,
-      categories: true,
-      meta: true,
-    },
+    sort: '-publishedAt',
   })
+
+  const aktualityData: Aktuality[] = aktuality.docs || []
 
   return (
     <div className="pt-24 pb-24">
       <PageClient />
-      <div className="container mb-16">
-        <div className="prose max-w-none">
-          <h1>Aktuality</h1>
-        </div>
-      </div>
 
       <div className="container mb-8">
         <PageRange
           collection="aktuality"
-          currentPage={aktuality.page}
-          limit={12}
-          totalDocs={aktuality.totalDocs}
+          currentPage={aktuality.page || 1}
+          limit={limit}
+          totalDocs={aktuality.totalDocs || 0}
         />
       </div>
 
-      <CollectionArchive aktuality={aktuality.docs} />
+      <NewsSectionBlock
+        blockType="newsSection" // Add required blockType
+        heading="Aktuality"
+        description="Nejnovější zprávy z naší ordinace"
+        aktualityData={aktualityData}
+      />
 
       <div className="container">
         {aktuality.totalPages > 1 && aktuality.page && (

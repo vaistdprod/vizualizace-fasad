@@ -3,7 +3,7 @@ import { getServerSideURL } from './getURL'
 
 const defaultOpenGraph: Metadata['openGraph'] = {
   type: 'website',
-  description: 'Web dětské ordinace ve Zbirohu.',
+  description: 'Web ordinace praktického lékaře pro děti a dorost MUDr. Lucie Šťastné ve Zbirohu.',
   images: [
     {
       url: `${getServerSideURL()}/favicon.svg`,

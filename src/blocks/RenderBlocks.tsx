@@ -1,7 +1,5 @@
-// src/blocks/RenderBlocks.tsx
 import React, { Fragment } from 'react'
-import type { Page } from '@/payload-types'
-
+import type { Page, Aktuality } from '@/payload-types'
 import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
@@ -19,8 +17,6 @@ import { ContactSectionBlock } from '@/blocks/ContactSectionBlock/Component'
 import { BackgroundImageBlock } from '@/blocks/BackgroundImageBlock/Component'
 import { PricingSectionBlock } from '@/blocks/PricingSectionBlock/Component'
 
-// Define a generic component type that accepts specific block props plus optional extras
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type BlockComponent<T = any> = React.FC<
   T & { children?: React.ReactNode; disableInnerContainer?: boolean }
 >
@@ -46,8 +42,9 @@ const blockComponents: { [key: string]: BlockComponent } = {
 
 export const RenderBlocks: React.FC<{
   blocks: Page['layout'][0][]
+  aktualityData?: Aktuality[]
 }> = (props) => {
-  const { blocks } = props
+  const { blocks, aktualityData = [] } = props
 
   const hasBlocks = blocks && Array.isArray(blocks) && blocks.length > 0
 
@@ -69,24 +66,23 @@ export const RenderBlocks: React.FC<{
                 } = block as {
                   blockType: 'backgroundImageBlock'
                   blocks?: Page['layout'][0][]
-                  image:
-                    | number
-                    | {
-                        id: number
-                        url?: string
-                        alt: string
-                        updatedAt: string
-                        createdAt: string
-                      } // Updated id to number
+                  image: any
                   id?: string
                   blockName?: string
                 }
                 return (
                   <BackgroundImageBlock key={index} image={image} {...rest}>
                     {nestedBlocks && nestedBlocks.length > 0 ? (
-                      <RenderBlocks blocks={nestedBlocks} />
+                      <RenderBlocks blocks={nestedBlocks} aktualityData={aktualityData} />
                     ) : null}
                   </BackgroundImageBlock>
+                )
+              }
+              if (blockType === 'newsSection') {
+                return (
+                  <div key={index}>
+                    <Block {...block} aktualityData={aktualityData} disableInnerContainer />
+                  </div>
                 )
               }
               return (
