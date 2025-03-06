@@ -8,8 +8,11 @@ import { BorderBeam } from '@/components/ui/border-beam'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
 import type { NewsSectionBlock as NewsSectionBlockProps, Aktuality, Media } from '@/payload-types'
 
+// Define partial type for aktualityData
+type PartialAktuality = Pick<Aktuality, 'title' | 'slug' | 'heroImage' | 'publishedAt' | 'meta'>
+
 export const NewsSectionBlock: React.FC<
-  NewsSectionBlockProps & { id?: string; aktualityData?: Aktuality[] }
+  NewsSectionBlockProps & { id?: string; aktualityData?: PartialAktuality[] } // Updated to partial type
 > = (props) => {
   const { id, heading, description, aktualityData = [] } = props
 
@@ -40,7 +43,7 @@ export const NewsSectionBlock: React.FC<
               Žádné aktuality k zobrazení.
             </p>
           )}
-          {aktualityData.map((aktualita: Aktuality, index: number) => (
+          {aktualityData.map((aktualita: PartialAktuality, index: number) => (
             <Link
               href={`/aktuality/${aktualita.slug}`}
               key={aktualita.slug || `aktualita-${index}`}

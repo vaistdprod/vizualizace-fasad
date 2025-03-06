@@ -17,6 +17,9 @@ import { ContactSectionBlock } from '@/blocks/ContactSectionBlock/Component'
 import { BackgroundImageBlock } from '@/blocks/BackgroundImageBlock/Component'
 import { PricingSectionBlock } from '@/blocks/PricingSectionBlock/Component'
 
+// Define partial type for aktualityData
+type PartialAktuality = Pick<Aktuality, 'title' | 'slug' | 'heroImage' | 'publishedAt' | 'meta'>
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type BlockComponent<T = any> = React.FC<
   T & { children?: React.ReactNode; disableInnerContainer?: boolean }
@@ -43,7 +46,7 @@ const blockComponents: { [key: string]: BlockComponent } = {
 
 export const RenderBlocks: React.FC<{
   blocks: Page['layout'][0][]
-  aktualityData?: Aktuality[]
+  aktualityData?: PartialAktuality[] // Updated to partial type
 }> = (props) => {
   const { blocks, aktualityData = [] } = props
 

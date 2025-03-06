@@ -78,12 +78,17 @@ export const seed = async ({
     depth: 0,
     where: { email: { equals: 'info@pediatr-zbiroh.cz' } },
   })
+
+  const DEMO_AUTHOR_PASSWORD = process.env.DEMO_AUTHOR_PASSWORD
+  if (!DEMO_AUTHOR_PASSWORD) {
+    throw new Error('V proměnných chybí hodnota pro DEMO_AUTHOR_PASSWORD!')
+  }
   const demoAuthor = await payload.create({
     collection: 'users',
     data: {
       name: 'MUDr. Lucie Šťastná',
       email: 'info@pediatr-zbiroh.cz',
-      password: 'password',
+      password: DEMO_AUTHOR_PASSWORD, // Use the ENV var here
     },
   })
 

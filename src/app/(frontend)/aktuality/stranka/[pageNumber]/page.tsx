@@ -9,12 +9,16 @@ import { notFound } from 'next/navigation'
 import { NewsSectionBlock } from '@/blocks/NewsSectionBlock/Component'
 import type { Aktuality } from '@/payload-types'
 
+// Define partial type for fetched data
+type PartialAktuality = Pick<Aktuality, 'title' | 'slug' | 'heroImage' | 'publishedAt' | 'meta'>
+
+// In-memory cache
+const aktualityCache: { [key: string]: PartialAktuality[] } = {}
+
 export const revalidate = 86400
 
 type Args = {
-  params: Promise<{
-    pageNumber: string
-  }>
+  params: Promise<{ pageNumber: string }>
 }
 
 export default async function Page({ params: paramsPromise }: Args) {
@@ -22,19 +26,36 @@ export default async function Page({ params: paramsPromise }: Args) {
   const payload = await getPayload({ config: configPromise })
 
   const sanitizedPageNumber = Number(pageNumber)
-
   if (!Number.isInteger(sanitizedPageNumber) || sanitizedPageNumber < 1) notFound()
 
-  const aktuality = await payload.find({
-    collection: 'aktuality',
-    depth: 1, // Matches homepage, should include heroImage
-    limit: 12,
-    page: sanitizedPageNumber,
-    overrideAccess: false,
-    sort: '-publishedAt', // Latest first
-  })
+  const limit = 12
+  const cacheKey = `aktuality_page_${sanitizedPageNumber}`
 
-  const aktualityData: Aktuality[] = aktuality.docs || []
+  let aktualityData: PartialAktuality[] = []
+  if (aktualityCache[cacheKey]) {
+    aktualityData = aktualityCache[cacheKey]
+    console.log(`Cache hit for ${cacheKey}`)
+  } else {
+    const aktuality = await payload.find({
+      collection: 'aktuality',
+      depth: 1,
+      limit,
+      page: sanitizedPageNumber,
+      overrideAccess: false,
+      sort: '-publishedAt',
+      select: { title: true, slug: true, heroImage: true, publishedAt: true, meta: true },
+    })
+    aktualityData = aktuality.docs || []
+    aktualityCache[cacheKey] = aktualityData
+  }
+
+  const totalDocs = aktualityData.length === limit ? limit * 2 : aktualityData.length
+  const aktuality = {
+    docs: aktualityData,
+    page: sanitizedPageNumber,
+    totalDocs,
+    totalPages: Math.ceil(totalDocs / limit),
+  }
 
   return (
     <div className="pt-24 pb-24">
@@ -44,7 +65,6 @@ export default async function Page({ params: paramsPromise }: Args) {
           <h1>Aktuality</h1>
         </div>
       </div>
-
       <div className="container mb-8">
         <PageRange
           collection="aktuality"
@@ -53,14 +73,12 @@ export default async function Page({ params: paramsPromise }: Args) {
           totalDocs={aktuality.totalDocs || 0}
         />
       </div>
-
       <NewsSectionBlock
-        blockType="newsSection" // Required by type
+        blockType="newsSection"
         heading="Aktuality"
         description="Nejnovější zprávy z naší ordinace"
         aktualityData={aktualityData}
       />
-
       <div className="container">
         {aktuality?.page && aktuality?.totalPages > 1 && (
           <Pagination page={aktuality.page} totalPages={aktuality.totalPages} />
@@ -84,8 +102,7 @@ export async function generateStaticParams() {
     overrideAccess: false,
   })
 
-  const totalPages = Math.ceil(totalDocs / 12) // Match limit: 12
-
+  const totalPages = Math.ceil(totalDocs / 12)
   const pages: { pageNumber: string }[] = []
 
   for (let i = 1; i <= totalPages; i++) {

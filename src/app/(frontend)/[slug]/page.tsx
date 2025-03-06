@@ -10,6 +10,13 @@ import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import type { Aktuality } from '@/payload-types'
 
+// Define partial type for fetched data
+type PartialAktuality = Pick<Aktuality, 'title' | 'slug' | 'heroImage' | 'publishedAt' | 'meta'>
+
+// In-memory cache
+const aktualityCache: { [key: string]: PartialAktuality[] } = {}
+const CACHE_KEY = 'homepage_aktuality'
+
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const pages = await payload.find({
@@ -36,31 +43,36 @@ export default async function Page({ params: paramsPromise }: Args) {
   const url = '/' + slug
 
   const page = await queryPageBySlug({ slug })
-
-  if (!page) {
-    return <PayloadRedirects url={url} />
-  }
+  if (!page) return <PayloadRedirects url={url} />
 
   const { layout } = page
-
   const payload = await getPayload({ config: configPromise })
-  let aktualityData: Aktuality[] = []
+  let aktualityData: PartialAktuality[] = []
 
-  try {
-    aktualityData = await payload
-      .find({
-        collection: 'aktuality',
-        depth: 1, // Test if this works for heroImage
-        limit: 3, // Limit to 3 posts for homepage (adjust as needed)
-        overrideAccess: false,
-        draft,
-        sort: '-publishedAt', // Sort by latest first
-      })
-      .then((res) => {
-        return res.docs || []
-      })
-  } catch (_error) {
-    aktualityData = []
+  if (aktualityCache[CACHE_KEY] && !draft) {
+    aktualityData = aktualityCache[CACHE_KEY]
+    console.log('Cache hit for homepage aktuality')
+  } else {
+    try {
+      const start = Date.now()
+      aktualityData = (await payload
+        .find({
+          collection: 'aktuality',
+          depth: 1,
+          limit: 3,
+          overrideAccess: false,
+          draft,
+          sort: '-publishedAt',
+          select: { title: true, slug: true, heroImage: true, publishedAt: true, meta: true },
+        })
+        .then((res) => {
+          console.log(`Payload fetch took: ${Date.now() - start}ms`)
+          return res.docs || []
+        })) as PartialAktuality[]
+      if (!draft) aktualityCache[CACHE_KEY] = aktualityData
+    } catch (_error) {
+      aktualityData = []
+    }
   }
 
   return (
@@ -90,11 +102,7 @@ const queryPageBySlug = cache(async ({ slug: pageSlug }: { slug: string }) => {
     pagination: false,
     overrideAccess: draft,
     depth: 3,
-    where: {
-      slug: {
-        equals: pageSlug,
-      },
-    },
+    where: { slug: { equals: pageSlug } },
   })
 
   return result.docs?.[0] || null

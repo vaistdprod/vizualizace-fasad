@@ -33,9 +33,9 @@ export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
             <p className="text-sm text-muted-foreground">{description}</p>
             {socialLinks && socialLinks.length > 0 && (
               <div className="flex space-x-4">
-                {socialLinks.map((social, i) => (
+                {socialLinks.map((social) => (
                   <Link
-                    key={i}
+                    key={social.platform}
                     href={social.url || '#'}
                     className="text-sm text-muted-foreground hover:text-primary transition-colors"
                   >
@@ -60,8 +60,8 @@ export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
                 <h3 className="font-semibold mb-4">{column.title}</h3>
                 <ul className="space-y-2">
                   {column.links && column.links.length > 0 ? (
-                    column.links.map((link, j) => (
-                      <li key={j}>
+                    column.links.map((link) => (
+                      <li key={link.label}>
                         <Link
                           href={link.url || '#'}
                           className="text-sm text-muted-foreground hover:text-primary transition-colors"
