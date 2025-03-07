@@ -6,7 +6,7 @@ const BeforeLogin: React.FC = () => {
   return (
     <div className="text-center mb-6">
       <div className="font-['Mali',var(--font-mali),cursive] text-2xl font-bold mb-4 bg-gradient-to-r from-[hsl(340,85%,65%)] to-[hsl(180,75%,65%)] bg-clip-text text-transparent tracking-[-0.02em]">
-        Pediatr Zbiroh
+        MUDr. Janulová
       </div>
       <div>
         <h2 className="text-[1.25rem] font-semibold text-[hsl(340,85%,65%)] mb-2">

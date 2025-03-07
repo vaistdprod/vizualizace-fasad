@@ -83,6 +83,6 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
 
 export function generateMetadata(): Metadata {
   return {
-    title: `Dětská ordinace Zbiroh`,
+    title: `Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová`,
   }
 }

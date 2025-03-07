@@ -1,7 +1,7 @@
 @import '~@payloadcms/ui/scss';
 
 /* 
-  Pediatr Zbiroh - Custom Admin Styling
+  MUDr. Janulová - Custom Admin Styling
   This file customizes the Payload CMS admin interface to match the website's branding
 */
 
@@ -148,7 +148,7 @@ body::before {
 }
 
 .nav__brand::before {
-  content: 'Pediatr Zbiroh';
+  content: 'MUDr. Janulová';
   font-weight: 700;
   font-size: 1.25rem;
   color: var(--color-primary-500);
@@ -249,7 +249,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 .auth__logo::after {
-  content: 'Pediatr Zbiroh';
+  content: 'MUDr. Janulová';
   font-size: 1.75rem;
   font-weight: 700;
   color: var(--color-primary-500);

@@ -65,7 +65,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           <Link href="/" className="flex items-center">
             <Image
               src={logo.url}
-              alt="Logo Pediatr Zbiroh"
+              alt="Logo MUDr. Janulová"
               width={48}
               height={48}
               className="object-contain"

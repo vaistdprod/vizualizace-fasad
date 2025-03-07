@@ -92,6 +92,6 @@ export default async function Page({ searchParams: searchParamsPromise }: Readon
 
 export function generateMetadata(): Metadata {
   return {
-    title: `Aktuality | Pediatr Zbiroh`,
+    title: `Aktuality | MUDr. Janulová`,
   }
 }

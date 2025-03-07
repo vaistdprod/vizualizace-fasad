@@ -13,7 +13,9 @@ import { Page, Aktuality } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 
 const generateTitle: GenerateTitle<Aktuality | Page> = ({ doc }) => {
-  return doc?.title ? `${doc.title} | Dětská ordinace Zbiroh` : 'Dětská ordinace Zbiroh'
+  return doc?.title
+    ? `${doc.title} | Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová`
+    : 'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová'
 }
 
 const generateURL: GenerateURL<Aktuality | Page> = ({ doc }) => {

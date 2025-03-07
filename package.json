@@ -1,7 +1,7 @@
 {
-  "name": "pediatr-zbiroh",
+  "name": "mudrjanulova",
   "version": "1.0.0",
-  "description": "Webová stránka ordinace dětského lékaře pro děti a dorost, MUDr. Šťastné ve Zbirohu.",
+  "description": "Webová stránka ordinace dětského lékaře pro děti a dorost, MUDr. Janulové ve Starém Lískovci.",
   "license": "MIT",
   "type": "module",
   "scripts": {

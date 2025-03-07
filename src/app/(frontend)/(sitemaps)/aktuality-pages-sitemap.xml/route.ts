@@ -9,7 +9,7 @@ const getAktualityPagesSitemap = unstable_cache(
     const SITE_URL =
       process.env.NEXT_PUBLIC_SERVER_URL ||
       process.env.VERCEL_PROJECT_PRODUCTION_URL ||
-      'https://pediatr-zbiroh.cz'
+      'https://mudrjanulova.cz'
 
     // Get total count of aktuality to calculate total pages
     const { totalDocs } = await payload.count({

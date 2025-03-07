@@ -21,12 +21,12 @@ export const generateArticleSchema = (
         Array.isArray(article.authors) &&
         article.authors.length > 0 &&
         typeof article.authors[0] === 'object'
-          ? article.authors[0]?.name || 'MUDr. Šťastná'
-          : 'MUDr. Šťastná',
+          ? article.authors[0]?.name || 'MUDr. Janulová'
+          : 'MUDr. Janulová',
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Dětská ordinace Zbiroh',
+      name: 'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová',
       logo: {
         '@type': 'ImageObject',
         url: `${process.env.NEXT_PUBLIC_SERVER_URL}/favicon.svg`,
@@ -40,12 +40,12 @@ export const generateMedicalPracticeSchema = () => {
     '@context': 'https://schema.org',
     '@type': 'MedicalBusiness',
     '@id': process.env.NEXT_PUBLIC_SERVER_URL,
-    name: 'Dětská ordinace Zbiroh',
+    name: 'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová',
     description:
       'Poskytujeme plnou péči o jakékoliv dítě od narození do 19 let včetně nedonošených a rizikových dětí. Specializujeme se na preventivní prohlídky, očkování, diagnostiku a léčbu.',
     url: process.env.NEXT_PUBLIC_SERVER_URL,
     telephone: '+420 371 794 225', // Exact match
-    email: 'info@pediatr-zbiroh.cz', // Exact match
+    email: 'info@mudrjanulova.cz', // Exact match
     address: {
       '@type': 'PostalAddress',
       streetAddress: 'Masarykovo náměstí 275', // Exact match

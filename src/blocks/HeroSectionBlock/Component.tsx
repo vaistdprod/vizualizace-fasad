@@ -38,8 +38,9 @@ export const HeroSectionBlock: React.FC<
           <Image
             alt={
               typeof image === 'object'
-                ? image.alt || 'Dětská ordinace Zbiroh - úvodní obrázek'
-                : 'Dětská ordinace Zbiroh - úvodní obrázek'
+                ? image.alt ||
+                  'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová - úvodní obrázek'
+                : 'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová - úvodní obrázek'
             }
             className="object-cover w-full h-full"
             src={typeof image === 'object' && image.url ? image.url : ''}
@@ -137,8 +138,9 @@ export const HeroSectionBlock: React.FC<
                   <Image
                     alt={
                       typeof image === 'object'
-                        ? image.alt || 'Dětská ordinace Zbiroh - úvodní obrázek'
-                        : 'Dětská ordinace Zbiroh - úvodní obrázek'
+                        ? image.alt ||
+                          'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová - úvodní obrázek'
+                        : 'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová - úvodní obrázek'
                     }
                     className="object-cover w-full h-full"
                     src={typeof image === 'object' && image.url ? image.url : ''}

@@ -70,7 +70,7 @@ export const TeamSectionBlock: React.FC<
                     alt={
                       typeof member.image === 'object' && member.image?.alt
                         ? member.image.alt
-                        : `${member.title} - ${member.role || 'Člen týmu'} - Dětská ordinace Zbiroh`
+                        : `${member.title} - ${member.role || 'Člen týmu'} - Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová`
                     }
                     width={300}
                     height={400}

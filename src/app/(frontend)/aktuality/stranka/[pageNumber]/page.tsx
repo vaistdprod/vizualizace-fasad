@@ -91,7 +91,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { pageNumber } = await paramsPromise
   return {
-    title: `Dětská ordinace Zbiroh | Aktuality | Strana ${pageNumber || ''}`,
+    title: `Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová | Aktuality | Strana ${pageNumber || ''}`,
   }
 }
 

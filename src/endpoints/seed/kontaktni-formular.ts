@@ -56,7 +56,8 @@ export const kontaktniFormular: RequiredDataFromCollectionSlug<'forms'> = {
   ],
   emails: [
     {
-      emailFrom: '"Dětská ordinace Zbiroh" <info@pediatr-zbiroh.cz>',
+      emailFrom:
+        '"Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová" <info@mudrjanulova.cz>',
       emailTo: '{{email}}',
       subject: 'Nová zpráva z kontaktního formuláře',
       message: {

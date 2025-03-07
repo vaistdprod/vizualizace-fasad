@@ -80,7 +80,7 @@ export const metadata: Metadata = {
   keywords: [
     'dětský lékař',
     'pediatr',
-    'Zbiroh',
+    'Brno',
     'dětská ordinace',
     'očkování',
     'preventivní prohlídky',

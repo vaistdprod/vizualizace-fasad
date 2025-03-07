@@ -28,7 +28,9 @@ export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
           >
             <div className="flex items-center space-x-2">
               <Heart className="h-6 w-6 text-primary" />
-              <span className="text-lg font-bold">Dětská ordinace Zbiroh</span>
+              <span className="text-lg font-bold">
+                Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová
+              </span>
             </div>
             <p className="text-sm text-muted-foreground">{description}</p>
             {socialLinks && socialLinks.length > 0 && (

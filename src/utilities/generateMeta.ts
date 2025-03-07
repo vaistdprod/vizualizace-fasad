@@ -37,13 +37,14 @@ export const generateMeta = async (args: {
 
   // Prioritize page title, then site title
   const title = doc?.meta?.title
-    ? `${doc.meta.title} | Dětská ordinace Zbiroh`
-    : 'Dětská ordinace Zbiroh'
+    ? `${doc.meta.title} | Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová`
+    : 'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová'
 
   // Ensure description exists and has reasonable length
   let description = doc?.meta?.description ?? ''
   if (!description) {
-    description = 'Dětská ordinace Zbiroh - Pediatrická péče pro děti a dorost'
+    description =
+      'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová - Pediatrická péče pro děti a dorost'
   } else if (description.length > 160) {
     // Truncate to recommended SEO length while preserving whole words
     description = description.substring(0, 157).split(' ').slice(0, -1).join(' ') + '...'
@@ -59,7 +60,9 @@ export const generateMeta = async (args: {
               url: ogImage,
               width: 1200,
               height: 630,
-              alt: doc?.meta?.title ?? 'Dětská ordinace Zbiroh',
+              alt:
+                doc?.meta?.title ??
+                'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová',
             },
           ]
         : [
@@ -67,7 +70,7 @@ export const generateMeta = async (args: {
               url: `${getServerSideURL()}/media/news-placeholder.jpg`,
               width: 1200,
               height: 630,
-              alt: 'Dětská ordinace Zbiroh',
+              alt: 'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová',
             },
           ],
       title,
@@ -84,7 +87,7 @@ export const generateMeta = async (args: {
       },
     },
     // Add additional metadata for better SEO
-    authors: [{ name: 'Dětská ordinace Zbiroh' }],
+    authors: [{ name: 'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová' }],
     robots: {
       index: true,
       follow: true,

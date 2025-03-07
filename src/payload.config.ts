@@ -68,8 +68,8 @@ export default buildConfig({
     fallbackLanguage: 'cs',
   },
   email: resendAdapter({
-    defaultFromAddress: process.env.DEFAULT_FROM_ADDRESS || 'info@pediatr-zbiroh.cz',
-    defaultFromName: 'Dětská ordinace Zbiroh',
+    defaultFromAddress: process.env.DEFAULT_FROM_ADDRESS || 'info@mudrjanulova.cz',
+    defaultFromName: 'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová',
     apiKey: process.env.RESEND_API_KEY || '',
   }),
   collections: [Pages, Aktuality, Media, Categories, Users],
@@ -149,8 +149,8 @@ export async function handleFormSubmission(submission: FormSubmission, req: Payl
   const message = messageField?.value as string
 
   await payload.sendEmail({
-    to: process.env.DEFAULT_TO_ADDRESS || 'info@pediatr-zbiroh.cz',
-    from: process.env.DEFAULT_FROM_ADDRESS || 'info@pediatr-zbiroh.cz',
+    to: process.env.DEFAULT_TO_ADDRESS || 'info@mudrjanulova.cz',
+    from: process.env.DEFAULT_FROM_ADDRESS || 'info@mudrjanulova.cz',
     subject: 'Nová zpráva z kontaktního formuláře',
     html: `
       <h1>Nová zpráva z kontaktního formuláře</h1>
@@ -163,13 +163,13 @@ export async function handleFormSubmission(submission: FormSubmission, req: Payl
 
   await payload.sendEmail({
     to: senderEmail,
-    from: process.env.DEFAULT_FROM_ADDRESS || 'info@pediatr-zbiroh.cz',
+    from: process.env.DEFAULT_FROM_ADDRESS || 'info@mudrjanulova.cz',
     subject: 'Děkujeme za Vaši zprávu',
     html: `
       <h1>Dobrý den, ${senderName || ''}!</h1>
       <p>Vaše zpráva byla úspěšně odeslána, brzy se vám ozveme zpět. Zde je kopie Vaší zprávy:</p>
       <p><strong>Zpráva:</strong> ${message || 'Zpráva nemá obsah.'}</p>
-      <p>S pozdravem<br/>Dětská ordinace Zbiroh</p>
+      <p>S pozdravem<br/>Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová</p>
     `,
   })
 
