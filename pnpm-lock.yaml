@@ -11,7 +11,7 @@ importers:
       '@payloadcms/db-vercel-postgres':
         specifier: ^3.27.0
         version: 3.27.0(@neondatabase/serverless@0.9.5)(@types/pg@8.11.6)(@types/react@19.0.10)(payload@3.27.0(bufferutil@4.0.9)(graphql@16.10.0)(typescript@5.8.2)(utf-8-validate@6.0.5))(react@19.0.0)
-      '@payloadcms/email-resend':
+      '@payloadcms/email-nodemailer':
         specifier: ^3.27.0
         version: 3.27.0(payload@3.27.0(bufferutil@4.0.9)(graphql@16.10.0)(typescript@5.8.2)(utf-8-validate@6.0.5))
       '@payloadcms/live-preview-react':
@@ -1253,8 +1253,8 @@ packages:
     peerDependencies:
       payload: 3.27.0
 
-  '@payloadcms/email-resend@3.27.0':
-    resolution: {integrity: sha512-CyFq8cuCH/DlfUR1KeZ/+TBihdKpgO7kX8vUqyg/4u5rI4U38U7yOffe4RLrh369CZ8h4Ia6kTXAjQ5IVQetkA==}
+  '@payloadcms/email-nodemailer@3.27.0':
+    resolution: {integrity: sha512-iKHySe1WKj0gLDsvOg7u/4Nf6qXbmtBEjKWCGinXRNFA/Y/4tzDAgMoRjY7LPfsom01XVHRPW9x+TYXDSSMuSg==}
     engines: {node: ^18.20.2 || >=20.9.0}
     peerDependencies:
       payload: 3.27.0
@@ -3567,6 +3567,10 @@ packages:
     resolution: {integrity: sha512-LA4ZjwlnUblHVgq0oBF3Jl/6h/Nvs5fzBLwdEF4nuxnFdsfajde4WfxtJr3CaiH+F6ewcIB/q4jQ4UzPyid+CQ==}
     hasBin: true
 
+  nodemailer@6.9.16:
+    resolution: {integrity: sha512-psAuZdTIRN08HKVd/E8ObdV6NO7NTBY3KsC30F7M4H1OnmLCUNaS56FpYxyb26zWLSyYF9Ozch9KYHhHegsiOQ==}
+    engines: {node: '>=6.0.0'}
+
   normalize-path@3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
@@ -5843,8 +5847,9 @@ snapshots:
       - sql.js
       - sqlite3
 
-  '@payloadcms/email-resend@3.27.0(payload@3.27.0(bufferutil@4.0.9)(graphql@16.10.0)(typescript@5.8.2)(utf-8-validate@6.0.5))':
+  '@payloadcms/email-nodemailer@3.27.0(payload@3.27.0(bufferutil@4.0.9)(graphql@16.10.0)(typescript@5.8.2)(utf-8-validate@6.0.5))':
     dependencies:
+      nodemailer: 6.9.16
       payload: 3.27.0(bufferutil@4.0.9)(graphql@16.10.0)(typescript@5.8.2)(utf-8-validate@6.0.5)
 
   '@payloadcms/graphql@3.27.0(graphql@16.10.0)(payload@3.27.0(bufferutil@4.0.9)(graphql@16.10.0)(typescript@5.8.2)(utf-8-validate@6.0.5))(typescript@5.8.2)':
@@ -8621,6 +8626,8 @@ snapshots:
       - babel-plugin-macros
 
   node-gyp-build@4.8.4: {}
+
+  nodemailer@6.9.16: {}
 
   normalize-path@3.0.0: {}
 

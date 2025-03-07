@@ -1,7 +1,7 @@
 {
   "name": "mudrjanulova",
   "version": "1.0.0",
-  "description": "Webová stránka ordinace dětského lékaře pro děti a dorost, MUDr. Janulové ve Starém Lískovci.",
+  "description": "Webová stránka ordinace dětského lékaře pro děti a dorost, MUDr. Miroslavy Janulové ve Starém Lískovci.",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@payloadcms/db-vercel-postgres": "^3.27.0",
-    "@payloadcms/email-resend": "^3.27.0",
+    "@payloadcms/email-nodemailer": "^3.27.0",
     "@payloadcms/live-preview-react": "^3.27.0",
     "@payloadcms/next": "^3.27.0",
     "@payloadcms/plugin-form-builder": "^3.27.0",

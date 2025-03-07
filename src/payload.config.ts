@@ -1,6 +1,6 @@
 import { s3Storage } from '@payloadcms/storage-s3'
 import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
-import { resendAdapter } from '@payloadcms/email-resend'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import type { FormSubmission } from '@payloadcms/plugin-form-builder/types'
 
 import sharp from 'sharp'
@@ -67,10 +67,19 @@ export default buildConfig({
     supportedLanguages: { cs },
     fallbackLanguage: 'cs',
   },
-  email: resendAdapter({
+  email: nodemailerAdapter({
     defaultFromAddress: process.env.DEFAULT_FROM_ADDRESS || 'info@mudrjanulova.cz',
-    defaultFromName: 'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová',
-    apiKey: process.env.RESEND_API_KEY || '',
+    defaultFromName:
+      process.env.DEFAULT_FROM_NAME ||
+      'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová',
+    transportOptions: {
+      host: process.env.SMTP_HOST,
+      port: parseInt(process.env.SMTP_PORT || '587', 10),
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    },
   }),
   collections: [Pages, Aktuality, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
