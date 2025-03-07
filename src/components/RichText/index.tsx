@@ -14,10 +14,8 @@ import {
 import { HeroSectionBlock } from '@/blocks/HeroSectionBlock/Component'
 import { ServicesSectionBlock } from '@/blocks/ServicesSectionBlock/Component'
 import { TeamSectionBlock } from '@/blocks/TeamSectionBlock/Component'
-import { GallerySectionBlock } from '@/blocks/GallerySectionBlock/Component'
 import { InsuranceSectionBlock } from '@/blocks/InsuranceSectionBlock/Component'
 import { HoursSectionBlock } from '@/blocks/HoursSectionBlock/Component'
-import { AppointmentSectionBlock } from '@/blocks/AppointmentSectionBlock/Component'
 import { NewsSectionBlock } from '@/blocks/NewsSectionBlock/Component'
 import { ContactSectionBlock } from '@/blocks/ContactSectionBlock/Component' // Added import
 import { BackgroundImageBlock } from '@/blocks/BackgroundImageBlock/Component' // Already included
@@ -30,10 +28,8 @@ import type {
   HeroSectionBlock as HeroSectionBlockProps,
   ServicesSectionBlock as ServicesSectionBlockProps,
   TeamSectionBlock as TeamSectionBlockProps,
-  GallerySectionBlock as GallerySectionBlockProps,
   InsuranceSectionBlock as InsuranceSectionBlockProps,
   HoursSectionBlock as HoursSectionBlockProps,
-  AppointmentSectionBlock as AppointmentSectionBlockProps,
   NewsSectionBlock as NewsSectionBlockProps,
   ContactSectionBlock as ContactSectionBlockProps, // Added type
   BackgroundImageBlock as BackgroundImageBlockProps, // Already included
@@ -52,10 +48,8 @@ type NodeTypes =
       | HeroSectionBlockProps
       | ServicesSectionBlockProps
       | TeamSectionBlockProps
-      | GallerySectionBlockProps
       | InsuranceSectionBlockProps
       | HoursSectionBlockProps
-      | AppointmentSectionBlockProps
       | NewsSectionBlockProps
       | ContactSectionBlockProps // Added ContactSectionBlockProps
       | BackgroundImageBlockProps // Already included
@@ -90,10 +84,8 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
     heroSection: ({ node }) => <HeroSectionBlock {...node.fields} />,
     servicesSection: ({ node }) => <ServicesSectionBlock {...node.fields} />,
     teamSection: ({ node }) => <TeamSectionBlock {...node.fields} />,
-    gallerySection: ({ node }) => <GallerySectionBlock {...node.fields} />,
     insuranceSection: ({ node }) => <InsuranceSectionBlock {...node.fields} />,
     hoursSection: ({ node }) => <HoursSectionBlock {...node.fields} />,
-    appointmentSection: ({ node }) => <AppointmentSectionBlock {...node.fields} />,
     newsSection: ({ node }) => <NewsSectionBlock {...node.fields} />,
     contactSection: ({ node }) => <ContactSectionBlock {...node.fields} />, // Added ContactSectionBlock
     backgroundImageBlock: ({ node }) => <BackgroundImageBlock {...node.fields} />, // Already included

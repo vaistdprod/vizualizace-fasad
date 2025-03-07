@@ -29,25 +29,63 @@ export const ContactSection: Block = {
       admin: {
         description: 'Vyberte formulář s poli: Jméno, E-mail, Telefon a Zpráva.',
       },
-      maxDepth: 1, // Ensure the full Form object is populated
+      maxDepth: 1,
     },
     {
-      name: 'address',
-      type: 'text',
-      required: true,
-      label: 'Adresa',
-    },
-    {
-      name: 'phone',
-      type: 'text',
-      required: true,
-      label: 'Telefonní číslo',
-    },
-    {
-      name: 'email',
-      type: 'text',
-      required: true,
-      label: 'E-mail',
+      name: 'contactMethods',
+      type: 'array',
+      label: 'Kontaktní metody',
+      minRows: 1,
+      fields: [
+        {
+          name: 'label',
+          type: 'text',
+          required: true,
+          label: 'Název metody',
+          admin: {
+            description: 'Např. "Adresa", "Telefon", "E-mail", "Ordinační hodiny"',
+          },
+        },
+        {
+          name: 'value',
+          type: 'text',
+          required: true,
+          label: 'Hodnota',
+          admin: {
+            description: 'Např. adresa, telefonní číslo, e-mail nebo shrnutí hodin.',
+          },
+        },
+        {
+          name: 'href',
+          type: 'text',
+          label: 'Odkaz',
+          admin: {
+            description: 'Např. "https://maps.google.com/?q=...", "tel:...", "#ordinacni-hodiny"',
+          },
+        },
+        {
+          name: 'icon',
+          type: 'select',
+          label: 'Ikona',
+          required: true,
+          options: [
+            { label: 'Map Pin', value: 'MapPin' },
+            { label: 'Phone', value: 'Phone' },
+            { label: 'Mail', value: 'Mail' },
+            { label: 'Clock', value: 'Clock' },
+            // Add more icons as needed
+          ],
+          defaultValue: 'MapPin',
+        },
+        {
+          name: 'colorClass',
+          type: 'text',
+          label: 'Třída barev (CSS)',
+          admin: {
+            description: 'Např. "bg-pink-100 text-pink-600" pro stylizaci.',
+          },
+        },
+      ],
     },
     {
       name: 'mapEmbedUrl',
@@ -62,6 +100,35 @@ export const ContactSection: Block = {
       type: 'text',
       label: 'Text navigačního tlačítka',
       defaultValue: 'Navigovat',
+    },
+    {
+      name: 'transportMethods',
+      type: 'array',
+      label: 'Způsoby dopravy',
+      minRows: 1,
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          required: true,
+          label: 'Název',
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          required: true,
+          label: 'Popis',
+        },
+        {
+          name: 'icon',
+          type: 'text',
+          required: true,
+          label: 'Ikona (emoji nebo kód)',
+          admin: {
+            description: 'Např. 🚌, 🚗, ♿ nebo kód SVG ikony.',
+          },
+        },
+      ],
     },
   ],
 }

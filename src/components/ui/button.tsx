@@ -6,7 +6,7 @@ import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded text-sm font-medium cursor-pointer shadow-xs ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium cursor-pointer shadow-xs ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
@@ -17,16 +17,16 @@ const buttonVariants = cva(
         outline: 'border border-border bg-background hover:bg-card hover:text-accent-foreground',
         secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
         rainbow:
-          'group relative inline-flex h-11 cursor-pointer items-center justify-center rounded-xl px-8 py-2 font-medium text-primary-foreground border-0 [background-clip:padding-box,border-box,border-box] [background-origin:border-box] [border:calc(0.08*1rem)_solid_transparent] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring before:absolute before:bottom-[-20%] before:left-1/2 before:z-0 before:h-1/5 before:w-3/5 before:-translate-x-1/2 before:animate-rainbow before:bg-[linear-gradient(90deg,hsl(var(--color-1)),hsl(var(--color-5)),hsl(var(--color-3)),hsl(var(--color-4)),hsl(var(--color-2)))] before:[filter:blur(calc(0.8*1rem))] bg-[linear-gradient(hsl(var(--primary)/0.9),hsl(var(--primary)/0.9)),linear-gradient(hsl(var(--primary)/0.9)_50%,hsla(var(--primary)/0.45)_80%,hsla(var(--primary)/0)),linear-gradient(90deg,transparent,transparent)]',
+          'group relative inline-flex h-11 cursor-pointer items-center justify-center rounded-2xl px-8 py-2 font-medium text-primary-foreground border-0 [background-clip:padding-box,border-box,border-box] [background-origin:border-box] [border:calc(0.08*1rem)_solid_transparent] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring before:absolute before:bottom-[-20%] before:left-1/2 before:z-0 before:h-1/5 before:w-3/5 before:-translate-x-1/2 before:animate-rainbow before:bg-[linear-gradient(90deg,hsl(var(--color-1)),hsl(var(--color-5)),hsl(var(--color-3)),hsl(var(--color-4)),hsl(var(--color-2)))] before:[filter:blur(calc(0.8*1rem))] bg-[linear-gradient(hsl(var(--primary)/0.9),hsl(var(--primary)/0.9)),linear-gradient(hsl(var(--primary)/0.9)_50%,hsla(var(--primary)/0.45)_80%,hsla(var(--primary)/0)),linear-gradient(90deg,transparent,transparent)]',
         ripple:
-          'relative overflow-hidden border border-border bg-background hover:bg-card hover:text-accent-foreground',
+          'relative overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-b from-background to-background/90 text-primary hover:from-primary/5 hover:to-primary/10 hover:text-primary/90 hover:border-primary/30 shadow-sm hover:shadow transition-all duration-300 backdrop-blur-[2px]',
       },
       size: {
         clear: '',
         default: 'h-10 px-4 py-2',
         icon: 'h-10 w-10',
-        lg: 'h-11 rounded px-8',
-        sm: 'h-9 rounded px-3',
+        lg: 'h-11 rounded-md px-8',
+        sm: 'h-9 rounded-md px-3',
       },
     },
     defaultVariants: {
@@ -51,8 +51,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       variant,
       size,
-      rippleColor = 'hsl(var(--primary) / 0.2)',
-      rippleDuration = '600ms',
+      rippleColor = 'hsl(var(--primary) / 0.25)',
+      rippleDuration = '800ms',
       onClick,
       children,
       ...props
@@ -126,7 +126,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             {ripples.map((ripple) => (
               <span
                 key={ripple.key}
-                className="absolute animate-rippling rounded-full opacity-30"
+                className="absolute animate-rippling rounded-full opacity-40"
                 style={{
                   width: `${ripple.size}px`,
                   height: `${ripple.size}px`,

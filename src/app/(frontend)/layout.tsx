@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 import { cn } from '@/utilities/ui'
-import { Quicksand } from 'next/font/google'
+import { Mali, Nunito } from 'next/font/google'
 import React from 'react'
 
 import { AdminBar } from '@/components/AdminBar'
@@ -15,10 +15,21 @@ import { draftMode } from 'next/headers'
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
 
-// Configure Quicksand font with variable support and optimize loading
-const quicksand = Quicksand({
+// Configure Mali font for headings
+const mali = Mali({
   subsets: ['latin'],
-  variable: '--font-quicksand',
+  variable: '--font-mali',
+  display: 'swap', // Ensures text remains visible during font loading
+  preload: true,
+  weight: ['400', '500', '600', '700'],
+  fallback: ['cursive', 'system-ui'], // Fallback fonts to minimize CLS
+  adjustFontFallback: true, // Automatically adjust the size of the fallback font
+})
+
+// Configure Nunito font for body text
+const nunito = Nunito({
+  subsets: ['latin'],
+  variable: '--font-nunito',
   display: 'swap', // Ensures text remains visible during font loading
   preload: true,
   weight: ['400', '500', '600', '700'],
@@ -31,7 +42,7 @@ export default async function RootLayout({ children }: { readonly children: Reac
 
   return (
     <html
-      className={cn('font-sans', quicksand.variable)}
+      className={cn('font-sans', mali.variable, nunito.variable)}
       lang="cs"
       data-theme="light"
       suppressHydrationWarning

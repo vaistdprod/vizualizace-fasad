@@ -65,53 +65,57 @@
     --foreground-rgb: 0, 0, 0;
     --background-start-rgb: 214, 219, 220;
     --background-end-rgb: 255, 255, 255;
-    --primary-rgb: 216, 78, 116; /* Soft rose pink */
-    --secondary-rgb: 140, 206, 217; /* Gentle aqua */
+    --primary-rgb: 116, 169, 214; /* Baby blue */
+    --secondary-rgb: 248, 166, 131; /* Peach */
+    --peach-rgb: 248, 166, 131; /* Peach */
   }
 }
 
 @layer base {
   :root {
-    --primary-rgb: 216, 78, 116; /* Soft rose pink */
-    --secondary-rgb: 140, 206, 217; /* Gentle aqua */
-    --background: 0 0% 100%; /* Pure white (Stylesheet 2) */
-    --foreground: 340 60% 25%; /* Deep rose (Stylesheet 1) */
-    --card: 340 30% 99%; /* Off-white with slight rose tint (Stylesheet 2) */
-    --card-foreground: 340 60% 25%; /* Deep rose (Stylesheet 1) */
-    --popover: 340 30% 99%; /* Off-white with slight rose tint (Stylesheet 2) */
-    --popover-foreground: 340 60% 25%; /* Deep rose (Stylesheet 1) */
-    --primary: 340 85% 65%; /* Vibrant rose (Stylesheet 1) */
-    --primary-foreground: 0 0% 100%; /* White (Stylesheet 2) */
-    --secondary: 180 75% 85%; /* Soft aqua (Stylesheet 1) */
-    --secondary-foreground: 180 60% 25%; /* Deep aqua (Stylesheet 1) */
-    --muted: 340 20% 96%; /* Very light rose (Stylesheet 2) */
-    --muted-foreground: 340 40% 45%; /* Muted rose (Stylesheet 2) */
-    --accent: 180 75% 85%; /* Soft aqua (Stylesheet 1) */
-    --accent-foreground: 180 60% 25%; /* Deep aqua (Stylesheet 1) */
-    --destructive: 0 84.2% 60.2%; /* Red (Stylesheet 1/2, unchanged) */
-    --destructive-foreground: 0 0% 98%; /* White (Stylesheet 1/2, unchanged) */
-    --border: 340 65% 92%; /* Light rose border (Stylesheet 2) */
-    --input: 340 65% 92%; /* Light rose input (Stylesheet 2) */
-    --ring: 340 85% 65%; /* Vibrant rose ring (Stylesheet 1) */
+    --primary-rgb: 116, 169, 214; /* Baby blue */
+    --secondary-rgb: 248, 166, 131; /* Peach */
+    --peach-rgb: 248, 166, 131; /* Peach */
+    --background: 0 0% 100%; /* Pure white */
+    --foreground: 210 60% 25%; /* Deep navy */
+    --card: 25 30% 99%; /* Off-white with slight peach tint */
+    --card-foreground: 210 60% 25%; /* Deep navy */
+    --popover: 25 30% 99%; /* Off-white with slight peach tint */
+    --popover-foreground: 210 60% 25%; /* Deep navy */
+    --primary: 210 85% 65%; /* Vibrant baby blue */
+    --primary-foreground: 0 0% 100%; /* White */
+    --secondary: 25 85% 75%; /* Soft peach */
+    --secondary-foreground: 25 60% 25%; /* Deep peach */
+    --muted: 210 20% 96%; /* Very light blue */
+    --muted-foreground: 210 40% 45%; /* Muted blue */
+    --accent: 25 85% 75%; /* Soft peach */
+    --accent-foreground: 25 60% 25%; /* Deep peach */
+    --destructive: 0 84.2% 60.2%; /* Red (unchanged) */
+    --destructive-foreground: 0 0% 98%; /* White (unchanged) */
+    --border: 25 65% 92%; /* Light peach border */
+    --input: 210 65% 92%; /* Light blue input */
+    --ring: 210 85% 65%; /* Vibrant baby blue ring */
     --radius: 0.5rem;
-    --color-1: 283 100% 63%;
-    --color-2: 304 100% 63%;
-    --color-3: 340 100% 63%;
-    --color-4: 5 100% 63%;
-    --color-5: 15 100% 63%;
+    --color-1: 190 100% 63%; /* Aqua */
+    --color-2: 210 100% 63%; /* Sky blue */
+    --color-3: 25 100% 75%; /* Peach */
+    --color-4: 35 100% 75%; /* Light orange */
+    --color-5: 15 100% 75%; /* Coral */
   }
 
 
   * {
     @apply border-border;
-    font-family: 'Quicksand', var(--font-quicksand), sans-serif;
   }
+  
+  /* Apply Nunito to body text */
   body {
     @apply bg-background text-foreground relative font-sans;
+    font-family: 'Nunito', var(--font-nunito), sans-serif;
     background-image: linear-gradient(
       to bottom right,
-      rgba(var(--primary-rgb), 0.02), /* Subtler gradient from Stylesheet 2 */
-      rgba(var(--secondary-rgb), 0.02)
+      rgba(var(--primary-rgb), 0.04), /* Subtle baby blue gradient */
+      rgba(var(--secondary-rgb), 0.05)  /* Subtle peach gradient */
     );
   }
 
@@ -138,13 +142,19 @@
     mask-image: radial-gradient(
       circle at 50% 50%,
       black,
-      transparent 70% /* Adjusted from 80% for consistency with Stylesheet 1 */
+      transparent 70%
     );
     -webkit-mask-image: radial-gradient(
       circle at 50% 50%,
       black,
       transparent 70%
     );
+  }
+
+  /* Apply Mali to all headings */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Mali', var(--font-mali), cursive;
+    font-weight: 400;
   }
 
   /* Enable smooth scrolling */
@@ -198,7 +208,11 @@
 
 @keyframes rippling {
   0% {
-    opacity: 1;
+    transform: scale(0);
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 0.4;
   }
   100% {
     transform: scale(2);
@@ -207,7 +221,7 @@
 }
 
 .animate-rippling {
-  animation: rippling var(--duration, 1s) ease-out;
+  animation: rippling var(--duration, 1s) cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes gradient {

@@ -156,10 +156,8 @@ export interface Page {
     | HeroSectionBlock
     | ServicesSectionBlock
     | TeamSectionBlock
-    | GallerySectionBlock
     | InsuranceSectionBlock
     | HoursSectionBlock
-    | AppointmentSectionBlock
     | NewsSectionBlock
     | ContactSectionBlock
     | BackgroundImageBlock
@@ -762,24 +760,6 @@ export interface TeamSectionBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "GallerySectionBlock".
- */
-export interface GallerySectionBlock {
-  heading: string;
-  description: string;
-  images?:
-    | {
-        title: string;
-        image: number | Media;
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'gallerySection';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "InsuranceSectionBlock".
  */
 export interface InsuranceSectionBlock {
@@ -797,6 +777,11 @@ export interface InsuranceSectionBlock {
       }[]
     | null;
   contactPrompt?: string | null;
+  contactCard?: {
+    heading?: string | null;
+    buttonText?: string | null;
+    buttonLink?: string | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'insuranceSection';
@@ -827,34 +812,6 @@ export interface HoursSectionBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "AppointmentSectionBlock".
- */
-export interface AppointmentSectionBlock {
-  heading: string;
-  description: string;
-  appointmentTypes?:
-    | {
-        title: string;
-        duration: string;
-        description: string;
-        buttonText: string;
-        buttonLink: string;
-        id?: string | null;
-      }[]
-    | null;
-  imageSection: {
-    image: number | Media;
-    title?: string | null;
-    description?: string | null;
-  };
-  contactPrompt?: string | null;
-  contactLinkText?: string | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'appointmentSection';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "NewsSectionBlock".
  */
 export interface NewsSectionBlock {
@@ -879,14 +836,44 @@ export interface ContactSectionBlock {
    * Vyberte formulář s poli: Jméno, E-mail, Telefon a Zpráva.
    */
   form: number | Form;
-  address: string;
-  phone: string;
-  email: string;
+  contactMethods?:
+    | {
+        /**
+         * Např. "Adresa", "Telefon", "E-mail", "Ordinační hodiny"
+         */
+        label: string;
+        /**
+         * Např. adresa, telefonní číslo, e-mail nebo shrnutí hodin.
+         */
+        value: string;
+        /**
+         * Např. "https://maps.google.com/?q=...", "tel:...", "#ordinacni-hodiny"
+         */
+        href?: string | null;
+        icon: 'MapPin' | 'Phone' | 'Mail' | 'Clock';
+        /**
+         * Např. "bg-pink-100 text-pink-600" pro stylizaci.
+         */
+        colorClass?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   /**
    * Vložte URL Google Maps pro vaši lokaci.
    */
   mapEmbedUrl?: string | null;
   navigationButtonText?: string | null;
+  transportMethods?:
+    | {
+        title: string;
+        description: string;
+        /**
+         * Např. 🚌, 🚗, ♿ nebo kód SVG ikony.
+         */
+        icon: string;
+        id?: string | null;
+      }[]
+    | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'contactSection';
@@ -906,11 +893,9 @@ export interface BackgroundImageBlock {
         | HeroSectionBlock
         | ServicesSectionBlock
         | TeamSectionBlock
-        | GallerySectionBlock
         | HoursSectionBlock
         | InsuranceSectionBlock
         | NewsSectionBlock
-        | AppointmentSectionBlock
         | ContactSectionBlock
         | PricingSectionBlock
       )[]
@@ -935,6 +920,15 @@ export interface PricingSectionBlock {
       }[]
     | null;
   contactPrompt?: string | null;
+  tableHeaders?: {
+    service?: string | null;
+    description?: string | null;
+    price?: string | null;
+  };
+  contactLink?: {
+    text?: string | null;
+    href?: string | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'pricingSection';
@@ -1210,10 +1204,8 @@ export interface PagesSelect<T extends boolean = true> {
         heroSection?: T | HeroSectionBlockSelect<T>;
         servicesSection?: T | ServicesSectionBlockSelect<T>;
         teamSection?: T | TeamSectionBlockSelect<T>;
-        gallerySection?: T | GallerySectionBlockSelect<T>;
         insuranceSection?: T | InsuranceSectionBlockSelect<T>;
         hoursSection?: T | HoursSectionBlockSelect<T>;
-        appointmentSection?: T | AppointmentSectionBlockSelect<T>;
         newsSection?: T | NewsSectionBlockSelect<T>;
         contactSection?: T | ContactSectionBlockSelect<T>;
         backgroundImageBlock?: T | BackgroundImageBlockSelect<T>;
@@ -1371,23 +1363,6 @@ export interface TeamSectionBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "GallerySectionBlock_select".
- */
-export interface GallerySectionBlockSelect<T extends boolean = true> {
-  heading?: T;
-  description?: T;
-  images?:
-    | T
-    | {
-        title?: T;
-        image?: T;
-        id?: T;
-      };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "InsuranceSectionBlock_select".
  */
 export interface InsuranceSectionBlockSelect<T extends boolean = true> {
@@ -1402,6 +1377,13 @@ export interface InsuranceSectionBlockSelect<T extends boolean = true> {
         id?: T;
       };
   contactPrompt?: T;
+  contactCard?:
+    | T
+    | {
+        heading?: T;
+        buttonText?: T;
+        buttonLink?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -1427,35 +1409,6 @@ export interface HoursSectionBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "AppointmentSectionBlock_select".
- */
-export interface AppointmentSectionBlockSelect<T extends boolean = true> {
-  heading?: T;
-  description?: T;
-  appointmentTypes?:
-    | T
-    | {
-        title?: T;
-        duration?: T;
-        description?: T;
-        buttonText?: T;
-        buttonLink?: T;
-        id?: T;
-      };
-  imageSection?:
-    | T
-    | {
-        image?: T;
-        title?: T;
-        description?: T;
-      };
-  contactPrompt?: T;
-  contactLinkText?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "NewsSectionBlock_select".
  */
 export interface NewsSectionBlockSelect<T extends boolean = true> {
@@ -1473,11 +1426,26 @@ export interface ContactSectionBlockSelect<T extends boolean = true> {
   heading?: T;
   description?: T;
   form?: T;
-  address?: T;
-  phone?: T;
-  email?: T;
+  contactMethods?:
+    | T
+    | {
+        label?: T;
+        value?: T;
+        href?: T;
+        icon?: T;
+        colorClass?: T;
+        id?: T;
+      };
   mapEmbedUrl?: T;
   navigationButtonText?: T;
+  transportMethods?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        icon?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -1494,11 +1462,9 @@ export interface BackgroundImageBlockSelect<T extends boolean = true> {
         heroSection?: T | HeroSectionBlockSelect<T>;
         servicesSection?: T | ServicesSectionBlockSelect<T>;
         teamSection?: T | TeamSectionBlockSelect<T>;
-        gallerySection?: T | GallerySectionBlockSelect<T>;
         hoursSection?: T | HoursSectionBlockSelect<T>;
         insuranceSection?: T | InsuranceSectionBlockSelect<T>;
         newsSection?: T | NewsSectionBlockSelect<T>;
-        appointmentSection?: T | AppointmentSectionBlockSelect<T>;
         contactSection?: T | ContactSectionBlockSelect<T>;
         pricingSection?: T | PricingSectionBlockSelect<T>;
       };
@@ -1521,6 +1487,19 @@ export interface PricingSectionBlockSelect<T extends boolean = true> {
         id?: T;
       };
   contactPrompt?: T;
+  tableHeaders?:
+    | T
+    | {
+        service?: T;
+        description?: T;
+        price?: T;
+      };
+  contactLink?:
+    | T
+    | {
+        text?: T;
+        href?: T;
+      };
   id?: T;
   blockName?: T;
 }

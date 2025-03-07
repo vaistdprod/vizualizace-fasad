@@ -28,7 +28,7 @@ export const Pagination: React.FC<{
 
   return (
     <div className={cn('my-12', className)}>
-      <PaginationComponent className="bg-muted/30 p-2 rounded-lg shadow-sm border border-border">
+      <PaginationComponent className="bg-muted/30 p-2 rounded-xl shadow-sm border border-border">
         <PaginationContent className="gap-2">
           <PaginationItem>
             <PaginationPrevious

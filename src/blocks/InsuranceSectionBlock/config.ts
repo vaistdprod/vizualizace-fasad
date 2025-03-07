@@ -8,37 +8,22 @@ export const InsuranceSection: Block = {
     plural: 'Sekce pojišťoven',
   },
   fields: [
-    {
-      name: 'heading',
-      type: 'text',
-      required: true,
-      label: 'Nadpis',
-    },
-    {
-      name: 'description',
-      type: 'textarea',
-      required: true,
-      label: 'Popis',
-    },
+    { name: 'heading', type: 'text', required: true, label: 'Nadpis' },
+    { name: 'description', type: 'textarea', required: true, label: 'Popis' },
     {
       name: 'partners',
       type: 'array',
       label: 'Pojišťovny',
       minRows: 1,
       fields: [
-        {
-          name: 'title',
-          type: 'text',
-          required: true,
-          label: 'Název pojišťovny',
-        },
+        { name: 'title', type: 'text', required: true, label: 'Název pojišťovny' },
         {
           name: 'logo',
           type: 'upload',
           relationTo: 'media',
           required: true,
           label: 'Logo pojišťovny',
-          maxDepth: 1, // Ensure full Media objects are populated
+          maxDepth: 1,
         },
         {
           name: 'url',
@@ -56,6 +41,21 @@ export const InsuranceSection: Block = {
       type: 'text',
       label: 'Text pro kontakt',
       defaultValue: 'Nevidíte zde svou pojišťovnu? Napište nám pro více informací.',
+    },
+    {
+      name: 'contactCard',
+      type: 'group',
+      label: 'Kontaktní karta',
+      fields: [
+        { name: 'heading', type: 'text', label: 'Nadpis', defaultValue: 'Potřebujete poradit?' },
+        {
+          name: 'buttonText',
+          type: 'text',
+          label: 'Text tlačítka',
+          defaultValue: 'Kontaktujte nás',
+        },
+        { name: 'buttonLink', type: 'text', label: 'Odkaz tlačítka', defaultValue: '#kontakty' },
+      ],
     },
   ],
 }

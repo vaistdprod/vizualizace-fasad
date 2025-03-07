@@ -8,10 +8,8 @@ import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { HeroSectionBlock } from '@/blocks/HeroSectionBlock/Component'
 import { ServicesSectionBlock } from '@/blocks/ServicesSectionBlock/Component'
 import { TeamSectionBlock } from '@/blocks/TeamSectionBlock/Component'
-import { GallerySectionBlock } from '@/blocks/GallerySectionBlock/Component'
 import { InsuranceSectionBlock } from '@/blocks/InsuranceSectionBlock/Component'
 import { HoursSectionBlock } from '@/blocks/HoursSectionBlock/Component'
-import { AppointmentSectionBlock } from '@/blocks/AppointmentSectionBlock/Component'
 import { NewsSectionBlock } from '@/blocks/NewsSectionBlock/Component'
 import { ContactSectionBlock } from '@/blocks/ContactSectionBlock/Component'
 import { BackgroundImageBlock } from '@/blocks/BackgroundImageBlock/Component'
@@ -34,10 +32,8 @@ const blockComponents: { [key: string]: BlockComponent } = {
   heroSection: HeroSectionBlock,
   servicesSection: ServicesSectionBlock,
   teamSection: TeamSectionBlock,
-  gallerySection: GallerySectionBlock,
   insuranceSection: InsuranceSectionBlock,
   hoursSection: HoursSectionBlock,
-  appointmentSection: AppointmentSectionBlock,
   newsSection: NewsSectionBlock,
   contactSection: ContactSectionBlock,
   backgroundImageBlock: BackgroundImageBlock,

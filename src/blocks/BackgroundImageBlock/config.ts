@@ -1,7 +1,5 @@
 import type { Block } from 'payload'
-import { AppointmentSection } from '@/blocks/AppointmentSectionBlock/config' // Matches your folder naming
 import { ContactSection } from '@/blocks/ContactSectionBlock/config' // Matches your folder naming
-import { GallerySection } from '@/blocks/GallerySectionBlock/config' // Matches your folder naming
 import { HeroSection } from '@/blocks/HeroSectionBlock/config' // Matches your folder naming
 import { HoursSection } from '@/blocks/HoursSectionBlock/config' // Matches your folder naming
 import { InsuranceSection } from '@/blocks/InsuranceSectionBlock/config' // Matches your folder naming
@@ -45,11 +43,9 @@ export const BackgroundImageBlock: Block = {
         HeroSection,
         ServicesSection,
         TeamSection,
-        GallerySection,
         HoursSection,
         InsuranceSection,
         NewsSection,
-        AppointmentSection,
         ContactSection,
         PricingSectionBlock, // Updated to PricingSectionBlock
       ],

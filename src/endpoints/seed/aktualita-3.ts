@@ -6,9 +6,9 @@ export const aktualita3 = ({
   heroImage,
   author,
 }: AktualityArgs): Omit<Aktuality, 'id' | 'createdAt' | 'updatedAt'> => ({
-  slug: 'prevence-respiracnich-onemocneni',
+  slug: 'zdravi-pred-skolkou',
   _status: 'published',
-  title: 'Prevence respiračních onemocnění',
+  title: 'Zdraví dětí před nástupem do školky',
   heroImage: heroImage.id,
   authors: [author.id],
   content: {
@@ -20,7 +20,7 @@ export const aktualita3 = ({
           children: [
             {
               type: 'text',
-              text: 'Připravili jsme pro vás přehled doporučení, jak předcházet respiračním onemocněním u dětí v zimním období.',
+              text: 'S blížícím se školním rokem doporučujeme rodičům připravit děti na školku. Nabízíme tipy na posílení imunity a povinné očkování.',
               version: 1,
             },
           ],
@@ -37,9 +37,9 @@ export const aktualita3 = ({
     },
   },
   meta: {
-    title: 'Prevence respiračních onemocnění',
-    description: 'Připravili jsme pro vás přehled doporučení pro zimní období.',
+    title: 'Zdraví dětí před nástupem do školky',
+    description: 'Tipy na posílení imunity a očkování před nástupem do školky.',
     image: heroImage.id,
   },
-  publishedAt: '2025-02-15T00:00:00.000Z', // Full ISO string
+  publishedAt: '2025-02-15T00:00:00.000Z', // Kept the same date
 })

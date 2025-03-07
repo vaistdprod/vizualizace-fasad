@@ -1,6 +1,6 @@
 import { RequiredDataFromCollectionSlug } from 'payload'
 
-export const contactForm: RequiredDataFromCollectionSlug<'forms'> = {
+export const kontaktniFormular: RequiredDataFromCollectionSlug<'forms'> = {
   title: 'Kontaktní formulář',
   submitButtonLabel: 'Odeslat zprávu',
   confirmationType: 'message',

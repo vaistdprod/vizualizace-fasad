@@ -47,7 +47,8 @@ const config = {
     },
     extend: {
       fontFamily: {
-        sans: ['Quicksand', 'var(--font-quicksand)', 'sans-serif'],
+        sans: ['Nunito', 'var(--font-nunito)', 'sans-serif'],
+        heading: ['Mali', 'var(--font-mali)', 'cursive'],
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',

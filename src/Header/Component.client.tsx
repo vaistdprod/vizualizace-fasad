@@ -54,7 +54,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="fixed top-0 z-50 w-full border-b border-secondary/20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm">
       <div className="container flex h-16 items-center justify-between px-4 md:px-6 mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -84,7 +84,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             >
               <Link
                 href={item.link.url || '#'}
-                className="text-sm font-medium transition-colors hover:text-primary whitespace-nowrap"
+                className="text-sm font-medium transition-colors hover:text-secondary whitespace-nowrap"
               >
                 {item.link.label}
               </Link>
@@ -95,14 +95,22 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2, delay: navItems.length * 0.05, ease: 'easeOut' }}
           >
-            <Button variant="rainbow" size="sm">
+            <Button
+              variant="ripple"
+              size="sm"
+              className="bg-primary/10 text-primary hover:bg-primary/15 border-primary/30"
+            >
               <Link href={button.url || '#'}>{button.label}</Link>
             </Button>
           </motion.div>
         </nav>
 
         <div className="flex items-center lg:hidden">
-          <Button variant="rainbow" size="sm" className="mr-4">
+          <Button
+            variant="ripple"
+            size="sm"
+            className="mr-4 bg-primary/10 text-primary hover:bg-primary/15 border-primary/30"
+          >
             <Link href={button.url || '#'}>{button.label}</Link>
           </Button>
           <motion.button
@@ -117,14 +125,16 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         </div>
       </div>
 
-      {/* Mobile menu remains the same */}
+      {/* Mobile menu */}
       {isMobileMenuOpen && (
         <motion.div
-          className="top-0 left-0 right-0 z-40 border-b shadow-lg lg:hidden mobile-menu relative before:absolute before:inset-0 before:-z-10"
+          className="top-0 left-0 right-0 z-40 border-b border-secondary/20 shadow-lg lg:hidden mobile-menu relative before:absolute before:inset-0 before:-z-10"
           style={
             {
               backdropFilter: 'blur(8px)',
               WebkitBackdropFilter: 'blur(8px)',
+              background:
+                'linear-gradient(to bottom, rgba(255,255,255,0.95), rgba(255,255,255,0.85))',
             } as React.CSSProperties
           }
           initial={{ opacity: 0, y: -10 }}
@@ -143,7 +153,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                 >
                   <Link
                     href={item.link.url || '#'}
-                    className="text-base font-medium transition-colors hover:text-primary block py-1"
+                    className="text-base font-medium transition-colors hover:text-secondary block py-1"
                     onClick={toggleMobileMenu}
                   >
                     {item.link.label}

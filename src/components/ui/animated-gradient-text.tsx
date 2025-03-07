@@ -6,6 +6,8 @@ export interface AnimatedGradientTextProps<T extends ElementType = 'div'> {
   as?: T // Optional prop to specify the HTML element type
   children: ReactNode
   className?: string // Explicitly define className as an optional prop
+  colorFrom?: string // Optional prop to specify the gradient start color
+  colorTo?: string // Optional prop to specify the gradient end color
 }
 
 // Function component with generic type T
@@ -13,8 +15,8 @@ export function AnimatedGradientText<T extends ElementType = 'div'>({
   as,
   children,
   className,
-  colorFrom = '#ff4080',
-  colorTo = '#7a1f3d',
+  colorFrom = '#74a9d6', // Baby blue
+  colorTo = '#3a6b9e', // Darker baby blue
   ...restProps // Capture remaining props to spread onto the component
 }: AnimatedGradientTextProps<T> & ComponentPropsWithoutRef<T>) {
   const Component = as || 'div' // Default to "div" if no `as` prop is provided

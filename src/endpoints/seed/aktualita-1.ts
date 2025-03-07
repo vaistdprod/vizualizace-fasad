@@ -6,9 +6,9 @@ export const aktualita1 = ({
   heroImage,
   author,
 }: AktualityArgs): Omit<Aktuality, 'id' | 'createdAt' | 'updatedAt'> => ({
-  slug: 'nova-vakcina-proti-chripce',
+  slug: 'nove-pokyny-prohlidky',
   _status: 'published',
-  title: 'Nová očkovací vakcína proti chřipce',
+  title: 'Nové pokyny pro preventivní prohlídky dětí',
   heroImage: heroImage.id,
   authors: [author.id],
   content: {
@@ -20,7 +20,7 @@ export const aktualita1 = ({
           children: [
             {
               type: 'text',
-              text: 'Od příštího měsíce bude v naší ordinaci dostupná nová vakcína proti chřipce. Doporučujeme očkování zejména pro děti s chronickými onemocněními.',
+              text: 'Od března 2025 zavádíme aktualizované pokyny pro preventivní prohlídky. Zaměřujeme se na včasnou detekci vývojových poruch u dětí do 6 let.',
               version: 1,
             },
           ],
@@ -37,9 +37,9 @@ export const aktualita1 = ({
     },
   },
   meta: {
-    title: 'Nová očkovací vakcína proti chřipce',
-    description: 'Od příštího měsíce bude v naší ordinaci dostupná nová vakcína proti chřipce.',
+    title: 'Nové pokyny pro preventivní prohlídky dětí',
+    description: 'Od března 2025 zavádíme nové pokyny pro preventivní prohlídky dětí.',
     image: heroImage.id,
   },
-  publishedAt: '2025-02-25T00:00:00.000Z', // Full ISO string
+  publishedAt: '2025-02-25T00:00:00.000Z', // Kept the same date
 })

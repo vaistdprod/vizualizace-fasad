@@ -27,47 +27,81 @@ export const HeroSectionBlock: React.FC<
   } = props
 
   return (
-    <section className="relative pt-16 pb-8 w-full" id={`block-${id}`}>
-      <div id="uvod" className="container px-4 md:px-6 mx-auto max-w-7xl">
-        <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
+    <section
+      className="relative w-full min-h-screen flex items-center justify-center overflow-hidden"
+      id={`block-${id}`}
+      style={{ zIndex: 0 }}
+    >
+      {/* Background Image with Gradient Overlay */}
+      {image && (
+        <div className="absolute inset-0 w-full h-full z-0">
+          <Image
+            alt={
+              typeof image === 'object'
+                ? image.alt || 'Dětská ordinace Zbiroh - úvodní obrázek'
+                : 'Dětská ordinace Zbiroh - úvodní obrázek'
+            }
+            className="object-cover w-full h-full"
+            src={typeof image === 'object' && image.url ? image.url : ''}
+            fill
+            priority={true}
+            quality={90}
+            sizes="100vw"
+            fetchPriority="high"
+            loading="eager"
+            placeholder="blur"
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFeAJ5jYI2iwAAAABJRU5ErkJggg=="
+          />
+          {/* Gradient Overlay */}
+          <div
+            className="absolute inset-0 bg-gradient-to-r from-primary/60 via-[#f8a683]/50 to-primary/40 mix-blend-lighten"
+            aria-hidden="true"
+          />
+          {/* Additional texture overlay for depth */}
+        </div>
+      )}
+
+      {/* Content Container */}
+      <div
+        id="uvod"
+        className="container relative z-10 px-4 md:px-6 mx-auto max-w-7xl pt-32 pb-16 md:pt-40 md:pb-24"
+      >
+        <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 items-center">
+          {/* Text Content */}
           <MotionDiv
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-col justify-center space-y-4 max-w-xl relative"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: 'easeOut' }}
+            className="flex flex-col justify-center space-y-6 text-center lg:text-left lg:max-w-xl"
           >
-            {/* Circular gradient background for better text legibility */}
-            <div
-              className="absolute inset-0 -z-10 pointer-events-none"
-              style={{
-                background:
-                  'radial-gradient(circle at center, hsl(var(--background) / 0.9) 0%, hsl(var(--background) / 0.7) 40%, hsl(var(--background) / 0.5) 60%, hsl(var(--background) / 0.3) 80%, transparent 100%)',
-                transform: 'scale(1.5)',
-              }}
-            />
-            <div className="space-y-2">
+            <div className="space-y-4">
               <AnimatedGradientText
                 as="h1"
-                className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-7xl/none"
+                className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-7xl/none"
+                colorFrom="#1e293b"
+                colorTo="#334155"
               >
                 {title}
               </AnimatedGradientText>
-              <div className="max-w-[600px] text-muted-foreground md:text-xl my-2 space-y-4">
-                {description
-                  ?.split('\n\n')
-                  .map((paragraph, index) => (
-                    <p key={`para-${index}-${paragraph.substring(0, 10).replace(/\s+/g, '')}`}>
-                      {paragraph}
-                    </p>
-                  )) || <p>Popis není k dispozici</p>}
+              <div className="max-w-[600px] text-slate-800 md:text-xl my-4 space-y-4 mx-auto lg:mx-0">
+                {description?.split('\n\n').map((paragraph, index) => (
+                  <p
+                    key={`para-${index}-${paragraph.substring(0, 10).replace(/\s+/g, '')}`}
+                    className="leading-relaxed"
+                  >
+                    {paragraph}
+                  </p>
+                )) || <p>Popis není k dispozici</p>}
               </div>
             </div>
-            <div className="flex flex-col gap-2 min-[400px]:flex-row">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               {primaryButtonText && primaryButtonLink && (
                 <Button
                   size="lg"
-                  variant="rainbow" // Rainbow button
+                  variant="ripple"
+                  rippleColor="hsl(var(--primary) / 0.25)"
                   onClick={() => (window.location.href = primaryButtonLink)}
+                  className="transition-all duration-300 bg-primary/70 text-slate-800 hover:bg-primary/80 border-primary/30 hover:!text-slate-800"
                 >
                   {primaryButtonText}
                 </Button>
@@ -75,55 +109,88 @@ export const HeroSectionBlock: React.FC<
               {secondaryButtonText && secondaryButtonLink && (
                 <Button
                   size="lg"
-                  variant="ripple" // Ripple button
+                  variant="ripple"
+                  rippleColor="hsl(var(--secondary) / 0.25)"
                   onClick={() => (window.location.href = secondaryButtonLink)}
+                  className="bg-secondary/70 backdrop-blur-sm border-secondary/30 text-slate-800 transition-all duration-300 hover:bg-secondary/80 hover:!text-slate-800 hover:!from-secondary/5 hover:!to-secondary/10 hover:!border-secondary/30"
                 >
                   {secondaryButtonText}
                 </Button>
               )}
             </div>
           </MotionDiv>
+
+          {/* Hero Image (visible on larger screens) */}
           {image && (
             <Suspense
-              fallback={<div className="h-[888px] w-full bg-gray-200 animate-pulse rounded-xl" />}
+              fallback={
+                <div className="w-full bg-white/10 animate-pulse rounded-2xl backdrop-blur-sm" />
+              }
             >
               <MotionDiv
-                initial={{ opacity: 0, scale: 0.8 }}
+                initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="mx-auto lg:mx-0"
+                transition={{ duration: 0.7, delay: 0.3, ease: 'easeOut' }}
+                className="hidden lg:block relative mx-auto"
               >
-                <Image
-                  alt={
-                    typeof image === 'object'
-                      ? image.alt || 'Dětská ordinace Zbiroh - úvodní obrázek'
-                      : 'Dětská ordinace Zbiroh - úvodní obrázek'
-                  }
-                  className="rounded-xl object-cover w-full h-auto shadow-md"
-                  src={typeof image === 'object' && image.url ? image.url : ''}
-                  width={592}
-                  height={888}
-                  priority={true} // This is a critical above-the-fold image
-                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 80vw, (max-width: 1024px) 50vw, 592px"
-                  quality={85}
-                  fetchPriority="high"
-                  loading="eager"
-                  placeholder="blur"
-                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFeAJ5jYI2iwAAAABJRU5ErkJggg=="
-                  style={{
-                    maxWidth: '100%',
-                    height: 'auto',
-                  }}
-                  onLoad={(e) => {
-                    if (e.target) {
-                      ;(e.target as HTMLImageElement).setAttribute('data-loaded', 'true')
+                <div className="relative w-full overflow-hidden">
+                  <Image
+                    alt={
+                      typeof image === 'object'
+                        ? image.alt || 'Dětská ordinace Zbiroh - úvodní obrázek'
+                        : 'Dětská ordinace Zbiroh - úvodní obrázek'
                     }
-                  }}
-                />
+                    className="object-cover w-full h-full"
+                    src={typeof image === 'object' && image.url ? image.url : ''}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    quality={85}
+                    style={{
+                      objectPosition: 'center',
+                    }}
+                  />
+                  {/* Subtle gradient overlay for better text contrast */}
+                  <div
+                    className="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent mix-blend-overlay"
+                    aria-hidden="true"
+                  />
+                </div>
               </MotionDiv>
             </Suspense>
           )}
         </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
+        <MotionDiv
+          animate={{
+            y: [0, 10, 0],
+            opacity: [0.4, 1, 0.4],
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            repeatType: 'loop',
+          }}
+          className="flex flex-col items-center text-slate-800"
+        >
+          <span className="text-sm font-medium mb-2">Více</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="animate-bounce"
+          >
+            <path d="M12 5v14M5 12l7 7 7-7" />
+          </svg>
+        </MotionDiv>
       </div>
     </section>
   )

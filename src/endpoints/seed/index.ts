@@ -1,21 +1,20 @@
-// src/endpoints/seed/index.ts
 import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from 'payload'
-import { contactForm } from './contact-form'
+import { kontaktniFormular } from './kontaktni-formular'
 import { home } from './home'
-import { aktualita1 } from './aktualita-1'
-import { aktualita2 } from './aktualita-2'
-import { aktualita3 } from './aktualita-3'
+import { aktualita1 } from './aktualita-1' // New checkup guidelines
+import { aktualita2 } from './aktualita-2' // Nutrition workshop
+import { aktualita3 } from './aktualita-3' // Back-to-school tips
 import { heroImage } from './hero-image'
 import { teamImage } from './team-image'
-import { galleryImage1 } from './gallery-image-1'
-import { galleryImage2 } from './gallery-image-2'
-import { galleryImage3 } from './gallery-image-3'
-import { insuranceVZP } from './insurance-vzp'
-import { insuranceZPMV } from './insurance-zpmv'
-import { insuranceOZP } from './insurance-ozp'
-import { insuranceRBP } from './insurance-rbp'
-import { insuranceCPZP } from './insurance-cpzp'
-import { insuranceVOZP } from './insurance-vozp'
+import { aktualitaImage1 } from './aktualita-image-1'
+import { aktualitaImage2 } from './aktualita-image-2'
+import { aktualitaImage3 } from './aktualita-image-3'
+import { pojistovnaVZP } from './pojistovna-vzp'
+import { pojistovnaZPMV } from './pojistovna-zpmv'
+import { pojistovnaOZP } from './pojistovna-ozp'
+import { pojistovnaRBP } from './pojistovna-rbp'
+import { pojistovnaCPZP } from './pojistovna-cpzp'
+import { pojistovnaVOZP } from './pojistovna-vozp'
 import { logo } from './logo'
 import { mraky } from './mraky'
 import { malovanky } from './malovanky'
@@ -44,7 +43,7 @@ export const seed = async ({
 }): Promise<void> => {
   payload.logger.info('Seeding database...')
 
-  // First clear globals to avoid foreign key constraint issues
+  // Clear globals
   payload.logger.info('— Clearing globals...')
   await Promise.all(
     globals.map(async (global) => {
@@ -60,7 +59,7 @@ export const seed = async ({
     }),
   )
 
-  // Then clear collections
+  // Clear collections
   payload.logger.info('— Clearing collections...')
   await Promise.all(
     collections.map((collection) => payload.db.deleteMany({ collection, req, where: {} })),
@@ -76,7 +75,7 @@ export const seed = async ({
   await payload.delete({
     collection: 'users',
     depth: 0,
-    where: { email: { equals: 'info@pediatr-zbiroh.cz' } },
+    where: { email: { equals: 'mirka.janulova@seznam.cz' } },
   })
 
   const DEMO_AUTHOR_PASSWORD = process.env.DEMO_AUTHOR_PASSWORD
@@ -86,9 +85,9 @@ export const seed = async ({
   const demoAuthor = await payload.create({
     collection: 'users',
     data: {
-      name: 'MUDr. Lucie Šťastná',
-      email: 'info@pediatr-zbiroh.cz',
-      password: DEMO_AUTHOR_PASSWORD, // Use the ENV var here
+      name: 'MUDr. Miroslava Janulová',
+      email: 'mirka.janulova@seznam.cz',
+      password: DEMO_AUTHOR_PASSWORD,
     },
   })
 
@@ -99,7 +98,6 @@ export const seed = async ({
     data: logo,
     file: await fetchFileByPath('./logo.svg'),
   })
-  payload.logger.info(`LogoDoc: ${JSON.stringify(logoDoc)}`)
   const heroImageDoc = await payload.create({
     collection: 'media',
     data: heroImage,
@@ -108,51 +106,51 @@ export const seed = async ({
   const teamImageDoc = await payload.create({
     collection: 'media',
     data: teamImage,
-    file: await fetchFileByPath('./lucie-stastna.jpg'),
+    file: await fetchFileByPath('./lucie-stastna.jpg'), // Replace if renamed
   })
-  const galleryImage1Doc = await payload.create({
+  const aktualitaImage1Doc = await payload.create({
     collection: 'media',
-    data: galleryImage1,
+    data: aktualitaImage1,
     file: await fetchFileByPath('./ordinace.jpg'),
   })
-  const galleryImage2Doc = await payload.create({
+  const aktualitaImage2Doc = await payload.create({
     collection: 'media',
-    data: galleryImage2,
+    data: aktualitaImage2,
     file: await fetchFileByPath('./hracky.jpg'),
   })
-  const galleryImage3Doc = await payload.create({
+  const aktualitaImage3Doc = await payload.create({
     collection: 'media',
-    data: galleryImage3,
-    file: await fetchFileByPath('./trava.jpg'),
+    data: aktualitaImage3,
+    file: await fetchFileByPath('./vysetrovna.jpg'), // Updated from trava.jpg
   })
   const vzpImageDoc = await payload.create({
     collection: 'media',
-    data: insuranceVZP,
+    data: pojistovnaVZP,
     file: await fetchFileByPath('./vzp.svg'),
   })
   const zpmvImageDoc = await payload.create({
     collection: 'media',
-    data: insuranceZPMV,
+    data: pojistovnaZPMV,
     file: await fetchFileByPath('./zpmv.svg'),
   })
   const ozpImageDoc = await payload.create({
     collection: 'media',
-    data: insuranceOZP,
+    data: pojistovnaOZP,
     file: await fetchFileByPath('./ozp.svg'),
   })
   const rbpImageDoc = await payload.create({
     collection: 'media',
-    data: insuranceRBP,
+    data: pojistovnaRBP,
     file: await fetchFileByPath('./rbp.svg'),
   })
   const cpzpImageDoc = await payload.create({
     collection: 'media',
-    data: insuranceCPZP,
+    data: pojistovnaCPZP,
     file: await fetchFileByPath('./cpzp.svg'),
   })
   const vozpImageDoc = await payload.create({
     collection: 'media',
-    data: insuranceVOZP,
+    data: pojistovnaVOZP,
     file: await fetchFileByPath('./vozp.png'),
   })
   const backgroundImageMrakyDoc = await payload.create({
@@ -173,9 +171,9 @@ export const seed = async ({
 
   // Seed contact form
   payload.logger.info('— Seeding contact form...')
-  const contactFormDoc = await payload.create({
+  const kontaktniFormularDoc = await payload.create({
     collection: 'forms',
-    data: contactForm,
+    data: kontaktniFormular,
   })
 
   // Seed aktuality
@@ -184,19 +182,19 @@ export const seed = async ({
     collection: 'aktuality',
     depth: 3,
     context: { disableRevalidate: true },
-    data: aktualita1({ heroImage: galleryImage1Doc, author: demoAuthor }),
+    data: aktualita1({ heroImage: aktualitaImage1Doc, author: demoAuthor }),
   })
   const aktualita2Doc = await payload.create({
     collection: 'aktuality',
     depth: 3,
     context: { disableRevalidate: true },
-    data: aktualita2({ heroImage: galleryImage2Doc, author: demoAuthor }),
+    data: aktualita2({ heroImage: aktualitaImage2Doc, author: demoAuthor }),
   })
   const aktualita3Doc = await payload.create({
     collection: 'aktuality',
     depth: 3,
     context: { disableRevalidate: true },
-    data: aktualita3({ heroImage: galleryImage3Doc, author: demoAuthor }),
+    data: aktualita3({ heroImage: aktualitaImage3Doc, author: demoAuthor }),
   })
 
   // Seed home page
@@ -207,23 +205,23 @@ export const seed = async ({
     data: home({
       heroImage: heroImageDoc,
       teamImage: teamImageDoc,
-      galleryImage1: galleryImage1Doc,
-      galleryImage2: galleryImage2Doc,
-      galleryImage3: galleryImage3Doc,
+      aktualitaImage1: aktualitaImage1Doc,
+      aktualitaImage2: aktualitaImage2Doc,
+      aktualitaImage3: aktualitaImage3Doc,
       vzpImage: vzpImageDoc,
       zpmvImage: zpmvImageDoc,
       ozpImage: ozpImageDoc,
       rbpImage: rbpImageDoc,
       cpzpImage: cpzpImageDoc,
       vozpImage: vozpImageDoc,
-      contactForm: contactFormDoc,
+      kontaktniFormular: kontaktniFormularDoc, // Updated to match import
       aktuality: [aktualita1Doc, aktualita2Doc, aktualita3Doc],
       backgroundImageMraky: backgroundImageMrakyDoc,
       backgroundImagePuntiky: backgroundImagePuntikyDoc,
       backgroundImageMalovanky: backgroundImageMalovankyDoc,
-      mrakyOpacity: 0.06, // Slightly visible for top section
-      puntikyOpacity: 0.24, // Default for middle section
-      malovankyOpacity: 0.06, // More faded for bottom section
+      mrakyOpacity: 0.06,
+      puntikyOpacity: 0.24,
+      malovankyOpacity: 0.06,
     }),
   })
 
@@ -232,9 +230,7 @@ export const seed = async ({
   const navigation = [
     { label: 'Aktuality', url: '#aktuality' },
     { label: 'Služby', url: '#sluzby' },
-    { label: 'Objednání', url: '#objednani' },
     { label: 'Náš tým', url: '#nas-tym' },
-    { label: 'Galerie', url: '#galerie' },
     { label: 'Ordinační hodiny', url: '#ordinacni-hodiny' },
     { label: 'Pojišťovny', url: '#pojistovny' },
     { label: 'Ceník', url: '#cenik' },
@@ -245,7 +241,7 @@ export const seed = async ({
     navItems: navigation.map((item) => ({
       link: { type: 'custom' as const, label: item.label, url: item.url },
     })),
-    button: { type: 'custom' as const, label: 'Objednat se', url: '#objednani' },
+    button: { type: 'custom' as const, label: 'Kontaktujte nás', url: '#kontakty' },
   }
   payload.logger.info(`Header data before update: ${JSON.stringify(headerData)}`)
   await Promise.all([
@@ -258,7 +254,7 @@ export const seed = async ({
     payload.updateGlobal({
       slug: 'footer',
       data: {
-        description: 'Poskytujeme lékařskou péči pro vaše děti od novorozenců až po dospívající.',
+        description: 'Poskytujeme odbornou péči pro děti od narození až po dospívající v Brně.',
         socialLinks: [
           { platform: 'Facebook', url: '#' },
           { platform: 'Instagram', url: '#' },
@@ -269,14 +265,12 @@ export const seed = async ({
             links: [
               { label: 'Aktuality', url: '#aktuality' },
               { label: 'Služby', url: '#sluzby' },
-              { label: 'Objednání', url: '#objednani' },
               { label: 'Náš tým', url: '#nas-tym' },
             ],
           },
           {
             title: 'Další informace',
             links: [
-              { label: 'Galerie', url: '#galerie' },
               { label: 'Ordinační hodiny', url: '#ordinacni-hodiny' },
               { label: 'Pojišťovny', url: '#pojistovny' },
               { label: 'Ceník', url: '#cenik' },
@@ -287,15 +281,15 @@ export const seed = async ({
             links: [
               {
                 label: 'Navigovat do ordinace',
-                url: 'https://maps.google.com/?q=Masarykovo%20n%C3%A1m%C4%9Bst%C3%AD%20275%2C%20338%2008%20Zbiroh',
+                url: 'https://maps.google.com/?q=U%20Pošty%20402/14,%20625%2000%20Brno',
               },
-              { label: 'Napište nám e-mail', url: 'mailto:info@pediatr-zbiroh.cz' },
-              { label: 'Zavolejte nám', url: 'tel:+420 371 794 225' },
-              { label: 'Web obce Zbiroh', url: 'https://zbiroh.cz' },
+              { label: 'Napište nám e-mail', url: 'mailto:mirka.janulova@seznam.cz' },
+              { label: 'Zavolejte nám', url: 'tel:+420732229610' },
+              { label: 'Web města Brno', url: 'https://www.brno.cz' },
             ],
           },
         ],
-        copyrightText: '© 2025 Dětská ambulance Zbiroh s.r.o. by TD Productions.',
+        copyrightText: '© 2025 MUDr. Miroslava Janulová, s.r.o. Všechna práva vyhrazena.',
       },
       depth: 0,
       context: { disableRevalidate: true },

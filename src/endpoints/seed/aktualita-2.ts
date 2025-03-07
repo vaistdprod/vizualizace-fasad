@@ -6,9 +6,9 @@ export const aktualita2 = ({
   heroImage,
   author,
 }: AktualityArgs): Omit<Aktuality, 'id' | 'createdAt' | 'updatedAt'> => ({
-  slug: 'zmena-ordinacnich-hodin-prazdniny',
+  slug: 'workshop-vyziva-deti',
   _status: 'published',
-  title: 'Změna ordinačních hodin během letních prázdnin',
+  title: 'Workshop o výživě dětí v předškolním věku',
   heroImage: heroImage.id,
   authors: [author.id],
   content: {
@@ -20,7 +20,7 @@ export const aktualita2 = ({
           children: [
             {
               type: 'text',
-              text: 'Informujeme rodiče o upravené ordinační době během letních prázdnin. Akutní případy ošetříme vždy v ranních hodinách.',
+              text: 'Zveme rodiče na workshop o zdravé výživě dětí, který se uskuteční v naší ordinaci. Naučíte se tipy na vyváženou stravu pro vaše nejmenší.',
               version: 1,
             },
           ],
@@ -37,9 +37,9 @@ export const aktualita2 = ({
     },
   },
   meta: {
-    title: 'Změna ordinačních hodin během letních prázdnin',
-    description: 'Informujeme rodiče o upravené ordinační době během letních prázdnin.',
+    title: 'Workshop o výživě dětí v předškolním věku',
+    description: 'Přijďte na workshop o zdravé výživě dětí v naší ordinaci.',
     image: heroImage.id,
   },
-  publishedAt: '2025-02-20T00:00:00.000Z', // Full ISO string
+  publishedAt: '2025-02-20T00:00:00.000Z', // Kept the same date
 })

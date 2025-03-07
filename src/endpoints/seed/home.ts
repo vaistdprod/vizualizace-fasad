@@ -1,66 +1,65 @@
-// src/endpoints/seed/home.ts
 import type { RequiredDataFromCollectionSlug } from 'payload'
 import type { Form, Media, Aktuality } from '@/payload-types'
 
 type HomeArgs = {
   heroImage: Media
   teamImage: Media
-  galleryImage1: Media
-  galleryImage2: Media
-  galleryImage3: Media
+  aktualitaImage1: Media // Updated from galleryImage1
+  aktualitaImage2: Media // Updated from galleryImage2
+  aktualitaImage3: Media // Updated from galleryImage3
   vzpImage: Media
   zpmvImage: Media
   ozpImage: Media
   rbpImage: Media
   cpzpImage: Media
   vozpImage: Media
-  contactForm: Form
+  kontaktniFormular: Form // Keep as generic Form type
   aktuality: Aktuality[]
-  backgroundImageMraky: Media // First 3 sections
-  backgroundImagePuntiky: Media // Next 3 sections
-  backgroundImageMalovanky: Media // Last 4 sections
-  mrakyOpacity?: number // Opacity for mraky block
-  puntikyOpacity?: number // Opacity for puntiky block
-  malovankyOpacity?: number // Opacity for malovanky block
+  backgroundImageMraky: Media
+  backgroundImagePuntiky: Media
+  backgroundImageMalovanky: Media
+  mrakyOpacity?: number
+  puntikyOpacity?: number
+  malovankyOpacity?: number
 }
 
 export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
   heroImage,
   teamImage,
-  galleryImage1,
-  galleryImage2,
-  galleryImage3,
+  aktualitaImage1, // Updated
+  aktualitaImage2, // Updated
+  aktualitaImage3, // Updated
   vzpImage,
   zpmvImage,
   ozpImage,
   rbpImage,
   cpzpImage,
   vozpImage,
-  contactForm,
+  kontaktniFormular,
   aktuality,
   backgroundImageMraky,
   backgroundImagePuntiky,
   backgroundImageMalovanky,
-  mrakyOpacity = 0.15, // Default matches component
-  puntikyOpacity = 0.15, // Default matches component
-  malovankyOpacity = 0.15, // Default matches component
+  mrakyOpacity = 0.15,
+  puntikyOpacity = 0.15,
+  malovankyOpacity = 0.15,
 }) => ({
   slug: 'home',
   _status: 'published',
-  title: 'Dětská ordinace Zbiroh',
+  title: 'Dětská ambulance MUDr. Janulová',
   layout: [
     {
-      blockType: 'backgroundImageBlock', // First 3 sections with mraky.svg
+      blockType: 'backgroundImageBlock',
       image: backgroundImageMraky,
-      opacity: mrakyOpacity, // Added opacity field
+      opacity: mrakyOpacity,
       blocks: [
         {
           blockType: 'heroSection',
-          title: 'Dětská ordinace Zbiroh',
+          title: 'Dětská ambulance MUDr. Janulová',
           description:
-            'Poskytujeme plnou péči o jakékoliv dítě od narození do 19 let včetně nedonošených a rizikových dětí.\n\nI při sebemenším vyšetření dbáme na pečlivé zvážení všech příznaků a neváháme kontaktovat specialisty, abychom předešli budoucím komplikacím.\n\nDbáme i na preventivní úkony na ochranu zdraví dětí a dorostu, jako je očkování nebo monitorování vývoje dětí pravidelnými preventivními prohlídkami.\n\nO naší kvalitě bezesporu svědčí i fakt, že odchované děti se k nám velmi často vrací s vlastními dětmi, a tak se často staráme o několik generací v jedné rodině.',
-          primaryButtonText: 'Objednat se',
-          primaryButtonLink: '#objednani',
+            'Poskytujeme odbornou péči dětem od narození až do 19 let. Specializujeme se na diagnostiku, léčbu a prevenci, včetně laktační poradny a očkování. Naše moderně vybavená ordinace v Brně zajišťuje rychlé testy a profesionální přístup. Zdraví vašich dětí je naší prioritou.',
+          primaryButtonText: 'Kontaktujte nás',
+          primaryButtonLink: '#kontakty',
           secondaryButtonText: 'Naše služby',
           secondaryButtonLink: '#sluzby',
           image: heroImage,
@@ -68,125 +67,84 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
         {
           blockType: 'newsSection',
           heading: 'Aktuality',
-          description: 'Čtěte nejnovější informace z naší ordinace.',
-          aktuality: aktuality,
-        },
-        {
-          blockType: 'appointmentSection',
-          heading: 'Naplánujte si návštěvu',
-          description: 'Zvolte typ objednání, který potřebujete.',
-          appointmentTypes: [
-            {
-              title: 'Pro registrované',
-              duration: '30 minut',
-              description: 'Po kliknutí se budete moci přihlásit.',
-              buttonText: 'Objednat se',
-              buttonLink: '#registrovani',
-            },
-            {
-              title: 'Pro neregistrované',
-              duration: '30 minut',
-              description: 'Po kliknutí budete vyzváni k registraci.',
-              buttonText: 'Objednat se',
-              buttonLink: '#neregistrovani',
-            },
-          ],
-          imageSection: {
-            title: 'Příjemné prostředí',
-            description: 'Naše ordinace je vybavena tak, aby se u nás děti cítily dobře',
-            image: galleryImage2.id,
-          },
-          contactPrompt: 'Potřebujete se objednat kvůli něčemu jinému?',
-          contactLinkText: 'Kontaktujte nás.',
+          description: 'Sledujte novinky z naší ambulance.',
+          aktuality: aktuality.map((a) => a.id),
         },
       ],
     },
     {
-      blockType: 'backgroundImageBlock', // Next 3 sections with puntiky.svg
+      blockType: 'backgroundImageBlock',
       image: backgroundImagePuntiky,
-      opacity: puntikyOpacity, // Added opacity field
+      opacity: puntikyOpacity,
       blocks: [
         {
           blockType: 'hoursSection',
           heading: 'Ordinační hodiny',
-          description: 'Pokud je to jen možné, prosíme o objednávání se předem.',
+          description: 'Prosíme o objednání předem na telefonním čísle 732 229 610.',
           hours: [
-            { day: 'Pondělí', hours: '08:00-13:00' },
-            {
-              day: 'Úterý',
-              hours:
-                '08:00-12:00 (Poradna pro zdravé pozvané děti)\n13:00-16:00 (Pro nemocné děti)',
-            },
-            { day: 'Středa', hours: '08:00-13:00' },
-            {
-              day: 'Čtvrtek',
-              hours:
-                '08:00-11:00 (Poradna pro zdravé pozvané děti)\n13:00-18:00 (13:00-15:00 nemocné děti, 15:00-18:00 poradna pro pozvané děti)',
-            },
-            { day: 'Pátek', hours: '08:00-13:00' },
+            { day: 'Pondělí', hours: '7:30-10:00 (nemocní) / 10:00-14:00 (prevence)' },
+            { day: 'Úterý', hours: '7:30-10:00 (nemocní) / 10:00-13:00 (prevence)' },
+            { day: 'Středa', hours: '10:00-11:30 (nemocní) / 13:00-18:00 (poradna)' },
+            { day: 'Čtvrtek', hours: '7:30-10:00 (nemocní) / 10:00-13:00 (prevence)' },
+            { day: 'Pátek', hours: '7:30-10:00 (nemocní) / 10:00-13:00 (prevence)' },
           ],
-          bloodDrawInfo: 'ODBĚRY KRVE 08:00 – 09:00 HODIN\n(PONDĚLÍ – STŘEDA – PÁTEK)',
-          emergencyContactInfo: 'Vaše dítě má akutní potíže? Zavolejte nám na číslo',
-          emergencyPhone: '+420 371 794 225',
+          bloodDrawInfo: 'ODBĚRY BIOLOGICKÉHO MATERIÁLU: Po-Pá 7:30-9:00',
+          emergencyContactInfo: 'Máte akutní problém? Kontaktujte nás na',
+          emergencyPhone: '+420 732 229 610',
         },
         {
           blockType: 'servicesSection',
-          heading: 'Služby',
-          description:
-            'Poskytujeme plnou péči o jakékoliv dítě od narození do 19 let včetně nedonošených a rizikových dětí.',
+          heading: 'Naše služby',
+          description: 'Komplexní péče o zdraví vašich dětí.',
           services: [
             {
-              title: 'Ambulantní péče',
               icon: 'Stethoscope',
-              shortDescription: 'Ambulantní vyšetření a ošetření dětí do 19 let',
+              title: 'Preventivní prohlídky',
+              shortDescription: 'Pravidelné kontroly vývoje a zdraví dětí.',
             },
             {
-              title: 'Kojenecká poradna',
-              icon: 'Heart',
-              shortDescription: 'Kojenecká poradna pro děti ve věku 0-18 měsíců',
-            },
-            {
-              title: 'Očkování',
               icon: 'Syringe',
-              shortDescription: 'Povinné a nepovinné preventivní očkování',
+              title: 'Očkování',
+              shortDescription:
+                'Standardní i nadstandardní vakcinace (klíšťová encefalitida, žloutenka, meningokok).',
             },
             {
-              title: 'Preventivní péče',
-              icon: 'HeartPulse',
-              shortDescription: 'Pravidelné preventivní prohlídky a monitorování vývoje dětí',
+              icon: 'Heart',
+              title: 'Laktační poradna',
+              shortDescription: 'Poradenství pro kojence a jejich maminky.',
             },
             {
-              title: 'Diagnostika a léčba',
               icon: 'Activity',
-              shortDescription: 'Diagnostika a léčba nemocných dětí s důrazem na příznaky',
+              title: 'Diagnostika',
+              shortDescription: 'Rychlé testy na CRP a moč do 2 minut.',
             },
             {
-              title: 'Návštěvní služba',
               icon: 'Bandage',
-              shortDescription: 'Návštěvní služba u novorozenců a nemocných dětí',
+              title: 'Drobná poranění',
+              shortDescription: 'Ošetření ran a odstranění stehů.',
             },
             {
-              title: 'Potvrzení lékaře',
-              icon: 'MessageCircle',
-              shortDescription: 'Potvrzení o zdravotním stavu dítěte pro sport, tábory, průkazy',
-            },
-            {
-              title: 'Konzultace se specialisty',
-              icon: 'Microscope',
-              shortDescription: 'Konzultace pro předcházení komplikacím u dětí',
+              icon: 'HeartPulse',
+              title: 'Výživové poradenství',
+              shortDescription: 'Rady pro zdravou stravu dětí.',
             },
           ],
         },
         {
           blockType: 'teamSection',
           heading: 'Náš tým',
-          description: 'Staráme se o zdravý a pohodový vývoj vašeho dětěte.',
+          description: 'Tým odborníků pečující o vaše děti s láskou a profesionalitou.',
           teamMembers: [
             {
-              title: 'MUDr. Lucie Šťastná',
+              title: 'MUDr. Miroslava Janulová',
               role: 'Pediatr',
-              description:
-                'Specializovaná dětská lékařka s 5letou praxí v pediatrii. Absolventka 1. lékařské fakulty UK v Praze.',
+              description: 'Zkušená dětská lékařka zaměřená na komplexní péči o děti.',
+              image: teamImage.id,
+            },
+            {
+              title: 'Monika',
+              role: 'Zdravotní sestra',
+              description: 'Pomáhá s péčí a organizací v ordinaci.',
               image: teamImage.id,
             },
           ],
@@ -194,151 +152,138 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
       ],
     },
     {
-      blockType: 'backgroundImageBlock', // Last 4 sections with malovanky.svg
+      blockType: 'backgroundImageBlock',
       image: backgroundImageMalovanky,
-      opacity: malovankyOpacity, // Added opacity field
+      opacity: malovankyOpacity,
       blocks: [
-        {
-          blockType: 'gallerySection',
-          heading: 'Naše ordinace',
-          description: 'Prohlédněte si naši ordinaci.',
-          images: [
-            { title: 'Ordinace', image: galleryImage1.id },
-            { title: 'Čekárna', image: galleryImage2.id },
-            { title: 'Vyšetřovna', image: galleryImage3.id },
-          ],
-        },
         {
           blockType: 'insuranceSection',
           heading: 'Smluvní pojišťovny',
-          description: 'Spolupracujeme s většinou z hlavních zdravotních pojišťoven.',
+          description: 'Spolupracujeme s těmito zdravotními pojišťovnami.',
           partners: [
             { title: 'VZP', logo: vzpImage.id, url: 'https://www.vzp.cz' },
-            { title: 'ZPMV', logo: zpmvImage.id, url: 'https://www.zpmvcr.cz' },
+            { title: 'VOZP', logo: vozpImage.id, url: 'https://www.vozp.cz' },
+            { title: 'ČPZP', logo: cpzpImage.id, url: 'https://www.cpzp.cz' },
             { title: 'OZP', logo: ozpImage.id, url: 'https://www.ozp.cz' },
             { title: 'RBP', logo: rbpImage.id, url: 'https://www.rbp213.cz' },
-            { title: 'ČPZP', logo: cpzpImage.id, url: 'https://www.cpzp.cz' },
-            { title: 'VOZP', logo: vozpImage.id, url: 'https://www.vozp.cz' },
+            { title: 'ZPMVČR', logo: zpmvImage.id, url: 'https://www.zpmvcr.cz' },
           ],
-          contactPrompt: 'Nevidíte zde svou pojišťovnu?',
+          contactPrompt: 'Nevidíte svou pojišťovnu? Kontaktujte nás.',
+          contactCard: {
+            heading: 'Máte otázky k pojištění?',
+            buttonText: 'Napište nám',
+            buttonLink: '#kontakty',
+          },
         },
         {
           blockType: 'pricingSection',
-          heading: 'Ceník našich služeb',
-          description: 'Přehled cen za naše pediatrické služby.',
+          heading: 'Ceník služeb',
+          description: 'Přehled cen za nadstandardní služby.',
           pricingItems: [
             {
-              title: 'Preventivní prohlídka dítěte',
-              description: 'Kompletní preventivní kontrola zdravotního stavu dítěte.',
-              price: '500 Kč',
+              title: 'Očkování proti klíšťové encefalitidě',
+              description: 'Nepovinná vakcinace na přání rodičů.',
+              price: '850 Kč',
             },
             {
-              title: 'Očkování (povinné)',
-              description: 'Standardní povinné vakcinace dle očkovacího kalendáře.',
-              price: '300 Kč',
-            },
-            {
-              title: 'Očkování (nepovinné)',
-              description: 'Volitelné vakcinace na přání rodičů (např. chřipka).',
-              price: '500 Kč',
-            },
-            {
-              title: 'Kojenecká poradna (1 hodina)',
-              description: 'Poradenství pro kojence včetně vážení a měření.',
-              price: '700 Kč',
-            },
-            {
-              title: 'Ambulantní vyšetření',
-              description: 'Jednorázové vyšetření při běžných potížích.',
-              price: '600 Kč',
-            },
-            {
-              title: 'Diagnostika a léčba (základní)',
-              description: 'Základní diagnostika a léčba akutních onemocnění.',
-              price: '800 Kč',
-            },
-            {
-              title: 'Návštěvní služba (domácí)',
-              description: 'Vyšetření u vás doma v případě nemoci dítěte.',
+              title: 'Očkování proti žloutence (Hepatitida A+B)',
+              description: 'Doporučená vakcinace pro děti.',
               price: '1 200 Kč',
             },
             {
-              title: 'Potvrzení o zdravotním stavu',
-              description: 'Vystavení potvrzení pro školy, tábory apod.',
-              price: '400 Kč',
+              title: 'Očkování proti meningokoku (MenB)',
+              description: 'Ochrana proti meningokokovým infekcím.',
+              price: '1 800 Kč',
             },
             {
-              title: 'Konzultace s pediatrem (30 minut)',
-              description: 'Osobní konzultace s lékařem o zdraví dítěte.',
+              title: 'Laktační poradna (30 minut)',
+              description: 'Individuální konzultace pro kojící matky.',
               price: '500 Kč',
             },
             {
-              title: 'Ultrazvuk (břišní)',
-              description: 'Ultrazvukové vyšetření břišní dutiny dítěte.',
-              price: '1 000 Kč',
+              title: 'Test na CRP',
+              description: 'Rychlý test z krve do 2 minut.',
+              price: '250 Kč',
             },
             {
-              title: 'Odběr krve',
-              description: 'Odběr krve pro laboratorní analýzu.',
-              price: '300 Kč',
-            },
-            {
-              title: 'Náhradní očkování (po odložení)',
-              description: 'Opakované očkování po přerušení kalendáře.',
-              price: '450 Kč',
-            },
-            {
-              title: 'Poradna pro zdravé děti',
-              description: 'Pravidelná kontrola zdravých dětí do 18 měsíců.',
-              price: '600 Kč',
-            },
-            {
-              title: 'Monitorování vývoje dítěte',
-              description: 'Dlouhodobé sledování růstu a vývoje dítěte.',
-              price: '550 Kč',
-            },
-            {
-              title: 'Akutní ošetření (mimo ordinační hodiny)',
-              description: 'Okamžitá péče při akutních stavech mimo běžnou dobu.',
-              price: '1 500 Kč',
-            },
-            // New items
-            {
-              title: 'EKG vyšetření',
-              description: 'Záznam srdeční činnosti pro děti s podezřením na problémy.',
-              price: '700 Kč',
-            },
-            {
-              title: 'Test na alergie',
-              description: 'Kožní test na běžné alergeny u dětí.',
-              price: '900 Kč',
-            },
-            {
-              title: 'Rehabilitace (30 minut)',
-              description: 'Cvičení s fyzioterapeutem pro děti s pohybovými obtížemi.',
+              title: 'Výživové poradenství (45 minut)',
+              description: 'Konzultace pro zdravou stravu dětí.',
               price: '600 Kč',
             },
           ],
-          contactPrompt: 'Máte dotazy k ceníku?',
+          contactPrompt: 'Potřebujete více informací o cenách?',
+          tableHeaders: {
+            service: 'Služba',
+            description: 'Popis',
+            price: 'Cena',
+          },
+          contactLink: {
+            text: 'Kontaktujte nás',
+            href: '#kontakty',
+          },
         },
         {
           blockType: 'contactSection',
-          heading: 'Spojte se s námi',
-          description: 'Rádi vám zodpovíme vaše dotazy.',
-          form: contactForm.id,
-          address: 'Masarykovo náměstí 275, 338 08 Zbiroh',
-          phone: '+420 371 794 225',
-          email: 'info@pediatr-zbiroh.cz',
+          heading: 'Kontaktujte nás',
+          description: 'Jsme tu pro vás a vaše děti.',
+          form: kontaktniFormular.id,
+          contactMethods: [
+            {
+              label: 'Adresa',
+              value: 'U Pošty 402/14, 625 00 Brno, Starý Lískovec',
+              href: 'https://maps.google.com/?q=U%20Pošty%20402/14,%20625%2000%20Brno',
+              icon: 'MapPin',
+              colorClass: 'bg-pink-100 text-pink-600',
+            },
+            {
+              label: 'Telefon',
+              value: '+420 732 229 610',
+              href: 'tel:+420732229610',
+              icon: 'Phone',
+              colorClass: 'bg-blue-100 text-blue-600',
+            },
+            {
+              label: 'E-mail',
+              value: 'mirka.janulova@seznam.cz',
+              href: 'mailto:mirka.janulova@seznam.cz',
+              icon: 'Mail',
+              colorClass: 'bg-purple-100 text-purple-600',
+            },
+            {
+              label: 'Poloha',
+              value: '1. patro, dveře č. 107',
+              href: '#ordinacni-hodiny',
+              icon: 'Clock',
+              colorClass: 'bg-green-100 text-green-600',
+            },
+          ],
           mapEmbedUrl:
-            'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2572.1125065799224!2d13.76620967715638!3d49.85913122976267!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470baaaa1d0a350f%3A0x14e1bcba391994f7!2zSsOtbGtvdsOhIEV2YSBNVURyLg!5e0!3m2!1sen!2scz!4v1740499961460!5m2!1sen!2scz',
+            'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2608.7054235701626!2d16.56247737712967!3d49.16819937885334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471295ebc83e77b5%3A0x340ea0d079c0244!2zTVVEci4gTWlyb3NsYXZhIEphbnVsb3bDoSAtIGTEm3Rza8O9IGzDqWthxZk!5e0!3m2!1sen!2scz!4v1741372365525!5m2!1sen!2scz',
           navigationButtonText: 'Navigovat do ordinace',
+          transportMethods: [
+            {
+              title: 'Tramvaj',
+              description: 'Zastávka Starý Lískovec, linky 6, 7, 8',
+              icon: '🚋',
+            },
+            {
+              title: 'Trolejbus',
+              description: 'Zastávka Starý Lískovec, linka 25',
+              icon: '🚎',
+            },
+            {
+              title: 'Autobus',
+              description: 'Zastávka Starý Lískovec, linky 50, 69',
+              icon: '🚌',
+            },
+          ],
         },
       ],
     },
   ],
   meta: {
-    title: 'Dětská ordinace Zbiroh',
-    description: 'Poskytujeme plnou péči o děti od narození do 19 let.',
+    title: 'Dětská ambulance MUDr. Janulová',
+    description: 'Odborná péče pro děti v Brně od narození do 19 let.',
     image: heroImage.id,
   },
 })

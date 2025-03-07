@@ -5,56 +5,56 @@
   This file customizes the Payload CMS admin interface to match the website's branding
 */
 
-/* Import the Quicksand font */
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+/* Import the Mali and Nunito fonts */
+@import url('https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&family=Nunito:wght@300;400;500;600;700&display=swap');
 
 /* Define brand colors from the website */
 :root {
-  /* Primary color - Soft rose pink */
-  --color-primary-50: hsl(340, 85%, 95%);
-  --color-primary-100: hsl(340, 85%, 90%);
-  --color-primary-200: hsl(340, 85%, 85%);
-  --color-primary-300: hsl(340, 85%, 80%);
-  --color-primary-400: hsl(340, 85%, 75%);
-  --color-primary-500: hsl(340, 85%, 65%); /* Primary color from website */
-  --color-primary-600: hsl(340, 85%, 55%);
-  --color-primary-700: hsl(340, 85%, 45%);
-  --color-primary-800: hsl(340, 85%, 35%);
-  --color-primary-900: hsl(340, 85%, 25%);
+  /* Primary color - Baby blue */
+  --color-primary-50: hsl(210, 85%, 95%);
+  --color-primary-100: hsl(210, 85%, 90%);
+  --color-primary-200: hsl(210, 85%, 85%);
+  --color-primary-300: hsl(210, 85%, 80%);
+  --color-primary-400: hsl(210, 85%, 75%);
+  --color-primary-500: hsl(210, 85%, 65%); /* Primary color from website */
+  --color-primary-600: hsl(210, 85%, 55%);
+  --color-primary-700: hsl(210, 85%, 45%);
+  --color-primary-800: hsl(210, 85%, 35%);
+  --color-primary-900: hsl(210, 85%, 25%);
 
-  /* Secondary color - Gentle aqua */
-  --color-secondary-50: hsl(180, 75%, 95%);
-  --color-secondary-100: hsl(180, 75%, 90%);
-  --color-secondary-200: hsl(180, 75%, 88%);
-  --color-secondary-300: hsl(180, 75%, 85%); /* Secondary color from website */
-  --color-secondary-400: hsl(180, 75%, 75%);
-  --color-secondary-500: hsl(180, 75%, 65%);
-  --color-secondary-600: hsl(180, 75%, 55%);
-  --color-secondary-700: hsl(180, 75%, 45%);
-  --color-secondary-800: hsl(180, 75%, 35%);
-  --color-secondary-900: hsl(180, 60%, 25%); /* Deep aqua from website */
+  /* Secondary color - Mint green */
+  --color-secondary-50: hsl(160, 75%, 95%);
+  --color-secondary-100: hsl(160, 75%, 90%);
+  --color-secondary-200: hsl(160, 75%, 88%);
+  --color-secondary-300: hsl(160, 75%, 85%); /* Secondary color from website */
+  --color-secondary-400: hsl(160, 75%, 75%);
+  --color-secondary-500: hsl(160, 75%, 65%);
+  --color-secondary-600: hsl(160, 75%, 55%);
+  --color-secondary-700: hsl(160, 75%, 45%);
+  --color-secondary-800: hsl(160, 75%, 35%);
+  --color-secondary-900: hsl(160, 60%, 25%); /* Deep mint from website */
 
   /* Background and text colors */
   --color-base-0: hsl(0, 0%, 100%); /* Pure white */
-  --color-base-50: hsl(340, 30%, 99%); /* Off-white with slight rose tint */
-  --color-base-100: hsl(340, 20%, 96%); /* Very light rose */
-  --color-base-150: hsl(340, 65%, 92%); /* Light rose border */
-  --color-base-200: hsl(340, 40%, 88%);
-  --color-base-250: hsl(340, 40%, 80%);
-  --color-base-300: hsl(340, 40%, 70%);
-  --color-base-350: hsl(340, 40%, 60%);
-  --color-base-400: hsl(340, 40%, 50%);
-  --color-base-450: hsl(340, 40%, 45%); /* Muted rose */
-  --color-base-500: hsl(340, 60%, 40%);
-  --color-base-550: hsl(340, 60%, 35%);
-  --color-base-600: hsl(340, 60%, 30%);
-  --color-base-650: hsl(340, 60%, 25%); /* Deep rose */
-  --color-base-700: hsl(340, 60%, 20%);
-  --color-base-750: hsl(340, 60%, 15%);
-  --color-base-800: hsl(340, 60%, 10%);
-  --color-base-850: hsl(340, 60%, 5%);
-  --color-base-900: hsl(340, 60%, 3%);
-  --color-base-950: hsl(340, 60%, 1%);
+  --color-base-50: hsl(210, 30%, 99%); /* Off-white with slight blue tint */
+  --color-base-100: hsl(210, 20%, 96%); /* Very light blue */
+  --color-base-150: hsl(210, 65%, 92%); /* Light blue border */
+  --color-base-200: hsl(210, 40%, 88%);
+  --color-base-250: hsl(210, 40%, 80%);
+  --color-base-300: hsl(210, 40%, 70%);
+  --color-base-350: hsl(210, 40%, 60%);
+  --color-base-400: hsl(210, 40%, 50%);
+  --color-base-450: hsl(210, 40%, 45%); /* Muted blue */
+  --color-base-500: hsl(210, 60%, 40%);
+  --color-base-550: hsl(210, 60%, 35%);
+  --color-base-600: hsl(210, 60%, 30%);
+  --color-base-650: hsl(210, 60%, 25%); /* Deep navy */
+  --color-base-700: hsl(210, 60%, 20%);
+  --color-base-750: hsl(210, 60%, 15%);
+  --color-base-800: hsl(210, 60%, 10%);
+  --color-base-850: hsl(210, 60%, 5%);
+  --color-base-900: hsl(210, 60%, 3%);
+  --color-base-950: hsl(210, 60%, 1%);
   --color-base-1000: hsl(0, 0%, 0%);
 
   /* Error, success, warning colors */
@@ -82,7 +82,8 @@
   --style-radius-xl: 1rem;
 
   /* Font family */
-  --font-body: 'Quicksand', var(--font-quicksand), sans-serif;
+  --font-body: 'Nunito', var(--font-nunito), sans-serif;
+  --font-heading: 'Mali', var(--font-mali), cursive;
   --font-mono: monospace;
 }
 
@@ -93,8 +94,8 @@ body {
   font-family: var(--font-body);
   background-image: linear-gradient(
     to bottom right,
-    rgba(216, 78, 116, 0.02), /* Soft rose pink */
-    rgba(140, 206, 217, 0.02) /* Gentle aqua */
+    rgba(116, 169, 214, 0.02), /* Baby blue */
+    rgba(140, 217, 180, 0.02) /* Mint green */
   );
 }
 
@@ -110,12 +111,12 @@ body::before {
   background-image: 
     radial-gradient(
       circle at 25px 25px,
-      rgba(216, 78, 116, 0.05) 2px,
+      rgba(116, 169, 214, 0.05) 2px,
       transparent 2.5px
     ),
     radial-gradient(
       circle at 75px 75px,
-      rgba(140, 206, 217, 0.05) 2px,
+      rgba(140, 217, 180, 0.05) 2px,
       transparent 2.5px
     );
   background-size: 100px 100px;
@@ -151,6 +152,7 @@ body::before {
   font-weight: 700;
   font-size: 1.25rem;
   color: var(--color-primary-500);
+  font-family: var(--font-heading);
 }
 
 /* Sidebar styling */
@@ -231,8 +233,8 @@ input:focus, textarea:focus, select:focus {
 .auth {
   background-image: linear-gradient(
     to bottom right,
-    rgba(216, 78, 116, 0.05),
-    rgba(140, 206, 217, 0.05)
+    rgba(116, 169, 214, 0.05),
+    rgba(140, 217, 180, 0.05)
   );
 }
 
@@ -254,6 +256,7 @@ input:focus, textarea:focus, select:focus {
   display: block;
   text-align: center;
   margin-bottom: 1.5rem;
+  font-family: var(--font-heading);
 }
 
 /* Custom styling for dashboard */
@@ -268,6 +271,7 @@ input:focus, textarea:focus, select:focus {
 .dashboard__header h1 {
   font-weight: 600;
   color: var(--color-base-650);
+  font-family: var(--font-heading);
 }
 
 /* Custom styling for before-dashboard component */
@@ -289,6 +293,7 @@ input:focus, textarea:focus, select:focus {
 .before-dashboard__banner h4 {
   color: var(--color-secondary-900);
   font-weight: 600;
+  font-family: var(--font-heading);
 }
 
 .before-dashboard__instructions {
@@ -322,6 +327,7 @@ input:focus, textarea:focus, select:focus {
   color: var(--color-primary-500);
   margin-bottom: 0.5rem;
   text-align: center;
+  font-family: var(--font-heading);
 }
 
 .auth-fields > div:first-child p {
@@ -395,6 +401,7 @@ input:focus, textarea:focus, select:focus {
 
 .modal__header h3 {
   font-weight: 600;
+  font-family: var(--font-heading);
 }
 
 .modal__footer {

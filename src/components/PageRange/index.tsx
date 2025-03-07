@@ -48,7 +48,7 @@ export const PageRange: React.FC<{
   return (
     <div
       className={cn(
-        'font-medium text-sm text-muted-foreground rounded-md py-2 px-3 inline-flex items-center',
+        'font-medium text-sm text-muted-foreground rounded-lg py-2 px-3 inline-flex items-center',
         'bg-muted/50 border border-border shadow-sm',
         className,
       )}
