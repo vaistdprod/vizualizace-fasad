@@ -167,7 +167,7 @@ export const HeroSectionBlock: React.FC<
                     src={typeof image === 'object' && image.url ? image.url : ''}
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
-                    quality={85}
+                    quality={80}
                     style={{
                       objectPosition: 'center',
                     }}

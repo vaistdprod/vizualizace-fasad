@@ -107,14 +107,9 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
           ],
           closedDates: [
             {
-              from: '2025-03-10',
-              to: '2025-03-16',
-              note: 'Svátek - Státní svátek a Velikonoční pondělí',
-            },
-            {
-              from: '2025-03-17',
-              to: '2025-03-28',
-              note: 'Dovolená - Dvoutýdenní uzavření',
+              from: '2025-04-21',
+              to: '2025-04-21',
+              note: 'Svátek – Velikonoční pondělí',
             },
           ],
           bloodDrawInfo: 'ODBĚRY BIOLOGICKÉHO MATERIÁLU: Po-Pá 7:30-9:00',
@@ -143,7 +138,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
               shortDescription: 'Poradenství pro maminky kojenců.',
             },
             {
-              icon: 'Activity',
+              icon: 'Microscope',
               title: 'Diagnostika',
               shortDescription: 'Rychlé testy na CRP a moč do 2 minut.',
             },
@@ -173,7 +168,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
             {
               title: 'Monika',
               role: 'Zdravotní sestra',
-              icon: 'User',
+              icon: 'Heart',
               description: 'Pomáhá s péčí a organizací v ordinaci.',
             },
           ],
