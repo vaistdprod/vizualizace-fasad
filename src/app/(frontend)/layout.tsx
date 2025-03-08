@@ -37,7 +37,7 @@ const nunito = Nunito({
 })
 
 export default async function RootLayout({ children }: { readonly children: React.ReactNode }) {
-  const { isEnabled } = await draftMode()
+  const { isEnabled: _isEnabled } = await draftMode()
 
   return (
     <html

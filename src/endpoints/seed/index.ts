@@ -230,7 +230,7 @@ export const seed = async ({
     depth: 3,
     data: home({
       heroImage: heroImageDoc,
-      ordinace: ordinaceDoc,
+      _ordinace: ordinaceDoc,
       hracky: hrackyDoc,
       vysetrovna: vysestrovnaDoc,
       vzpImage: vzpImageDoc,

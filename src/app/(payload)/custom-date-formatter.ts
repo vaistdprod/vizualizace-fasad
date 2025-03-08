@@ -38,7 +38,7 @@ export const formatDate = (date: string | number | Date): string => {
 
   const day = dateObj.getDate()
   const month = months[dateObj.getMonth()]
-  const shortMonth = shortMonths[dateObj.getMonth()]
+  const _shortMonth = shortMonths[dateObj.getMonth()]
   const year = dateObj.getFullYear()
 
   // Format hours and minutes with leading zeros

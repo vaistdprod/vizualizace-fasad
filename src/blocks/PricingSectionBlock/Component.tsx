@@ -3,7 +3,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Coins } from 'lucide-react'
-import Link from 'next/link'
 import { MagicCard } from '@/components/ui/magic-card'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
@@ -12,7 +11,14 @@ import type { PricingSectionBlock as PricingSectionBlockProps } from '@/payload-
 export const PricingSectionBlock: React.FC<PricingSectionBlockProps & { id?: string }> = (
   props,
 ) => {
-  const { id, heading, description, pricingItems, contactPrompt, tableHeaders } = props
+  const {
+    id,
+    heading,
+    description,
+    pricingItems,
+    contactPrompt: _contactPrompt,
+    tableHeaders,
+  } = props
   const isMobile = useMediaQuery('(max-width: 768px)')
 
   return (

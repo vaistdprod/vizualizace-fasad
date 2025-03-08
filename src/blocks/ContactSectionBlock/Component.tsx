@@ -3,7 +3,6 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { MapPin, Phone, Mail, MessageCircle, Clock, ArrowRight, Navigation } from 'lucide-react'
-import Link from 'next/link'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
 import { Button } from '@/components/ui/button'
 import { MagicCard } from '@/components/ui/magic-card'
@@ -66,7 +65,7 @@ export const ContactSectionBlock: React.FC<
   }))
 
   // Use the first address-like value for navigation button fallback, if available
-  const addressForNavigation =
+  const _addressForNavigation =
     dynamicContactMethods.find((m) => m.label.toLowerCase().includes('adresa'))?.value || ''
 
   return (

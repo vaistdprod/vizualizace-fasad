@@ -3,6 +3,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import * as LucideIcons from 'lucide-react'
+import type { LucideProps } from 'lucide-react'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
 import { MagicBorderCard } from '@/components/ui/magic-border-card'
 import type { TeamSectionBlock as TeamSectionBlockProps } from '@/payload-types'
@@ -64,7 +65,10 @@ export const TeamSectionBlock: React.FC<
           {teamMembers?.map((member, index) => {
             // Get the icon component from Lucide based on the icon name in the config
             const iconName = member.icon || 'User'
-            const IconComponent = (LucideIcons as any)[iconName] || LucideIcons.User
+            const IconComponent =
+              (LucideIcons as unknown as Record<string, React.ComponentType<LucideProps>>)[
+                iconName
+              ] || LucideIcons.User
 
             // Generate a unique pattern for this team member
             const pattern = generatePattern(index)

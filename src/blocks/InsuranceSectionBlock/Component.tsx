@@ -5,7 +5,6 @@ import { motion } from 'framer-motion'
 import { Shield, ExternalLink } from 'lucide-react'
 import Image from 'next/image'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
-import { Button } from '@/components/ui/button'
 import { MagicBorderCard } from '@/components/ui/magic-border-card'
 import Link from 'next/link'
 import type { InsuranceSectionBlock as InsuranceSectionBlockProps } from '@/payload-types'
@@ -13,7 +12,7 @@ import type { InsuranceSectionBlock as InsuranceSectionBlockProps } from '@/payl
 export const InsuranceSectionBlock: React.FC<InsuranceSectionBlockProps & { id?: string }> = (
   props,
 ) => {
-  const { id, heading, description, partners, contactPrompt } = props
+  const { id, heading, description, partners, contactPrompt: _contactPrompt } = props
 
   const getCardStyles = (index: number) => {
     const baseClasses = 'flex h-full transform transition-transform duration-500'
