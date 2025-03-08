@@ -74,7 +74,12 @@ export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
             ))}
         </div>
         <div className="border-t py-6 text-center text-sm text-muted-foreground">
-          <p suppressHydrationWarning>{copyrightText}</p>
+          <p suppressHydrationWarning>
+            {copyrightText}{' '}
+            <Link href="https://tdprod.cz" className="hover:text-primary transition-colors">
+              Vytvořillo TD Productions.
+            </Link>
+          </p>
         </div>
       </div>
     </footer>

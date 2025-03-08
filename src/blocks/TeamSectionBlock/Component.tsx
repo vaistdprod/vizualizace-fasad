@@ -2,11 +2,45 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import * as LucideIcons from 'lucide-react'
 import type { LucideProps } from 'lucide-react'
+import {
+  User,
+  Stethoscope,
+  HeartPulse,
+  Microscope,
+  Clipboard,
+  Activity,
+  Thermometer,
+  Baby,
+  Pill,
+  BookOpen,
+  Star,
+  Heart,
+  Syringe,
+  Bandage,
+  MessageCircle,
+} from 'lucide-react'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
 import { MagicBorderCard } from '@/components/ui/magic-border-card'
 import type { TeamSectionBlock as TeamSectionBlockProps } from '@/payload-types'
+
+const icons: Record<string, React.ComponentType<LucideProps>> = {
+  User,
+  Stethoscope,
+  HeartPulse,
+  Microscope,
+  Clipboard,
+  Activity,
+  Thermometer,
+  Baby,
+  Pill,
+  BookOpen,
+  Star,
+  Heart,
+  Syringe,
+  Bandage,
+  MessageCircle,
+}
 
 // Function to generate a pattern based on index
 const generatePattern = (index: number) => {
@@ -47,7 +81,7 @@ export const TeamSectionBlock: React.FC<
                 transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
                 className="absolute inset-0 bg-primary/10 rounded-full blur-lg"
               />
-              <LucideIcons.User className="w-10 h-10 mr-3 text-primary relative z-10" />
+              <User className="w-10 h-10 mr-3 text-primary relative z-10" />
               <div className="absolute inset-0 bg-primary/10 rounded-full blur-md" />
             </div>
             <AnimatedGradientText
@@ -65,10 +99,9 @@ export const TeamSectionBlock: React.FC<
           {teamMembers?.map((member, index) => {
             // Get the icon component from Lucide based on the icon name in the config
             const iconName = member.icon || 'User'
-            const IconComponent =
-              (LucideIcons as unknown as Record<string, React.ComponentType<LucideProps>>)[
-                iconName
-              ] || LucideIcons.User
+            // Get the icon component, with type assertion to handle undefined case
+            const IconComponent = (icons[iconName] ||
+              icons.User) as React.ComponentType<LucideProps>
 
             // Generate a unique pattern for this team member
             const pattern = generatePattern(index)

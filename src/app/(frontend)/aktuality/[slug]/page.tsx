@@ -79,27 +79,22 @@ export default async function Aktuality({ params: paramsPromise }: Args) {
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug = '' } = await paramsPromise
   const aktualita = await queryAktualityBySlug({ slug })
-
   return generateMeta({ doc: aktualita })
 }
 
-const queryAktualityBySlug = cache(async ({ slug }: { slug: string }) => {
+async function queryAktualityBySlug({ slug }: { slug: string }) {
   const { isEnabled: draft } = await draftMode()
-
   const payload = await getPayload({ config: configPromise })
 
   const result = await payload.find({
     collection: 'aktuality',
     draft,
     limit: 1,
-    overrideAccess: draft,
     pagination: false,
-    where: {
-      slug: {
-        equals: slug,
-      },
-    },
+    overrideAccess: draft,
+    depth: 2,
+    where: { slug: { equals: slug } },
   })
 
   return result.docs?.[0] || null
-})
+}
