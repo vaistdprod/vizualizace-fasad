@@ -1,6 +1,5 @@
 // This script compiles and runs the fix-homepage-slug.ts script
-const { exec } = require('child_process')
-const path = require('path')
+import { exec } from 'child_process'
 
 // First compile the TypeScript file
 console.log('Compiling fix-homepage-slug.ts...')

@@ -231,8 +231,8 @@ export const seed = async ({
     data: home({
       heroImage: heroImageDoc,
       _ordinace: ordinaceDoc,
-      hracky: hrackyDoc,
-      vysetrovna: vysestrovnaDoc,
+      _hracky: hrackyDoc,
+      _vysetrovna: vysestrovnaDoc,
       vzpImage: vzpImageDoc,
       zpmvImage: zpmvImageDoc,
       ozpImage: ozpImageDoc,

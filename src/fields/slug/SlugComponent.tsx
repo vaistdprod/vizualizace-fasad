@@ -115,7 +115,7 @@ export const SlugComponent: React.FC<SlugComponentProps> = ({
 
       {isHomePage && (
         <div className="field-description">
-          Toto je domovská stránka. Slug musí být vždy "uvod" pro správné fungování webu.
+          Toto je domovská stránka. Slug musí být vždy &quot;uvod&quot; pro správné fungování webu.
         </div>
       )}
     </div>

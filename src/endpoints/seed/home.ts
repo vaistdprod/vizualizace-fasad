@@ -4,8 +4,8 @@ import type { Form, Media, Aktuality } from '@/payload-types'
 type HomeArgs = {
   heroImage: Media
   _ordinace: Media
-  hracky: Media
-  vysetrovna: Media
+  _hracky: Media
+  _vysetrovna: Media
   vzpImage: Media
   zpmvImage: Media
   ozpImage: Media
@@ -23,8 +23,8 @@ type HomeArgs = {
 export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
   heroImage,
   _ordinace,
-  hracky,
-  vysetrovna,
+  _hracky,
+  _vysetrovna,
   vzpImage,
   zpmvImage,
   ozpImage,
