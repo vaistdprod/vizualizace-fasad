@@ -6,9 +6,9 @@ export const aktualita3 = ({
   heroImage,
   author,
 }: AktualityArgs): Omit<Aktuality, 'id' | 'createdAt' | 'updatedAt'> => ({
-  slug: 'zdravi-pred-skolkou',
+  slug: 'zmena-ordinacnich-hodin',
   _status: 'published',
-  title: 'Zdraví dětí před nástupem do školky',
+  title: 'Změna ordinačních hodin ve středu',
   heroImage: heroImage.id,
   authors: [author.id],
   content: {
@@ -20,7 +20,7 @@ export const aktualita3 = ({
           children: [
             {
               type: 'text',
-              text: 'S blížícím se školním rokem doporučujeme rodičům připravit děti na školku. Nabízíme tipy na posílení imunity a povinné očkování.',
+              text: 'Vážení pacienti, dovolujeme si vás informovat, že od 1.5.2025 dochází ke změně ordinačních hodin ve středu. Nově bude ordinace otevřena od 11:00 do 19:00 hodin. Dopolední hodiny budou vyhrazeny pro nemocné pacienty (11:00-13:00) a odpolední hodiny pro poradnu a prevence (13:00-19:00). Děkujeme za pochopení.',
               version: 1,
             },
           ],
@@ -37,8 +37,8 @@ export const aktualita3 = ({
     },
   },
   meta: {
-    title: 'Zdraví dětí před nástupem do školky',
-    description: 'Tipy na posílení imunity a očkování před nástupem do školky.',
+    title: 'Změna ordinačních hodin ve středu',
+    description: 'Informace o změně ordinačních hodin ve středu od 1.5.2025.',
     image: heroImage.id,
   },
   publishedAt: '2025-02-15T00:00:00.000Z', // Kept the same date

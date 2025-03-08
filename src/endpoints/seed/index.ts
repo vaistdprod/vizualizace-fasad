@@ -5,10 +5,9 @@ import { aktualita1 } from './aktualita-1' // New checkup guidelines
 import { aktualita2 } from './aktualita-2' // Nutrition workshop
 import { aktualita3 } from './aktualita-3' // Back-to-school tips
 import { heroImage } from './hero-image'
-import { teamImage } from './team-image'
-import { aktualitaImage1 } from './aktualita-image-1'
-import { aktualitaImage2 } from './aktualita-image-2'
-import { aktualitaImage3 } from './aktualita-image-3'
+import { ordinace } from './ordinace'
+import { hracky } from './hracky'
+import { vysetrovna } from './vysetrovna'
 import { pojistovnaVZP } from './pojistovna-vzp'
 import { pojistovnaZPMV } from './pojistovna-zpmv'
 import { pojistovnaOZP } from './pojistovna-ozp'
@@ -16,9 +15,14 @@ import { pojistovnaRBP } from './pojistovna-rbp'
 import { pojistovnaCPZP } from './pojistovna-cpzp'
 import { pojistovnaVOZP } from './pojistovna-vozp'
 import { logo } from './logo'
-import { mraky } from './mraky'
-import { malovanky } from './malovanky'
-import { puntiky } from './puntiky'
+import { polka } from './polka'
+import { ilustrace } from './ilustrace'
+import { batole } from './batole'
+import { naruci } from './naruci'
+import { stetoskop } from './stetoskop'
+import { stetoskop2 } from './stetoskop-2'
+import { vysetreni } from './vysetreni'
+import { vysetreni2 } from './vysetreni-2'
 import type { Header } from '@/payload-types'
 import { fileURLToPath } from 'url'
 
@@ -101,27 +105,22 @@ export const seed = async ({
   const heroImageDoc = await payload.create({
     collection: 'media',
     data: heroImage,
-    file: await fetchFileByPath('./ruka.jpg'),
+    file: await fetchFileByPath('./stetoskop-2.jpg'),
   })
-  const teamImageDoc = await payload.create({
+  const ordinaceDoc = await payload.create({
     collection: 'media',
-    data: teamImage,
-    file: await fetchFileByPath('./lucie-stastna.jpg'), // Replace if renamed
-  })
-  const aktualitaImage1Doc = await payload.create({
-    collection: 'media',
-    data: aktualitaImage1,
+    data: ordinace,
     file: await fetchFileByPath('./ordinace.jpg'),
   })
-  const aktualitaImage2Doc = await payload.create({
+  const hrackyDoc = await payload.create({
     collection: 'media',
-    data: aktualitaImage2,
+    data: hracky,
     file: await fetchFileByPath('./hracky.jpg'),
   })
-  const aktualitaImage3Doc = await payload.create({
+  const vysestrovnaDoc = await payload.create({
     collection: 'media',
-    data: aktualitaImage3,
-    file: await fetchFileByPath('./vysetrovna.jpg'), // Updated from trava.jpg
+    data: vysetrovna,
+    file: await fetchFileByPath('./vysetrovna.jpg'),
   })
   const vzpImageDoc = await payload.create({
     collection: 'media',
@@ -153,20 +152,47 @@ export const seed = async ({
     data: pojistovnaVOZP,
     file: await fetchFileByPath('./vozp.png'),
   })
-  const backgroundImageMrakyDoc = await payload.create({
+  const backgroundImagePolkaDoc = await payload.create({
     collection: 'media',
-    data: mraky,
-    file: await fetchFileByPath('./mraky.svg'),
+    data: polka,
+    file: await fetchFileByPath('./polka.svg'),
   })
-  const backgroundImagePuntikyDoc = await payload.create({
+  const backgroundImageIlustraceDoc = await payload.create({
     collection: 'media',
-    data: puntiky,
-    file: await fetchFileByPath('./puntiky.svg'),
+    data: ilustrace,
+    file: await fetchFileByPath('./ilustrace.svg'),
   })
-  const backgroundImageMalovankyDoc = await payload.create({
+
+  // Additional images
+  await payload.create({
     collection: 'media',
-    data: malovanky,
-    file: await fetchFileByPath('./malovanky.svg'),
+    data: batole,
+    file: await fetchFileByPath('./batole.jpg'),
+  })
+  await payload.create({
+    collection: 'media',
+    data: naruci,
+    file: await fetchFileByPath('./naruci.jpg'),
+  })
+  await payload.create({
+    collection: 'media',
+    data: stetoskop,
+    file: await fetchFileByPath('./stetoskop.jpg'),
+  })
+  await payload.create({
+    collection: 'media',
+    data: stetoskop2,
+    file: await fetchFileByPath('./stetoskop-2.jpg'),
+  })
+  await payload.create({
+    collection: 'media',
+    data: vysetreni,
+    file: await fetchFileByPath('./vysetreni.jpg'),
+  })
+  await payload.create({
+    collection: 'media',
+    data: vysetreni2,
+    file: await fetchFileByPath('./vysetreni-2.jpg'),
   })
 
   // Seed contact form
@@ -182,19 +208,19 @@ export const seed = async ({
     collection: 'aktuality',
     depth: 3,
     context: { disableRevalidate: true },
-    data: aktualita1({ heroImage: aktualitaImage1Doc, author: demoAuthor }),
+    data: aktualita1({ heroImage: ordinaceDoc, author: demoAuthor }),
   })
   const aktualita2Doc = await payload.create({
     collection: 'aktuality',
     depth: 3,
     context: { disableRevalidate: true },
-    data: aktualita2({ heroImage: aktualitaImage2Doc, author: demoAuthor }),
+    data: aktualita2({ heroImage: hrackyDoc, author: demoAuthor }),
   })
   const aktualita3Doc = await payload.create({
     collection: 'aktuality',
     depth: 3,
     context: { disableRevalidate: true },
-    data: aktualita3({ heroImage: aktualitaImage3Doc, author: demoAuthor }),
+    data: aktualita3({ heroImage: vysestrovnaDoc, author: demoAuthor }),
   })
 
   // Seed home page
@@ -204,24 +230,21 @@ export const seed = async ({
     depth: 3,
     data: home({
       heroImage: heroImageDoc,
-      teamImage: teamImageDoc,
-      aktualitaImage1: aktualitaImage1Doc,
-      aktualitaImage2: aktualitaImage2Doc,
-      aktualitaImage3: aktualitaImage3Doc,
+      ordinace: ordinaceDoc,
+      hracky: hrackyDoc,
+      vysetrovna: vysestrovnaDoc,
       vzpImage: vzpImageDoc,
       zpmvImage: zpmvImageDoc,
       ozpImage: ozpImageDoc,
       rbpImage: rbpImageDoc,
       cpzpImage: cpzpImageDoc,
       vozpImage: vozpImageDoc,
-      kontaktniFormular: kontaktniFormularDoc, // Updated to match import
+      kontaktniFormular: kontaktniFormularDoc,
       aktuality: [aktualita1Doc, aktualita2Doc, aktualita3Doc],
-      backgroundImageMraky: backgroundImageMrakyDoc,
-      backgroundImagePuntiky: backgroundImagePuntikyDoc,
-      backgroundImageMalovanky: backgroundImageMalovankyDoc,
-      mrakyOpacity: 0.06,
-      puntikyOpacity: 0.24,
-      malovankyOpacity: 0.06,
+      backgroundImagePolka: backgroundImagePolkaDoc,
+      backgroundImageIlustrace: backgroundImageIlustraceDoc,
+      polkaOpacity: 0.3,
+      ilustraceOpacity: 0.06,
     }),
   })
 
@@ -254,11 +277,9 @@ export const seed = async ({
     payload.updateGlobal({
       slug: 'footer',
       data: {
+        logo: logoDoc.id, // Add the logo reference here
+        title: 'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová', // Dynamic title
         description: 'Poskytujeme odbornou péči pro děti od narození až po dospívající v Brně.',
-        socialLinks: [
-          { platform: 'Facebook', url: '#' },
-          { platform: 'Instagram', url: '#' },
-        ],
         footerColumns: [
           {
             title: 'Rychlé odkazy',
@@ -281,7 +302,7 @@ export const seed = async ({
             links: [
               {
                 label: 'Navigovat do ordinace',
-                url: 'https://maps.google.com/?q=U%20Pošty%20402/14,%20625%2000%20Brno',
+                url: 'https://maps.app.goo.gl/yp4vJJC6vHpHLWvo7',
               },
               { label: 'Napište nám e-mail', url: 'mailto:mirka.janulova@seznam.cz' },
               { label: 'Zavolejte nám', url: 'tel:+420732229610' },
@@ -289,7 +310,7 @@ export const seed = async ({
             ],
           },
         ],
-        copyrightText: '© 2025 MUDr. Miroslava Janulová, s.r.o. Všechna práva vyhrazena.',
+        copyrightText: '© 2025 MUDr. Miroslava Janulová, s.r.o.',
       },
       depth: 0,
       context: { disableRevalidate: true },

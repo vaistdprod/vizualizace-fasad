@@ -67,7 +67,6 @@
     --background-end-rgb: 255, 255, 255;
     --primary-rgb: 116, 169, 214; /* Baby blue */
     --secondary-rgb: 248, 166, 131; /* Peach */
-    --peach-rgb: 248, 166, 131; /* Peach */
   }
 }
 
@@ -75,7 +74,6 @@
   :root {
     --primary-rgb: 116, 169, 214; /* Baby blue */
     --secondary-rgb: 248, 166, 131; /* Peach */
-    --peach-rgb: 248, 166, 131; /* Peach */
     --background: 0 0% 100%; /* Pure white */
     --foreground: 210 60% 25%; /* Deep navy */
     --card: 25 30% 99%; /* Off-white with slight peach tint */
@@ -96,11 +94,6 @@
     --input: 210 65% 92%; /* Light blue input */
     --ring: 210 85% 65%; /* Vibrant baby blue ring */
     --radius: 0.5rem;
-    --color-1: 190 100% 63%; /* Aqua */
-    --color-2: 210 100% 63%; /* Sky blue */
-    --color-3: 25 100% 75%; /* Peach */
-    --color-4: 35 100% 75%; /* Light orange */
-    --color-5: 15 100% 75%; /* Coral */
   }
 
 
@@ -116,38 +109,6 @@
       to bottom right,
       rgba(var(--primary-rgb), 0.04), /* Subtle baby blue gradient */
       rgba(var(--secondary-rgb), 0.05)  /* Subtle peach gradient */
-    );
-  }
-
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    background-image: 
-      radial-gradient(
-        circle at 25px 25px,
-        rgba(var(--primary-rgb), 0.1) 2px,
-        transparent 2.5px
-      ),
-      radial-gradient(
-        circle at 75px 75px,
-        rgba(var(--secondary-rgb), 0.1) 2px,
-        transparent 2.5px
-      );
-    background-size: 100px 100px;
-    mask-image: radial-gradient(
-      circle at 50% 50%,
-      black,
-      transparent 70%
-    );
-    -webkit-mask-image: radial-gradient(
-      circle at 50% 50%,
-      black,
-      transparent 70%
     );
   }
 
@@ -169,41 +130,6 @@
     @apply transition-shadow duration-200 ease-in-out;
   }
 
-}
-
-.rdp-button {
-  width: 2rem;
-  height: 2rem;
-}
-
-.rdp-button_previous:before {
-  content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>');
-}
-
-.rdp-button_next:before {
-  content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>');
-}
-
-@keyframes rainbow {
-  0% {
-    background-position: 0%;
-  }
-  100% {
-    background-position: 200%;
-  }
-}
-
-.animate-rainbow {
-  background-image: linear-gradient(
-    to right,
-    hsl(var(--color-1)),
-    hsl(var(--color-2)),
-    hsl(var(--color-3)),
-    hsl(var(--color-4)),
-    hsl(var(--color-5))
-  );
-  background-size: 200%;
-  animation: rainbow var(--speed, 6s) infinite linear;
 }
 
 @keyframes rippling {

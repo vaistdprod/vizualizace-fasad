@@ -34,14 +34,5 @@ export const PricingSectionBlock: Block = {
         { name: 'price', type: 'text', label: 'Cena', defaultValue: 'Cena' },
       ],
     },
-    {
-      name: 'contactLink',
-      type: 'group',
-      label: 'Odkaz na kontakt',
-      fields: [
-        { name: 'text', type: 'text', label: 'Text odkazu', defaultValue: 'Kontaktujte nás' },
-        { name: 'href', type: 'text', label: 'Odkaz', defaultValue: '#kontakty' },
-      ],
-    },
   ],
 }

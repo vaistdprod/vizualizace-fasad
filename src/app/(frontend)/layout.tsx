@@ -4,7 +4,6 @@ import { cn } from '@/utilities/ui'
 import { Mali, Nunito } from 'next/font/google'
 import React from 'react'
 
-import { AdminBar } from '@/components/AdminBar'
 import { StructuredData } from '@/components/StructuredData'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
@@ -59,12 +58,6 @@ export default async function RootLayout({ children }: { readonly children: Reac
       </head>
       <body className="antialiased">
         <Providers>
-          <AdminBar
-            adminBarProps={{
-              preview: isEnabled,
-            }}
-          />
-
           <Header />
           <main>{children}</main>
           <Footer />
@@ -75,15 +68,45 @@ export default async function RootLayout({ children }: { readonly children: Reac
   )
 }
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+}
+
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
   keywords: [
+    // Core terms
     'dětský lékař',
     'pediatr',
     'Brno',
     'dětská ordinace',
     'očkování',
     'preventivní prohlídky',
+    // Location variations
+    'dětský lékař Brno',
+    'pediatr Brno',
+    'dětský lékař Starý Lískovec',
+    'pediatr Starý Lískovec',
+    'dětský lékař Bohunice',
+    'pediatr Bohunice',
+    'dětský lékař Nový Lískovec',
+    'pediatr Nový Lískovec',
+    // Service variations
+    'očkování dětí Brno',
+    'preventivní prohlídky dětí',
+    'dětská pohotovost Brno',
+    'praktický lékař pro děti a dorost',
+    'pediatrická ordinace Brno',
+    'dětský doktor Brno',
+    // Specific conditions/services
+    'CRP test pro děti',
+    'odběry krve u dětí',
+    'laktační poradna Brno',
+    'výživové poradenství pro děti',
+    'péče o novorozence Brno',
+    'péče o kojence',
   ],
   openGraph: mergeOpenGraph(),
   robots: {

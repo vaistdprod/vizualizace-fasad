@@ -47,11 +47,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   const navItems = data.navItems || []
   const button = data.button || { label: 'Objednat se', url: '#objednani', type: 'custom' }
-  const logo = data.logo as Media // Assert it's a Media object since it's required and seeded
-
-  if (!logo.url) {
-    throw new Error('Logo URL is missing in Header data')
-  }
+  const logo = data.logo as Media | undefined // Logo is now optional
 
   return (
     <header className="fixed top-0 z-50 w-full border-b border-secondary/20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm">
@@ -63,14 +59,20 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           className="flex items-center space-x-2 hover:opacity-80 transition-opacity min-w-[48px] flex-shrink-0"
         >
           <Link href="/" className="flex items-center">
-            <Image
-              src={logo.url}
-              alt="Logo MUDr. Janulová"
-              width={48}
-              height={48}
-              className="object-contain"
-              priority
-            />
+            {logo && logo.url ? (
+              <Image
+                src={logo.url}
+                alt="Logo MUDr. Janulová"
+                width={144}
+                height={36}
+                className="object-contain"
+                priority
+              />
+            ) : (
+              <div className="w-[144] h-[36] flex items-center justify-center text-primary font-bold">
+                MUDr. Miroslava Janulová
+              </div>
+            )}
           </Link>
         </motion.div>
 

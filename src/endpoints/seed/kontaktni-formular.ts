@@ -57,7 +57,7 @@ export const kontaktniFormular: RequiredDataFromCollectionSlug<'forms'> = {
   emails: [
     {
       emailFrom:
-        '"Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová" <info@mudrjanulova.cz>',
+        '"Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová" <mirka.janulova@seznam.cz>',
       emailTo: '{{email}}',
       subject: 'Nová zpráva z kontaktního formuláře',
       message: {

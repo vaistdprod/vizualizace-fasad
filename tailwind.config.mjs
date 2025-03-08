@@ -46,6 +46,9 @@ const config = {
       },
     },
     extend: {
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(circle, var(--tw-gradient-stops))',
+      },
       fontFamily: {
         sans: ['Nunito', 'var(--font-nunito)', 'sans-serif'],
         heading: ['Mali', 'var(--font-mali)', 'cursive'],

@@ -14,7 +14,7 @@ export const Header: GlobalConfig = {
       type: 'upload',
       relationTo: 'media', // Assumes you have a 'media' collection for images
       label: 'Logo',
-      required: true,
+      required: false,
     },
     {
       name: 'navItems',

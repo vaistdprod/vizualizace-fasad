@@ -40,22 +40,7 @@ export const InsuranceSection: Block = {
       name: 'contactPrompt',
       type: 'text',
       label: 'Text pro kontakt',
-      defaultValue: 'Nevidíte zde svou pojišťovnu? Napište nám pro více informací.',
-    },
-    {
-      name: 'contactCard',
-      type: 'group',
-      label: 'Kontaktní karta',
-      fields: [
-        { name: 'heading', type: 'text', label: 'Nadpis', defaultValue: 'Potřebujete poradit?' },
-        {
-          name: 'buttonText',
-          type: 'text',
-          label: 'Text tlačítka',
-          defaultValue: 'Kontaktujte nás',
-        },
-        { name: 'buttonLink', type: 'text', label: 'Odkaz tlačítka', defaultValue: '#kontakty' },
-      ],
+      defaultValue: 'Nevidíte svou pojišťovnu? Kontaktujte nás.',
     },
   ],
 }

@@ -39,7 +39,6 @@ export default buildConfig({
   admin: {
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
-      beforeDashboard: ['@/components/BeforeDashboard'],
       graphics: {
         Logo: '@/components/Logo/AdminLogo',
         Icon: '@/components/Logo/AdminLogo',
@@ -68,18 +67,10 @@ export default buildConfig({
     fallbackLanguage: 'cs',
   },
   email: nodemailerAdapter({
-    defaultFromAddress: process.env.DEFAULT_FROM_ADDRESS || 'info@mudrjanulova.cz',
+    defaultFromAddress: process.env.DEFAULT_FROM_ADDRESS || 'mirka.janulova@seznam.cz',
     defaultFromName:
       process.env.DEFAULT_FROM_NAME ||
       'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová',
-    transportOptions: {
-      host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT || '587', 10),
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    },
   }),
   collections: [Pages, Aktuality, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
@@ -90,13 +81,13 @@ export default buildConfig({
       collections: {
         media: true,
       },
-      bucket: R2_BUCKET, // Now typed as string
+      bucket: R2_BUCKET,
       config: {
         credentials: {
-          accessKeyId: R2_ACCESS_KEY_ID, // Now typed as string
-          secretAccessKey: R2_SECRET_ACCESS_KEY, // Now typed as string
+          accessKeyId: R2_ACCESS_KEY_ID,
+          secretAccessKey: R2_SECRET_ACCESS_KEY,
         },
-        endpoint: `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`, // Now typed as string
+        endpoint: `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
         region: 'auto',
       },
     }),
@@ -158,8 +149,8 @@ export async function handleFormSubmission(submission: FormSubmission, req: Payl
   const message = messageField?.value as string
 
   await payload.sendEmail({
-    to: process.env.DEFAULT_TO_ADDRESS || 'info@mudrjanulova.cz',
-    from: process.env.DEFAULT_FROM_ADDRESS || 'info@mudrjanulova.cz',
+    to: process.env.DEFAULT_TO_ADDRESS || 'mirka.janulova@seznam.cz',
+    from: process.env.DEFAULT_FROM_ADDRESS || 'mirka.janulova@seznam.cz',
     subject: 'Nová zpráva z kontaktního formuláře',
     html: `
       <h1>Nová zpráva z kontaktního formuláře</h1>
@@ -172,7 +163,7 @@ export async function handleFormSubmission(submission: FormSubmission, req: Payl
 
   await payload.sendEmail({
     to: senderEmail,
-    from: process.env.DEFAULT_FROM_ADDRESS || 'info@mudrjanulova.cz',
+    from: process.env.DEFAULT_FROM_ADDRESS || 'mirka.janulova@seznam.cz',
     subject: 'Děkujeme za Vaši zprávu',
     html: `
       <h1>Dobrý den, ${senderName || ''}!</h1>

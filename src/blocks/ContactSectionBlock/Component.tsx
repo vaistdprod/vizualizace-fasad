@@ -72,7 +72,6 @@ export const ContactSectionBlock: React.FC<
   return (
     <section className="py-20 relative overflow-hidden" id={`block-${id}`}>
       {/* Decorative elements */}
-      <div className="absolute top-0 left-0 w-64 h-64 bg-primary/5 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary/5 rounded-full translate-x-1/3 translate-y-1/3 blur-3xl" />
 
       <div id="kontakty" className="container px-4 md:px-6 mx-auto max-w-7xl relative z-10">
@@ -119,7 +118,6 @@ export const ContactSectionBlock: React.FC<
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.2 }}
                   viewport={{ once: true }}
-                  whileHover={{ y: -5 }}
                   className="group"
                 >
                   <a
@@ -165,7 +163,7 @@ export const ContactSectionBlock: React.FC<
               className="pt-4"
             >
               <a
-                href={`https://maps.google.com/?q=${encodeURIComponent(addressForNavigation)}`}
+                href="https://maps.app.goo.gl/yp4vJJC6vHpHLWvo7"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block w-full"
@@ -173,7 +171,7 @@ export const ContactSectionBlock: React.FC<
                 <Button
                   variant="ripple"
                   size="lg"
-                  className="w-full bg-primary/10 text-primary hover:bg-primary/15 border-primary/30 transition-all duration-200"
+                  className="w-full bg-primary/10 text-primary hover:bg-primary/15 border-primary/30"
                 >
                   <div className="flex items-center">
                     <Navigation className="w-5 h-5 mr-2 flex-shrink-0" />
@@ -252,7 +250,7 @@ export const ContactSectionBlock: React.FC<
                       <iframe
                         src={
                           mapEmbedUrl ||
-                          'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2578.1107333571584!2d13.7726!3d49.8583!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDnCsDUxJzI5LjkiTiAxM8KwNDYnMjEuNCJF!5e0!3m2!1scs!2scz!4v1614698988952!5m2!1scs!2scz'
+                          'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2608.7054235701626!2d16.56247737712967!3d49.16819937885334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471295ebc83e77b5%3A0x340ea0d079c0244!2zTVVEci4gTWlyb3NsYXZhIEphbnVsb3bDoSAtIGTEm3Rza8O9IGzDqWthxZk!5e0!3m2!1sen!2scz!4v1741372365525!5m2!1sen!2scz'
                         }
                         allowFullScreen
                         loading="lazy"
@@ -268,7 +266,7 @@ export const ContactSectionBlock: React.FC<
                           {dynamicTransportMethods.map((method) => (
                             <MagicCard
                               key={method.id}
-                              className="p-4 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200"
+                              className="p-4 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300"
                               gradientColor="hsl(var(--muted))"
                               gradientFrom="hsl(var(--primary))"
                               gradientTo="hsl(var(--secondary))"

@@ -23,7 +23,7 @@ export const HoursSection: Block = {
     {
       name: 'hours',
       type: 'array',
-      label: 'Ordinační hodiny',
+      label: 'Ordinační hodiny (podle dní v týdnu)',
       minRows: 1,
       fields: [
         {
@@ -33,16 +33,70 @@ export const HoursSection: Block = {
           label: 'Den',
         },
         {
-          name: 'hours',
-          type: 'textarea',
+          name: 'schedules',
+          type: 'array',
+          label: 'Časové úseky',
+          minRows: 1,
+          fields: [
+            {
+              name: 'timeRange',
+              type: 'text',
+              required: true,
+              label: 'Časový úsek (např. 7:30-10:00)',
+              admin: {
+                description: 'Zadejte časový úsek ve formátu start-konec (např. 7:30-10:00).',
+              },
+            },
+            {
+              name: 'note',
+              type: 'text',
+              required: false,
+              label: 'Poznámka (volitelné)',
+              admin: {
+                description: 'Přidejte volitelnou poznámku (např. "nemocní" nebo "prevence").',
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'closedDates',
+      type: 'array',
+      label: 'Zavřené období (rozmezí datumů)',
+      fields: [
+        {
+          name: 'from',
+          type: 'date',
           required: true,
-          label: 'Hodiny',
+          label: 'Od data',
           admin: {
-            description:
-              'Zadejte hodiny, použijte nové řádky pro více záznamů (např. "8:00-12:00 (Poznámka)" pro dodatečné informace).',
+            description: 'Vyberte počáteční datum uzavření.',
+          },
+        },
+        {
+          name: 'to',
+          type: 'date',
+          required: true,
+          label: 'Do data',
+          admin: {
+            description: 'Vyberte koncové datum uzavření.',
+          },
+        },
+        {
+          name: 'note',
+          type: 'text',
+          required: false,
+          label: 'Poznámka (volitelné)',
+          admin: {
+            description: 'Přidejte důvod uzavření (např. "Dovolená" nebo "Svátek").',
           },
         },
       ],
+      admin: {
+        description:
+          'Zadejte rozmezí datumů, kdy bude ordinace zavřena (např. dovolená nebo svátky).',
+      },
     },
     {
       name: 'bloodDrawInfo',

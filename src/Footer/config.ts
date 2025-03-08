@@ -10,31 +10,23 @@ export const Footer: GlobalConfig = {
   },
   fields: [
     {
+      name: 'logo',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Logo',
+      required: false,
+    },
+    {
+      name: 'title', // New dynamic title field
+      type: 'text',
+      label: 'Název',
+      required: true, // Make it required since it’s a key part of the footer
+      defaultValue: 'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová', // Default for convenience
+    },
+    {
       name: 'description',
       type: 'text',
       label: 'Popis',
-    },
-    {
-      name: 'socialLinks',
-      type: 'array',
-      label: 'Sociální sítě',
-      fields: [
-        {
-          name: 'platform',
-          type: 'text',
-          required: true,
-          label: 'Platforma',
-        },
-        {
-          name: 'url',
-          type: 'text',
-          required: true,
-          label: 'URL',
-        },
-      ],
-      admin: {
-        initCollapsed: true,
-      },
     },
     {
       name: 'footerColumns',
@@ -69,6 +61,9 @@ export const Footer: GlobalConfig = {
       ],
       admin: {
         initCollapsed: true,
+        components: {
+          RowLabel: '@/Footer/RowLabel#RowLabel',
+        },
       },
     },
     {

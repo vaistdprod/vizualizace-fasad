@@ -3,22 +3,23 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Heart } from 'lucide-react'
 import React from 'react'
-import type { Footer } from '@/payload-types'
+import type { Footer, Media } from '@/payload-types'
+import Image from 'next/image'
 
 interface FooterClientProps {
   data: Footer
 }
 
 export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
-  const { description, socialLinks, footerColumns, copyrightText } = data
+  const { description, footerColumns, copyrightText, logo, title } = data
+  const logoMedia = logo as Media | undefined // Type the logo as Media or undefined
 
   return (
     <footer className="border-t bg-card">
       <div className="container px-4 md:px-6 mx-auto max-w-7xl">
         <div className="grid gap-8 py-10 md:grid-cols-2 lg:grid-cols-4">
-          {/* Logo and Description (Column 1) */}
+          {/* Logo, Title, and Description (Column 1) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -26,26 +27,19 @@ export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
             viewport={{ once: true }}
             className="space-y-4"
           >
-            <div className="flex items-center space-x-2">
-              <Heart className="h-6 w-6 text-primary" />
-              <span className="text-lg font-bold">
-                Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová
-              </span>
-            </div>
+            {logoMedia && logoMedia.url ? (
+              <Link href="/">
+                <Image
+                  src={logoMedia.url}
+                  alt={title || 'Logo MUDr. Janulová'}
+                  width={192}
+                  height={48}
+                  className="object-contain max-w-[12rem] mb-4" // Match spacing with h3
+                />
+              </Link>
+            ) : null}
+            <h3 className="font-semibold">{title}</h3>
             <p className="text-sm text-muted-foreground">{description}</p>
-            {socialLinks && socialLinks.length > 0 && (
-              <div className="flex space-x-4">
-                {socialLinks.map((social) => (
-                  <Link
-                    key={social.platform}
-                    href={social.url || '#'}
-                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    {social.platform}
-                  </Link>
-                ))}
-              </div>
-            )}
           </motion.div>
 
           {/* Navigation Columns (2-4) */}

@@ -6,9 +6,9 @@ export const aktualita1 = ({
   heroImage,
   author,
 }: AktualityArgs): Omit<Aktuality, 'id' | 'createdAt' | 'updatedAt'> => ({
-  slug: 'nove-pokyny-prohlidky',
+  slug: 'letni-dovolena-2025',
   _status: 'published',
-  title: 'Nové pokyny pro preventivní prohlídky dětí',
+  title: 'Letní dovolená 2025 - ordinace uzavřena',
   heroImage: heroImage.id,
   authors: [author.id],
   content: {
@@ -20,7 +20,7 @@ export const aktualita1 = ({
           children: [
             {
               type: 'text',
-              text: 'Od března 2025 zavádíme aktualizované pokyny pro preventivní prohlídky. Zaměřujeme se na včasnou detekci vývojových poruch u dětí do 6 let.',
+              text: 'Vážení rodiče, dovolujeme si vás informovat, že naše ordinace bude z důvodu letní dovolené uzavřena v termínu 15.7. - 29.7.2025. Akutní případy ošetří zastupující lékař MUDr. Novák v ordinaci na ulici Kounicova 26, Brno. Děkujeme za pochopení.',
               version: 1,
             },
           ],
@@ -37,8 +37,8 @@ export const aktualita1 = ({
     },
   },
   meta: {
-    title: 'Nové pokyny pro preventivní prohlídky dětí',
-    description: 'Od března 2025 zavádíme nové pokyny pro preventivní prohlídky dětí.',
+    title: 'Letní dovolená 2025 - ordinace uzavřena',
+    description: 'Informace o uzavření ordinace během letní dovolené v červenci 2025.',
     image: heroImage.id,
   },
   publishedAt: '2025-02-25T00:00:00.000Z', // Kept the same date

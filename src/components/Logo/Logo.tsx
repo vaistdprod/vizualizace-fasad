@@ -17,8 +17,8 @@ export const Logo = (props: Props) => {
     /* eslint-disable @next/next/no-img-element */
     <img
       alt="Logo MUDr. Janulová"
-      width={193}
-      height={34}
+      width={144}
+      height={36}
       loading={loading}
       fetchPriority={priority}
       decoding="async"

@@ -172,6 +172,9 @@ export interface Page {
     description?: string | null;
   };
   publishedAt?: string | null;
+  /**
+   * Pro domovskou stránku je hodnota vždy "home" a nelze ji změnit.
+   */
   slug?: string | null;
   slugLock?: boolean | null;
   updatedAt: string;
@@ -635,7 +638,7 @@ export interface Form {
     | null;
   submitButtonLabel?: string | null;
   /**
-   * Choose whether to display an on-page message or redirect to a different page after they submit the form.
+   * Vyberte, zda chcete zobrazit zprávu na stránce nebo přesměrovat na jinou stránku po odeslání formuláře.
    */
   confirmationType?: ('message' | 'redirect') | null;
   confirmationMessage?: {
@@ -657,7 +660,7 @@ export interface Form {
     url: string;
   };
   /**
-   * Send custom emails when the form submits. Use comma separated lists to send the same email to multiple recipients. To reference a value from this form, wrap that field's name with double curly brackets, i.e. {{firstName}}. You can use a wildcard {{*}} to output all data and {{*:table}} to format it as an HTML table in the email.
+   * Odeslat vlastní e-maily při odeslání formuláře. Použijte seznamy oddělené čárkami pro odeslání stejného e-mailu více příjemcům. Pro odkaz na hodnotu z tohoto formuláře obalte název tohoto pole dvojitými složenými závorkami, např. {{jméno}}. Můžete použít zástupný znak {{*}} pro výstup všech dat a {{*:table}} pro formátování jako HTML tabulku v e-mailu.
    */
   emails?:
     | {
@@ -668,7 +671,7 @@ export interface Form {
         emailFrom?: string | null;
         subject: string;
         /**
-         * Enter the message that should be sent in this email.
+         * Zadejte zprávu, která bude odeslána v tomto e-mailu.
          */
         message?: {
           root: {
@@ -749,8 +752,26 @@ export interface TeamSectionBlock {
     | {
         title: string;
         role: string;
+        icon?:
+          | (
+              | 'User'
+              | 'Stethoscope'
+              | 'HeartPulse'
+              | 'Microscope'
+              | 'Clipboard'
+              | 'Activity'
+              | 'Thermometer'
+              | 'Baby'
+              | 'Pill'
+              | 'BookOpen'
+              | 'Star'
+              | 'Heart'
+              | 'Syringe'
+              | 'Bandage'
+              | 'MessageCircle'
+            )
+          | null;
         description?: string | null;
-        image: number | Media;
         id?: string | null;
       }[]
     | null;
@@ -777,11 +798,6 @@ export interface InsuranceSectionBlock {
       }[]
     | null;
   contactPrompt?: string | null;
-  contactCard?: {
-    heading?: string | null;
-    buttonText?: string | null;
-    buttonLink?: string | null;
-  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'insuranceSection';
@@ -796,10 +812,39 @@ export interface HoursSectionBlock {
   hours?:
     | {
         day: string;
+        schedules?:
+          | {
+              /**
+               * Zadejte časový úsek ve formátu start-konec (např. 7:30-10:00).
+               */
+              timeRange: string;
+              /**
+               * Přidejte volitelnou poznámku (např. "nemocní" nebo "prevence").
+               */
+              note?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Zadejte rozmezí datumů, kdy bude ordinace zavřena (např. dovolená nebo svátky).
+   */
+  closedDates?:
+    | {
         /**
-         * Zadejte hodiny, použijte nové řádky pro více záznamů (např. "8:00-12:00 (Poznámka)" pro dodatečné informace).
+         * Vyberte počáteční datum uzavření.
          */
-        hours: string;
+        from: string;
+        /**
+         * Vyberte koncové datum uzavření.
+         */
+        to: string;
+        /**
+         * Přidejte důvod uzavření (např. "Dovolená" nebo "Svátek").
+         */
+        note?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -924,10 +969,6 @@ export interface PricingSectionBlock {
     service?: string | null;
     description?: string | null;
     price?: string | null;
-  };
-  contactLink?: {
-    text?: string | null;
-    href?: string | null;
   };
   id?: string | null;
   blockName?: string | null;
@@ -1354,8 +1395,8 @@ export interface TeamSectionBlockSelect<T extends boolean = true> {
     | {
         title?: T;
         role?: T;
+        icon?: T;
         description?: T;
-        image?: T;
         id?: T;
       };
   id?: T;
@@ -1377,13 +1418,6 @@ export interface InsuranceSectionBlockSelect<T extends boolean = true> {
         id?: T;
       };
   contactPrompt?: T;
-  contactCard?:
-    | T
-    | {
-        heading?: T;
-        buttonText?: T;
-        buttonLink?: T;
-      };
   id?: T;
   blockName?: T;
 }
@@ -1398,7 +1432,21 @@ export interface HoursSectionBlockSelect<T extends boolean = true> {
     | T
     | {
         day?: T;
-        hours?: T;
+        schedules?:
+          | T
+          | {
+              timeRange?: T;
+              note?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  closedDates?:
+    | T
+    | {
+        from?: T;
+        to?: T;
+        note?: T;
         id?: T;
       };
   bloodDrawInfo?: T;
@@ -1493,12 +1541,6 @@ export interface PricingSectionBlockSelect<T extends boolean = true> {
         service?: T;
         description?: T;
         price?: T;
-      };
-  contactLink?:
-    | T
-    | {
-        text?: T;
-        href?: T;
       };
   id?: T;
   blockName?: T;
@@ -1913,7 +1955,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Header {
   id: number;
-  logo: number | Media;
+  logo?: (number | null) | Media;
   navItems?:
     | {
         link: {
@@ -1949,14 +1991,9 @@ export interface Header {
  */
 export interface Footer {
   id: number;
+  logo?: (number | null) | Media;
+  title: string;
   description?: string | null;
-  socialLinks?:
-    | {
-        platform: string;
-        url: string;
-        id?: string | null;
-      }[]
-    | null;
   footerColumns?:
     | {
         title: string;
@@ -2011,14 +2048,9 @@ export interface HeaderSelect<T extends boolean = true> {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
+  logo?: T;
+  title?: T;
   description?: T;
-  socialLinks?:
-    | T
-    | {
-        platform?: T;
-        url?: T;
-        id?: T;
-      };
   footerColumns?:
     | T
     | {

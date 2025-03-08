@@ -12,7 +12,7 @@ import type { PricingSectionBlock as PricingSectionBlockProps } from '@/payload-
 export const PricingSectionBlock: React.FC<PricingSectionBlockProps & { id?: string }> = (
   props,
 ) => {
-  const { id, heading, description, pricingItems, contactPrompt, tableHeaders, contactLink } = props
+  const { id, heading, description, pricingItems, contactPrompt, tableHeaders } = props
   const isMobile = useMediaQuery('(max-width: 768px)')
 
   return (
@@ -109,20 +109,6 @@ export const PricingSectionBlock: React.FC<PricingSectionBlockProps & { id?: str
               ))}
             </div>
           </MagicCard>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          viewport={{ once: true }}
-          className="text-center mt-12"
-        >
-          <p className="text-muted-foreground">
-            {contactPrompt || 'Máte dotazy k ceníku?'}{' '}
-            <Link href={contactLink?.href || '#kontakty'} className="text-primary font-medium">
-              {contactLink?.text || 'Kontaktujte nás'}
-            </Link>
-          </p>
         </motion.div>
       </div>
     </section>

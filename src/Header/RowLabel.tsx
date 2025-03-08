@@ -7,8 +7,8 @@ export const RowLabel: React.FC<RowLabelProps> = () => {
 
   const rowNumberString = data.rowNumber !== undefined ? `${data.rowNumber + 1}` : ''
   const label = data?.data?.link?.label
-    ? `Nav item ${rowNumberString}: ${data?.data?.link?.label}`
-    : 'Row'
+    ? `Položka navigace ${rowNumberString}: ${data?.data?.link?.label}`
+    : `Položka navigace ${rowNumberString}`
 
   return <div>{label}</div>
 }

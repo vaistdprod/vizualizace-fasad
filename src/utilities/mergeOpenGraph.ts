@@ -4,7 +4,7 @@ import { getServerSideURL } from './getURL'
 const defaultOpenGraph: Metadata['openGraph'] = {
   type: 'website',
   description:
-    'Web ordinace praktického lékaře pro děti a dorost MUDr. Miroslavy Janulové ve Starém Lískovci.',
+    'Ordinace praktického lékaře pro děti a dorost MUDr. Miroslavy Janulové ve Starém Lískovci.',
   images: [
     {
       url: `${getServerSideURL()}/favicon.svg`,

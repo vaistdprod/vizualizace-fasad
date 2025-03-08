@@ -41,138 +41,170 @@ export const generateMedicalPracticeSchema = () => {
     '@type': 'MedicalBusiness',
     '@id': process.env.NEXT_PUBLIC_SERVER_URL,
     name: 'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová',
+    alternateName: 'Dětský lékař MUDr. Miroslava Janulová',
     description:
       'Poskytujeme plnou péči o jakékoliv dítě od narození do 19 let včetně nedonošených a rizikových dětí. Specializujeme se na preventivní prohlídky, očkování, diagnostiku a léčbu.',
     url: process.env.NEXT_PUBLIC_SERVER_URL,
-    telephone: '+420 371 794 225', // Exact match
-    email: 'info@mudrjanulova.cz', // Exact match
+    telephone: '+420 732 229 610',
+    email: 'mirka.janulova@seznam.cz',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Masarykovo náměstí 275', // Exact match
-      addressLocality: 'Zbiroh',
-      postalCode: '338 08', // Space added per site
+      streetAddress: 'U Pošty 402/14, 1. patro, dveře č. 107',
+      addressLocality: 'Brno',
+      addressRegion: 'Jihomoravský kraj',
+      addressSublocality: 'Starý Lískovec',
+      postalCode: '625 00',
       addressCountry: 'CZ',
     },
+    areaServed: [
+      {
+        '@type': 'City',
+        name: 'Brno',
+      },
+      {
+        '@type': 'AdministrativeArea',
+        name: 'Starý Lískovec',
+      },
+      {
+        '@type': 'AdministrativeArea',
+        name: 'Nový Lískovec',
+      },
+      {
+        '@type': 'AdministrativeArea',
+        name: 'Bohunice',
+      },
+      {
+        '@type': 'AdministrativeArea',
+        name: 'Kohoutovice',
+      },
+    ],
     geo: {
       '@type': 'GeoCoordinates',
-      latitude: 49.8583, // Kept as-is—matches your mapEmbedUrl roughly
-      longitude: 13.7722, // Kept as-is
+      latitude: 49.168199,
+      longitude: 16.562477,
     },
+    hasMap: 'https://www.google.com/maps?q=49.168199,16.562477',
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',
         dayOfWeek: 'https://schema.org/Monday',
-        opens: '08:00',
+        opens: '07:30',
+        closes: '10:00',
+        description: 'Nemocní',
+      },
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: 'https://schema.org/Monday',
+        opens: '10:00',
+        closes: '14:00',
+        description: 'Prevence',
+      },
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: 'https://schema.org/Tuesday',
+        opens: '07:30',
+        closes: '10:00',
+        description: 'Nemocní',
+      },
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: 'https://schema.org/Tuesday',
+        opens: '10:00',
         closes: '13:00',
-      },
-      {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: 'https://schema.org/Tuesday',
-        opens: '08:00',
-        closes: '12:00', // Poradna pro zdravé
-        description: 'Poradna pro zdravé pozvané děti',
-      },
-      {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: 'https://schema.org/Tuesday',
-        opens: '13:00',
-        closes: '16:00', // Pro nemocné
-        description: 'Pro nemocné děti',
+        description: 'Prevence',
       },
       {
         '@type': 'OpeningHoursSpecification',
         dayOfWeek: 'https://schema.org/Wednesday',
-        opens: '08:00',
-        closes: '13:00',
+        opens: '10:00',
+        closes: '11:30',
+        description: 'Nemocní',
       },
       {
         '@type': 'OpeningHoursSpecification',
-        dayOfWeek: 'https://schema.org/Thursday',
-        opens: '08:00',
-        closes: '11:00', // Poradna pro zdravé
-        description: 'Poradna pro zdravé pozvané děti',
-      },
-      {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: 'https://schema.org/Thursday',
+        dayOfWeek: 'https://schema.org/Wednesday',
         opens: '13:00',
-        closes: '15:00', // Nemocné děti
-        description: 'Pro nemocné děti',
+        closes: '18:00',
+        description: 'Poradna',
       },
       {
         '@type': 'OpeningHoursSpecification',
         dayOfWeek: 'https://schema.org/Thursday',
-        opens: '15:00',
-        closes: '18:00', // Poradna pro pozvané
-        description: 'Poradna pro pozvané děti',
+        opens: '07:30',
+        closes: '10:00',
+        description: 'Nemocní',
+      },
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: 'https://schema.org/Thursday',
+        opens: '10:00',
+        closes: '13:00',
+        description: 'Prevence',
       },
       {
         '@type': 'OpeningHoursSpecification',
         dayOfWeek: 'https://schema.org/Friday',
-        opens: '08:00',
+        opens: '07:30',
+        closes: '10:00',
+        description: 'Nemocní',
+      },
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: 'https://schema.org/Friday',
+        opens: '10:00',
         closes: '13:00',
+        description: 'Prevence',
       },
       {
         '@type': 'OpeningHoursSpecification',
         dayOfWeek: [
           'https://schema.org/Monday',
-          'https://schema.org/Wednesday',
+          'https://schema.org/Tuesday',
+          'https://schema.org/Thursday',
           'https://schema.org/Friday',
         ],
-        opens: '08:00',
-        closes: '09:00', // Odběry krve
-        description: 'Odběry krve',
+        opens: '07:30',
+        closes: '09:00',
+        description: 'Odběry biologického materiálu',
       },
     ],
     medicalSpecialty: 'Pediatrie',
     availableService: [
       {
         '@type': 'MedicalProcedure',
-        name: 'Ambulantní péče',
-        description: 'Ambulantní vyšetření a ošetření dětí do 19 let',
-      },
-      {
-        '@type': 'MedicalProcedure',
-        name: 'Kojenecká poradna',
-        description: 'Kojenecká poradna pro děti ve věku 0-18 měsíců',
+        name: 'Preventivní prohlídky',
+        description: 'Pravidelné kontroly vývoje a zdraví dětí',
       },
       {
         '@type': 'MedicalProcedure',
         name: 'Očkování',
-        description: 'Povinné a nepovinné preventivní očkování',
-      },
-      {
-        '@type': 'MedicalProcedure',
-        name: 'Preventivní péče',
-        description: 'Pravidelné preventivní prohlídky a monitorování vývoje dětí',
-      },
-      {
-        '@type': 'MedicalProcedure',
-        name: 'Diagnostika a léčba',
         description:
-          'Diagnostika a léčba nemocných dětí s důrazem na pečlivé zvážení všech příznaků',
+          'Standardní i nadstandardní vakcinace (klíšťová encefalitida, žloutenka, meningokok)',
       },
       {
         '@type': 'MedicalProcedure',
-        name: 'Návštěvní služba',
-        description: 'Návštěvní služba u novorozenců a nemocných dětí',
+        name: 'Laktační poradna',
+        description: 'Poradenství pro kojence a jejich maminky',
       },
       {
         '@type': 'MedicalProcedure',
-        name: 'Potvrzení lékaře',
-        description:
-          'Potvrzení lékaře o zdravotním stavu dítěte pro sport, tábory, řidičské průkazy',
+        name: 'Diagnostika',
+        description: 'Rychlé testy na CRP a moč do 2 minut',
       },
       {
         '@type': 'MedicalProcedure',
-        name: 'Konzultace se specialisty',
-        description:
-          'Konzultace se specialisty v případě potřeby pro předcházení budoucím komplikacím',
+        name: 'Drobná poranění',
+        description: 'Ošetření ran a odstranění stehů',
+      },
+      {
+        '@type': 'MedicalProcedure',
+        name: 'Výživové poradenství',
+        description: 'Rady pro zdravou stravu dětí',
       },
     ],
-    priceRange: '$$', // Kept as-is—implies moderate cost, adjust if needed
-    paymentAccepted: 'Zdravotní pojištění', // Matches your "Smluvní pojišťovny"
-    healthPlanNetworkId: ['VZP', 'ZPMV', 'OZP', 'RBP', 'ČPZP', 'VOZP'], // Exact match to your insurers
+    priceRange: '$$',
+    paymentAccepted: 'Zdravotní pojištění',
+    healthPlanNetworkId: ['VZP', 'VOZP', 'ČPZP', 'OZP', 'RBP', 'ZPMVČR'],
     availableLanguage: {
       '@type': 'Language',
       name: 'Čeština',

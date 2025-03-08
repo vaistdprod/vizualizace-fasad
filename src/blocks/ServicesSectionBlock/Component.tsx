@@ -46,7 +46,7 @@ export const ServicesSectionBlock: React.FC<
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
           <div className="inline-flex items-center justify-center">
             <div className="relative">
@@ -56,7 +56,8 @@ export const ServicesSectionBlock: React.FC<
                 transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
                 className="absolute inset-0 bg-primary/10 rounded-full blur-lg"
               />
-              <Stethoscope className="w-12 h-12 mr-4 text-primary relative z-10" />
+              <Stethoscope className="w-10 h-10 mr-3 text-primary relative z-10" />
+              <div className="absolute inset-0 bg-primary/10 rounded-full blur-md" />
             </div>
             <AnimatedGradientText
               as="h2"
@@ -107,7 +108,7 @@ export const ServicesSectionBlock: React.FC<
                   >
                     <div className={`h-full p-6 flex flex-col ${index % 4 === 0 ? 'p-8' : 'p-6'}`}>
                       <div className="mb-4 text-primary relative">
-                        <IconComponent className="w-10 h-10 relative z-10 transition-transform duration-300 group-hover:scale-110" />
+                        <IconComponent className="w-10 h-10 relative z-10 transition-transform duration-300 group-hover:scale-105" />
                       </div>
                       <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors duration-300">
                         {service.title}

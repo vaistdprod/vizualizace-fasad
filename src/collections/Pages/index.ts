@@ -20,6 +20,8 @@ import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
+import { enforceHomeSlug } from './hooks/enforceHomeSlug'
+import { ensureHomeSlug } from './hooks/ensureHomeSlug'
 
 import {
   MetaDescriptionField,
@@ -136,11 +138,30 @@ export const Pages: CollectionConfig<'pages'> = {
         position: 'sidebar',
       },
     },
-    ...slugField(),
+    ...slugField('title', {
+      slugOverrides: {
+        hooks: {
+          beforeValidate: [enforceHomeSlug],
+        },
+        admin: {
+          description: 'Pro domovskou stránku je hodnota vždy "home" a nelze ji změnit.',
+          components: {
+            Field: {
+              path: '@/fields/slug/HomeSlugComponent#HomeSlugComponent',
+              clientProps: {
+                fieldToUse: 'title',
+                checkboxFieldPath: 'slugLock',
+              },
+            },
+          },
+        },
+      },
+    }),
   ],
   hooks: {
     afterChange: [revalidatePage],
     beforeChange: [populatePublishedAt],
+    beforeValidate: [ensureHomeSlug],
     afterDelete: [revalidateDelete],
   },
   versions: {

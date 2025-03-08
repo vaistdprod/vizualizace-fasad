@@ -3,32 +3,28 @@ import type { Form, Media, Aktuality } from '@/payload-types'
 
 type HomeArgs = {
   heroImage: Media
-  teamImage: Media
-  aktualitaImage1: Media // Updated from galleryImage1
-  aktualitaImage2: Media // Updated from galleryImage2
-  aktualitaImage3: Media // Updated from galleryImage3
+  ordinace: Media
+  hracky: Media
+  vysetrovna: Media
   vzpImage: Media
   zpmvImage: Media
   ozpImage: Media
   rbpImage: Media
   cpzpImage: Media
   vozpImage: Media
-  kontaktniFormular: Form // Keep as generic Form type
+  kontaktniFormular: Form
   aktuality: Aktuality[]
-  backgroundImageMraky: Media
-  backgroundImagePuntiky: Media
-  backgroundImageMalovanky: Media
-  mrakyOpacity?: number
-  puntikyOpacity?: number
-  malovankyOpacity?: number
+  backgroundImagePolka: Media
+  backgroundImageIlustrace: Media
+  polkaOpacity?: number
+  ilustraceOpacity?: number
 }
 
 export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
   heroImage,
-  teamImage,
-  aktualitaImage1, // Updated
-  aktualitaImage2, // Updated
-  aktualitaImage3, // Updated
+  ordinace,
+  hracky,
+  vysetrovna,
   vzpImage,
   zpmvImage,
   ozpImage,
@@ -37,56 +33,89 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
   vozpImage,
   kontaktniFormular,
   aktuality,
-  backgroundImageMraky,
-  backgroundImagePuntiky,
-  backgroundImageMalovanky,
-  mrakyOpacity = 0.15,
-  puntikyOpacity = 0.15,
-  malovankyOpacity = 0.15,
+  backgroundImagePolka,
+  backgroundImageIlustrace,
+  polkaOpacity = 0.3,
+  ilustraceOpacity = 0.06,
 }) => ({
-  slug: 'home',
+  slug: 'uvod',
   _status: 'published',
   title: 'Dětská ambulance MUDr. Janulová',
   layout: [
     {
-      blockType: 'backgroundImageBlock',
-      image: backgroundImageMraky,
-      opacity: mrakyOpacity,
-      blocks: [
-        {
-          blockType: 'heroSection',
-          title: 'Dětská ambulance MUDr. Janulová',
-          description:
-            'Poskytujeme odbornou péči dětem od narození až do 19 let. Specializujeme se na diagnostiku, léčbu a prevenci, včetně laktační poradny a očkování. Naše moderně vybavená ordinace v Brně zajišťuje rychlé testy a profesionální přístup. Zdraví vašich dětí je naší prioritou.',
-          primaryButtonText: 'Kontaktujte nás',
-          primaryButtonLink: '#kontakty',
-          secondaryButtonText: 'Naše služby',
-          secondaryButtonLink: '#sluzby',
-          image: heroImage,
-        },
-        {
-          blockType: 'newsSection',
-          heading: 'Aktuality',
-          description: 'Sledujte novinky z naší ambulance.',
-          aktuality: aktuality.map((a) => a.id),
-        },
-      ],
+      blockType: 'heroSection',
+      title: 'Dětská ambulance MUDr. Janulová',
+      description:
+        'Poskytujeme odbornou péči dětem od narození až do 19 let. Specializujeme se na diagnostiku, léčbu a prevenci, včetně laktační poradny a očkování. Naše moderně vybavená ordinace v Brně zajišťuje rychlé testy a profesionální přístup. Zdraví vašich dětí je naší prioritou.',
+      primaryButtonText: 'Kontaktujte nás',
+      primaryButtonLink: '#kontakty',
+      secondaryButtonText: 'Naše služby',
+      secondaryButtonLink: '#sluzby',
+      image: heroImage,
+    },
+    {
+      blockType: 'newsSection',
+      heading: 'Aktuality',
+      description: 'Sledujte novinky z naší ambulance.',
+      aktuality: aktuality.map((a) => a.id),
     },
     {
       blockType: 'backgroundImageBlock',
-      image: backgroundImagePuntiky,
-      opacity: puntikyOpacity,
+      image: backgroundImagePolka,
+      opacity: polkaOpacity,
       blocks: [
         {
           blockType: 'hoursSection',
           heading: 'Ordinační hodiny',
           description: 'Prosíme o objednání předem na telefonním čísle 732 229 610.',
           hours: [
-            { day: 'Pondělí', hours: '7:30-10:00 (nemocní) / 10:00-14:00 (prevence)' },
-            { day: 'Úterý', hours: '7:30-10:00 (nemocní) / 10:00-13:00 (prevence)' },
-            { day: 'Středa', hours: '10:00-11:30 (nemocní) / 13:00-18:00 (poradna)' },
-            { day: 'Čtvrtek', hours: '7:30-10:00 (nemocní) / 10:00-13:00 (prevence)' },
-            { day: 'Pátek', hours: '7:30-10:00 (nemocní) / 10:00-13:00 (prevence)' },
+            {
+              day: 'Pondělí',
+              schedules: [
+                { timeRange: '7:30-10:00', note: 'nemocní' },
+                { timeRange: '10:00-14:00', note: 'prevence' },
+              ],
+            },
+            {
+              day: 'Úterý',
+              schedules: [
+                { timeRange: '7:30-10:00', note: 'nemocní' },
+                { timeRange: '10:00-13:00', note: 'prevence' },
+              ],
+            },
+            {
+              day: 'Středa',
+              schedules: [
+                { timeRange: '10:00-11:30', note: 'nemocní' },
+                { timeRange: '13:00-18:00', note: 'poradna' },
+              ],
+            },
+            {
+              day: 'Čtvrtek',
+              schedules: [
+                { timeRange: '7:30-10:00', note: 'nemocní' },
+                { timeRange: '10:00-13:00', note: 'prevence' },
+              ],
+            },
+            {
+              day: 'Pátek',
+              schedules: [
+                { timeRange: '7:30-10:00', note: 'nemocní' },
+                { timeRange: '10:00-13:00', note: 'prevence' },
+              ],
+            },
+          ],
+          closedDates: [
+            {
+              from: '2025-03-10',
+              to: '2025-03-16',
+              note: 'Svátek - Státní svátek a Velikonoční pondělí',
+            },
+            {
+              from: '2025-03-17',
+              to: '2025-03-28',
+              note: 'Dovolená - Dvoutýdenní uzavření',
+            },
           ],
           bloodDrawInfo: 'ODBĚRY BIOLOGICKÉHO MATERIÁLU: Po-Pá 7:30-9:00',
           emergencyContactInfo: 'Máte akutní problém? Kontaktujte nás na',
@@ -111,7 +140,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
             {
               icon: 'Heart',
               title: 'Laktační poradna',
-              shortDescription: 'Poradenství pro kojence a jejich maminky.',
+              shortDescription: 'Poradenství pro maminky kojenců.',
             },
             {
               icon: 'Activity',
@@ -138,14 +167,14 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
             {
               title: 'MUDr. Miroslava Janulová',
               role: 'Pediatr',
+              icon: 'Stethoscope',
               description: 'Zkušená dětská lékařka zaměřená na komplexní péči o děti.',
-              image: teamImage.id,
             },
             {
               title: 'Monika',
               role: 'Zdravotní sestra',
+              icon: 'User',
               description: 'Pomáhá s péčí a organizací v ordinaci.',
-              image: teamImage.id,
             },
           ],
         },
@@ -153,8 +182,8 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
     },
     {
       blockType: 'backgroundImageBlock',
-      image: backgroundImageMalovanky,
-      opacity: malovankyOpacity,
+      image: backgroundImageIlustrace,
+      opacity: ilustraceOpacity,
       blocks: [
         {
           blockType: 'insuranceSection',
@@ -205,11 +234,6 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
               description: 'Rychlý test z krve do 2 minut.',
               price: '250 Kč',
             },
-            {
-              title: 'Výživové poradenství (45 minut)',
-              description: 'Konzultace pro zdravou stravu dětí.',
-              price: '600 Kč',
-            },
           ],
           contactPrompt: 'Potřebujete více informací o cenách?',
           tableHeaders: {
@@ -230,8 +254,8 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
           contactMethods: [
             {
               label: 'Adresa',
-              value: 'U Pošty 402/14, 625 00 Brno, Starý Lískovec',
-              href: 'https://maps.google.com/?q=U%20Pošty%20402/14,%20625%2000%20Brno',
+              value: 'U Pošty 402/14, 625 00 Brno, Starý Lískovec, 1. patro, dveře č. 107',
+              href: 'https://maps.app.goo.gl/yp4vJJC6vHpHLWvo7',
               icon: 'MapPin',
               colorClass: 'bg-pink-100 text-pink-600',
             },
@@ -250,8 +274,8 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
               colorClass: 'bg-purple-100 text-purple-600',
             },
             {
-              label: 'Poloha',
-              value: '1. patro, dveře č. 107',
+              label: 'Ordinační hodiny',
+              value: 'Jsme zde pro vás od pondělí do pátku.',
               href: '#ordinacni-hodiny',
               icon: 'Clock',
               colorClass: 'bg-green-100 text-green-600',
@@ -262,18 +286,18 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
           navigationButtonText: 'Navigovat do ordinace',
           transportMethods: [
             {
+              title: 'Automobil',
+              description: 'Parkoviště dostupné u polikliniky',
+              icon: '🚗',
+            },
+            {
               title: 'Tramvaj',
-              description: 'Zastávka Starý Lískovec, linky 6, 7, 8',
+              description: 'Zastávka Osová, linky 6, 7, 8',
               icon: '🚋',
             },
             {
-              title: 'Trolejbus',
-              description: 'Zastávka Starý Lískovec, linka 25',
-              icon: '🚎',
-            },
-            {
-              title: 'Autobus',
-              description: 'Zastávka Starý Lískovec, linky 50, 69',
+              title: 'Autobus a trolejbus',
+              description: 'Zastávka Osová, linky 25, 50, 69',
               icon: '🚌',
             },
           ],

@@ -6,9 +6,9 @@ export const aktualita2 = ({
   heroImage,
   author,
 }: AktualityArgs): Omit<Aktuality, 'id' | 'createdAt' | 'updatedAt'> => ({
-  slug: 'workshop-vyziva-deti',
+  slug: 'ockovani-proti-chripce-2025',
   _status: 'published',
-  title: 'Workshop o výživě dětí v předškolním věku',
+  title: 'Očkování proti chřipce 2025 - nyní k dispozici',
   heroImage: heroImage.id,
   authors: [author.id],
   content: {
@@ -20,7 +20,7 @@ export const aktualita2 = ({
           children: [
             {
               type: 'text',
-              text: 'Zveme rodiče na workshop o zdravé výživě dětí, který se uskuteční v naší ordinaci. Naučíte se tipy na vyváženou stravu pro vaše nejmenší.',
+              text: 'Vážení rodiče, informujeme vás, že od 1.4.2025 je v naší ordinaci k dispozici očkování proti chřipce pro sezónu 2025/2026. Očkování je doporučeno zejména pro děti s chronickými onemocněními a oslabenou imunitou. Cena vakcíny je 450 Kč. Pro objednání kontaktujte naši ordinaci telefonicky.',
               version: 1,
             },
           ],
@@ -37,8 +37,8 @@ export const aktualita2 = ({
     },
   },
   meta: {
-    title: 'Workshop o výživě dětí v předškolním věku',
-    description: 'Přijďte na workshop o zdravé výživě dětí v naší ordinaci.',
+    title: 'Očkování proti chřipce 2025 - nyní k dispozici',
+    description: 'Informace o dostupnosti očkování proti chřipce pro sezónu 2025/2026.',
     image: heroImage.id,
   },
   publishedAt: '2025-02-20T00:00:00.000Z', // Kept the same date

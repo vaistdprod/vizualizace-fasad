@@ -13,7 +13,7 @@ import type { InsuranceSectionBlock as InsuranceSectionBlockProps } from '@/payl
 export const InsuranceSectionBlock: React.FC<InsuranceSectionBlockProps & { id?: string }> = (
   props,
 ) => {
-  const { id, heading, description, partners, contactPrompt, contactCard } = props
+  const { id, heading, description, partners, contactPrompt } = props
 
   const getCardStyles = (index: number) => {
     const baseClasses = 'flex h-full transform transition-transform duration-500'
@@ -30,7 +30,7 @@ export const InsuranceSectionBlock: React.FC<InsuranceSectionBlockProps & { id?:
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="text-center mb-16 relative z-10"
+          className="text-center mb-12"
         >
           <div className="inline-flex items-center">
             <div className="relative">
@@ -98,7 +98,7 @@ export const InsuranceSectionBlock: React.FC<InsuranceSectionBlockProps & { id?:
                       }
                       width={200}
                       height={200}
-                      className="w-full h-full object-contain transition-transform duration-300 hover:scale-110"
+                      className="w-full h-full object-contain transition-transform duration-300 hover:scale-105"
                       loading={index < 3 ? 'eager' : 'lazy'}
                       sizes="(max-width: 640px) 120px, 200px"
                       quality={80}
@@ -125,57 +125,6 @@ export const InsuranceSectionBlock: React.FC<InsuranceSectionBlockProps & { id?:
             </motion.div>
           ))}
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          viewport={{ once: true }}
-          className="mt-20 relative z-10"
-        >
-          <div className="max-w-3xl mx-auto">
-            <MagicBorderCard
-              className="p-8 rounded-2xl shadow-md overflow-hidden"
-              gradientColor="hsl(var(--muted))"
-              gradientFrom="hsl(var(--primary))"
-              gradientTo="hsl(var(--secondary))"
-              gradientOpacity={0.3}
-              gradientSize={300}
-              borderBeamSize={100}
-              borderBeamDuration={10}
-              showBorderBeamOnHover={true}
-            >
-              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="text-left">
-                  <h3 className="text-xl font-semibold mb-2">
-                    <AnimatedGradientText
-                      colorFrom="hsl(var(--primary))"
-                      colorTo="hsl(var(--secondary))"
-                    >
-                      {contactCard?.heading || 'Potřebujete poradit?'}
-                    </AnimatedGradientText>
-                  </h3>
-                  <p className="text-muted-foreground max-w-md">
-                    {contactPrompt ||
-                      'Máte dotazy ohledně pojištění? Neváhejte nás kontaktovat pro více informací.'}
-                  </p>
-                </div>
-                <Link href={contactCard?.buttonLink || '#kontakty'}>
-                  <Button
-                    variant="ripple"
-                    size="lg"
-                    className="bg-primary/10 text-primary hover:bg-primary/15 border-primary/30 transition-all duration-200"
-                  >
-                    <div className="flex items-center">
-                      <Shield className="w-5 h-5 mr-2 flex-shrink-0" />
-                      <span>{contactCard?.buttonText || 'Kontaktujte nás'}</span>
-                    </div>
-                  </Button>
-                </Link>
-              </div>
-            </MagicBorderCard>
-          </div>
-        </motion.div>
       </div>
     </section>
   )
