@@ -1,5 +1,5 @@
 {
-  "id": "0bbc5e08-d73e-4d22-a4ef-c2e0e0a9eab6",
+  "id": "06605917-b3df-44a4-b8fe-d322f713ccd7",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -12827,6 +12827,13 @@
           "type": "integer",
           "primaryKey": false,
           "notNull": false
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová'"
         },
         "description": {
           "name": "description",

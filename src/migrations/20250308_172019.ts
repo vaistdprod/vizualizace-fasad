@@ -1115,6 +1115,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE TABLE IF NOT EXISTS "footer" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"logo_id" integer,
+  	"title" varchar DEFAULT 'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová' NOT NULL,
   	"description" varchar,
   	"copyright_text" varchar NOT NULL,
   	"updated_at" timestamp(3) with time zone,
