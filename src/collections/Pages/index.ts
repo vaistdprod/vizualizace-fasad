@@ -15,6 +15,7 @@ import { ContactInfo } from '../../blocks/contact-info/config'
 import { FormBlock } from '../../blocks/Form/config'
 import { TeamSection } from '../../blocks/team-section/config'
 import { Content } from '../../blocks/Content/config'
+import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
@@ -95,6 +96,7 @@ export const Pages: CollectionConfig = {
                 FormBlock,
                 TeamSection,
                 Content,
+                MediaBlock,
               ],
               required: true,
               admin: {

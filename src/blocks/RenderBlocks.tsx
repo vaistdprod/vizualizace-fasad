@@ -15,6 +15,7 @@ import { GalleryGridBlock } from '@/blocks/gallery-grid/Component'
 import { ContactInfoBlock } from '@/blocks/contact-info/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { TeamSectionBlock } from '@/blocks/team-section/Component'
+import { MediaBlock } from '@/blocks/MediaBlock/Component'
 
 const blockComponents = {
   heroSection: HeroSectionBlock,
@@ -30,6 +31,7 @@ const blockComponents = {
   contactInfo: ContactInfoBlock,
   formBlock: FormBlock,
   teamSection: TeamSectionBlock,
+  mediaBlock: MediaBlock,
 }
 
 export const RenderBlocks: React.FC<{
