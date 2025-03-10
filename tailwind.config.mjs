@@ -51,7 +51,6 @@ export default {
       },
       fontFamily: {
         sans: ['var(--font-geist-sans)'],
-        mono: ['var(--font-geist-mono)'],
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',

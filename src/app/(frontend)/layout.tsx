@@ -1,47 +1,28 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 
 import { cn } from '@/utilities/ui'
-import { Mali, Nunito } from 'next/font/google'
+import { GeistSans } from 'geist/font/sans'
 import React from 'react'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { StructuredData } from '@/components/StructuredData'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
+import { CookieConsent } from '@/components/CookieConsent/CookieConsent'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
+import { getServerSideURL } from '@/utilities/getURL'
+import { GA_ID } from '@/lib/ga'
 
 import './globals.css'
-import { getServerSideURL } from '@/utilities/getURL'
-
-// Configure Mali font for headings
-const mali = Mali({
-  subsets: ['latin'],
-  variable: '--font-mali',
-  display: 'swap', // Ensures text remains visible during font loading
-  preload: true,
-  weight: ['400', '500', '600', '700'],
-  fallback: ['cursive', 'system-ui'], // Fallback fonts to minimize CLS
-  adjustFontFallback: true, // Automatically adjust the size of the fallback font
-})
-
-// Configure Nunito font for body text
-const nunito = Nunito({
-  subsets: ['latin'],
-  variable: '--font-nunito',
-  display: 'swap', // Ensures text remains visible during font loading
-  preload: true,
-  weight: ['400', '500', '600', '700'],
-  fallback: ['system-ui', 'sans-serif'], // Fallback fonts to minimize CLS
-  adjustFontFallback: true, // Automatically adjust the size of the fallback font
-})
 
 export default async function RootLayout({ children }: { readonly children: React.ReactNode }) {
   const { isEnabled: _isEnabled } = await draftMode()
 
   return (
     <html
-      className={cn('font-sans', mali.variable, nunito.variable)}
+      className={cn('font-sans', GeistSans.variable)}
       lang="cs"
       data-theme="light"
       suppressHydrationWarning
@@ -52,16 +33,36 @@ export default async function RootLayout({ children }: { readonly children: Reac
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
         <link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />
         <link href="/favicon-192x192.png" rel="icon" sizes="192x192" />
-
-        {/* Preload critical assets */}
         <link rel="preconnect" href={getServerSideURL()} />
         <link rel="dns-prefetch" href={getServerSideURL()} />
+
+        {/* GA4 Script */}
+        <Script
+          id="ga-script"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${GA_ID}', { 'send_page_view': true });
+              gtag('consent', 'default', {
+                'analytics_storage': 'denied'
+              });
+            `,
+          }}
+        />
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+          strategy="afterInteractive"
+        />
       </head>
       <body className="antialiased">
         <Providers>
           <Header />
           <main>{children}</main>
           <Footer />
+          <CookieConsent />
           <StructuredData />
         </Providers>
       </body>
@@ -78,14 +79,12 @@ export const viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
   keywords: [
-    // Core terms
     'dětský lékař',
     'pediatr',
     'Brno',
     'dětská ordinace',
     'očkování',
     'preventivní prohlídky',
-    // Location variations
     'dětský lékař Brno',
     'pediatr Brno',
     'dětský lékař Starý Lískovec',
@@ -94,14 +93,12 @@ export const metadata: Metadata = {
     'pediatr Bohunice',
     'dětský lékař Nový Lískovec',
     'pediatr Nový Lískovec',
-    // Service variations
     'očkování dětí Brno',
     'preventivní prohlídky dětí',
     'dětská pohotovost Brno',
     'praktický lékař pro děti a dorost',
     'pediatrická ordinace Brno',
     'dětský doktor Brno',
-    // Specific conditions/services
     'CRP test pro děti',
     'odběry krve u dětí',
     'laktační poradna Brno',
@@ -121,6 +118,6 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: 'verification-code', // Replace with actual verification code if available
+    google: 'verification-code',
   },
 }

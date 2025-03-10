@@ -5,7 +5,7 @@ import React from 'react'
 const BeforeLogin: React.FC = () => {
   return (
     <div className="text-center mb-6">
-      <div className="font-['Mali',var(--font-mali),cursive] text-2xl font-bold mb-4 bg-gradient-to-r from-[hsl(340,85%,65%)] to-[hsl(180,75%,65%)] bg-clip-text text-transparent tracking-[-0.02em]">
+      <div className="font-['Geist',var(--font-geist-sans),sans-serif] text-2xl font-bold mb-4 bg-gradient-to-r from-[hsl(340,85%,65%)] to-[hsl(180,75%,65%)] bg-clip-text text-transparent tracking-[-0.02em]">
         MUDr. Janulová
       </div>
       <div>

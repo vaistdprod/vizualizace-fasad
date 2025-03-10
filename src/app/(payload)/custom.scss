@@ -5,8 +5,8 @@
   This file customizes the Payload CMS admin interface to match the website's branding
 */
 
-/* Import the Mali and Nunito fonts */
-@import url('https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&family=Nunito:wght@300;400;500;600;700&display=swap');
+/* Import the Geist font */
+/* Geist font is already imported in the layout.tsx file */
 
 /* Define brand colors from the website */
 :root {
@@ -82,8 +82,8 @@
   --style-radius-xl: 1rem;
 
   /* Font family */
-  --font-body: 'Nunito', var(--font-nunito), sans-serif;
-  --font-heading: 'Mali', var(--font-mali), cursive;
+  --font-body: 'Geist', var(--font-geist-sans), sans-serif;
+  --font-heading: 'Geist', var(--font-geist-sans), sans-serif;
   --font-mono: monospace;
 }
 
