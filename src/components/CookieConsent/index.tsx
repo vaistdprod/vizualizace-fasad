@@ -1,6 +1,6 @@
 'use client'
 
-import { CookieBanner } from '@/components/CookieBanner'
+import { CookieBanner } from './CookieBanner'
 import { PreferencesButton } from './PreferencesButton'
 
 export function CookieConsent() {

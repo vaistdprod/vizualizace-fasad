@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Cookie } from 'lucide-react'
+import { Cookie, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/dialog'
 import { Switch } from '@/components/ui/switch'
 import { useCookieConsent, type CookieConsent } from '@/hooks/useCookieConsent'
-import { GA_ID } from '@/lib/ga'
+import { initGTM } from '@/lib/gtm'
 
 const defaultConsent: Omit<CookieConsent, 'timestamp'> = {
   necessary: true,
@@ -27,15 +27,11 @@ export function CookieBanner() {
   const { consent, isOpen, setConsent, setOpen } = useCookieConsent()
 
   useEffect(() => {
+    // Show banner on first visit or when consent is null
     if (!consent) {
       setOpen(true)
-    } else {
-      // Configure GA consent based on user choice
-      if (typeof window !== 'undefined' && window.gtag) {
-        window.gtag('consent', 'update', {
-          analytics_storage: consent.analytics ? 'granted' : 'denied',
-        })
-      }
+    } else if (consent.analytics) {
+      initGTM()
     }
   }, [consent, setOpen])
 
@@ -46,10 +42,8 @@ export function CookieBanner() {
     }
     setConsent(newConsent)
 
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('consent', 'update', {
-        analytics_storage: preferences.analytics ? 'granted' : 'denied',
-      })
+    if (preferences.analytics) {
+      initGTM()
     }
   }
 

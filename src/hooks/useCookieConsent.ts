@@ -32,6 +32,7 @@ export const useCookieConsent = create<CookieConsentStore>()(
       name: 'cookie-consent',
       partialize: (state) => ({ consent: state.consent }),
       onRehydrateStorage: () => (state) => {
+        // Check if consent has expired
         if (state?.consent) {
           const expiryTime = state.consent.timestamp + CONSENT_EXPIRY_DAYS * 24 * 60 * 60 * 1000
           if (Date.now() > expiryTime) {
