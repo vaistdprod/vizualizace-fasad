@@ -14,7 +14,7 @@ import { GalleryGrid } from '../../blocks/gallery-grid/config'
 import { ContactInfo } from '../../blocks/contact-info/config'
 import { FormBlock } from '../../blocks/Form/config'
 import { TeamSection } from '../../blocks/team-section/config'
-
+import { Content } from '../../blocks/Content/config'
 import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
@@ -94,6 +94,7 @@ export const Pages: CollectionConfig = {
                 ContactInfo,
                 FormBlock,
                 TeamSection,
+                Content,
               ],
               required: true,
               admin: {

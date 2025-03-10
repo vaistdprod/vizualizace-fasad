@@ -8,6 +8,7 @@ import { WhyChooseUsBlock } from '@/blocks/why-choose-us/Component'
 import { AboutServicesBlock } from '@/blocks/about-services/Component'
 import { PartnershipProcessBlock } from '@/blocks/partnership-process/Component'
 import { ServiceCardsBlock } from '@/blocks/service-cards/Component'
+import { ContentBlock } from '@/blocks/Content/Component'
 import { CTASectionBlock } from '@/blocks/cta-section/Component'
 import { PricingPlansBlock } from '@/blocks/pricing-plans/Component'
 import { GalleryGridBlock } from '@/blocks/gallery-grid/Component'
@@ -22,6 +23,7 @@ const blockComponents = {
   aboutServices: AboutServicesBlock,
   partnershipProcess: PartnershipProcessBlock,
   serviceCards: ServiceCardsBlock,
+  content: ContentBlock,
   ctaSection: CTASectionBlock,
   pricingPlans: PricingPlansBlock,
   galleryGrid: GalleryGridBlock,

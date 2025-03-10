@@ -156,6 +156,7 @@ export interface Page {
     | ContactInfoBlock
     | FormBlock
     | TeamSectionBlock
+    | ContentBlock
   )[];
   meta?: {
     title?: string | null;
@@ -672,6 +673,51 @@ export interface TeamSectionBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentBlock".
+ */
+export interface ContentBlock {
+  columns?:
+    | {
+        size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
+        richText?: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        enableLink?: boolean | null;
+        link?: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: number | Page;
+          } | null;
+          url?: string | null;
+          label: string;
+          /**
+           * Vyberte, jak má být odkaz zobrazen.
+           */
+          appearance?: ('default' | 'outline') | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'content';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories".
  */
 export interface Category {
@@ -932,6 +978,7 @@ export interface PagesSelect<T extends boolean = true> {
         contactInfo?: T | ContactInfoBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
         teamSection?: T | TeamSectionBlockSelect<T>;
+        content?: T | ContentBlockSelect<T>;
       };
   meta?:
     | T
@@ -1143,6 +1190,32 @@ export interface TeamSectionBlockSelect<T extends boolean = true> {
         email?: T;
         phone?: T;
         image?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentBlock_select".
+ */
+export interface ContentBlockSelect<T extends boolean = true> {
+  columns?:
+    | T
+    | {
+        size?: T;
+        richText?: T;
+        enableLink?: T;
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+              appearance?: T;
+            };
         id?: T;
       };
   id?: T;
