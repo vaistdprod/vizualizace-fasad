@@ -4,6 +4,7 @@ import { services } from './services'
 import { pricing } from './pricing'
 import { gallery } from './gallery'
 import { contact } from './contact'
+import { landing } from './landing' // Add this import
 import {
   heroBg,
   modernOfficeTower,
@@ -25,8 +26,13 @@ import {
   sarahImage,
   michaelImage,
   emilyImage,
+  landingHeroImage, // Added
+  testimonialImage1, // Added
+  testimonialImage2, // Added
+  testimonialImage3, // Added
 } from './images'
 import { contactForm } from './contact-form'
+import { landingForm } from './landing-form' // Add this import (create this file, see below)
 import type { Header } from '@/payload-types'
 import { fileURLToPath } from 'url'
 
@@ -200,12 +206,37 @@ export const seed = async ({
     data: emilyImage,
     file: await fetchFileByPath('./polaskova.jpg'),
   })
+  // New images added here
+  const landingHeroImageDoc = await payload.create({
+    collection: 'media',
+    data: landingHeroImage,
+    file: await fetchFileByPath('./landing-hero.jpg'),
+  })
+  const testimonialImage1Doc = await payload.create({
+    collection: 'media',
+    data: testimonialImage1,
+    file: await fetchFileByPath('./john-anderson.jpg'),
+  })
+  const testimonialImage2Doc = await payload.create({
+    collection: 'media',
+    data: testimonialImage2,
+    file: await fetchFileByPath('./sarah-martinez.jpg'),
+  })
+  const testimonialImage3Doc = await payload.create({
+    collection: 'media',
+    data: testimonialImage3,
+    file: await fetchFileByPath('./david-chen.jpg'),
+  })
 
-  // Seed contact form
-  payload.logger.info('— Seeding contact form...')
+  // Seed forms
+  payload.logger.info('— Seeding forms...')
   const contactFormDoc = await payload.create({
     collection: 'forms',
     data: contactForm,
+  })
+  const landingFormDoc = await payload.create({
+    collection: 'forms',
+    data: landingForm,
   })
 
   // Seed pages
@@ -261,6 +292,17 @@ export const seed = async ({
       michaelImage: michaelImageDoc,
       emilyImage: emilyImageDoc,
       contactForm: contactFormDoc,
+    }),
+  })
+  await payload.create({
+    collection: 'pages',
+    depth: 3,
+    data: landing({
+      landingHeroImage: landingHeroImageDoc,
+      testimonialImage1: testimonialImage1Doc,
+      testimonialImage2: testimonialImage2Doc,
+      testimonialImage3: testimonialImage3Doc,
+      landingForm: landingFormDoc,
     }),
   })
 
