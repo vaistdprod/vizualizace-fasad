@@ -1,8 +1,9 @@
 'use client'
 
 import { useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Cookie, X } from 'lucide-react'
+import { AnimatePresence } from 'framer-motion'
+import { Cookie } from 'lucide-react'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -140,9 +141,9 @@ export function CookieBanner() {
               <div className="text-sm text-muted-foreground">
                 <p>
                   Pro více informací o tom, jak používáme cookies, navštivte naše{' '}
-                  <a href="/privacy" className="underline hover:text-foreground">
+                  <Link href="/privacy" className="underline hover:text-foreground">
                     Zásady ochrany soukromí
-                  </a>
+                  </Link>
                   .
                 </p>
               </div>

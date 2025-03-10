@@ -20,7 +20,6 @@ import { CTASectionBlock } from '@/blocks/cta-section/Component'
 import { PricingPlansBlock } from '@/blocks/pricing-plans/Component'
 import { GalleryGridBlock } from '@/blocks/gallery-grid/Component'
 import { ContactInfoBlock } from '@/blocks/contact-info/Component'
-import { FormBlock } from '@/blocks/Form/Component'
 import { TeamSectionBlock } from '@/blocks/team-section/Component'
 
 import type {
