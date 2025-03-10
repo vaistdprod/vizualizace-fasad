@@ -31,7 +31,6 @@ const nextConfig = {
     minimumCacheTTL: 60 * 60 * 24 * 365, // 365 days for maximum caching
   },
   reactStrictMode: true,
-  redirects,
   poweredByHeader: false,
   compress: true,
   compiler: {
