@@ -53,7 +53,9 @@ export const TestimonialsBlock: React.FC<TestimonialsBlockProps & { id?: string 
                   <Star key={i} className="h-5 w-5 text-yellow-400 fill-yellow-400" />
                 ))}
               </div>
-              <blockquote className="text-muted-foreground mb-4">"{testimonial.quote}"</blockquote>
+              <blockquote className="text-muted-foreground mb-4">
+                &quot;{testimonial.quote}&quot;
+              </blockquote>
               <div className="flex items-center gap-2 text-sm">
                 <Award className="h-4 w-4 text-primary" />
                 <span className="font-medium">{testimonial.result}</span>

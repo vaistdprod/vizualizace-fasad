@@ -12,6 +12,7 @@ type ContactArgs = {
 export const contact: (args: ContactArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
   contactImage,
   sarahImage,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   michaelImage,
   emilyImage,
   contactForm,
