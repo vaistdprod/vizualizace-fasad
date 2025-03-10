@@ -89,7 +89,7 @@ export const seed = async ({
   if (!DEMO_USER_PASSWORD) {
     throw new Error('V proměnných chybí hodnota pro DEMO_USER_PASSWORD!')
   }
-  const demoUser = await payload.create({
+  await payload.create({
     collection: 'users',
     data: {
       name: 'Admin FacadeVision',
