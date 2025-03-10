@@ -1,5 +1,4 @@
 import tailwindcssAnimate from 'tailwindcss-animate'
-import typography from '@tailwindcss/typography'
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -10,7 +9,7 @@ export default {
     './src/**/*.{ts,tsx}',
   ],
   darkMode: ['selector', '[data-theme="dark"]'], // Payload template style
-  plugins: [tailwindcssAnimate, typography],
+  plugins: [tailwindcssAnimate, require('@tailwindcss/typography')],
   safelist: [
     'lg:col-span-4',
     'lg:col-span-6',
