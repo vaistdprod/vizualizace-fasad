@@ -54,13 +54,13 @@ export default async function Page({ params: paramsPromise }: Args) {
     return <PayloadRedirects url={url} />
   }
 
-  const {
-    // hero,
-    layout,
-  } = page
+  const { layout } = page
+
+  // Conditionally set the padding-top class based on whether it's the homepage
+  const articleClassName = slug === 'home' ? 'pt-0 pb-24' : 'pt-16 pb-24'
 
   return (
-    <article className="pt-16 pb-24">
+    <article className={articleClassName}>
       <PageClient />
       {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />

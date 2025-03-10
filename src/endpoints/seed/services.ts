@@ -16,71 +16,73 @@ export const services: (args: ServicesArgs) => RequiredDataFromCollectionSlug<'p
 }) => ({
   slug: 'sluzby',
   _status: 'published',
-  title: 'Naše vizualizační služby',
+  title: 'Návrhy a vizualizace fasád',
   layout: [
     {
       blockType: 'serviceCards',
+      buttonText: 'Zjistit více',
       services: [
         {
-          title: 'Vizualizace fasád',
+          title: 'Vizualizace fasád novostaveb',
           description:
-            'Fotorealistické vizualizace fasád budov s přesnými materiály, osvětlením a zasazením do prostředí.',
+            'Dokončujete novostavbu? Nechte si ukázat, jak bude váš dům vypadat ještě před zahájením stavebních prací. Vyzkoušejte různé barevné kombinace a materiály.',
           icon: 'Building2',
           image: facadeImage.id,
           features: [
-            { feature: 'Vizualizace materiálů' },
-            { feature: 'Simulace osvětlení' },
-            { feature: 'Integrace do prostředí' },
+            { feature: 'Barevné kombinace' },
+            { feature: 'Obkladové materiály' },
+            { feature: 'Realistické vizualizace' },
           ],
         },
         {
-          title: '3D vizualizace',
+          title: 'Návrhy rekonstrukcí',
           description:
-            'Kompletní 3D modelování a vizualizační služby pro architektonické projekty jakéhokoli rozsahu.',
-          icon: 'Cube3d',
+            'Plánujete rekonstrukci nebo zateplení? Vizualizujeme novou podobu vašeho domu včetně všech detailů a materiálů.',
+          icon: 'Paintbrush',
           image: threeDImage.id,
           features: [
-            { feature: 'Kompletní 3D modelování' },
-            { feature: 'Interiérové/exteriérové pohledy' },
-            { feature: 'Možnosti animace' },
+            { feature: 'Zateplovací systémy' },
+            { feature: 'Fasádní prvky' },
+            { feature: 'Barevná řešení' },
           ],
         },
         {
-          title: 'Konzultace designu',
+          title: 'Fasádní obklady',
           description:
-            'Odborné konzultační služby pro optimalizaci designu fasády z hlediska estetiky i funkčnosti.',
-          icon: 'Paintbrush',
+            'Zakomponujte do fasády vašeho domu moderní obkladové materiály. Dřevo, kámen nebo cihlové obklady dodají vašemu domu jedinečný charakter.',
+          icon: 'Compass',
           image: designImage.id,
           features: [
-            { feature: 'Výběr materiálů' },
-            { feature: 'Optimalizace designu' },
-            { feature: 'Technické konzultace' },
+            { feature: 'Dřevěné obklady' },
+            { feature: 'Kamenné obklady' },
+            { feature: 'Cihlové obklady' },
           ],
         },
         {
-          title: 'Individuální řešení',
+          title: 'Komerční objekty',
           description:
-            'Vizualizační řešení na míru pro jedinečné architektonické výzvy a speciální požadavky.',
-          icon: 'Compass',
+            'Specializujeme se také na návrhy fasád komerčních a průmyslových objektů, bytových domů a dalších větších staveb.',
+          icon: 'Building2',
           image: customImage.id,
           features: [
-            { feature: 'Vlastní pracovní postupy' },
-            { feature: 'Specializované renderování' },
-            { feature: 'Přizpůsobení projektu' },
+            { feature: 'Bytové domy' },
+            { feature: 'Komerční budovy' },
+            { feature: 'Průmyslové objekty' },
           ],
         },
       ],
     },
     {
       blockType: 'ctaSection',
-      title: 'Připraveni proměnit vaši vizi?',
-      description: 'Pojďme probrat, jak můžeme oživit vaše architektonické návrhy.',
-      buttonText: 'Začít spolupráci',
+      title: 'Máte zájem o vizualizaci fasády?',
+      description: 'Pošlete nám fotografie vašeho domu, připravíme nezávaznou cenovou nabídku.',
+      buttonText: 'Nezávazná poptávka',
     },
   ],
   meta: {
-    title: 'Naše vizualizační služby - FacadeVision',
-    description: 'Komplexní služby architektonické vizualizace od fasád po 3D modely.',
+    title: 'Návrhy a vizualizace fasád - VizualizaceFasad.cz',
+    description:
+      'Profesionální návrhy a vizualizace fasád pro novostavby, rekonstrukce i komerční objekty.',
     image: facadeImage.id,
   },
 })

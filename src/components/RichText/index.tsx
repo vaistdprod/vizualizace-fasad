@@ -21,6 +21,11 @@ import { PricingPlansBlock } from '@/blocks/pricing-plans/Component'
 import { GalleryGridBlock } from '@/blocks/gallery-grid/Component'
 import { ContactInfoBlock } from '@/blocks/contact-info/Component'
 import { TeamSectionBlock } from '@/blocks/team-section/Component'
+// New block imports
+import { LandingHeroBlock } from '@/blocks/landing-hero/Component'
+import { TrustBadgesBlock } from '@/blocks/trust-badges/Component'
+import { BenefitsBlock } from '@/blocks/benefits/Component'
+import { TestimonialsBlock } from '@/blocks/testimonials/Component'
 
 import type {
   HeroSectionBlock as HeroSectionBlockProps,
@@ -34,6 +39,11 @@ import type {
   GalleryGridBlock as GalleryGridBlockProps,
   ContactInfoBlock as ContactInfoBlockProps,
   TeamSectionBlock as TeamSectionBlockProps,
+  // New block types
+  LandingHeroBlock as LandingHeroBlockProps,
+  TrustBadgesBlock as TrustBadgesBlockProps,
+  BenefitsBlock as BenefitsBlockProps,
+  TestimonialsBlock as TestimonialsBlockProps,
 } from '@/payload-types'
 import { cn } from '@/utilities/ui'
 
@@ -51,6 +61,11 @@ type NodeTypes =
       | GalleryGridBlockProps
       | ContactInfoBlockProps
       | TeamSectionBlockProps
+      // New block types added here
+      | LandingHeroBlockProps
+      | TrustBadgesBlockProps
+      | BenefitsBlockProps
+      | TestimonialsBlockProps
     >
 
 const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
@@ -77,6 +92,11 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
     galleryGrid: ({ node }) => <GalleryGridBlock {...node.fields} />,
     contactInfo: ({ node }) => <ContactInfoBlock {...node.fields} />,
     teamSection: ({ node }) => <TeamSectionBlock {...node.fields} />,
+    // New blocks added here
+    landingHero: ({ node }) => <LandingHeroBlock {...node.fields} />,
+    trustBadges: ({ node }) => <TrustBadgesBlock {...node.fields} />,
+    benefits: ({ node }) => <BenefitsBlock {...node.fields} />,
+    testimonials: ({ node }) => <TestimonialsBlock {...node.fields} />,
   },
 })
 

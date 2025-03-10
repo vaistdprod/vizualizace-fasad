@@ -43,7 +43,7 @@ export const FeaturedProjectsBlock: React.FC<FeaturedProjectsBlockProps & { id?:
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform">
-                <h3 className="text-lg font-semibold text-white">{project.title}</h3>
+                <h3 className="text-lg font-semibold">{project.title}</h3>
               </div>
             </motion.div>
           ))}

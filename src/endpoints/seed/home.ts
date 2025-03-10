@@ -18,21 +18,21 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
 }) => ({
   slug: 'home',
   _status: 'published',
-  title: 'FacadeVision - Architektonické vizualizace',
+  title: 'VizualizaceFasad.cz - Profesionální návrhy fasád',
   layout: [
     {
       blockType: 'heroSection',
-      title: 'Proměňte svou architektonickou vizi',
+      title: 'Profesionálně navrhujeme fasády vašich domů!',
       description:
-        'Oživujeme architektonické návrhy působivými vizualizacemi, které zachycují každý detail a vzbuzují důvěru ve vaše projekty.',
-      buttonText: 'Prohlédnout naši práci',
+        'Dokončujete novostavbu? Zateplujete? Děláte rekonstrukci nebo uvažujete o novém nátěru fasády? Nechte si ještě před zahájením stavebních prací ukázat, jak bude dům vypadat.',
+      buttonText: 'Nezávazná poptávka',
       backgroundImage: heroImage.id,
     },
     {
       blockType: 'featuredProjects',
-      title: 'Vybrané projekty',
+      title: 'Ukázky našich návrhů',
       description:
-        'Objevte, jak pomáháme architektům a developerům oživit jejich vize pomocí pokročilých vizualizačních technik.',
+        'Prohlédněte si ukázky našich prací. Máte spoustu možností jak z fasády vašeho domu udělat ozdobu ulice. Bez obav zvolte jednobarevnou fasádu nebo moderní fasádu vícebarevnou.',
       projects: [
         { title: 'Moderní kancelářská věž', image: modernOfficeTower.id },
         { title: 'Luxusní rezidenční komplex', image: luxuryResidential.id },
@@ -41,42 +41,42 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
     },
     {
       blockType: 'whyChooseUs',
-      title: 'Proč si vybrat nás',
+      title: 'Proč s námi?',
       description:
-        'Zažijte excelenci v architektonické vizualizaci s naším komplexním portfoliem služeb.',
+        'Více než 1000 úspěšně provedených návrhů fasád jak novostaveb, rekonstrukcí rodinných příp. panelových domů či komerčních objektů.',
       features: [
         {
-          title: 'Expertní vizualizace',
+          title: 'Profesionální návrhy',
           description:
-            'Špičková expertíza v tvorbě fotorealistických architektonických vizualizací.',
+            'Naše návrhy jsou profesionální a realisticky propracované, zohledňují vaše představy.',
           icon: 'Star',
         },
         {
-          title: 'Rychlé dodání',
-          description: 'Rychlé dodání bez kompromisů na kvalitě, dodržujeme vaše termíny.',
+          title: 'Rychlé zpracování',
+          description: 'První série návrhů jsou zpravidla do 5 pracovních dní hotové.',
           icon: 'Clock',
         },
         {
-          title: 'Řešení na míru',
+          title: 'Jasná cena',
           description:
-            'Přizpůsobené vizualizační přístupy odpovídající specifickým požadavkům vašeho projektu.',
-          icon: 'Settings',
-        },
-        {
-          title: 'Nejnovější technologie',
-          description:
-            'Nejmodernější renderovací technologie a nástroje pro špičkovou vizuální kvalitu.',
-          icon: 'Cpu',
-        },
-        {
-          title: 'Dostupné ceny',
-          description:
-            'Konkurenceschopné ceny s flexibilními balíčky odpovídajícími vašemu rozpočtu.',
+            'Cenu vizualizace fasády u nás znáte dopředu, nedochází k nečekanému navyšování ceny.',
           icon: 'PiggyBank',
         },
         {
-          title: 'Klient na prvním místě',
-          description: 'Věnovaná podpora a spolupráce během celého průběhu vašeho projektu.',
+          title: 'Bohaté zkušenosti',
+          description:
+            'Máme nejbohatší zkušenosti s navrhováním a s vizualizací fasádních obkladových materiálů na našem trhu.',
+          icon: 'Star',
+        },
+        {
+          title: 'Technická zdatnost',
+          description: 'Technicky náročné zakázky jsou pro nás výzvou a neodmítáme je.',
+          icon: 'Settings',
+        },
+        {
+          title: 'Nasloucháme vám',
+          description:
+            'Nasloucháme vašim představám, v případě vašeho zájmu je rádi doplníme o naše návrhy.',
           icon: 'Users',
         },
       ],
@@ -85,53 +85,37 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
       blockType: 'aboutServices',
       title: 'O našich službách',
       description:
-        'At FacadeVision, we specialize in transforming architectural concepts into stunning visual realities. Our comprehensive visualization services combine technical expertise with artistic finesse to bring your designs to life.\n\nWe understand that each project is unique, which is why we offer customized solutions tailored to your specific needs. From initial concept development to final delivery, our team works closely with you to ensure every detail is captured perfectly.\n\nVe FacadeVision se specializujeme na přeměnu architektonických konceptů v působivou vizuální realitu. Naše komplexní vizualizační služby kombinují technickou expertizu s uměleckým citem pro oživení vašich návrhů.\n\nChápeme, že každý projekt je jedinečný, proto nabízíme řešení na míru přizpůsobená vašim specifickým potřebám. Od počátečního vývoje konceptu až po finální dodání pracuje náš tým úzce s vámi, aby byl každý detail zachycen dokonale.\n\nAť už pracujete na malém rezidenčním projektu nebo velkém komerčním developmentu, naše pokročilé vizualizační techniky a pozornost k detailu vám pomohou efektivně komunikovat vaši vizi zúčastněným stranám a klientům.',
+        'Aby výsledný dojem vašeho domu byl přesně podle vašich představ, nechejte si ještě před zahájením stavebních prací ukázat, jak bude dům vypadat, až bude hotový. Máte spoustu možností jak z fasády vašeho domu udělat ozdobu ulice.\n\nBez obav zvolte jednobarevnou fasádu nebo moderní fasádu vícebarevnou. Zakomponujte venkovní obklady. Dřevo, kámen, cihlové obklady to vše může vašemu domu vtisknout punc výjimečnosti.\n\nBylo by chybou nezkusit více variant toho, co by vašemu domu mohlo slušet. Vizualizací návrhu fasády do fotografie. Bez obav. S vašimi i našimi nápady. Za rozumnou cenu.\n\nS grafickým návrhem budete mít jasnou představu o tom, jak následná realizace bude vypadat a nemusíte se již obávat výsledku. To vám rovněž usnadní komunikaci s realizační firmou.',
       image: heroImage.id, // Reusing hero image for simplicity
     },
     {
       blockType: 'partnershipProcess',
-      title: 'Jak funguje spolupráce?',
-      description: 'Náš optimalizovaný proces zajišťuje hladkou spolupráci od začátku až do konce.',
+      title: 'Jak probíhá spolupráce?',
+      description:
+        'Samotná vizualizace probíhá ve 3 krocích, které vám zaručí spokojenost s výsledkem.',
       steps: [
         {
           number: 1,
-          title: 'Úvodní konzultace',
+          title: 'První série konceptů',
           description:
-            'Probereme požadavky vašeho projektu, časový harmonogram a cíle, abychom plně porozuměli vaší vizi.',
-          icon: 'MessageSquare',
+            'Nejprve zasíláme 5-10 návrhů, z nichž vyberete prvky, motivy a barvy, které se vám líbí.',
+          icon: 'Lightbulb',
           image: modernOfficeTower.id,
         },
         {
           number: 2,
-          title: 'Vývoj konceptu',
-          description:
-            'Náš tým vytváří počáteční koncepty a vizualizační strategie přizpůsobené potřebám vašeho projektu.',
-          icon: 'Lightbulb',
+          title: 'Druhá série návrhů',
+          description: 'Na základě vašich připomínek vytvoříme druhou sérii 6 variant návrhů.',
+          icon: 'ImageIcon',
           image: luxuryResidential.id,
         },
         {
           number: 3,
-          title: 'Návrhy vizualizací',
+          title: 'Finální doladění',
           description:
-            'Vytváříme předběžné rendery a vizualizace pro vaši kontrolu a zpětnou vazbu.',
-          icon: 'ImageIcon',
-          image: culturalCenter.id,
-        },
-        {
-          number: 4,
-          title: 'Revize',
-          description:
-            'Na základě vaší zpětné vazby vylepšujeme a zdokonalujeme každý detail vizualizací.',
+            'Následuje finální doladění detailů, pokud již není plná spokojenost po 2. kroku.',
           icon: 'FileEdit',
-          image: modernOfficeTower.id,
-        },
-        {
-          number: 5,
-          title: 'Finální dodání',
-          description:
-            'Obdržíte finální vizualizace ve vysokém rozlišení připravené k zamýšlenému použití.',
-          icon: 'Send',
-          image: luxuryResidential.id,
+          image: culturalCenter.id,
         },
       ],
     },
@@ -171,8 +155,9 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
     },
   ],
   meta: {
-    title: 'FacadeVision - Architektonické vizualizace',
-    description: 'Přeměňujeme architektonické vize na realitu s fotorealistickými vizualizacemi.',
+    title: 'VizualizaceFasad.cz - Profesionální návrhy fasád',
+    description:
+      'Profesionálně navrhujeme fasády vašich domů. Nechte si ukázat, jak bude váš dům vypadat, ještě před zahájením stavebních prací.',
     image: heroImage.id,
   },
 })

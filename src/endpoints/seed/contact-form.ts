@@ -1,7 +1,7 @@
 import type { Form } from '@/payload-types'
 
 export const contactForm: Omit<Form, 'createdAt' | 'id' | 'updatedAt'> = {
-  title: 'Kontaktní formulář',
+  title: 'Poptávkový formulář',
   fields: [
     {
       blockType: 'text',
@@ -19,16 +19,17 @@ export const contactForm: Omit<Form, 'createdAt' | 'id' | 'updatedAt'> = {
       blockType: 'text',
       name: 'phone',
       label: 'Telefon',
-      required: false,
+      required: true,
     },
     {
       blockType: 'textarea',
       name: 'message',
-      label: 'Zpráva',
+      label:
+        'Vaše představy a požadavky (Poznámka: fotografie domu prosím zašlete na info@vizualizacefasad.cz)',
       required: true,
     },
   ],
-  submitButtonLabel: 'Odeslat zprávu',
+  submitButtonLabel: 'Odeslat nezávaznou poptávku',
   confirmationType: 'message',
   confirmationMessage: {
     root: {
@@ -43,7 +44,7 @@ export const contactForm: Omit<Form, 'createdAt' | 'id' | 'updatedAt'> = {
               format: 0,
               mode: 'normal',
               style: '',
-              text: 'Děkujeme za vaši zprávu! Ozveme se vám co nejdříve.',
+              text: 'Děkujeme za vaši poptávku! Pokud jste ještě nezaslali fotografie vašeho domu, prosím pošlete je na info@vizualizacefasad.cz. Po obdržení fotografií vám zašleme potvrzovací email a připravíme cenovou nabídku.',
               version: 1,
             },
           ],

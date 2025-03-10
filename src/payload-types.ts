@@ -158,6 +158,10 @@ export interface Page {
     | TeamSectionBlock
     | ContentBlock
     | MediaBlock
+    | LandingHeroBlock
+    | TrustBadgesBlock
+    | BenefitsBlock
+    | TestimonialsBlock
   )[];
   meta?: {
     title?: string | null;
@@ -360,6 +364,7 @@ export interface PartnershipProcessBlock {
  * via the `definition` "ServiceCardsBlock".
  */
 export interface ServiceCardsBlock {
+  buttonText: string;
   services?:
     | {
         title: string;
@@ -397,6 +402,9 @@ export interface CTASectionBlock {
  * via the `definition` "PricingPlansBlock".
  */
 export interface PricingPlansBlock {
+  priceSuffix: string;
+  popularLabel: string;
+  buttonText: string;
   plans?:
     | {
         name: string;
@@ -442,7 +450,7 @@ export interface ContactInfoBlock {
   title?: string | null;
   items?:
     | {
-        icon: 'Mail' | 'Phone' | 'MapPin' | 'Clock';
+        icon: 'Mail' | 'Phone' | 'MapPin' | 'Clock' | 'Building';
         label: string;
         value: string;
         id?: string | null;
@@ -729,6 +737,76 @@ export interface MediaBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LandingHeroBlock".
+ */
+export interface LandingHeroBlock {
+  title: string;
+  description: string;
+  primaryButtonText: string;
+  secondaryButtonText: string;
+  backgroundImage: number | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'landingHero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TrustBadgesBlock".
+ */
+export interface TrustBadgesBlock {
+  stats?:
+    | {
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'trustBadges';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BenefitsBlock".
+ */
+export interface BenefitsBlock {
+  title: string;
+  description: string;
+  benefits?:
+    | {
+        title: string;
+        description: string;
+        icon: 'Clock' | 'CheckCircle2' | 'Shield';
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'benefits';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestimonialsBlock".
+ */
+export interface TestimonialsBlock {
+  title: string;
+  description: string;
+  testimonials?:
+    | {
+        name: string;
+        role: string;
+        image: number | Media;
+        quote: string;
+        result: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'testimonials';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories".
  */
 export interface Category {
@@ -991,6 +1069,10 @@ export interface PagesSelect<T extends boolean = true> {
         teamSection?: T | TeamSectionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
+        landingHero?: T | LandingHeroBlockSelect<T>;
+        trustBadges?: T | TrustBadgesBlockSelect<T>;
+        benefits?: T | BenefitsBlockSelect<T>;
+        testimonials?: T | TestimonialsBlockSelect<T>;
       };
   meta?:
     | T
@@ -1089,6 +1171,7 @@ export interface PartnershipProcessBlockSelect<T extends boolean = true> {
  * via the `definition` "ServiceCardsBlock_select".
  */
 export interface ServiceCardsBlockSelect<T extends boolean = true> {
+  buttonText?: T;
   services?:
     | T
     | {
@@ -1124,6 +1207,9 @@ export interface CTASectionBlockSelect<T extends boolean = true> {
  * via the `definition` "PricingPlansBlock_select".
  */
 export interface PricingPlansBlockSelect<T extends boolean = true> {
+  priceSuffix?: T;
+  popularLabel?: T;
+  buttonText?: T;
   plans?:
     | T
     | {
@@ -1239,6 +1325,72 @@ export interface ContentBlockSelect<T extends boolean = true> {
  */
 export interface MediaBlockSelect<T extends boolean = true> {
   media?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LandingHeroBlock_select".
+ */
+export interface LandingHeroBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  primaryButtonText?: T;
+  secondaryButtonText?: T;
+  backgroundImage?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TrustBadgesBlock_select".
+ */
+export interface TrustBadgesBlockSelect<T extends boolean = true> {
+  stats?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BenefitsBlock_select".
+ */
+export interface BenefitsBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  benefits?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        icon?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestimonialsBlock_select".
+ */
+export interface TestimonialsBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  testimonials?:
+    | T
+    | {
+        name?: T;
+        role?: T;
+        image?: T;
+        quote?: T;
+        result?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -1595,6 +1747,10 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Header {
   id: number;
+  topBar: {
+    phone: string;
+    email: string;
+  };
   navItems?:
     | {
         link: {
@@ -1639,10 +1795,10 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
-  newsletter: {
-    title: string;
-    description: string;
-    buttonText: string;
+  newsletter?: {
+    title?: string | null;
+    description?: string | null;
+    buttonText?: string | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1652,6 +1808,12 @@ export interface Footer {
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
+  topBar?:
+    | T
+    | {
+        phone?: T;
+        email?: T;
+      };
   navItems?:
     | T
     | {

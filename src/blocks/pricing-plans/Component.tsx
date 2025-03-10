@@ -33,15 +33,15 @@ const iconMap = {
 }
 
 export const PricingPlansBlock: React.FC<PricingPlansBlockProps & { id?: string }> = (props) => {
-  const { id, plans } = props
+  const { id, plans, priceSuffix, popularLabel, buttonText } = props
 
   return (
     <motion.div
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="grid gap-8 md:grid-cols-3"
       id={`block-${id}`}
+      className="max-w-7xl mx-auto px-4 md:px-6 grid gap-8 md:grid-cols-3"
     >
       {plans?.map((plan, index) => {
         const Icon = iconMap[plan.icon as keyof typeof iconMap]
@@ -54,9 +54,9 @@ export const PricingPlansBlock: React.FC<PricingPlansBlockProps & { id?: string 
             }`}
           >
             {plan.popular && (
-              <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 rotate-12">
-                <div className="bg-primary px-3 py-1 text-xs text-primary-foreground shadow-lg">
-                  Oblíbené
+              <div className="absolute top-0 right-0 translate-y-1/2">
+                <div className="bg-primary px-3 py-1 text-xs text-primary-foreground shadow-lg rounded-l-lg">
+                  {popularLabel}
                 </div>
               </div>
             )}
@@ -69,7 +69,7 @@ export const PricingPlansBlock: React.FC<PricingPlansBlockProps & { id?: string 
             <div className="mb-6">
               <div className="flex items-baseline gap-2">
                 <span className="text-4xl font-bold">{plan.price}</span>
-                <span className="text-muted-foreground">za projekt</span>
+                <span className="text-muted-foreground">{priceSuffix}</span>
               </div>
               <p className="mt-2 text-sm text-muted-foreground">{plan.description}</p>
             </div>
@@ -77,7 +77,7 @@ export const PricingPlansBlock: React.FC<PricingPlansBlockProps & { id?: string 
               {plan.features?.map((item, featureIndex) => (
                 <li key={featureIndex} className="flex items-center gap-2 text-sm">
                   <Check className="h-4 w-4 text-primary shrink-0" />
-                  {item.feature} {/* Access the 'feature' property */}
+                  {item.feature}
                 </li>
               ))}
             </ul>
@@ -85,7 +85,7 @@ export const PricingPlansBlock: React.FC<PricingPlansBlockProps & { id?: string 
               className="w-full group transition-transform hover:scale-[1.02]"
               variant={plan.popular ? 'default' : 'outline'}
             >
-              Začít
+              {buttonText}
               <span className="ml-2 transition-transform group-hover:translate-x-1">→</span>
             </Button>
           </motion.div>

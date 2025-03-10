@@ -2,7 +2,7 @@ import tailwindcssAnimate from 'tailwindcss-animate'
 import typography from '@tailwindcss/typography'
 
 /** @type {import('tailwindcss').Config} */
-export default {
+const config = {
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
@@ -11,6 +11,7 @@ export default {
   ],
   darkMode: ['selector', '[data-theme="dark"]'], // Keeping dark mode
   plugins: [tailwindcssAnimate, typography],
+  prefix: '',
   safelist: [
     'lg:col-span-4',
     'lg:col-span-6',
@@ -143,3 +144,5 @@ export default {
     },
   },
 }
+
+export default config

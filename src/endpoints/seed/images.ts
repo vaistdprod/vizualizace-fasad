@@ -1,81 +1,97 @@
 import type { Media } from '@/payload-types'
 
 export const heroBg: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Moderní budova s elegantní fasádou, symbolizující architektonickou vizualizaci.',
+  alt: 'Profesionální návrhy fasád vašich domů - VizualizaceFasad.cz',
 }
 
 export const modernOfficeTower: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Moderní kancelářská věž s elegantním designem fasády.',
+  alt: 'Realizace fasády Ostrava - před rekonstrukcí',
 }
 
 export const luxuryResidential: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Luxusní rezidenční komplex s propracovanou fasádou.',
+  alt: 'Realizace fasády Ostrava - vizualizace návrhu',
 }
 
 export const culturalCenter: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Kulturní centrum s unikátní architektonickou vizualizací.',
+  alt: 'Realizace fasády Ostrava - po rekonstrukci',
 }
 
 export const facadeImage: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Fotorealistická vizualizace fasády budovy.',
+  alt: 'Vizualizace fasád novostaveb - ukázka našich návrhů',
 }
 
 export const threeDImage: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: '3D vizualizace architektonického projektu.',
+  alt: 'Návrhy rekonstrukcí a zateplení fasád',
 }
 
 export const designImage: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Konzultace designu fasády s estetickým a funkčním zaměřením.',
+  alt: 'Fasádní obklady - dřevo, kámen, cihla',
 }
 
 export const customImage: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Individuální vizualizační řešení pro unikátní projekt.',
+  alt: 'Návrhy fasád pro komerční objekty a bytové domy',
 }
 
 export const pricingImage: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Ilustrace architektonického projektu pro cenové plány.',
+  alt: 'Ceník návrhů fasád - VizualizaceFasad.cz',
 }
 
 export const modernOffice: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Moderní kancelářský komplex v New Yorku.',
+  alt: 'Realizace fasády Bukovinka - před rekonstrukcí',
 }
 
 export const residentialTower: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Rezidenční věž v Dubaji s luxusní fasádou.',
+  alt: 'Realizace fasády Bukovinka - vizualizace návrhu',
 }
 
 export const corporateHQ: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Firemní sídlo v Singapuru s moderní vizualizací.',
+  alt: 'Realizace fasády Bukovinka - po rekonstrukci',
 }
 
 export const multipurposeComplex: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Víceúčelový komplex v Tokiu.',
+  alt: 'Ukázka návrhu fasády rodinného domu',
 }
 
 export const sustainableOffice: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Udržitelná kancelářská budova v Kodani.',
+  alt: 'Ukázka návrhu fasády bytového domu',
 }
 
 export const luxuryHotel: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Luxusní hotel v Miami s elegantní fasádou.',
+  alt: 'Vizualizace fasády s obkladovými materiály',
 }
 
 export const innovationCenter: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Inovační centrum v San Franciscu.',
+  alt: 'Vizualizace fasády komerčního objektu',
 }
 
 export const contactImage: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Moderní budova symbolizující kontakt s týmem FacadeVision.',
+  alt: 'Kontaktujte nás pro profesionální návrhy fasád - VizualizaceFasad.cz',
 }
 
 export const sarahImage: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Sarah Johnson, vedoucí vizualizační umělkyně.',
+  alt: 'Ing. Jan Kantor - Návrhy, design, obchod',
 }
 
 export const michaelImage: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Michael Chen, technický ředitel.',
+  alt: 'Terapeutika – grafika s.r.o - Profesionální návrhy fasád',
 }
 
 export const emilyImage: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Emily Rodriguez, manažerka klientských vztahů.',
+  alt: 'Zuzana Polášková - Návrhy, design',
+}
+
+export const landingHeroImage: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
+  alt: 'Moderní architektonická vizualizace - VizualizaceFasad.cz',
+}
+
+export const testimonialImage1: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
+  alt: 'John Anderson - VizualizaceFasad.cz',
+}
+
+export const testimonialImage2: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
+  alt: 'Sarah Martinez - VizualizaceFasad.cz',
+}
+
+export const testimonialImage3: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
+  alt: 'David Chen - VizualizaceFasad.cz',
 }

@@ -9,6 +9,27 @@ export const PricingPlans: Block = {
   },
   fields: [
     {
+      name: 'priceSuffix',
+      type: 'text',
+      required: true,
+      label: 'Price Suffix',
+      defaultValue: 'za projekt',
+    },
+    {
+      name: 'popularLabel',
+      type: 'text',
+      required: true,
+      label: 'Popular Label',
+      defaultValue: 'Oblíbené',
+    },
+    {
+      name: 'buttonText',
+      type: 'text',
+      required: true,
+      label: 'Button Text',
+      defaultValue: 'Začít',
+    },
+    {
       name: 'plans',
       type: 'array',
       label: 'Plans',

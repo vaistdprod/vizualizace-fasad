@@ -4,14 +4,18 @@ import { getServerSideURL } from './getURL'
 const defaultOpenGraph: Metadata['openGraph'] = {
   type: 'website',
   description:
-    'Ordinace praktického lékaře pro děti a dorost MUDr. Miroslavy Janulové ve Starém Lískovci.',
+    'Profesionální návrhy a vizualizace fasád pro novostavby, rekonstrukce i komerční objekty. Realistické vizualizace, barevná řešení a fasádní obklady.',
   images: [
     {
-      url: `${getServerSideURL()}/favicon.svg`,
+      url: `${getServerSideURL()}/og-image.jpg`,
+      width: 1200,
+      height: 630,
+      alt: 'VizualizaceFasad.cz - Profesionální návrhy fasád',
     },
   ],
-  siteName: 'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová',
-  title: 'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová',
+  siteName: 'VizualizaceFasad.cz - Profesionální návrhy fasád',
+  title: 'VizualizaceFasad.cz - Profesionální návrhy a vizualizace fasád',
+  locale: 'cs_CZ',
 }
 
 export const mergeOpenGraph = (og?: Metadata['openGraph']): Metadata['openGraph'] => {

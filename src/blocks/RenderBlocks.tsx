@@ -16,6 +16,11 @@ import { ContactInfoBlock } from '@/blocks/contact-info/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { TeamSectionBlock } from '@/blocks/team-section/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
+// New block imports
+import { LandingHeroBlock } from '@/blocks/landing-hero/Component'
+import { TrustBadgesBlock } from '@/blocks/trust-badges/Component'
+import { BenefitsBlock } from '@/blocks/benefits/Component'
+import { TestimonialsBlock } from '@/blocks/testimonials/Component'
 
 const blockComponents = {
   heroSection: HeroSectionBlock,
@@ -32,6 +37,11 @@ const blockComponents = {
   formBlock: FormBlock,
   teamSection: TeamSectionBlock,
   mediaBlock: MediaBlock,
+  // New blocks added here
+  landingHero: LandingHeroBlock,
+  trustBadges: TrustBadgesBlock,
+  benefits: BenefitsBlock,
+  testimonials: TestimonialsBlock,
 }
 
 export const RenderBlocks: React.FC<{
@@ -51,8 +61,12 @@ export const RenderBlocks: React.FC<{
             const Block = blockComponents[blockType]
 
             if (Block) {
+              // Conditionally set the margin class based on block type
+              const blockClassName =
+                blockType === 'heroSection' || blockType === 'landingHero' ? 'mb-16' : 'my-16'
+
               return (
-                <div className="my-16" key={index}>
+                <div className={blockClassName} key={index}>
                   {/* @ts-expect-error there may be some mismatch between the expected types here */}
                   <Block {...block} />
                 </div>

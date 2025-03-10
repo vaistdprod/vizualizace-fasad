@@ -30,6 +30,7 @@ export const ContactInfo: Block = {
             { label: 'Phone', value: 'Phone' },
             { label: 'MapPin', value: 'MapPin' },
             { label: 'Clock', value: 'Clock' },
+            { label: 'Building', value: 'Building' },
           ],
         },
         {

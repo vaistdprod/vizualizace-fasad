@@ -14,7 +14,7 @@ export const generatePageSchema = (page: Pick<Page, 'title' | 'publishedAt' | 'm
     dateModified: new Date().toISOString(),
     publisher: {
       '@type': 'Organization',
-      name: 'Vizualizace fasád',
+      name: 'VizualizaceFasad.cz',
       logo: {
         '@type': 'ImageObject',
         url: `${process.env.NEXT_PUBLIC_SERVER_URL}/favicon.svg`,
@@ -28,8 +28,9 @@ export const generateOrganizationSchema = () => {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     '@id': process.env.NEXT_PUBLIC_SERVER_URL,
-    name: 'Vizualizace fasád',
-    description: 'Profesionální vizualizace fasád a architektonické služby',
+    name: 'VizualizaceFasad.cz',
+    description:
+      'Profesionální návrhy a vizualizace fasád pro novostavby, rekonstrukce i komerční objekty.',
     url: process.env.NEXT_PUBLIC_SERVER_URL,
     logo: {
       '@type': 'ImageObject',
@@ -40,9 +41,20 @@ export const generateOrganizationSchema = () => {
     ],
     address: {
       '@type': 'PostalAddress',
+      streetAddress: 'Luční 706',
+      addressLocality: 'Stará Ves nad Ondřejnicí',
       addressCountry: 'CZ',
+      postalCode: '739 23',
     },
-    priceRange: '$$',
+    priceRange: '2900 Kč - 4900 Kč',
+    telephone: '+420 725 136 901',
+    email: 'info@vizualizacefasad.cz',
+    vatID: 'CZ04189841',
+    founder: {
+      '@type': 'Person',
+      name: 'Ing. Jan Kantor',
+      jobTitle: 'Návrhy, design, obchod',
+    },
     availableLanguage: {
       '@type': 'Language',
       name: 'Čeština',

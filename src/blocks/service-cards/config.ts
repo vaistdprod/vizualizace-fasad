@@ -9,6 +9,13 @@ export const ServiceCards: Block = {
   },
   fields: [
     {
+      name: 'buttonText',
+      type: 'text',
+      required: true,
+      label: 'Button Text',
+      defaultValue: 'Zjistit více',
+    },
+    {
       name: 'services',
       type: 'array',
       label: 'Services',

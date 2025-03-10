@@ -82,7 +82,7 @@ export const seed = async ({
   await payload.delete({
     collection: 'users',
     depth: 0,
-    where: { email: { equals: 'admin@facadevision.com' } },
+    where: { email: { equals: 'info@vizualizacefasad.cz' } },
   })
 
   const DEMO_USER_PASSWORD = process.env.DEMO_USER_PASSWORD
@@ -92,8 +92,8 @@ export const seed = async ({
   await payload.create({
     collection: 'users',
     data: {
-      name: 'Admin FacadeVision',
-      email: 'admin@facadevision.com',
+      name: 'Admin VizualizaceFasad.cz',
+      email: 'info@vizualizacefasad.cz',
       password: DEMO_USER_PASSWORD,
     },
   })
@@ -103,102 +103,102 @@ export const seed = async ({
   const heroBgDoc = await payload.create({
     collection: 'media',
     data: heroBg,
-    file: await fetchFileByPath('./hero-bg.jpg'),
+    file: await fetchFileByPath('./fasada-hlavni.jpg'),
   })
   const modernOfficeTowerDoc = await payload.create({
     collection: 'media',
     data: modernOfficeTower,
-    file: await fetchFileByPath('./modern-office-tower.jpg'),
+    file: await fetchFileByPath('./ostrava-pred.jpg'),
   })
   const luxuryResidentialDoc = await payload.create({
     collection: 'media',
     data: luxuryResidential,
-    file: await fetchFileByPath('./luxury-residential.jpg'),
+    file: await fetchFileByPath('./ostrava-navrh.jpg'),
   })
   const culturalCenterDoc = await payload.create({
     collection: 'media',
     data: culturalCenter,
-    file: await fetchFileByPath('./cultural-center.jpg'),
+    file: await fetchFileByPath('./ostrava-po.jpg'),
   })
   const facadeImageDoc = await payload.create({
     collection: 'media',
     data: facadeImage,
-    file: await fetchFileByPath('./facade-image.jpg'),
+    file: await fetchFileByPath('./novostavby.jpg'),
   })
   const threeDImageDoc = await payload.create({
     collection: 'media',
     data: threeDImage,
-    file: await fetchFileByPath('./three-d-image.jpg'),
+    file: await fetchFileByPath('./rekonstrukce.jpg'),
   })
   const designImageDoc = await payload.create({
     collection: 'media',
     data: designImage,
-    file: await fetchFileByPath('./design-image.jpg'),
+    file: await fetchFileByPath('./obklady.jpg'),
   })
   const customImageDoc = await payload.create({
     collection: 'media',
     data: customImage,
-    file: await fetchFileByPath('./custom-image.jpg'),
+    file: await fetchFileByPath('./komercni.jpg'),
   })
   const pricingImageDoc = await payload.create({
     collection: 'media',
     data: pricingImage,
-    file: await fetchFileByPath('./pricing-image.jpg'),
+    file: await fetchFileByPath('./cenik.jpg'),
   })
   const modernOfficeDoc = await payload.create({
     collection: 'media',
     data: modernOffice,
-    file: await fetchFileByPath('./modern-office.jpg'),
+    file: await fetchFileByPath('./bukovinka-pred.jpg'),
   })
   const residentialTowerDoc = await payload.create({
     collection: 'media',
     data: residentialTower,
-    file: await fetchFileByPath('./residential-tower.jpg'),
+    file: await fetchFileByPath('./bukovinka-navrh.jpg'),
   })
   const corporateHQDoc = await payload.create({
     collection: 'media',
     data: corporateHQ,
-    file: await fetchFileByPath('./corporate-hq.jpg'),
+    file: await fetchFileByPath('./bukovinka-po.jpg'),
   })
   const multipurposeComplexDoc = await payload.create({
     collection: 'media',
     data: multipurposeComplex,
-    file: await fetchFileByPath('./multipurpose-complex.jpg'),
+    file: await fetchFileByPath('./rodinny-dum.jpg'),
   })
   const sustainableOfficeDoc = await payload.create({
     collection: 'media',
     data: sustainableOffice,
-    file: await fetchFileByPath('./sustainable-office.jpg'),
+    file: await fetchFileByPath('./bytovy-dum.jpg'),
   })
   const luxuryHotelDoc = await payload.create({
     collection: 'media',
     data: luxuryHotel,
-    file: await fetchFileByPath('./luxury-hotel.jpg'),
+    file: await fetchFileByPath('./obklady-ukazka.jpg'),
   })
   const innovationCenterDoc = await payload.create({
     collection: 'media',
     data: innovationCenter,
-    file: await fetchFileByPath('./innovation-center.jpg'),
+    file: await fetchFileByPath('./komercni-ukazka.jpg'),
   })
   const contactImageDoc = await payload.create({
     collection: 'media',
     data: contactImage,
-    file: await fetchFileByPath('./contact-image.jpg'),
+    file: await fetchFileByPath('./kontakt.jpg'),
   })
   const sarahImageDoc = await payload.create({
     collection: 'media',
     data: sarahImage,
-    file: await fetchFileByPath('./sarah-image.jpg'),
+    file: await fetchFileByPath('./kantor.jpg'),
   })
   const michaelImageDoc = await payload.create({
     collection: 'media',
     data: michaelImage,
-    file: await fetchFileByPath('./michael-image.jpg'),
+    file: await fetchFileByPath('./firma.jpg'),
   })
   const emilyImageDoc = await payload.create({
     collection: 'media',
     data: emilyImage,
-    file: await fetchFileByPath('./emily-image.jpg'),
+    file: await fetchFileByPath('./polaskova.jpg'),
   })
 
   // Seed contact form
@@ -281,7 +281,14 @@ export const seed = async ({
   await Promise.all([
     payload.updateGlobal({
       slug: 'header',
-      data: headerData as Header,
+      data: {
+        id: 1,
+        ...headerData,
+        topBar: {
+          phone: '+420 725 136 901',
+          email: 'info@vizualizacefasad.cz',
+        },
+      } as Header,
       depth: 0,
       context: { disableRevalidate: true },
     }),
@@ -289,40 +296,33 @@ export const seed = async ({
       slug: 'footer',
       data: {
         companyInfo: [
-          { icon: 'Building2', text: 'FacadeVision Ltd.' },
-          { icon: 'MapPin', text: '123 Architecture Plaza, Design District, NY 10001' },
-          { icon: 'Phone', text: '+1 (555) 123-4567' },
-          { icon: 'Mail', text: 'contact@facadevision.com' },
-          { icon: 'Clock', text: 'Mon-Fri: 9:00 AM - 6:00 PM EST' },
+          { icon: 'Building2', text: 'Terapeutika – grafika s.r.o' },
+          { icon: 'MapPin', text: 'Stará Ves nad Ondřejnicí, Luční 706' },
+          { icon: 'Phone', text: '+420 725 136 901' },
+          { icon: 'Mail', text: 'info@vizualizacefasad.cz' },
+          { icon: 'Building2', text: 'IČO: 04189841' },
         ],
         footerColumns: [
           {
-            title: 'Rychlé odkazy',
+            title: 'Menu',
             links: [
-              { label: 'O nás', url: '/about' },
+              { label: 'Úvod', url: '/' },
               { label: 'Služby', url: '/sluzby' },
-              { label: 'Galerie', url: '/galerie' },
               { label: 'Ceník', url: '/cenik' },
+              { label: 'Galerie', url: '/galerie' },
               { label: 'Kontakt', url: '/kontakt' },
             ],
           },
           {
             title: 'Naše služby',
             links: [
-              { label: 'Vizualizace fasád', url: '/sluzby#facade' },
-              { label: '3D vizualizace', url: '/sluzby#3d' },
-              { label: 'Vizualizace interiérů', url: '/sluzby#interior' },
-              { label: 'Architektonické animace', url: '/sluzby#animation' },
-              { label: 'Virtuální prohlídky', url: '/sluzby#vr' },
+              { label: 'Vizualizace fasád novostaveb', url: '/sluzby#novostavby' },
+              { label: 'Návrhy rekonstrukcí', url: '/sluzby#rekonstrukce' },
+              { label: 'Fasádní obklady', url: '/sluzby#obklady' },
+              { label: 'Komerční objekty', url: '/sluzby#komercni' },
             ],
           },
         ],
-        newsletter: {
-          title: 'Zůstaňte v obraze',
-          description:
-            'Přihlaste se k odběru novinek o trendech a aktualizacích v architektonické vizualizaci.',
-          buttonText: 'Přihlásit k odběru',
-        },
       },
       depth: 0,
       context: { disableRevalidate: true },

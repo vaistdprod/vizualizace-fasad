@@ -16,14 +16,14 @@ export const Logo = (props: Props) => {
   return (
     /* eslint-disable @next/next/no-img-element */
     <img
-      alt="Logo MUDr. Janulová"
-      width={144}
-      height={36}
+      alt="Logo VizualizaceFasad.cz"
+      width={200}
+      height={40}
       loading={loading}
       fetchPriority={priority}
       decoding="async"
-      className={clsx('max-w-[9.375rem] w-full h-[34px]', className)}
-      src="public/media/logo.svg"
+      className={clsx('max-w-[12.5rem] w-full h-[40px]', className)}
+      src="/logo.png"
     />
   )
 }

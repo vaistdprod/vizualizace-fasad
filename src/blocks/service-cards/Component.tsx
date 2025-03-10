@@ -36,14 +36,14 @@ const iconMap = {
 }
 
 export const ServiceCardsBlock: React.FC<ServiceCardsBlockProps & { id?: string }> = (props) => {
-  const { id, services } = props
+  const { id, services, buttonText } = props
 
   return (
     <motion.div
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
+      className="max-w-7xl mx-auto px-4 md:px-6 grid gap-8 md:grid-cols-2 lg:grid-cols-3"
       id={`block-${id}`}
     >
       {services?.map((service, index) => {
@@ -77,12 +77,12 @@ export const ServiceCardsBlock: React.FC<ServiceCardsBlockProps & { id?: string 
                 {service.features?.map((item, featureIndex) => (
                   <li key={featureIndex} className="flex items-center text-sm">
                     <span className="h-1.5 w-1.5 rounded-full bg-primary mr-2" />
-                    {item.feature} {/* Access the 'feature' property */}
+                    {item.feature}
                   </li>
                 ))}
               </ul>
               <Button variant="ghost" className="mt-6 group">
-                Zjistit více
+                {buttonText}
                 <span className="ml-2 transition-transform group-hover:translate-x-1">→</span>
               </Button>
             </div>

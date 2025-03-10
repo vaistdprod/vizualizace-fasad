@@ -24,25 +24,42 @@ export const gallery: (args: GalleryArgs) => RequiredDataFromCollectionSlug<'pag
 }) => ({
   slug: 'galerie',
   _status: 'published',
-  title: 'Naše práce',
+  title: 'Fotogalerie realizací',
   layout: [
     {
       blockType: 'galleryGrid',
       projects: [
-        { title: 'Moderní kancelářský komplex', image: modernOffice.id, location: 'New York' },
-        { title: 'Kulturní centrum', image: culturalCenter.id, location: 'Londýn' },
-        { title: 'Rezidenční věž', image: residentialTower.id, location: 'Dubai' },
-        { title: 'Firemní sídlo', image: corporateHQ.id, location: 'Singapur' },
-        { title: 'Víceúčelový komplex', image: multipurposeComplex.id, location: 'Tokio' },
-        { title: 'Udržitelná kancelářská budova', image: sustainableOffice.id, location: 'Kodaň' },
-        { title: 'Luxusní hotel', image: luxuryHotel.id, location: 'Miami' },
-        { title: 'Inovační centrum', image: innovationCenter.id, location: 'San Francisco' },
+        { title: 'Realizace fasády Ostrava - před', image: modernOffice.id, location: 'Ostrava' },
+        {
+          title: 'Realizace fasády Ostrava - vizualizace',
+          image: culturalCenter.id,
+          location: 'Ostrava',
+        },
+        { title: 'Realizace fasády Ostrava - po', image: residentialTower.id, location: 'Ostrava' },
+        {
+          title: 'Realizace fasády Bukovinka - před',
+          image: corporateHQ.id,
+          location: 'Bukovinka',
+        },
+        {
+          title: 'Realizace fasády Bukovinka - vizualizace',
+          image: multipurposeComplex.id,
+          location: 'Bukovinka',
+        },
+        {
+          title: 'Realizace fasády Bukovinka - po',
+          image: sustainableOffice.id,
+          location: 'Bukovinka',
+        },
+        { title: 'Rodinný dům - vizualizace', image: luxuryHotel.id, location: 'Brno' },
+        { title: 'Bytový dům - vizualizace', image: innovationCenter.id, location: 'Brno' },
       ],
     },
   ],
   meta: {
-    title: 'Galerie - FacadeVision',
-    description: 'Prohlédněte si portfolio našich architektonických vizualizací.',
+    title: 'Fotogalerie realizací - VizualizaceFasad.cz',
+    description:
+      'Ukázky realizovaných fasád podle našich návrhů. Porovnejte původní stav, vizualizaci a výslednou realizaci.',
     image: modernOffice.id,
   },
 })

@@ -10,6 +10,25 @@ export const Header: GlobalConfig = {
   },
   fields: [
     {
+      name: 'topBar',
+      type: 'group',
+      label: 'Horní lišta',
+      fields: [
+        {
+          name: 'phone',
+          type: 'text',
+          label: 'Telefonní číslo',
+          required: true,
+        },
+        {
+          name: 'email',
+          type: 'text',
+          label: 'E-mail',
+          required: true,
+        },
+      ],
+    },
+    {
       name: 'navItems',
       type: 'array',
       label: 'Položky navigace',
