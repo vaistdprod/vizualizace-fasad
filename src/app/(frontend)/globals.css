@@ -1,8 +1,12 @@
-@import "tailwindcss/preflight"; /* Replaces @tailwind base */
-@import "tailwindcss"; /* Replaces @tailwind utilities */
-@import "tailwindcss/typography"; /* For typography plugin */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
+  .prose {
+    @apply max-w-none;
+  }
+  
   :root {
     /* Rich deep navy as primary color */
     --primary: 220 70% 20%;
