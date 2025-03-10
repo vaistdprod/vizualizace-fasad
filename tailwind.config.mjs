@@ -9,7 +9,7 @@ export default {
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
   ],
-  darkMode: ['selector', '[data-theme="dark"]'], // Payload template style
+  darkMode: ['selector', '[data-theme="dark"]'], // Keeping dark mode
   plugins: [tailwindcssAnimate, typography],
   safelist: [
     'lg:col-span-4',
