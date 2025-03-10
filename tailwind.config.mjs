@@ -1,5 +1,5 @@
 import tailwindcssAnimate from 'tailwindcss-animate'
-import typographyPlugin from '@tailwindcss/typography'
+import typography from '@tailwindcss/typography'
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -10,7 +10,7 @@ export default {
     './src/**/*.{ts,tsx}',
   ],
   darkMode: ['selector', '[data-theme="dark"]'], // Payload template style
-  plugins: [tailwindcssAnimate, typographyPlugin],
+  plugins: [tailwindcssAnimate, typography],
   safelist: [
     'lg:col-span-4',
     'lg:col-span-6',
@@ -116,7 +116,7 @@ export default {
           to: { height: '0' },
         },
       },
-      typography: {
+      typography: () => ({
         DEFAULT: {
           css: {
             '--tw-prose-body': 'hsl(var(--foreground))',
@@ -139,7 +139,7 @@ export default {
             h2: { fontSize: '1.5rem' },
           },
         },
-      },
+      }),
     },
   },
 }
