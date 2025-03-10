@@ -10,13 +10,6 @@ export const Header: GlobalConfig = {
   },
   fields: [
     {
-      name: 'logo',
-      type: 'upload',
-      relationTo: 'media', // Assumes you have a 'media' collection for images
-      label: 'Logo',
-      required: false,
-    },
-    {
       name: 'navItems',
       type: 'array',
       label: 'Položky navigace',
@@ -25,53 +18,10 @@ export const Header: GlobalConfig = {
           appearances: false,
         }),
       ],
-      maxRows: 9,
+      maxRows: 6,
       admin: {
         initCollapsed: true,
-        components: {
-          RowLabel: '@/Header/RowLabel#RowLabel',
-        },
       },
-    },
-    {
-      name: 'button',
-      type: 'group',
-      label: 'Tlačítko',
-      fields: [
-        {
-          name: 'type',
-          type: 'select',
-          options: [
-            { label: 'Vlastní', value: 'custom' },
-            { label: 'Odkaz na stránku', value: 'reference' },
-          ],
-          defaultValue: 'custom',
-          label: 'Typ',
-        },
-        {
-          name: 'label',
-          type: 'text',
-          required: true,
-          label: 'Text',
-        },
-        {
-          name: 'url',
-          type: 'text',
-          label: 'URL',
-          admin: {
-            condition: (_, siblingData) => siblingData.type === 'custom',
-          },
-        },
-        {
-          name: 'reference',
-          type: 'relationship',
-          relationTo: 'pages',
-          label: 'Odkaz na stránku',
-          admin: {
-            condition: (_, siblingData) => siblingData.type === 'reference',
-          },
-        },
-      ],
     },
   ],
   hooks: {

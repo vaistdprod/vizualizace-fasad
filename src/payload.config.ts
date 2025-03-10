@@ -11,7 +11,6 @@ import { fileURLToPath } from 'url'
 import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
-import { Aktuality } from './collections/Aktuality'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
@@ -67,12 +66,12 @@ export default buildConfig({
     fallbackLanguage: 'cs',
   },
   email: nodemailerAdapter({
-    defaultFromAddress: process.env.DEFAULT_FROM_ADDRESS || 'mirka.janulova@seznam.cz',
+    defaultFromAddress: process.env.DEFAULT_FROM_ADDRESS || 'info@vizualizacefasad.cz',
     defaultFromName:
       process.env.DEFAULT_FROM_NAME ||
       'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová',
   }),
-  collections: [Pages, Aktuality, Media, Categories, Users],
+  collections: [Pages, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [
@@ -149,8 +148,8 @@ export async function handleFormSubmission(submission: FormSubmission, req: Payl
   const message = messageField?.value as string
 
   await payload.sendEmail({
-    to: process.env.DEFAULT_TO_ADDRESS || 'mirka.janulova@seznam.cz',
-    from: process.env.DEFAULT_FROM_ADDRESS || 'mirka.janulova@seznam.cz',
+    to: process.env.DEFAULT_TO_ADDRESS || 'info@vizualizacefasad.cz',
+    from: process.env.DEFAULT_FROM_ADDRESS || 'info@vizualizacefasad.cz',
     subject: 'Nová zpráva z kontaktního formuláře',
     html: `
       <h1>Nová zpráva z kontaktního formuláře</h1>
@@ -163,7 +162,7 @@ export async function handleFormSubmission(submission: FormSubmission, req: Payl
 
   await payload.sendEmail({
     to: senderEmail,
-    from: process.env.DEFAULT_FROM_ADDRESS || 'mirka.janulova@seznam.cz',
+    from: process.env.DEFAULT_FROM_ADDRESS || 'info@vizualizacefasad.cz',
     subject: 'Děkujeme za Vaši zprávu',
     html: `
       <h1>Dobrý den, ${senderName || ''}!</h1>

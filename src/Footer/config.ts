@@ -1,4 +1,3 @@
-// src/Footer/config.ts
 import type { GlobalConfig } from 'payload'
 import { revalidateFooter } from './hooks/revalidateFooter'
 
@@ -10,28 +9,36 @@ export const Footer: GlobalConfig = {
   },
   fields: [
     {
-      name: 'logo',
-      type: 'upload',
-      relationTo: 'media',
-      label: 'Logo',
-      required: false,
-    },
-    {
-      name: 'title', // New dynamic title field
-      type: 'text',
-      label: 'Název',
-      required: true, // Make it required since it’s a key part of the footer
-      defaultValue: 'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová', // Default for convenience
-    },
-    {
-      name: 'description',
-      type: 'text',
-      label: 'Popis',
+      name: 'companyInfo',
+      type: 'array',
+      label: 'Informace o společnosti',
+      fields: [
+        {
+          name: 'icon',
+          type: 'select',
+          label: 'Ikona',
+          options: [
+            { label: 'Building2', value: 'Building2' },
+            { label: 'MapPin', value: 'MapPin' },
+            { label: 'Phone', value: 'Phone' },
+            { label: 'Mail', value: 'Mail' },
+            { label: 'Clock', value: 'Clock' },
+          ],
+          required: true,
+        },
+        {
+          name: 'text',
+          type: 'text',
+          label: 'Text',
+          required: true,
+        },
+      ],
     },
     {
       name: 'footerColumns',
       type: 'array',
       label: 'Sloupce patičky',
+      maxRows: 2, // Limit to two columns (Quick Links, Services)
       fields: [
         {
           name: 'title',
@@ -61,16 +68,32 @@ export const Footer: GlobalConfig = {
       ],
       admin: {
         initCollapsed: true,
-        components: {
-          RowLabel: '@/Footer/RowLabel#RowLabel',
-        },
       },
     },
     {
-      name: 'copyrightText',
-      type: 'text',
-      required: true,
-      label: 'Text autorských práv',
+      name: 'newsletter',
+      type: 'group',
+      label: 'Newsletter',
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          label: 'Název',
+          required: true,
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          label: 'Popis',
+          required: true,
+        },
+        {
+          name: 'buttonText',
+          type: 'text',
+          label: 'Text tlačítka',
+          required: true,
+        },
+      ],
     },
   ],
   hooks: {

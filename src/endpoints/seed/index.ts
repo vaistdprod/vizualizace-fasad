@@ -1,28 +1,32 @@
 import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from 'payload'
-import { kontaktniFormular } from './kontaktni-formular'
 import { home } from './home'
-import { aktualita1 } from './aktualita-1' // New checkup guidelines
-import { aktualita2 } from './aktualita-2' // Nutrition workshop
-import { aktualita3 } from './aktualita-3' // Back-to-school tips
-import { heroImage } from './hero-image'
-import { ordinace } from './ordinace'
-import { hracky } from './hracky'
-import { vysetrovna } from './vysetrovna'
-import { pojistovnaVZP } from './pojistovna-vzp'
-import { pojistovnaZPMV } from './pojistovna-zpmv'
-import { pojistovnaOZP } from './pojistovna-ozp'
-import { pojistovnaRBP } from './pojistovna-rbp'
-import { pojistovnaCPZP } from './pojistovna-cpzp'
-import { pojistovnaVOZP } from './pojistovna-vozp'
-import { logo } from './logo'
-import { polka } from './polka'
-import { ilustrace } from './ilustrace'
-import { batole } from './batole'
-import { naruci } from './naruci'
-import { stetoskop } from './stetoskop'
-import { stetoskop2 } from './stetoskop-2'
-import { vysetreni } from './vysetreni'
-import { vysetreni2 } from './vysetreni-2'
+import { services } from './services'
+import { pricing } from './pricing'
+import { gallery } from './gallery'
+import { contact } from './contact'
+import {
+  heroBg,
+  modernOfficeTower,
+  luxuryResidential,
+  culturalCenter,
+  facadeImage,
+  threeDImage,
+  designImage,
+  customImage,
+  pricingImage,
+  modernOffice,
+  residentialTower,
+  corporateHQ,
+  multipurposeComplex,
+  sustainableOffice,
+  luxuryHotel,
+  innovationCenter,
+  contactImage,
+  sarahImage,
+  michaelImage,
+  emilyImage,
+} from './images'
+import { contactForm } from './contact-form'
 import type { Header } from '@/payload-types'
 import { fileURLToPath } from 'url'
 
@@ -30,7 +34,6 @@ const collections: CollectionSlug[] = [
   'categories',
   'media',
   'pages',
-  'aktuality',
   'forms',
   'form-submissions',
   'users',
@@ -74,199 +77,207 @@ export const seed = async ({
       .map((collection) => payload.db.deleteVersions({ collection, req, where: {} })),
   )
 
-  // Seed demo author
-  payload.logger.info('— Seeding demo author...')
+  // Seed demo user
+  payload.logger.info('— Seeding demo user...')
   await payload.delete({
     collection: 'users',
     depth: 0,
-    where: { email: { equals: 'mirka.janulova@seznam.cz' } },
+    where: { email: { equals: 'admin@facadevision.com' } },
   })
 
-  const DEMO_AUTHOR_PASSWORD = process.env.DEMO_AUTHOR_PASSWORD
-  if (!DEMO_AUTHOR_PASSWORD) {
-    throw new Error('V proměnných chybí hodnota pro DEMO_AUTHOR_PASSWORD!')
+  const DEMO_USER_PASSWORD = process.env.DEMO_USER_PASSWORD
+  if (!DEMO_USER_PASSWORD) {
+    throw new Error('V proměnných chybí hodnota pro DEMO_USER_PASSWORD!')
   }
-  const demoAuthor = await payload.create({
+  const demoUser = await payload.create({
     collection: 'users',
     data: {
-      name: 'MUDr. Miroslava Janulová',
-      email: 'mirka.janulova@seznam.cz',
-      password: DEMO_AUTHOR_PASSWORD,
+      name: 'Admin FacadeVision',
+      email: 'admin@facadevision.com',
+      password: DEMO_USER_PASSWORD,
     },
   })
 
   // Seed media
   payload.logger.info('— Seeding media...')
-  const logoDoc = await payload.create({
+  const heroBgDoc = await payload.create({
     collection: 'media',
-    data: logo,
-    file: await fetchFileByPath('./logo.svg'),
+    data: heroBg,
+    file: await fetchFileByPath('./hero-bg.jpg'),
   })
-  const heroImageDoc = await payload.create({
+  const modernOfficeTowerDoc = await payload.create({
     collection: 'media',
-    data: heroImage,
-    file: await fetchFileByPath('./stetoskop-2.jpg'),
+    data: modernOfficeTower,
+    file: await fetchFileByPath('./modern-office-tower.jpg'),
   })
-  const ordinaceDoc = await payload.create({
+  const luxuryResidentialDoc = await payload.create({
     collection: 'media',
-    data: ordinace,
-    file: await fetchFileByPath('./ordinace.jpg'),
+    data: luxuryResidential,
+    file: await fetchFileByPath('./luxury-residential.jpg'),
   })
-  const hrackyDoc = await payload.create({
+  const culturalCenterDoc = await payload.create({
     collection: 'media',
-    data: hracky,
-    file: await fetchFileByPath('./hracky.jpg'),
+    data: culturalCenter,
+    file: await fetchFileByPath('./cultural-center.jpg'),
   })
-  const vysestrovnaDoc = await payload.create({
+  const facadeImageDoc = await payload.create({
     collection: 'media',
-    data: vysetrovna,
-    file: await fetchFileByPath('./vysetrovna.jpg'),
+    data: facadeImage,
+    file: await fetchFileByPath('./facade-image.jpg'),
   })
-  const vzpImageDoc = await payload.create({
+  const threeDImageDoc = await payload.create({
     collection: 'media',
-    data: pojistovnaVZP,
-    file: await fetchFileByPath('./vzp.svg'),
+    data: threeDImage,
+    file: await fetchFileByPath('./three-d-image.jpg'),
   })
-  const zpmvImageDoc = await payload.create({
+  const designImageDoc = await payload.create({
     collection: 'media',
-    data: pojistovnaZPMV,
-    file: await fetchFileByPath('./zpmv.svg'),
+    data: designImage,
+    file: await fetchFileByPath('./design-image.jpg'),
   })
-  const ozpImageDoc = await payload.create({
+  const customImageDoc = await payload.create({
     collection: 'media',
-    data: pojistovnaOZP,
-    file: await fetchFileByPath('./ozp.svg'),
+    data: customImage,
+    file: await fetchFileByPath('./custom-image.jpg'),
   })
-  const rbpImageDoc = await payload.create({
+  const pricingImageDoc = await payload.create({
     collection: 'media',
-    data: pojistovnaRBP,
-    file: await fetchFileByPath('./rbp.svg'),
+    data: pricingImage,
+    file: await fetchFileByPath('./pricing-image.jpg'),
   })
-  const cpzpImageDoc = await payload.create({
+  const modernOfficeDoc = await payload.create({
     collection: 'media',
-    data: pojistovnaCPZP,
-    file: await fetchFileByPath('./cpzp.svg'),
+    data: modernOffice,
+    file: await fetchFileByPath('./modern-office.jpg'),
   })
-  const vozpImageDoc = await payload.create({
+  const residentialTowerDoc = await payload.create({
     collection: 'media',
-    data: pojistovnaVOZP,
-    file: await fetchFileByPath('./vozp.png'),
+    data: residentialTower,
+    file: await fetchFileByPath('./residential-tower.jpg'),
   })
-  const backgroundImagePolkaDoc = await payload.create({
+  const corporateHQDoc = await payload.create({
     collection: 'media',
-    data: polka,
-    file: await fetchFileByPath('./polka.svg'),
+    data: corporateHQ,
+    file: await fetchFileByPath('./corporate-hq.jpg'),
   })
-  const backgroundImageIlustraceDoc = await payload.create({
+  const multipurposeComplexDoc = await payload.create({
     collection: 'media',
-    data: ilustrace,
-    file: await fetchFileByPath('./ilustrace.svg'),
+    data: multipurposeComplex,
+    file: await fetchFileByPath('./multipurpose-complex.jpg'),
   })
-
-  // Additional images
-  await payload.create({
+  const sustainableOfficeDoc = await payload.create({
     collection: 'media',
-    data: batole,
-    file: await fetchFileByPath('./batole.jpg'),
+    data: sustainableOffice,
+    file: await fetchFileByPath('./sustainable-office.jpg'),
   })
-  await payload.create({
+  const luxuryHotelDoc = await payload.create({
     collection: 'media',
-    data: naruci,
-    file: await fetchFileByPath('./naruci.jpg'),
+    data: luxuryHotel,
+    file: await fetchFileByPath('./luxury-hotel.jpg'),
   })
-  await payload.create({
+  const innovationCenterDoc = await payload.create({
     collection: 'media',
-    data: stetoskop,
-    file: await fetchFileByPath('./stetoskop.jpg'),
+    data: innovationCenter,
+    file: await fetchFileByPath('./innovation-center.jpg'),
   })
-  await payload.create({
+  const contactImageDoc = await payload.create({
     collection: 'media',
-    data: stetoskop2,
-    file: await fetchFileByPath('./stetoskop-2.jpg'),
+    data: contactImage,
+    file: await fetchFileByPath('./contact-image.jpg'),
   })
-  await payload.create({
+  const sarahImageDoc = await payload.create({
     collection: 'media',
-    data: vysetreni,
-    file: await fetchFileByPath('./vysetreni.jpg'),
+    data: sarahImage,
+    file: await fetchFileByPath('./sarah-image.jpg'),
   })
-  await payload.create({
+  const michaelImageDoc = await payload.create({
     collection: 'media',
-    data: vysetreni2,
-    file: await fetchFileByPath('./vysetreni-2.jpg'),
+    data: michaelImage,
+    file: await fetchFileByPath('./michael-image.jpg'),
+  })
+  const emilyImageDoc = await payload.create({
+    collection: 'media',
+    data: emilyImage,
+    file: await fetchFileByPath('./emily-image.jpg'),
   })
 
   // Seed contact form
   payload.logger.info('— Seeding contact form...')
-  const kontaktniFormularDoc = await payload.create({
+  const contactFormDoc = await payload.create({
     collection: 'forms',
-    data: kontaktniFormular,
+    data: contactForm,
   })
 
-  // Seed aktuality
-  payload.logger.info('— Seeding aktuality...')
-  const aktualita1Doc = await payload.create({
-    collection: 'aktuality',
-    depth: 3,
-    context: { disableRevalidate: true },
-    data: aktualita1({ heroImage: ordinaceDoc, author: demoAuthor }),
-  })
-  const aktualita2Doc = await payload.create({
-    collection: 'aktuality',
-    depth: 3,
-    context: { disableRevalidate: true },
-    data: aktualita2({ heroImage: hrackyDoc, author: demoAuthor }),
-  })
-  const aktualita3Doc = await payload.create({
-    collection: 'aktuality',
-    depth: 3,
-    context: { disableRevalidate: true },
-    data: aktualita3({ heroImage: vysestrovnaDoc, author: demoAuthor }),
-  })
-
-  // Seed home page
-  payload.logger.info('— Seeding home page...')
+  // Seed pages
+  payload.logger.info('— Seeding pages...')
   await payload.create({
     collection: 'pages',
     depth: 3,
     data: home({
-      heroImage: heroImageDoc,
-      _ordinace: ordinaceDoc,
-      _hracky: hrackyDoc,
-      _vysetrovna: vysestrovnaDoc,
-      vzpImage: vzpImageDoc,
-      zpmvImage: zpmvImageDoc,
-      ozpImage: ozpImageDoc,
-      rbpImage: rbpImageDoc,
-      cpzpImage: cpzpImageDoc,
-      vozpImage: vozpImageDoc,
-      kontaktniFormular: kontaktniFormularDoc,
-      aktuality: [aktualita1Doc, aktualita2Doc, aktualita3Doc],
-      backgroundImagePolka: backgroundImagePolkaDoc,
-      backgroundImageIlustrace: backgroundImageIlustraceDoc,
-      polkaOpacity: 0.3,
-      ilustraceOpacity: 0.06,
+      heroImage: heroBgDoc,
+      modernOfficeTower: modernOfficeTowerDoc,
+      luxuryResidential: luxuryResidentialDoc,
+      culturalCenter: culturalCenterDoc,
+      contactForm: contactFormDoc,
+    }),
+  })
+  await payload.create({
+    collection: 'pages',
+    depth: 3,
+    data: services({
+      facadeImage: facadeImageDoc,
+      threeDImage: threeDImageDoc,
+      designImage: designImageDoc,
+      customImage: customImageDoc,
+    }),
+  })
+  await payload.create({
+    collection: 'pages',
+    depth: 3,
+    data: pricing({
+      pricingImage: pricingImageDoc,
+    }),
+  })
+  await payload.create({
+    collection: 'pages',
+    depth: 3,
+    data: gallery({
+      modernOffice: modernOfficeDoc,
+      culturalCenter: culturalCenterDoc,
+      residentialTower: residentialTowerDoc,
+      corporateHQ: corporateHQDoc,
+      multipurposeComplex: multipurposeComplexDoc,
+      sustainableOffice: sustainableOfficeDoc,
+      luxuryHotel: luxuryHotelDoc,
+      innovationCenter: innovationCenterDoc,
+    }),
+  })
+  await payload.create({
+    collection: 'pages',
+    depth: 3,
+    data: contact({
+      contactImage: contactImageDoc,
+      sarahImage: sarahImageDoc,
+      michaelImage: michaelImageDoc,
+      emilyImage: emilyImageDoc,
+      contactForm: contactFormDoc,
     }),
   })
 
-  // Seed globals
+  // Seed globals (header and footer)
   payload.logger.info('— Seeding globals...')
   const navigation = [
-    { label: 'Aktuality', url: '#aktuality' },
-    { label: 'Služby', url: '#sluzby' },
-    { label: 'Náš tým', url: '#nas-tym' },
-    { label: 'Ordinační hodiny', url: '#ordinacni-hodiny' },
-    { label: 'Pojišťovny', url: '#pojistovny' },
-    { label: 'Ceník', url: '#cenik' },
-    { label: 'Kontakty', url: '#kontakty' },
+    { label: 'Úvod', url: '/' },
+    { label: 'Služby', url: '/sluzby' },
+    { label: 'Ceník', url: '/cenik' },
+    { label: 'Galerie', url: '/galerie' },
+    { label: 'Kontakt', url: '/kontakt' },
   ]
   const headerData = {
-    logo: logoDoc.id,
     navItems: navigation.map((item) => ({
       link: { type: 'custom' as const, label: item.label, url: item.url },
     })),
-    button: { type: 'custom' as const, label: 'Kontaktujte nás', url: '#kontakty' },
   }
-  payload.logger.info(`Header data before update: ${JSON.stringify(headerData)}`)
   await Promise.all([
     payload.updateGlobal({
       slug: 'header',
@@ -277,40 +288,41 @@ export const seed = async ({
     payload.updateGlobal({
       slug: 'footer',
       data: {
-        logo: logoDoc.id, // Add the logo reference here
-        title: 'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová', // Dynamic title
-        description: 'Poskytujeme odbornou péči pro děti od narození až po dospívající v Brně.',
+        companyInfo: [
+          { icon: 'Building2', text: 'FacadeVision Ltd.' },
+          { icon: 'MapPin', text: '123 Architecture Plaza, Design District, NY 10001' },
+          { icon: 'Phone', text: '+1 (555) 123-4567' },
+          { icon: 'Mail', text: 'contact@facadevision.com' },
+          { icon: 'Clock', text: 'Mon-Fri: 9:00 AM - 6:00 PM EST' },
+        ],
         footerColumns: [
           {
             title: 'Rychlé odkazy',
             links: [
-              { label: 'Aktuality', url: '#aktuality' },
-              { label: 'Služby', url: '#sluzby' },
-              { label: 'Náš tým', url: '#nas-tym' },
+              { label: 'O nás', url: '/about' },
+              { label: 'Služby', url: '/sluzby' },
+              { label: 'Galerie', url: '/galerie' },
+              { label: 'Ceník', url: '/cenik' },
+              { label: 'Kontakt', url: '/kontakt' },
             ],
           },
           {
-            title: 'Další informace',
+            title: 'Naše služby',
             links: [
-              { label: 'Ordinační hodiny', url: '#ordinacni-hodiny' },
-              { label: 'Pojišťovny', url: '#pojistovny' },
-              { label: 'Ceník', url: '#cenik' },
-            ],
-          },
-          {
-            title: 'Kontakty',
-            links: [
-              {
-                label: 'Navigovat do ordinace',
-                url: 'https://maps.app.goo.gl/yp4vJJC6vHpHLWvo7',
-              },
-              { label: 'Napište nám e-mail', url: 'mailto:mirka.janulova@seznam.cz' },
-              { label: 'Zavolejte nám', url: 'tel:+420732229610' },
-              { label: 'Web města Brno', url: 'https://www.brno.cz' },
+              { label: 'Vizualizace fasád', url: '/sluzby#facade' },
+              { label: '3D vizualizace', url: '/sluzby#3d' },
+              { label: 'Vizualizace interiérů', url: '/sluzby#interior' },
+              { label: 'Architektonické animace', url: '/sluzby#animation' },
+              { label: 'Virtuální prohlídky', url: '/sluzby#vr' },
             ],
           },
         ],
-        copyrightText: '© 2025 MUDr. Miroslava Janulová, s.r.o.',
+        newsletter: {
+          title: 'Zůstaňte v obraze',
+          description:
+            'Přihlaste se k odběru novinek o trendech a aktualizacích v architektonické vizualizaci.',
+          buttonText: 'Přihlásit k odběru',
+        },
       },
       depth: 0,
       context: { disableRevalidate: true },
@@ -328,12 +340,12 @@ async function fetchFileByPath(filePath: string): Promise<File> {
   const fullPath = path.resolve(__dirname, filePath)
   const data = await readFile(fullPath)
   let mimeType: string
-  if (filePath.endsWith('.svg')) {
-    mimeType = 'image/svg+xml'
+  if (filePath.endsWith('.jpg') || filePath.endsWith('.jpeg')) {
+    mimeType = 'image/jpeg'
   } else if (filePath.endsWith('.png')) {
     mimeType = 'image/png'
   } else {
-    mimeType = 'image/jpeg'
+    mimeType = 'image/jpeg' // Default to JPEG
   }
   return {
     name: path.basename(filePath),

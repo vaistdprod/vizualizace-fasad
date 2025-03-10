@@ -3,7 +3,7 @@ import redirects from './redirects.js'
 
 const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
   ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : process.env.NEXT_PUBLIC_SERVER_URL || 'https://mudrjanulova.cz'
+  : process.env.NEXT_PUBLIC_SERVER_URL || 'https://dokonalafasada.cz'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -22,11 +22,7 @@ const nextConfig = {
         protocol: 'http',
       },
       {
-        hostname: 'janu.tdprod.cz',
-        protocol: 'https',
-      },
-      {
-        hostname: 'mudrjanulova.cz',
+        hostname: 'dokonalafasada.cz',
         protocol: 'https',
       },
     ],

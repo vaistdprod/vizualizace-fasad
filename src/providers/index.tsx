@@ -1,9 +1,14 @@
 import React from 'react'
 
-// Simple providers component that just renders children
-// No theme providers needed as we only use light theme
+import { HeaderThemeProvider } from './HeaderTheme'
+import { ThemeProvider } from './Theme'
+
 export const Providers: React.FC<{
   children: React.ReactNode
 }> = ({ children }) => {
-  return <>{children}</>
+  return (
+    <ThemeProvider>
+      <HeaderThemeProvider>{children}</HeaderThemeProvider>
+    </ThemeProvider>
+  )
 }

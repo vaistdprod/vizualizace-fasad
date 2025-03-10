@@ -1,11 +1,12 @@
 'use client'
+
 import type { FormFieldBlock, Form as FormType } from '@payloadcms/plugin-form-builder/types'
 import { useRouter } from 'next/navigation'
 import React, { useCallback, useState } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import RichText from '@/components/RichText'
 import { Button } from '@/components/ui/button'
-import { MagicCard } from '@/components/ui/magic-card'
+import { Loader2 } from 'lucide-react'
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 import { fields } from './fields'
 import { getClientSideURL } from '@/utilities/getURL'
@@ -28,9 +29,9 @@ export const FormBlock: React.FC<
     form: formFromProps,
     form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel } = {},
     introContent,
+    id,
   } = props
 
-  // Using unknown as an intermediate step to avoid type errors
   const formMethods = useForm({
     defaultValues: formFromProps.fields as unknown as Record<string, unknown>,
   })
@@ -107,72 +108,64 @@ export const FormBlock: React.FC<
   )
 
   return (
-    <div className="container lg:max-w-[48rem]">
+    <div className="rounded-2xl bg-card/30 backdrop-blur-[2px] border p-8" id={`block-${id}`}>
       {enableIntro && introContent && !hasSubmitted && (
-        <RichText className="mb-8 lg:mb-12" data={introContent} enableGutter={false} />
+        <RichText className="mb-6" data={introContent} enableGutter={false} />
       )}
-      <MagicCard
-        className="p-4 lg:p-6 bg-card rounded-[0.8rem] overflow-hidden shadow-xs"
-        gradientColor="hsl(var(--muted))"
-        gradientFrom="hsl(var(--primary))"
-        gradientTo="hsl(var(--secondary))"
-        gradientOpacity={0.5}
-      >
-        <FormProvider {...formMethods}>
-          {!isLoading && hasSubmitted && confirmationType === 'message' && (
-            <RichText data={confirmationMessage} />
-          )}
-          {isLoading && !hasSubmitted && <p>Načítání, prosím čekejte...</p>}
-          {error && (
-            <p className="text-sm text-destructive">{`${error.status || '500'}: ${error.message || ''}`}</p>
-          )}
-          {!hasSubmitted && (
-            <form id={formID} onSubmit={handleSubmit(onSubmit)} className="w-full">
-              <div className="space-y-4 mb-4 last:mb-0">
-                {formFromProps &&
-                  formFromProps.fields &&
-                  formFromProps.fields.map((field: FormFieldBlock, index) => {
-                    // Using type assertion here because each field component has its own specific type
-                    // that extends FormFieldBlock with additional properties
-                    const Field = fields[field.blockType as keyof typeof fields] as React.FC<
-                      FormFieldBlock & {
-                        form: FormType
-                        control: typeof control
-                        errors: typeof errors
-                        register: typeof register
-                        [key: string]: unknown
-                      }
-                    >
-                    if (Field) {
-                      return (
-                        <div className="mb-6 last:mb-0 w-full" key={index}>
-                          <Field
-                            form={formFromProps}
-                            {...field}
-                            control={control}
-                            errors={errors}
-                            register={register}
-                          />
-                        </div>
-                      )
-                    }
-                    return null
-                  })}
-              </div>
-
-              <Button
-                form={formID}
-                type="submit"
-                variant="default"
-                disabled={isLoading}
-                className="w-full"
-              >
-                {submitButtonLabel || 'Odeslat'}
-              </Button>
-            </form>
-          )}
-        </FormProvider>
-      </MagicCard>
+      <FormProvider {...formMethods}>
+        {!isLoading && hasSubmitted && confirmationType === 'message' && (
+          <RichText data={confirmationMessage} className="space-y-4" />
+        )}
+        {isLoading && !hasSubmitted && (
+          <p className="text-center text-muted-foreground">Načítání, prosím čekejte...</p>
+        )}
+        {error && (
+          <p className="text-sm text-destructive text-center mb-4">
+            {`${error.status || '500'}: ${error.message || ''}`}
+          </p>
+        )}
+        {!hasSubmitted && (
+          <form id={formID} onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {formFromProps &&
+              formFromProps.fields &&
+              formFromProps.fields.map((field: FormFieldBlock, index) => {
+                const Field = fields[field.blockType as keyof typeof fields] as React.FC<
+                  FormFieldBlock & {
+                    form: FormType
+                    control: typeof control
+                    errors: typeof errors
+                    register: typeof register
+                    [key: string]: unknown
+                  }
+                >
+                if (Field) {
+                  return (
+                    <div key={index}>
+                      <Field
+                        form={formFromProps}
+                        {...field}
+                        control={control}
+                        errors={errors}
+                        register={register}
+                      />
+                    </div>
+                  )
+                }
+                return null
+              })}
+            <Button
+              form={formID}
+              type="submit"
+              variant="default"
+              disabled={isLoading}
+              className="w-full"
+            >
+              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {submitButtonLabel || 'Odeslat zprávu'}
+            </Button>
+          </form>
+        )}
+      </FormProvider>
     </div>
   )
 }

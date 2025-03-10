@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import type { Media, Page, Aktuality, Config } from '../payload-types'
+import type { Media, Page, Config } from '../payload-types'
 
 import { mergeOpenGraph } from './mergeOpenGraph'
 import { getServerSideURL } from './getURL'
@@ -22,9 +22,7 @@ const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
 /**
  * Generates metadata for pages and aktuality with SEO best practices
  */
-export const generateMeta = async (args: {
-  doc: Partial<Page> | Partial<Aktuality> | null
-}): Promise<Metadata> => {
+export const generateMeta = async (args: { doc: Partial<Page> | null }): Promise<Metadata> => {
   const { doc } = args
   const serverUrl = getServerSideURL()
 

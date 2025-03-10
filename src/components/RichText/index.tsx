@@ -1,4 +1,3 @@
-import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import {
   DefaultNodeTypes,
   SerializedBlockNode,
@@ -11,49 +10,48 @@ import {
   RichText as RichTextWithoutBlocks,
 } from '@payloadcms/richtext-lexical/react'
 
-import { HeroSectionBlock } from '@/blocks/HeroSectionBlock/Component'
-import { ServicesSectionBlock } from '@/blocks/ServicesSectionBlock/Component'
-import { TeamSectionBlock } from '@/blocks/TeamSectionBlock/Component'
-import { InsuranceSectionBlock } from '@/blocks/InsuranceSectionBlock/Component'
-import { HoursSectionBlock } from '@/blocks/HoursSectionBlock/Component'
-import { NewsSectionBlock } from '@/blocks/NewsSectionBlock/Component'
-import { ContactSectionBlock } from '@/blocks/ContactSectionBlock/Component' // Added import
-import { BackgroundImageBlock } from '@/blocks/BackgroundImageBlock/Component' // Already included
-import { PricingSectionBlock } from '@/blocks/PricingSectionBlock/Component' // Updated to PricingSectionBlock
+import { HeroSectionBlock } from '@/blocks/hero-section/Component'
+import { FeaturedProjectsBlock } from '@/blocks/featured-projects/Component'
+import { WhyChooseUsBlock } from '@/blocks/why-choose-us/Component'
+import { AboutServicesBlock } from '@/blocks/about-services/Component'
+import { PartnershipProcessBlock } from '@/blocks/partnership-process/Component'
+import { ServiceCardsBlock } from '@/blocks/service-cards/Component'
+import { CTASectionBlock } from '@/blocks/cta-section/Component'
+import { PricingPlansBlock } from '@/blocks/pricing-plans/Component'
+import { GalleryGridBlock } from '@/blocks/gallery-grid/Component'
+import { ContactInfoBlock } from '@/blocks/contact-info/Component'
+import { FormBlock } from '@/blocks/Form/Component'
+import { TeamSectionBlock } from '@/blocks/team-section/Component'
 
 import type {
-  BannerBlock as BannerBlockProps,
-  CallToActionBlock as CTABlockProps,
-  MediaBlock as MediaBlockProps,
   HeroSectionBlock as HeroSectionBlockProps,
-  ServicesSectionBlock as ServicesSectionBlockProps,
+  FeaturedProjectsBlock as FeaturedProjectsBlockProps,
+  WhyChooseUsBlock as WhyChooseUsBlockProps,
+  AboutServicesBlock as AboutServicesBlockProps,
+  PartnershipProcessBlock as PartnershipProcessBlockProps,
+  ServiceCardsBlock as ServiceCardsBlockProps,
+  CTASectionBlock as CTASectionBlockProps,
+  PricingPlansBlock as PricingPlansBlockProps,
+  GalleryGridBlock as GalleryGridBlockProps,
+  ContactInfoBlock as ContactInfoBlockProps,
   TeamSectionBlock as TeamSectionBlockProps,
-  InsuranceSectionBlock as InsuranceSectionBlockProps,
-  HoursSectionBlock as HoursSectionBlockProps,
-  NewsSectionBlock as NewsSectionBlockProps,
-  ContactSectionBlock as ContactSectionBlockProps, // Added type
-  BackgroundImageBlock as BackgroundImageBlockProps, // Already included
-  PricingSectionBlock as PricingSectionBlockProps, // Updated to PricingSectionBlock
 } from '@/payload-types'
-import { BannerBlock } from '@/blocks/Banner/Component'
-import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { cn } from '@/utilities/ui'
 
 type NodeTypes =
   | DefaultNodeTypes
   | SerializedBlockNode<
-      | CTABlockProps
-      | MediaBlockProps
-      | BannerBlockProps
       | HeroSectionBlockProps
-      | ServicesSectionBlockProps
+      | FeaturedProjectsBlockProps
+      | WhyChooseUsBlockProps
+      | AboutServicesBlockProps
+      | PartnershipProcessBlockProps
+      | ServiceCardsBlockProps
+      | CTASectionBlockProps
+      | PricingPlansBlockProps
+      | GalleryGridBlockProps
+      | ContactInfoBlockProps
       | TeamSectionBlockProps
-      | InsuranceSectionBlockProps
-      | HoursSectionBlockProps
-      | NewsSectionBlockProps
-      | ContactSectionBlockProps // Added ContactSectionBlockProps
-      | BackgroundImageBlockProps // Already included
-      | PricingSectionBlockProps // Updated to PricingSectionBlock
     >
 
 const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
@@ -62,34 +60,24 @@ const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
     throw new Error('Expected value to be an object')
   }
   const slug = value.slug
-  return relationTo === 'aktuality' ? `/aktuality/${slug}` : `/${slug}`
+  return relationTo === 'posts' ? `/posts/${slug}` : `/${slug}`
 }
 
 const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) => ({
   ...defaultConverters,
   ...LinkJSXConverter({ internalDocToHref }),
   blocks: {
-    banner: ({ node }) => <BannerBlock className="col-start-2 mb-4" {...node.fields} />,
-    mediaBlock: ({ node }) => (
-      <MediaBlock
-        className="col-start-1 col-span-3"
-        imgClassName="m-0"
-        {...node.fields}
-        captionClassName="mx-auto max-w-[48rem]"
-        enableGutter={false}
-        disableInnerContainer={true}
-      />
-    ),
-    cta: ({ node }) => <CallToActionBlock {...node.fields} />,
     heroSection: ({ node }) => <HeroSectionBlock {...node.fields} />,
-    servicesSection: ({ node }) => <ServicesSectionBlock {...node.fields} />,
+    featuredProjects: ({ node }) => <FeaturedProjectsBlock {...node.fields} />,
+    whyChooseUs: ({ node }) => <WhyChooseUsBlock {...node.fields} />,
+    aboutServices: ({ node }) => <AboutServicesBlock {...node.fields} />,
+    partnershipProcess: ({ node }) => <PartnershipProcessBlock {...node.fields} />,
+    serviceCards: ({ node }) => <ServiceCardsBlock {...node.fields} />,
+    ctaSection: ({ node }) => <CTASectionBlock {...node.fields} />,
+    pricingPlans: ({ node }) => <PricingPlansBlock {...node.fields} />,
+    galleryGrid: ({ node }) => <GalleryGridBlock {...node.fields} />,
+    contactInfo: ({ node }) => <ContactInfoBlock {...node.fields} />,
     teamSection: ({ node }) => <TeamSectionBlock {...node.fields} />,
-    insuranceSection: ({ node }) => <InsuranceSectionBlock {...node.fields} />,
-    hoursSection: ({ node }) => <HoursSectionBlock {...node.fields} />,
-    newsSection: ({ node }) => <NewsSectionBlock {...node.fields} />,
-    contactSection: ({ node }) => <ContactSectionBlock {...node.fields} />, // Added ContactSectionBlock
-    backgroundImageBlock: ({ node }) => <BackgroundImageBlock {...node.fields} />, // Already included
-    pricingSection: ({ node }) => <PricingSectionBlock {...node.fields} />, // Updated to pricingSection
   },
 })
 
@@ -108,7 +96,7 @@ export default function RichText(props: Props) {
         {
           'container ': enableGutter,
           'max-w-none': !enableGutter,
-          'mx-auto prose md:prose-md ': enableProse,
+          'mx-auto prose md:prose-md dark:prose-invert ': enableProse,
         },
         className,
       )}

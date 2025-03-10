@@ -1,50 +1,39 @@
 import React, { Fragment } from 'react'
-import type { Page, Aktuality } from '@/payload-types'
-import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
-import { CallToActionBlock } from '@/blocks/CallToAction/Component'
-import { ContentBlock } from '@/blocks/Content/Component'
+
+import type { Page } from '@/payload-types'
+
+import { HeroSectionBlock } from '@/blocks/hero-section/Component'
+import { FeaturedProjectsBlock } from '@/blocks/featured-projects/Component'
+import { WhyChooseUsBlock } from '@/blocks/why-choose-us/Component'
+import { AboutServicesBlock } from '@/blocks/about-services/Component'
+import { PartnershipProcessBlock } from '@/blocks/partnership-process/Component'
+import { ServiceCardsBlock } from '@/blocks/service-cards/Component'
+import { CTASectionBlock } from '@/blocks/cta-section/Component'
+import { PricingPlansBlock } from '@/blocks/pricing-plans/Component'
+import { GalleryGridBlock } from '@/blocks/gallery-grid/Component'
+import { ContactInfoBlock } from '@/blocks/contact-info/Component'
 import { FormBlock } from '@/blocks/Form/Component'
-import { MediaBlock } from '@/blocks/MediaBlock/Component'
-import { HeroSectionBlock } from '@/blocks/HeroSectionBlock/Component'
-import { ServicesSectionBlock } from '@/blocks/ServicesSectionBlock/Component'
-import { TeamSectionBlock } from '@/blocks/TeamSectionBlock/Component'
-import { InsuranceSectionBlock } from '@/blocks/InsuranceSectionBlock/Component'
-import { HoursSectionBlock } from '@/blocks/HoursSectionBlock/Component'
-import { NewsSectionBlock } from '@/blocks/NewsSectionBlock/Component'
-import { ContactSectionBlock } from '@/blocks/ContactSectionBlock/Component'
-import { BackgroundImageBlock } from '@/blocks/BackgroundImageBlock/Component'
-import { PricingSectionBlock } from '@/blocks/PricingSectionBlock/Component'
+import { TeamSectionBlock } from '@/blocks/team-section/Component'
 
-// Define partial type for aktualityData
-type PartialAktuality = Pick<Aktuality, 'title' | 'slug' | 'heroImage' | 'publishedAt' | 'meta'>
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type BlockComponent<T = any> = React.FC<
-  T & { children?: React.ReactNode; disableInnerContainer?: boolean }
->
-
-const blockComponents: { [key: string]: BlockComponent } = {
-  archive: ArchiveBlock,
-  content: ContentBlock,
-  cta: CallToActionBlock,
-  formBlock: FormBlock,
-  mediaBlock: MediaBlock,
+const blockComponents = {
   heroSection: HeroSectionBlock,
-  servicesSection: ServicesSectionBlock,
+  featuredProjects: FeaturedProjectsBlock,
+  whyChooseUs: WhyChooseUsBlock,
+  aboutServices: AboutServicesBlock,
+  partnershipProcess: PartnershipProcessBlock,
+  serviceCards: ServiceCardsBlock,
+  ctaSection: CTASectionBlock,
+  pricingPlans: PricingPlansBlock,
+  galleryGrid: GalleryGridBlock,
+  contactInfo: ContactInfoBlock,
+  formBlock: FormBlock,
   teamSection: TeamSectionBlock,
-  insuranceSection: InsuranceSectionBlock,
-  hoursSection: HoursSectionBlock,
-  newsSection: NewsSectionBlock,
-  contactSection: ContactSectionBlock,
-  backgroundImageBlock: BackgroundImageBlock,
-  pricingSection: PricingSectionBlock,
 }
 
 export const RenderBlocks: React.FC<{
   blocks: Page['layout'][0][]
-  aktualityData?: PartialAktuality[] // Updated to partial type
 }> = (props) => {
-  const { blocks, aktualityData = [] } = props
+  const { blocks } = props
 
   const hasBlocks = blocks && Array.isArray(blocks) && blocks.length > 0
 
@@ -58,41 +47,10 @@ export const RenderBlocks: React.FC<{
             const Block = blockComponents[blockType]
 
             if (Block) {
-              if (blockType === 'backgroundImageBlock') {
-                const {
-                  blocks: nestedBlocks,
-                  image,
-                  ...rest
-                } = block as {
-                  blockType: 'backgroundImageBlock'
-                  blocks?: Page['layout'][0][]
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  image: any
-                  id?: string
-                  blockName?: string
-                }
-                return (
-                  <BackgroundImageBlock
-                    key={block.id || `${blockType}-${index}`}
-                    image={image}
-                    {...rest}
-                  >
-                    {nestedBlocks && nestedBlocks.length > 0 ? (
-                      <RenderBlocks blocks={nestedBlocks} aktualityData={aktualityData} />
-                    ) : null}
-                  </BackgroundImageBlock>
-                )
-              }
-              if (blockType === 'newsSection') {
-                return (
-                  <div key={block.id || `${blockType}-${index}`}>
-                    <Block {...block} aktualityData={aktualityData} disableInnerContainer />
-                  </div>
-                )
-              }
               return (
-                <div key={block.id || `${blockType}-${index}`}>
-                  <Block {...block} disableInnerContainer />
+                <div className="my-16" key={index}>
+                  {/* @ts-expect-error there may be some mismatch between the expected types here */}
+                  <Block {...block} />
                 </div>
               )
             }

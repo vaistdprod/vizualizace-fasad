@@ -3,7 +3,7 @@ import { cn } from '@/utilities/ui'
 import Link from 'next/link'
 import React from 'react'
 
-import type { Page, Aktuality } from '@/payload-types'
+import type { Page } from '@/payload-types'
 
 type CMSLinkType = {
   appearance?: 'inline' | ButtonProps['variant']
@@ -12,8 +12,8 @@ type CMSLinkType = {
   label?: string | null
   newTab?: boolean | null
   reference?: {
-    relationTo: 'pages' | 'aktuality'
-    value: Page | Aktuality | string | number
+    relationTo: 'pages'
+    value: Page | string | number
   } | null
   size?: ButtonProps['size'] | null
   type?: 'custom' | 'reference' | null
@@ -33,15 +33,12 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
     url,
   } = props
 
-  // Extract the path prefix logic to avoid nested template literals
-  let href = url
-  if (type === 'reference' && typeof reference?.value === 'object' && reference.value.slug) {
-    let pathPrefix = ''
-    if (reference?.relationTo !== 'pages') {
-      pathPrefix = `/${reference.relationTo}`
-    }
-    href = `${pathPrefix}/${reference.value.slug}`
-  }
+  const href =
+    type === 'reference' && typeof reference?.value === 'object' && reference.value.slug
+      ? `${reference?.relationTo !== 'pages' ? `/${reference?.relationTo}` : ''}/${
+          reference.value.slug
+        }`
+      : url
 
   if (!href) return null
 
@@ -52,8 +49,8 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
   if (appearance === 'inline') {
     return (
       <Link className={cn(className)} href={href || url || ''} {...newTabProps}>
-        {label}
-        {children}
+        {label && label}
+        {children && children}
       </Link>
     )
   }
@@ -61,8 +58,8 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
   return (
     <Button asChild className={className} size={size} variant={appearance}>
       <Link className={cn(className)} href={href || url || ''} {...newTabProps}>
-        {label}
-        {children}
+        {label && label}
+        {children && children}
       </Link>
     </Button>
   )

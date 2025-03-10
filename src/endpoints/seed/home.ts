@@ -1,308 +1,178 @@
 import type { RequiredDataFromCollectionSlug } from 'payload'
-import type { Form, Media, Aktuality } from '@/payload-types'
+import type { Media, Form } from '@/payload-types'
 
 type HomeArgs = {
   heroImage: Media
-  _ordinace: Media
-  _hracky: Media
-  _vysetrovna: Media
-  vzpImage: Media
-  zpmvImage: Media
-  ozpImage: Media
-  rbpImage: Media
-  cpzpImage: Media
-  vozpImage: Media
-  kontaktniFormular: Form
-  aktuality: Aktuality[]
-  backgroundImagePolka: Media
-  backgroundImageIlustrace: Media
-  polkaOpacity?: number
-  ilustraceOpacity?: number
+  modernOfficeTower: Media
+  luxuryResidential: Media
+  culturalCenter: Media
+  contactForm: Form
 }
 
 export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
   heroImage,
-  _ordinace,
-  _hracky,
-  _vysetrovna,
-  vzpImage,
-  zpmvImage,
-  ozpImage,
-  rbpImage,
-  cpzpImage,
-  vozpImage,
-  kontaktniFormular,
-  aktuality,
-  backgroundImagePolka,
-  backgroundImageIlustrace,
-  polkaOpacity = 0.3,
-  ilustraceOpacity = 0.06,
+  modernOfficeTower,
+  luxuryResidential,
+  culturalCenter,
+  contactForm,
 }) => ({
-  slug: 'uvod',
+  slug: 'home',
   _status: 'published',
-  title: 'Dětská ambulance MUDr. Janulová',
+  title: 'FacadeVision - Architektonické vizualizace',
   layout: [
     {
       blockType: 'heroSection',
-      title: 'Dětská ambulance MUDr. Janulová',
+      title: 'Proměňte svou architektonickou vizi',
       description:
-        'Poskytujeme odbornou péči dětem od narození až do 19 let. Specializujeme se na diagnostiku, léčbu a prevenci, včetně laktační poradny a očkování. Naše moderně vybavená ordinace v Brně zajišťuje rychlé testy a profesionální přístup. Zdraví vašich dětí je naší prioritou.',
-      primaryButtonText: 'Kontaktujte nás',
-      primaryButtonLink: '#kontakty',
-      secondaryButtonText: 'Naše služby',
-      secondaryButtonLink: '#sluzby',
-      image: heroImage,
+        'Oživujeme architektonické návrhy působivými vizualizacemi, které zachycují každý detail a vzbuzují důvěru ve vaše projekty.',
+      buttonText: 'Prohlédnout naši práci',
+      backgroundImage: heroImage.id,
     },
     {
-      blockType: 'newsSection',
-      heading: 'Aktuality',
-      description: 'Sledujte novinky z naší ambulance.',
-      aktuality: aktuality.map((a) => a.id),
+      blockType: 'featuredProjects',
+      title: 'Vybrané projekty',
+      description:
+        'Objevte, jak pomáháme architektům a developerům oživit jejich vize pomocí pokročilých vizualizačních technik.',
+      projects: [
+        { title: 'Moderní kancelářská věž', image: modernOfficeTower.id },
+        { title: 'Luxusní rezidenční komplex', image: luxuryResidential.id },
+        { title: 'Kulturní centrum', image: culturalCenter.id },
+      ],
     },
     {
-      blockType: 'backgroundImageBlock',
-      image: backgroundImagePolka,
-      opacity: polkaOpacity,
-      blocks: [
+      blockType: 'whyChooseUs',
+      title: 'Proč si vybrat nás',
+      description:
+        'Zažijte excelenci v architektonické vizualizaci s naším komplexním portfoliem služeb.',
+      features: [
         {
-          blockType: 'hoursSection',
-          heading: 'Ordinační hodiny',
-          description: 'Prosíme o objednání předem na telefonním čísle 732 229 610.',
-          hours: [
-            {
-              day: 'Pondělí',
-              schedules: [
-                { timeRange: '7:30-10:00', note: 'nemocní' },
-                { timeRange: '10:00-14:00', note: 'prevence' },
-              ],
-            },
-            {
-              day: 'Úterý',
-              schedules: [
-                { timeRange: '7:30-10:00', note: 'nemocní' },
-                { timeRange: '10:00-13:00', note: 'prevence' },
-              ],
-            },
-            {
-              day: 'Středa',
-              schedules: [
-                { timeRange: '10:00-11:30', note: 'nemocní' },
-                { timeRange: '13:00-18:00', note: 'poradna' },
-              ],
-            },
-            {
-              day: 'Čtvrtek',
-              schedules: [
-                { timeRange: '7:30-10:00', note: 'nemocní' },
-                { timeRange: '10:00-13:00', note: 'prevence' },
-              ],
-            },
-            {
-              day: 'Pátek',
-              schedules: [
-                { timeRange: '7:30-10:00', note: 'nemocní' },
-                { timeRange: '10:00-13:00', note: 'prevence' },
-              ],
-            },
-          ],
-          closedDates: [
-            {
-              from: '2025-04-21',
-              to: '2025-04-21',
-              note: 'Svátek – Velikonoční pondělí',
-            },
-          ],
-          bloodDrawInfo: 'ODBĚRY BIOLOGICKÉHO MATERIÁLU: Po-Pá 7:30-9:00',
-          emergencyContactInfo: 'Máte akutní problém? Kontaktujte nás na',
-          emergencyPhone: '+420 732 229 610',
+          title: 'Expertní vizualizace',
+          description:
+            'Špičková expertíza v tvorbě fotorealistických architektonických vizualizací.',
+          icon: 'Star',
         },
         {
-          blockType: 'servicesSection',
-          heading: 'Naše služby',
-          description: 'Komplexní péče o zdraví vašich dětí.',
-          services: [
-            {
-              icon: 'Stethoscope',
-              title: 'Preventivní prohlídky',
-              shortDescription: 'Pravidelné kontroly vývoje a zdraví dětí.',
-            },
-            {
-              icon: 'Syringe',
-              title: 'Očkování',
-              shortDescription:
-                'Standardní i nadstandardní vakcinace (klíšťová encefalitida, žloutenka, meningokok).',
-            },
-            {
-              icon: 'Heart',
-              title: 'Laktační poradna',
-              shortDescription: 'Poradenství pro maminky kojenců.',
-            },
-            {
-              icon: 'Microscope',
-              title: 'Diagnostika',
-              shortDescription: 'Rychlé testy na CRP a moč do 2 minut.',
-            },
-            {
-              icon: 'Bandage',
-              title: 'Drobná poranění',
-              shortDescription: 'Ošetření ran a odstranění stehů.',
-            },
-            {
-              icon: 'HeartPulse',
-              title: 'Výživové poradenství',
-              shortDescription: 'Rady pro zdravou stravu dětí.',
-            },
-          ],
+          title: 'Rychlé dodání',
+          description: 'Rychlé dodání bez kompromisů na kvalitě, dodržujeme vaše termíny.',
+          icon: 'Clock',
         },
         {
-          blockType: 'teamSection',
-          heading: 'Náš tým',
-          description: 'Tým odborníků pečující o vaše děti s láskou a profesionalitou.',
-          teamMembers: [
-            {
-              title: 'MUDr. Miroslava Janulová',
-              role: 'Pediatr',
-              icon: 'Stethoscope',
-              description: 'Zkušená dětská lékařka zaměřená na komplexní péči o děti.',
-            },
-            {
-              title: 'Monika',
-              role: 'Zdravotní sestra',
-              icon: 'Heart',
-              description: 'Pomáhá s péčí a organizací v ordinaci.',
-            },
-          ],
+          title: 'Řešení na míru',
+          description:
+            'Přizpůsobené vizualizační přístupy odpovídající specifickým požadavkům vašeho projektu.',
+          icon: 'Settings',
+        },
+        {
+          title: 'Nejnovější technologie',
+          description:
+            'Nejmodernější renderovací technologie a nástroje pro špičkovou vizuální kvalitu.',
+          icon: 'Cpu',
+        },
+        {
+          title: 'Dostupné ceny',
+          description:
+            'Konkurenceschopné ceny s flexibilními balíčky odpovídajícími vašemu rozpočtu.',
+          icon: 'PiggyBank',
+        },
+        {
+          title: 'Klient na prvním místě',
+          description: 'Věnovaná podpora a spolupráce během celého průběhu vašeho projektu.',
+          icon: 'Users',
         },
       ],
     },
     {
-      blockType: 'backgroundImageBlock',
-      image: backgroundImageIlustrace,
-      opacity: ilustraceOpacity,
-      blocks: [
+      blockType: 'aboutServices',
+      title: 'O našich službách',
+      description:
+        'At FacadeVision, we specialize in transforming architectural concepts into stunning visual realities. Our comprehensive visualization services combine technical expertise with artistic finesse to bring your designs to life.\n\nWe understand that each project is unique, which is why we offer customized solutions tailored to your specific needs. From initial concept development to final delivery, our team works closely with you to ensure every detail is captured perfectly.\n\nVe FacadeVision se specializujeme na přeměnu architektonických konceptů v působivou vizuální realitu. Naše komplexní vizualizační služby kombinují technickou expertizu s uměleckým citem pro oživení vašich návrhů.\n\nChápeme, že každý projekt je jedinečný, proto nabízíme řešení na míru přizpůsobená vašim specifickým potřebám. Od počátečního vývoje konceptu až po finální dodání pracuje náš tým úzce s vámi, aby byl každý detail zachycen dokonale.\n\nAť už pracujete na malém rezidenčním projektu nebo velkém komerčním developmentu, naše pokročilé vizualizační techniky a pozornost k detailu vám pomohou efektivně komunikovat vaši vizi zúčastněným stranám a klientům.',
+      image: heroImage.id, // Reusing hero image for simplicity
+    },
+    {
+      blockType: 'partnershipProcess',
+      title: 'Jak funguje spolupráce?',
+      description: 'Náš optimalizovaný proces zajišťuje hladkou spolupráci od začátku až do konce.',
+      steps: [
         {
-          blockType: 'insuranceSection',
-          heading: 'Smluvní pojišťovny',
-          description: 'Spolupracujeme s těmito zdravotními pojišťovnami.',
-          partners: [
-            { title: 'VZP', logo: vzpImage.id, url: 'https://www.vzp.cz' },
-            { title: 'VOZP', logo: vozpImage.id, url: 'https://www.vozp.cz' },
-            { title: 'ČPZP', logo: cpzpImage.id, url: 'https://www.cpzp.cz' },
-            { title: 'OZP', logo: ozpImage.id, url: 'https://www.ozp.cz' },
-            { title: 'RBP', logo: rbpImage.id, url: 'https://www.rbp213.cz' },
-            { title: 'ZPMVČR', logo: zpmvImage.id, url: 'https://www.zpmvcr.cz' },
-          ],
-          contactPrompt: 'Nevidíte svou pojišťovnu? Kontaktujte nás.',
-          contactCard: {
-            heading: 'Máte otázky k pojištění?',
-            buttonText: 'Napište nám',
-            buttonLink: '#kontakty',
-          },
+          number: 1,
+          title: 'Úvodní konzultace',
+          description:
+            'Probereme požadavky vašeho projektu, časový harmonogram a cíle, abychom plně porozuměli vaší vizi.',
+          icon: 'MessageSquare',
+          image: modernOfficeTower.id,
         },
         {
-          blockType: 'pricingSection',
-          heading: 'Ceník služeb',
-          description: 'Přehled cen za nadstandardní služby.',
-          pricingItems: [
-            {
-              title: 'Očkování proti klíšťové encefalitidě',
-              description: 'Nepovinná vakcinace na přání rodičů.',
-              price: '850 Kč',
-            },
-            {
-              title: 'Očkování proti žloutence (Hepatitida A+B)',
-              description: 'Doporučená vakcinace pro děti.',
-              price: '1 200 Kč',
-            },
-            {
-              title: 'Očkování proti meningokoku (MenB)',
-              description: 'Ochrana proti meningokokovým infekcím.',
-              price: '1 800 Kč',
-            },
-            {
-              title: 'Laktační poradna (30 minut)',
-              description: 'Individuální konzultace pro kojící matky.',
-              price: '500 Kč',
-            },
-            {
-              title: 'Test na CRP',
-              description: 'Rychlý test z krve do 2 minut.',
-              price: '250 Kč',
-            },
-          ],
-          contactPrompt: 'Potřebujete více informací o cenách?',
-          tableHeaders: {
-            service: 'Služba',
-            description: 'Popis',
-            price: 'Cena',
-          },
-          contactLink: {
-            text: 'Kontaktujte nás',
-            href: '#kontakty',
-          },
+          number: 2,
+          title: 'Vývoj konceptu',
+          description:
+            'Náš tým vytváří počáteční koncepty a vizualizační strategie přizpůsobené potřebám vašeho projektu.',
+          icon: 'Lightbulb',
+          image: luxuryResidential.id,
         },
         {
-          blockType: 'contactSection',
-          heading: 'Kontaktujte nás',
-          description: 'Jsme tu pro vás a vaše děti.',
-          form: kontaktniFormular.id,
-          contactMethods: [
-            {
-              label: 'Adresa',
-              value: 'U Pošty 402/14, 625 00 Brno, Starý Lískovec, 1. patro, dveře č. 107',
-              href: 'https://maps.app.goo.gl/yp4vJJC6vHpHLWvo7',
-              icon: 'MapPin',
-              colorClass: 'bg-pink-100 text-pink-600',
-            },
-            {
-              label: 'Telefon',
-              value: '+420 732 229 610',
-              href: 'tel:+420732229610',
-              icon: 'Phone',
-              colorClass: 'bg-blue-100 text-blue-600',
-            },
-            {
-              label: 'E-mail',
-              value: 'mirka.janulova@seznam.cz',
-              href: 'mailto:mirka.janulova@seznam.cz',
-              icon: 'Mail',
-              colorClass: 'bg-purple-100 text-purple-600',
-            },
-            {
-              label: 'Ordinační hodiny',
-              value: 'Jsme zde pro vás od pondělí do pátku.',
-              href: '#ordinacni-hodiny',
-              icon: 'Clock',
-              colorClass: 'bg-green-100 text-green-600',
-            },
-          ],
-          mapEmbedUrl:
-            'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2608.7054235701626!2d16.56247737712967!3d49.16819937885334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471295ebc83e77b5%3A0x340ea0d079c0244!2zTVVEci4gTWlyb3NsYXZhIEphbnVsb3bDoSAtIGTEm3Rza8O9IGzDqWthxZk!5e0!3m2!1sen!2scz!4v1741372365525!5m2!1sen!2scz',
-          navigationButtonText: 'Navigovat do ordinace',
-          transportMethods: [
-            {
-              title: 'Automobil',
-              description: 'Parkoviště dostupné u polikliniky',
-              icon: '🚗',
-            },
-            {
-              title: 'Tramvaj',
-              description: 'Zastávka Osová, linky 6, 7, 8',
-              icon: '🚋',
-            },
-            {
-              title: 'Autobus a trolejbus',
-              description: 'Zastávka Osová, linky 25, 50, 69',
-              icon: '🚌',
-            },
-          ],
+          number: 3,
+          title: 'Návrhy vizualizací',
+          description:
+            'Vytváříme předběžné rendery a vizualizace pro vaši kontrolu a zpětnou vazbu.',
+          icon: 'ImageIcon',
+          image: culturalCenter.id,
+        },
+        {
+          number: 4,
+          title: 'Revize',
+          description:
+            'Na základě vaší zpětné vazby vylepšujeme a zdokonalujeme každý detail vizualizací.',
+          icon: 'FileEdit',
+          image: modernOfficeTower.id,
+        },
+        {
+          number: 5,
+          title: 'Finální dodání',
+          description:
+            'Obdržíte finální vizualizace ve vysokém rozlišení připravené k zamýšlenému použití.',
+          icon: 'Send',
+          image: luxuryResidential.id,
         },
       ],
+    },
+    {
+      blockType: 'formBlock',
+      form: contactForm.id,
+      enableIntro: true,
+      introContent: {
+        root: {
+          type: 'root',
+          children: [
+            {
+              type: 'paragraph',
+              children: [
+                {
+                  type: 'text',
+                  detail: 0,
+                  format: 0,
+                  mode: 'normal',
+                  style: '',
+                  text: 'Máte otázku nebo chcete začít spolupráci? Kontaktujte nás!',
+                  version: 1,
+                },
+              ],
+              direction: 'ltr',
+              format: '',
+              indent: 0,
+              version: 1,
+            },
+          ],
+          direction: 'ltr',
+          format: '',
+          indent: 0,
+          version: 1,
+        },
+      },
     },
   ],
   meta: {
-    title: 'Dětská ambulance MUDr. Janulová',
-    description: 'Odborná péče pro děti v Brně od narození do 19 let.',
+    title: 'FacadeVision - Architektonické vizualizace',
+    description: 'Přeměňujeme architektonické vize na realitu s fotorealistickými vizualizacemi.',
     image: heroImage.id,
   },
 })

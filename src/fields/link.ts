@@ -75,7 +75,7 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
         condition: (_, siblingData) => siblingData?.type === 'reference',
       },
       label: 'Dokument k odkazování',
-      relationTo: ['pages', 'aktuality'],
+      relationTo: ['pages'],
       required: true,
     },
     {

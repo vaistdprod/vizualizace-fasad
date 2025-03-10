@@ -8,7 +8,7 @@ export const getServerSideURL = () => {
   }
 
   if (!url) {
-    url = 'https://mudrjanulova.cz'
+    url = 'https://dokonalafasada.cz'
   }
 
   return url

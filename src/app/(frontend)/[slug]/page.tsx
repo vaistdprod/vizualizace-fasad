@@ -1,21 +1,15 @@
 import type { Metadata } from 'next'
+
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
-import { getPayload } from 'payload'
+import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
+
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
-import type { Aktuality } from '@/payload-types'
-
-// Define partial type for fetched data
-type PartialAktuality = Pick<Aktuality, 'title' | 'slug' | 'heroImage' | 'publishedAt' | 'meta'>
-
-// In-memory cache
-const aktualityCache: { [key: string]: PartialAktuality[] } = {}
-const CACHE_KEY = 'homepage_aktuality'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -25,74 +19,74 @@ export async function generateStaticParams() {
     limit: 1000,
     overrideAccess: false,
     pagination: false,
-    select: { slug: true },
+    select: {
+      slug: true,
+    },
   })
 
-  return pages.docs?.filter((doc) => doc.slug !== 'uvod').map(({ slug }) => ({ slug }))
+  const params = pages.docs
+    ?.filter((doc) => {
+      return doc.slug !== 'home'
+    })
+    .map(({ slug }) => {
+      return { slug }
+    })
+
+  return params
 }
 
 type Args = {
-  readonly params: Promise<{ slug?: string }>
+  params: Promise<{
+    slug?: string
+  }>
 }
-
-export const revalidate = 86400
 
 export default async function Page({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
-  const { slug = 'uvod' } = await paramsPromise
+  const { slug = 'home' } = await paramsPromise
   const url = '/' + slug
 
-  const page = await queryPageBySlug({ slug })
-  if (!page) return <PayloadRedirects url={url} />
+  let page: RequiredDataFromCollectionSlug<'pages'> | null
 
-  const { layout } = page
-  const payload = await getPayload({ config: configPromise })
-  let aktualityData: PartialAktuality[] = []
+  page = await queryPageBySlug({
+    slug,
+  })
 
-  if (aktualityCache[CACHE_KEY] && !draft) {
-    aktualityData = aktualityCache[CACHE_KEY]
-    console.log('Cache hit for homepage aktuality')
-  } else {
-    try {
-      const start = Date.now()
-      aktualityData = (await payload
-        .find({
-          collection: 'aktuality',
-          depth: 1,
-          limit: 3,
-          overrideAccess: false,
-          draft,
-          sort: '-publishedAt',
-          select: { title: true, slug: true, heroImage: true, publishedAt: true, meta: true },
-        })
-        .then((res) => {
-          console.log(`Payload fetch took: ${Date.now() - start}ms`)
-          return res.docs || []
-        })) as PartialAktuality[]
-      if (!draft) aktualityCache[CACHE_KEY] = aktualityData
-    } catch (_error) {
-      aktualityData = []
-    }
+  if (!page) {
+    return <PayloadRedirects url={url} />
   }
 
+  const {
+    // hero,
+    layout,
+  } = page
+
   return (
-    <article>
+    <article className="pt-16 pb-24">
       <PageClient />
+      {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />
+
       {draft && <LivePreviewListener />}
-      <RenderBlocks blocks={layout} aktualityData={aktualityData} />
+
+      {/* <RenderHero {...hero} /> */}
+      <RenderBlocks blocks={layout} />
     </article>
   )
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { slug = 'uvod' } = await paramsPromise
-  const page = await queryPageBySlug({ slug })
+  const { slug = 'home' } = await paramsPromise
+  const page = await queryPageBySlug({
+    slug,
+  })
+
   return generateMeta({ doc: page })
 }
 
-const queryPageBySlug = cache(async ({ slug: pageSlug }: { slug: string }) => {
+const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
   const { isEnabled: draft } = await draftMode()
+
   const payload = await getPayload({ config: configPromise })
 
   const result = await payload.find({
@@ -101,8 +95,11 @@ const queryPageBySlug = cache(async ({ slug: pageSlug }: { slug: string }) => {
     limit: 1,
     pagination: false,
     overrideAccess: draft,
-    depth: 3,
-    where: { slug: { equals: pageSlug } },
+    where: {
+      slug: {
+        equals: slug,
+      },
+    },
   })
 
   return result.docs?.[0] || null

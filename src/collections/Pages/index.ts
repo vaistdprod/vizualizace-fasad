@@ -2,20 +2,19 @@ import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
-import { Archive } from '../../blocks/ArchiveBlock/config'
-import { CallToAction } from '../../blocks/CallToAction/config'
-import { Content } from '../../blocks/Content/config'
+import { HeroSection } from '../../blocks/hero-section/config'
+import { FeaturedProjects } from '../../blocks/featured-projects/config'
+import { WhyChooseUs } from '../../blocks/why-choose-us/config'
+import { AboutServices } from '../../blocks/about-services/config'
+import { PartnershipProcess } from '../../blocks/partnership-process/config'
+import { ServiceCards } from '../../blocks/service-cards/config'
+import { CTASection } from '../../blocks/cta-section/config'
+import { PricingPlans } from '../../blocks/pricing-plans/config'
+import { GalleryGrid } from '../../blocks/gallery-grid/config'
+import { ContactInfo } from '../../blocks/contact-info/config'
 import { FormBlock } from '../../blocks/Form/config'
-import { MediaBlock } from '../../blocks/MediaBlock/config'
-import { HeroSection } from '../../blocks/HeroSectionBlock/config'
-import { ServicesSection } from '../../blocks/ServicesSectionBlock/config'
-import { TeamSection } from '../../blocks/TeamSectionBlock/config'
-import { InsuranceSection } from '../../blocks/InsuranceSectionBlock/config'
-import { HoursSection } from '../../blocks/HoursSectionBlock/config'
-import { NewsSection } from '../../blocks/NewsSectionBlock/config'
-import { ContactSection } from '../../blocks/ContactSectionBlock/config' // Added import
-import { BackgroundImageBlock } from '../../blocks/BackgroundImageBlock/config' // Already included
-import { PricingSectionBlock } from '../../blocks/PricingSectionBlock/config' // Updated to PricingSectionBlock
+import { TeamSection } from '../../blocks/team-section/config'
+
 import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
@@ -31,7 +30,7 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 
-export const Pages: CollectionConfig<'pages'> = {
+export const Pages: CollectionConfig = {
   slug: 'pages',
   labels: {
     singular: 'Stránka',
@@ -83,20 +82,18 @@ export const Pages: CollectionConfig<'pages'> = {
               name: 'layout',
               type: 'blocks',
               blocks: [
-                CallToAction,
-                Content,
-                MediaBlock,
-                Archive,
-                FormBlock,
                 HeroSection,
-                ServicesSection,
+                FeaturedProjects,
+                WhyChooseUs,
+                AboutServices,
+                PartnershipProcess,
+                ServiceCards,
+                CTASection,
+                PricingPlans,
+                GalleryGrid,
+                ContactInfo,
+                FormBlock,
                 TeamSection,
-                InsuranceSection,
-                HoursSection,
-                NewsSection,
-                ContactSection, // Added ContactSection
-                BackgroundImageBlock, // Already included
-                PricingSectionBlock, // Updated to PricingSectionBlock
               ],
               required: true,
               admin: {

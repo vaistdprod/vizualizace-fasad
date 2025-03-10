@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import { cn } from '@/utilities/ui'
 import { Mali, Nunito } from 'next/font/google'
 import React from 'react'
-
+import { InitTheme } from '@/providers/Theme/InitTheme'
 import { StructuredData } from '@/components/StructuredData'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
@@ -47,6 +47,7 @@ export default async function RootLayout({ children }: { readonly children: Reac
       suppressHydrationWarning
     >
       <head>
+        <InitTheme />
         <link href="/favicon.png" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
         <link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />
