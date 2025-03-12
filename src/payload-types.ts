@@ -799,14 +799,11 @@ export interface ContentBlock {
         link?: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
-          reference?: {
-            relationTo: 'pages';
-            value: number | Page;
-          } | null;
+          reference?: (number | null) | Page;
           url?: string | null;
           label: string;
           /**
-           * Vyberte, jak má být odkaz zobrazen.
+           * Choose how the link should be rendered.
            */
           appearance?: ('default' | 'outline') | null;
         };
@@ -1882,10 +1879,7 @@ export interface Header {
         link: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
-          reference?: {
-            relationTo: 'pages';
-            value: number | Page;
-          } | null;
+          reference?: (number | null) | Page;
           url?: string | null;
           label: string;
         };

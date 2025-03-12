@@ -62,10 +62,6 @@ export default buildConfig({
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
       beforeDashboard: ['@/components/BeforeDashboard'],
-      graphics: {
-        Logo: '@/components/Logo/AdminLogo',
-        Icon: '@/components/Logo/AdminLogo',
-      },
     },
     importMap: {
       baseDir: path.resolve(dirname),
