@@ -5,7 +5,6 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
-
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
@@ -98,7 +97,6 @@ const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
         equals: slug,
       },
     },
-    depth: 1, // Add this to populate relationships
   })
 
   return result.docs?.[0] || null

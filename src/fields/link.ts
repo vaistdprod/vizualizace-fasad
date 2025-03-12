@@ -6,11 +6,11 @@ export type LinkAppearances = 'default' | 'outline'
 
 export const appearanceOptions: Record<LinkAppearances, { label: string; value: string }> = {
   default: {
-    label: 'Výchozí',
+    label: 'Default',
     value: 'default',
   },
   outline: {
-    label: 'Obrys',
+    label: 'Outline',
     value: 'outline',
   },
 }
@@ -42,11 +42,11 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
             defaultValue: 'reference',
             options: [
               {
-                label: 'Interní odkaz',
+                label: 'Internal link',
                 value: 'reference',
               },
               {
-                label: 'Vlastní URL',
+                label: 'Custom URL',
                 value: 'custom',
               },
             ],
@@ -60,7 +60,7 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
               },
               width: '50%',
             },
-            label: 'Otevřít v novém okně',
+            label: 'Open in new tab',
           },
         ],
       },
@@ -74,8 +74,8 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
       admin: {
         condition: (_, siblingData) => siblingData?.type === 'reference',
       },
-      label: 'Dokument k odkazování',
-      relationTo: ['pages'],
+      label: 'Document to link to',
+      relationTo: 'pages',
       required: true,
     },
     {
@@ -84,7 +84,7 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
       admin: {
         condition: (_, siblingData) => siblingData?.type === 'custom',
       },
-      label: 'Vlastní URL',
+      label: 'Custom URL',
       required: true,
     },
   ]
@@ -108,7 +108,7 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
           admin: {
             width: '50%',
           },
-          label: 'Popisek',
+          label: 'Label',
           required: true,
         },
       ],
@@ -128,7 +128,7 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
       name: 'appearance',
       type: 'select',
       admin: {
-        description: 'Vyberte, jak má být odkaz zobrazen.',
+        description: 'Choose how the link should be rendered.',
       },
       defaultValue: 'default',
       options: appearanceOptionsToUse,

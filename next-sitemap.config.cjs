@@ -1,13 +1,13 @@
 const SITE_URL =
   process.env.NEXT_PUBLIC_SERVER_URL ||
   process.env.VERCEL_PROJECT_PRODUCTION_URL ||
-  'https://dokonalafasada.cz'
+  'http://localhost:3000'
 
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
   siteUrl: SITE_URL,
   generateRobotsTxt: true,
-  exclude: ['/pages-sitemap.xml', '/admin/*', '/api/*', '/_next/*'],
+  exclude: ['/pages-sitemap.xml', '/admin/*', '/api/*'],
   changefreq: 'weekly',
   priority: 0.7,
   sitemapSize: 5000,
@@ -15,7 +15,7 @@ module.exports = {
     policies: [
       {
         userAgent: '*',
-        disallow: ['/admin/*', '/_next/*', '/api/*'],
+        disallow: ['/admin/*', '/api/*'],
         allow: '/',
       },
     ],

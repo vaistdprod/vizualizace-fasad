@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import { useHeaderTheme } from '@/providers/HeaderTheme'
 import { Menu, X } from 'lucide-react'
 import { TopBar } from './TopBar'
 import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
@@ -17,7 +16,6 @@ interface HeaderClientProps {
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const { headerTheme } = useHeaderTheme()
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen)
 
@@ -55,7 +53,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             ? 'backdrop-blur-xl bg-background/80 border-opacity-100'
             : 'bg-transparent border-transparent',
         )}
-        {...(headerTheme ? { 'data-theme': headerTheme } : {})}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
           <motion.div

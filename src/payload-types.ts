@@ -669,7 +669,7 @@ export interface Form {
     | null;
   submitButtonLabel?: string | null;
   /**
-   * Vyberte, zda chcete zobrazit zprávu na stránce nebo přesměrovat na jinou stránku po odeslání formuláře.
+   * Choose whether to display an on-page message or redirect to a different page after they submit the form.
    */
   confirmationType?: ('message' | 'redirect') | null;
   confirmationMessage?: {
@@ -691,7 +691,7 @@ export interface Form {
     url: string;
   };
   /**
-   * Odeslat vlastní e-maily při odeslání formuláře. Použijte seznamy oddělené čárkami pro odeslání stejného e-mailu více příjemcům. Pro odkaz na hodnotu z tohoto formuláře obalte název tohoto pole dvojitými složenými závorkami, např. {{jméno}}. Můžete použít zástupný znak {{*}} pro výstup všech dat a {{*:table}} pro formátování jako HTML tabulku v e-mailu.
+   * Send custom emails when the form submits. Use comma separated lists to send the same email to multiple recipients. To reference a value from this form, wrap that field's name with double curly brackets, i.e. {{firstName}}. You can use a wildcard {{*}} to output all data and {{*:table}} to format it as an HTML table in the email.
    */
   emails?:
     | {
@@ -702,7 +702,7 @@ export interface Form {
         emailFrom?: string | null;
         subject: string;
         /**
-         * Zadejte zprávu, která bude odeslána v tomto e-mailu.
+         * Enter the message that should be sent in this email.
          */
         message?: {
           root: {
@@ -938,7 +938,7 @@ export interface User {
 export interface Redirect {
   id: number;
   /**
-   * Při změně tohoto pole budete muset znovu sestavit webové stránky.
+   * You will need to rebuild the website when changing this field.
    */
   from: string;
   to?: {

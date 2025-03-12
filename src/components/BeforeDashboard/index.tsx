@@ -1,75 +1,88 @@
-import { Banner } from '@payloadcms/ui/elements/Banner'
-import React from 'react'
+'use client'
 
-import { SeedButton } from './SeedButton'
+import React, { Fragment, useCallback, useState } from 'react'
+import { toast } from '@payloadcms/ui'
+
 import './index.scss'
 
-const baseClass = 'before-dashboard'
+const SuccessMessage: React.FC = () => (
+  <div>
+    Database seeded! You can now{' '}
+    <a target="_blank" href="/">
+      visit your website
+    </a>
+  </div>
+)
 
-const BeforeDashboard: React.FC = () => {
+export const SeedButton: React.FC = () => {
+  const [loading, setLoading] = useState(false)
+  const [seeded, setSeeded] = useState(false)
+  const [error, setError] = useState<null | string>(null)
+
+  const handleClick = useCallback(
+    async (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault()
+
+      if (seeded) {
+        toast.info('Database already seeded.')
+        return
+      }
+      if (loading) {
+        toast.info('Seeding already in progress.')
+        return
+      }
+      if (error) {
+        toast.error(`An error occurred, please refresh and try again.`)
+        return
+      }
+
+      setLoading(true)
+
+      try {
+        toast.promise(
+          new Promise((resolve, reject) => {
+            try {
+              fetch('/next/seed', { method: 'POST', credentials: 'include' })
+                .then((res) => {
+                  if (res.ok) {
+                    resolve(true)
+                    setSeeded(true)
+                  } else {
+                    reject('An error occurred while seeding.')
+                  }
+                })
+                .catch((error) => {
+                  reject(error)
+                })
+            } catch (error) {
+              reject(error)
+            }
+          }),
+          {
+            loading: 'Seeding with data....',
+            success: <SuccessMessage />,
+            error: 'An error occurred while seeding.',
+          },
+        )
+      } catch (err) {
+        const error = err instanceof Error ? err.message : String(err)
+        setError(error)
+      }
+    },
+    [loading, seeded, error],
+  )
+
+  let message = ''
+  if (loading) message = ' (seeding...)'
+  if (seeded) message = ' (done!)'
+  if (error) message = ` (error: ${error})`
+
   return (
-    <div className={baseClass}>
-      <Banner className={`${baseClass}__banner`} type="success">
-        <h4>Vítejte ve vašem administračním rozhraní!</h4>
-      </Banner>
-      Co dělat dále:
-      <ul className={`${baseClass}__instructions`}>
-        <li>
-          <SeedButton />
-          {' s několika stránkami, články a projekty pro rychlý start vašeho nového webu, poté '}
-          <a href="/" target="_blank">
-            navštivte váš web
-          </a>
-          {' pro zobrazení výsledků.'}
-        </li>
-        <li>
-          Pokud jste vytvořili tento repozitář pomocí Payload Cloud, přejděte na GitHub a naklonujte
-          si ho na váš lokální počítač. Bude pod <i>GitHub Scope</i>, který jste vybrali při
-          vytváření tohoto projektu.
-        </li>
-        <li>
-          {'Upravte vaše '}
-          <a
-            href="https://payloadcms.com/docs/configuration/collections"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            kolekce
-          </a>
-          {' a přidejte další '}
-          <a
-            href="https://payloadcms.com/docs/fields/overview"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            pole
-          </a>
-          {' podle potřeby. Pokud jste v Payload nováčkem, doporučujeme také prozkoumat '}
-          <a
-            href="https://payloadcms.com/docs/getting-started/what-is-payload"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Začínáme
-          </a>
-          {' dokumentaci.'}
-        </li>
-        <li>
-          Commitněte a pushněte vaše změny do repozitáře pro spuštění opětovného nasazení vašeho
-          projektu.
-        </li>
-      </ul>
-      {'Pro Tip: Tento blok je '}
-      <a
-        href="https://payloadcms.com/docs/admin/custom-components/overview#base-component-overrides"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        vlastní komponenta
-      </a>
-      , můžete ji kdykoliv odstranit aktualizací vašeho <strong>payload.config</strong>.
-    </div>
+    <Fragment>
+      <button className="seedButton" onClick={handleClick}>
+        Seed your database
+      </button>
+      {message}
+    </Fragment>
   )
 }
-
-export default BeforeDashboard

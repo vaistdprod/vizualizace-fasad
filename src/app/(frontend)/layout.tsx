@@ -13,7 +13,7 @@ import { CookieConsent } from '@/components/CookieConsent'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
 import { getServerSideURL } from '@/utilities/getURL'
-import { GA_ID } from '@/lib/ga'
+import { GTM_ID } from '@/lib/gtm'
 
 import './globals.css'
 
@@ -21,12 +21,7 @@ export default async function RootLayout({ children }: { readonly children: Reac
   const { isEnabled: _isEnabled } = await draftMode()
 
   return (
-    <html
-      className={cn('font-sans', GeistSans.variable)}
-      lang="cs"
-      data-theme="light"
-      suppressHydrationWarning
-    >
+    <html className={cn(GeistSans.variable)} lang="cs" data-theme="light" suppressHydrationWarning>
       <head>
         <InitTheme />
         <link href="/favicon.png" rel="icon" sizes="32x32" />
@@ -35,25 +30,8 @@ export default async function RootLayout({ children }: { readonly children: Reac
         <link href="/favicon-192x192.png" rel="icon" sizes="192x192" />
         <link rel="preconnect" href={getServerSideURL()} />
         <link rel="dns-prefetch" href={getServerSideURL()} />
-
-        {/* GA4 Script */}
         <Script
-          id="ga-script"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${GA_ID}', { 'send_page_view': true });
-              gtag('consent', 'default', {
-                'analytics_storage': 'denied'
-              });
-            `,
-          }}
-        />
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+          src={`https://www.googletagmanager.com/gtag/js?id=${GTM_ID}`}
           strategy="afterInteractive"
         />
       </head>
