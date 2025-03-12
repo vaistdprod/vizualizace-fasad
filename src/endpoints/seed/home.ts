@@ -1,3 +1,4 @@
+// src/seed/home.ts
 import type { RequiredDataFromCollectionSlug } from 'payload'
 import type { Media, Form } from '@/payload-types'
 
@@ -21,12 +22,19 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
   title: 'VizualizaceFasad.cz - Profesionální návrhy fasád',
   layout: [
     {
-      blockType: 'heroSection',
+      blockType: 'landingHero',
       title: 'Profesionálně navrhujeme fasády vašich domů!',
       description:
         'Dokončujete novostavbu? Zateplujete? Děláte rekonstrukci nebo uvažujete o novém nátěru fasády? Nechte si ještě před zahájením stavebních prací ukázat, jak bude dům vypadat.',
-      buttonText: 'Nezávazná poptávka',
+      primaryButtonText: 'Nezávazná poptávka',
+      primaryButtonHref: '/kontakt',
+      secondaryButtonHref: '/sluzby',
       backgroundImage: heroImage.id,
+      badgeText: 'Vizualizace fasád',
+      scrollIndicator: {
+        enabled: true,
+        text: 'Více',
+      },
     },
     {
       blockType: 'featuredProjects',
@@ -84,43 +92,117 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
     {
       blockType: 'aboutServices',
       title: 'O našich službách',
+      subtitle: 'Profesionální vizualizace fasád',
       description:
-        'Aby výsledný dojem vašeho domu byl přesně podle vašich představ, nechejte si ještě před zahájením stavebních prací ukázat, jak bude dům vypadat, až bude hotový. Máte spoustu možností jak z fasády vašeho domu udělat ozdobu ulice.\n\nBez obav zvolte jednobarevnou fasádu nebo moderní fasádu vícebarevnou. Zakomponujte venkovní obklady. Dřevo, kámen, cihlové obklady to vše může vašemu domu vtisknout punc výjimečnosti.\n\nBylo by chybou nezkusit více variant toho, co by vašemu domu mohlo slušet. Vizualizací návrhu fasády do fotografie. Bez obav. S vašimi i našimi nápady. Za rozumnou cenu.\n\nS grafickým návrhem budete mít jasnou představu o tom, jak následná realizace bude vypadat a nemusíte se již obávat výsledku. To vám rovněž usnadní komunikaci s realizační firmou.',
-      image: heroImage.id, // Reusing hero image for simplicity
+        'Aby výsledný dojem vašeho domu byl přesně podle vašich představ, nechejte si ještě před zahájením stavebních prací ukázat, jak bude dům vypadat, až bude hotový. Máte spoustu možností jak z fasády vašeho domu udělat ozdobu ulice.\n\nBez obav zvolte jednobarevnou fasádu nebo moderní fasádu vícebarevnou. Zakomponujte venkovní obklady. Dřevo, kámen, cihlové obklady to vše může vašemu domu vtisknout punc výjimečnosti.',
+      image: heroImage.id,
+      layout: 'imageLeft',
+      features: [
+        {
+          title: 'Realistické vizualizace',
+          description: 'Naše návrhy jsou fotorealistické a poskytují přesnou představu o výsledku.',
+          icon: 'image',
+        },
+        {
+          title: 'Více variant',
+          description: 'Vytvoříme několik variant, abyste si mohli vybrat tu nejlepší pro váš dům.',
+          icon: 'layers',
+        },
+        {
+          title: 'Odborné poradenství',
+          description: 'Poskytneme vám odborné rady ohledně materiálů, barev a designových trendů.',
+          icon: 'star',
+        },
+        {
+          title: 'Snadná komunikace',
+          description: 'S grafickým návrhem bude komunikace s realizační firmou mnohem jednodušší.',
+          icon: 'message-circle',
+        },
+      ],
+      cta: {
+        enabled: true,
+        text: 'Nezávazná poptávka',
+        link: '/kontakt',
+      },
     },
     {
       blockType: 'partnershipProcess',
-      title: 'Jak probíhá spolupráce?',
-      description:
-        'Samotná vizualizace probíhá ve 3 krocích, které vám zaručí spokojenost s výsledkem.',
+      title: 'Jak bude spolupráce probíhat?',
+      description: 'Mám zájem o vizualizaci návrhu fasády. Jak bude spolupráce probíhat?',
       steps: [
         {
           number: 1,
-          title: 'První série konceptů',
+          title: 'Nezávazná nabídka',
           description:
-            'Nejprve zasíláme 5-10 návrhů, z nichž vyberete prvky, motivy a barvy, které se vám líbí.',
-          icon: 'Lightbulb',
+            'Zdarma a nezávazně vytvoříme cenovou nabídku vizualizace návrhu fasády. Prostřednictvím poptávkového formuláře zašlete prosím fotografie domu do nichž požadujete vizualizovat fasádu.',
+          icon: 'Camera',
           image: modernOfficeTower.id,
         },
         {
           number: 2,
-          title: 'Druhá série návrhů',
-          description: 'Na základě vašich připomínek vytvoříme druhou sérii 6 variant návrhů.',
-          icon: 'ImageIcon',
+          title: 'Potvrzení a kalkulace',
+          description:
+            'Jakmile k nám údaje dorazí, zasíláme potvrzovací email, v některých případech vás poprosíme o doplňující informace. Nyní vytvoříme cenovou kalkulaci vaší zakázky.',
+          icon: 'FileEdit',
           image: luxuryResidential.id,
         },
         {
           number: 3,
-          title: 'Finální doladění',
+          title: 'Proces vizualizace',
           description:
-            'Následuje finální doladění detailů, pokud již není plná spokojenost po 2. kroku.',
-          icon: 'FileEdit',
+            'Samotná vizualizace probíhá ve 3 krocích tak, že nejprve zasíláme 1. sérii konceptů (5-10 návrhů), z nichž vyberete prvky, motivy a barvy jenž se Vám líbí.',
+          icon: 'ImageIcon',
           image: culturalCenter.id,
         },
+        {
+          number: 4,
+          title: 'Dokončení a platba',
+          description:
+            'První série návrhů jsou zpravidla do 5 pracovních dní hotové. Poté, co jsou návrhy fasády ve formátu JPG nachystány k elektronickému odeslání, zašleme vám email s výzvou k platbě.',
+          icon: 'CreditCard',
+          image: heroImage.id,
+        },
       ],
+      visualizationDetail: {
+        heading: 'Postup návrhů',
+        description:
+          'Samotná vizualizace probíhá ve 3 krocích, které vám zaručí spokojenost s výsledkem',
+        phases: [
+          {
+            title: 'Úvodní koncepty',
+            subtitle: 'Připravíme 5 - 10 návrhů',
+            number: 1,
+          },
+          {
+            title: 'Série návrhů',
+            subtitle: 'Obdržíte 6 variant vizualizací',
+            number: 2,
+          },
+          {
+            title: 'Finální návrh',
+            subtitle: '1 finální vizualizace',
+            number: 3,
+          },
+        ],
+        timeframe: 'Celý proces trvá přibližně 5-7 pracovních dní',
+      },
     },
     {
-      blockType: 'formBlock',
+      blockType: 'contactSection',
+      heading: 'Kontaktujte nás',
+      description: 'Máte otázku nebo chcete začít spolupráci? Napište nám!',
+      contactItems: [
+        {
+          icon: 'Mail',
+          label: 'E-mail',
+          value: 'info@vizualizacefasad.cz',
+        },
+        {
+          icon: 'Phone',
+          label: 'Telefon',
+          value: '+420 725 136 901',
+        },
+      ],
       form: contactForm.id,
       enableIntro: true,
       introContent: {

@@ -15,6 +15,12 @@ export const AboutServices: Block = {
       label: 'Title',
     },
     {
+      name: 'subtitle',
+      type: 'text',
+      required: false,
+      label: 'Subtitle',
+    },
+    {
       name: 'description',
       type: 'textarea',
       required: true,
@@ -26,6 +32,88 @@ export const AboutServices: Block = {
       relationTo: 'media',
       required: true,
       label: 'Image',
+    },
+    {
+      name: 'features',
+      type: 'array',
+      label: 'Service Features',
+      minRows: 0,
+      maxRows: 4,
+      labels: {
+        singular: 'Feature',
+        plural: 'Features',
+      },
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          required: true,
+          label: 'Feature Title',
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          required: true,
+          label: 'Feature Description',
+        },
+        {
+          name: 'icon',
+          type: 'text',
+          required: false,
+          label: 'Icon Name (optional)',
+          admin: {
+            description: 'Enter an icon name from Lucide Icons (e.g., "check", "star", "shield")',
+          },
+        },
+      ],
+    },
+    {
+      name: 'cta',
+      type: 'group',
+      label: 'Call to Action',
+      fields: [
+        {
+          name: 'enabled',
+          type: 'checkbox',
+          label: 'Enable CTA Button',
+          defaultValue: false,
+        },
+        {
+          name: 'text',
+          type: 'text',
+          required: false,
+          label: 'Button Text',
+          admin: {
+            condition: (_, siblingData) => siblingData?.enabled,
+          },
+        },
+        {
+          name: 'link',
+          type: 'text',
+          required: false,
+          label: 'Button Link',
+          admin: {
+            condition: (_, siblingData) => siblingData?.enabled,
+          },
+        },
+      ],
+    },
+    {
+      name: 'layout',
+      type: 'select',
+      required: true,
+      label: 'Layout Style',
+      defaultValue: 'imageLeft',
+      options: [
+        {
+          label: 'Image on Left',
+          value: 'imageLeft',
+        },
+        {
+          label: 'Image on Right',
+          value: 'imageRight',
+        },
+      ],
     },
   ],
 }

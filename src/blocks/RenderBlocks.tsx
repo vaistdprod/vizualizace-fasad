@@ -2,7 +2,6 @@ import React, { Fragment } from 'react'
 
 import type { Page } from '@/payload-types'
 
-import { HeroSectionBlock } from '@/blocks/hero-section/Component'
 import { FeaturedProjectsBlock } from '@/blocks/featured-projects/Component'
 import { WhyChooseUsBlock } from '@/blocks/why-choose-us/Component'
 import { AboutServicesBlock } from '@/blocks/about-services/Component'
@@ -12,18 +11,15 @@ import { ContentBlock } from '@/blocks/Content/Component'
 import { CTASectionBlock } from '@/blocks/cta-section/Component'
 import { PricingPlansBlock } from '@/blocks/pricing-plans/Component'
 import { GalleryGridBlock } from '@/blocks/gallery-grid/Component'
-import { ContactInfoBlock } from '@/blocks/contact-info/Component'
+import { ContactSectionBlock } from '@/blocks/contact-section/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { TeamSectionBlock } from '@/blocks/team-section/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
-// New block imports
 import { LandingHeroBlock } from '@/blocks/landing-hero/Component'
 import { TrustBadgesBlock } from '@/blocks/trust-badges/Component'
-import { BenefitsBlock } from '@/blocks/benefits/Component'
 import { TestimonialsBlock } from '@/blocks/testimonials/Component'
 
 const blockComponents = {
-  heroSection: HeroSectionBlock,
   featuredProjects: FeaturedProjectsBlock,
   whyChooseUs: WhyChooseUsBlock,
   aboutServices: AboutServicesBlock,
@@ -33,14 +29,12 @@ const blockComponents = {
   ctaSection: CTASectionBlock,
   pricingPlans: PricingPlansBlock,
   galleryGrid: GalleryGridBlock,
-  contactInfo: ContactInfoBlock,
+  contactSection: ContactSectionBlock,
   formBlock: FormBlock,
   teamSection: TeamSectionBlock,
   mediaBlock: MediaBlock,
-  // New blocks added here
   landingHero: LandingHeroBlock,
   trustBadges: TrustBadgesBlock,
-  benefits: BenefitsBlock,
   testimonials: TestimonialsBlock,
 }
 
@@ -62,8 +56,7 @@ export const RenderBlocks: React.FC<{
 
             if (Block) {
               // Conditionally set the margin class based on block type
-              const blockClassName =
-                blockType === 'heroSection' || blockType === 'landingHero' ? 'mb-16' : 'my-16'
+              const blockClassName = blockType === 'landingHero' ? 'mb-16' : 'my-16'
 
               return (
                 <div className={blockClassName} key={index}>

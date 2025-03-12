@@ -27,10 +27,33 @@ export const LandingHero: Block = {
       label: 'Primary Button Text',
     },
     {
+      name: 'primaryButtonHref',
+      type: 'text',
+      required: false,
+      label: 'Primary Button Link',
+      admin: {
+        description: 'URL for the primary button',
+      },
+    },
+    {
       name: 'secondaryButtonText',
       type: 'text',
-      required: true,
+      required: false,
       label: 'Secondary Button Text',
+      admin: {
+        description:
+          'Optional secondary button text. If left empty, no secondary button will be displayed.',
+      },
+    },
+    {
+      name: 'secondaryButtonHref',
+      type: 'text',
+      required: false,
+      label: 'Secondary Button Link',
+      admin: {
+        description: 'URL for the secondary button',
+        condition: (_, siblingData) => Boolean(siblingData?.secondaryButtonText),
+      },
     },
     {
       name: 'backgroundImage',
@@ -38,6 +61,40 @@ export const LandingHero: Block = {
       relationTo: 'media',
       required: true,
       label: 'Background Image',
+    },
+    {
+      name: 'badgeText',
+      type: 'text',
+      label: 'Badge Text',
+      defaultValue: 'Vizualizace fasád',
+      admin: {
+        description: 'Text displayed in the badge above the title',
+      },
+    },
+    {
+      name: 'scrollIndicator',
+      type: 'group',
+      label: 'Scroll Indicator',
+      admin: {
+        description: 'Settings for the scroll indicator at the bottom of the hero section',
+      },
+      fields: [
+        {
+          name: 'enabled',
+          type: 'checkbox',
+          label: 'Show Scroll Indicator',
+          defaultValue: true,
+        },
+        {
+          name: 'text',
+          type: 'text',
+          label: 'Scroll Text',
+          defaultValue: 'Scroll',
+          admin: {
+            condition: (_, siblingData) => siblingData?.enabled,
+          },
+        },
+      ],
     },
   ],
 }

@@ -22,12 +22,31 @@ export const ThemeSelector: React.FC = () => {
     const newTheme = value === 'dark' ? 'light' : 'dark'
     setTheme(newTheme as Theme)
     setValue(newTheme)
+    // Update localStorage to persist the theme preference
+    window.localStorage.setItem(themeLocalStorageKey, newTheme)
   }
 
   return (
-    <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Přepnout motiv">
-      <Sun className="h-5 w-5 rotate-0 scale-100 transition-all data-[theme=dark]:-rotate-90 data-[theme=dark]:scale-0" />
-      <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all data-[theme=dark]:rotate-0 data-[theme=dark]:scale-100" />
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={toggleTheme}
+      aria-label="Přepnout motiv"
+      className="transition-colors shadow-none hover:bg-transparent hover:text-current"
+      data-theme={value}
+    >
+      <div className="relative">
+        <Sun
+          className={`h-5 w-5 transition-all dark:text-gray-700 ${
+            value === 'dark' ? '-rotate-90 scale-0' : 'rotate-0 scale-100'
+          }`}
+        />
+        <Moon
+          className={`absolute top-0 left-0 h-5 w-5 transition-all dark:text-gray-300 ${
+            value === 'dark' ? 'rotate-0 scale-100' : 'rotate-90 scale-0'
+          }`}
+        />
+      </div>
     </Button>
   )
 }

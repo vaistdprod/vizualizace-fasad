@@ -3,26 +3,26 @@ import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-vercel-postg
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
    CREATE TYPE "public"."enum_pages_blocks_why_choose_us_features_icon" AS ENUM('Star', 'Clock', 'Settings', 'Cpu', 'PiggyBank', 'Users');
-  CREATE TYPE "public"."enum_pages_blocks_partnership_process_steps_icon" AS ENUM('MessageSquare', 'Lightbulb', 'ImageIcon', 'FileEdit', 'Send');
+  CREATE TYPE "public"."enum_pages_blocks_about_services_layout" AS ENUM('imageLeft', 'imageRight');
+  CREATE TYPE "public"."enum_pages_blocks_partnership_process_steps_icon" AS ENUM('MessageSquare', 'Lightbulb', 'ImageIcon', 'FileEdit', 'Send', 'CheckCircle', 'Camera', 'Clock', 'CreditCard');
   CREATE TYPE "public"."enum_pages_blocks_service_cards_services_icon" AS ENUM('Building2', 'Cube3d', 'Paintbrush', 'Compass');
   CREATE TYPE "public"."enum_pages_blocks_cta_section_button_variant" AS ENUM('default', 'outline');
   CREATE TYPE "public"."enum_pages_blocks_pricing_plans_plans_icon" AS ENUM('Building2', 'Building');
-  CREATE TYPE "public"."enum_pages_blocks_contact_info_items_icon" AS ENUM('Mail', 'Phone', 'MapPin', 'Clock', 'Building');
+  CREATE TYPE "public"."enum_pages_blocks_contact_section_contact_items_icon" AS ENUM('Mail', 'Phone', 'MapPin', 'Clock', 'Building');
   CREATE TYPE "public"."enum_pages_blocks_content_columns_size" AS ENUM('oneThird', 'half', 'twoThirds', 'full');
   CREATE TYPE "public"."enum_pages_blocks_content_columns_link_type" AS ENUM('reference', 'custom');
   CREATE TYPE "public"."enum_pages_blocks_content_columns_link_appearance" AS ENUM('default', 'outline');
-  CREATE TYPE "public"."enum_pages_blocks_benefits_benefits_icon" AS ENUM('Clock', 'CheckCircle2', 'Shield');
   CREATE TYPE "public"."enum_pages_status" AS ENUM('draft', 'published');
   CREATE TYPE "public"."enum__pages_v_blocks_why_choose_us_features_icon" AS ENUM('Star', 'Clock', 'Settings', 'Cpu', 'PiggyBank', 'Users');
-  CREATE TYPE "public"."enum__pages_v_blocks_partnership_process_steps_icon" AS ENUM('MessageSquare', 'Lightbulb', 'ImageIcon', 'FileEdit', 'Send');
+  CREATE TYPE "public"."enum__pages_v_blocks_about_services_layout" AS ENUM('imageLeft', 'imageRight');
+  CREATE TYPE "public"."enum__pages_v_blocks_partnership_process_steps_icon" AS ENUM('MessageSquare', 'Lightbulb', 'ImageIcon', 'FileEdit', 'Send', 'CheckCircle', 'Camera', 'Clock', 'CreditCard');
   CREATE TYPE "public"."enum__pages_v_blocks_service_cards_services_icon" AS ENUM('Building2', 'Cube3d', 'Paintbrush', 'Compass');
   CREATE TYPE "public"."enum__pages_v_blocks_cta_section_button_variant" AS ENUM('default', 'outline');
   CREATE TYPE "public"."enum__pages_v_blocks_pricing_plans_plans_icon" AS ENUM('Building2', 'Building');
-  CREATE TYPE "public"."enum__pages_v_blocks_contact_info_items_icon" AS ENUM('Mail', 'Phone', 'MapPin', 'Clock', 'Building');
+  CREATE TYPE "public"."enum__pages_v_blocks_contact_section_contact_items_icon" AS ENUM('Mail', 'Phone', 'MapPin', 'Clock', 'Building');
   CREATE TYPE "public"."enum__pages_v_blocks_content_columns_size" AS ENUM('oneThird', 'half', 'twoThirds', 'full');
   CREATE TYPE "public"."enum__pages_v_blocks_content_columns_link_type" AS ENUM('reference', 'custom');
   CREATE TYPE "public"."enum__pages_v_blocks_content_columns_link_appearance" AS ENUM('default', 'outline');
-  CREATE TYPE "public"."enum__pages_v_blocks_benefits_benefits_icon" AS ENUM('Clock', 'CheckCircle2', 'Shield');
   CREATE TYPE "public"."enum__pages_v_version_status" AS ENUM('draft', 'published');
   CREATE TYPE "public"."enum_redirects_to_type" AS ENUM('reference', 'custom');
   CREATE TYPE "public"."enum_forms_confirmation_type" AS ENUM('message', 'redirect');
@@ -31,18 +31,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE TYPE "public"."enum_payload_jobs_task_slug" AS ENUM('inline', 'schedulePublish');
   CREATE TYPE "public"."enum_header_nav_items_link_type" AS ENUM('reference', 'custom');
   CREATE TYPE "public"."enum_footer_company_info_icon" AS ENUM('Building2', 'MapPin', 'Phone', 'Mail', 'Clock');
-  CREATE TABLE IF NOT EXISTS "pages_blocks_hero_section" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" integer NOT NULL,
-  	"_path" text NOT NULL,
-  	"id" varchar PRIMARY KEY NOT NULL,
-  	"title" varchar,
-  	"description" varchar,
-  	"button_text" varchar,
-  	"background_image_id" integer,
-  	"block_name" varchar
-  );
-  
   CREATE TABLE IF NOT EXISTS "pages_blocks_featured_projects_projects" (
   	"_order" integer NOT NULL,
   	"_parent_id" varchar NOT NULL,
@@ -80,14 +68,28 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"block_name" varchar
   );
   
+  CREATE TABLE IF NOT EXISTS "pages_blocks_about_services_features" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" varchar NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
+  	"title" varchar,
+  	"description" varchar,
+  	"icon" varchar
+  );
+  
   CREATE TABLE IF NOT EXISTS "pages_blocks_about_services" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
   	"_path" text NOT NULL,
   	"id" varchar PRIMARY KEY NOT NULL,
   	"title" varchar,
+  	"subtitle" varchar,
   	"description" varchar,
   	"image_id" integer,
+  	"cta_enabled" boolean DEFAULT false,
+  	"cta_text" varchar,
+  	"cta_link" varchar,
+  	"layout" "enum_pages_blocks_about_services_layout" DEFAULT 'imageLeft',
   	"block_name" varchar
   );
   
@@ -102,13 +104,25 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"image_id" integer
   );
   
+  CREATE TABLE IF NOT EXISTS "pages_blocks_partnership_process_visualization_detail_phases" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" varchar NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
+  	"title" varchar,
+  	"subtitle" varchar,
+  	"number" numeric
+  );
+  
   CREATE TABLE IF NOT EXISTS "pages_blocks_partnership_process" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
   	"_path" text NOT NULL,
   	"id" varchar PRIMARY KEY NOT NULL,
-  	"title" varchar,
-  	"description" varchar,
+  	"title" varchar DEFAULT 'Jak bude spolupráce probíhat?',
+  	"description" varchar DEFAULT 'Mám zájem o vizualizaci návrhu fasády. Jak bude spolupráce probíhat?',
+  	"visualization_detail_heading" varchar DEFAULT 'Postup návrhů',
+  	"visualization_detail_description" varchar DEFAULT 'Samotná vizualizace probíhá ve 3 krocích, které vám zaručí spokojenost s výsledkem',
+  	"visualization_detail_timeframe" varchar DEFAULT 'Celý proces trvá přibližně 5-7 pracovních dní',
   	"block_name" varchar
   );
   
@@ -126,7 +140,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"title" varchar,
   	"description" varchar,
   	"icon" "enum_pages_blocks_service_cards_services_icon",
-  	"image_id" integer
+  	"image_id" integer,
+  	"button_href" varchar
   );
   
   CREATE TABLE IF NOT EXISTS "pages_blocks_service_cards" (
@@ -134,7 +149,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_parent_id" integer NOT NULL,
   	"_path" text NOT NULL,
   	"id" varchar PRIMARY KEY NOT NULL,
+  	"pre_heading" varchar,
+  	"heading" varchar,
+  	"description" varchar,
   	"button_text" varchar DEFAULT 'Zjistit více',
+  	"button_href" varchar,
   	"block_name" varchar
   );
   
@@ -146,6 +165,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"title" varchar,
   	"description" varchar,
   	"button_text" varchar,
+  	"button_href" varchar,
   	"button_variant" "enum_pages_blocks_cta_section_button_variant" DEFAULT 'default',
   	"block_name" varchar
   );
@@ -165,6 +185,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"price" varchar,
   	"description" varchar,
   	"icon" "enum_pages_blocks_pricing_plans_plans_icon",
+  	"button_href" varchar,
   	"popular" boolean DEFAULT false
   );
   
@@ -173,9 +194,13 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_parent_id" integer NOT NULL,
   	"_path" text NOT NULL,
   	"id" varchar PRIMARY KEY NOT NULL,
+  	"pre_heading" varchar,
+  	"heading" varchar,
+  	"description" varchar,
   	"price_suffix" varchar DEFAULT 'za projekt',
   	"popular_label" varchar DEFAULT 'Oblíbené',
   	"button_text" varchar DEFAULT 'Začít',
+  	"button_href" varchar,
   	"block_name" varchar
   );
   
@@ -193,24 +218,33 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_parent_id" integer NOT NULL,
   	"_path" text NOT NULL,
   	"id" varchar PRIMARY KEY NOT NULL,
+  	"pre_heading" varchar,
+  	"heading" varchar,
+  	"description" varchar,
   	"block_name" varchar
   );
   
-  CREATE TABLE IF NOT EXISTS "pages_blocks_contact_info_items" (
+  CREATE TABLE IF NOT EXISTS "pages_blocks_contact_section_contact_items" (
   	"_order" integer NOT NULL,
   	"_parent_id" varchar NOT NULL,
   	"id" varchar PRIMARY KEY NOT NULL,
-  	"icon" "enum_pages_blocks_contact_info_items_icon",
+  	"icon" "enum_pages_blocks_contact_section_contact_items_icon",
   	"label" varchar,
   	"value" varchar
   );
   
-  CREATE TABLE IF NOT EXISTS "pages_blocks_contact_info" (
+  CREATE TABLE IF NOT EXISTS "pages_blocks_contact_section" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
   	"_path" text NOT NULL,
   	"id" varchar PRIMARY KEY NOT NULL,
-  	"title" varchar DEFAULT 'Kontaktní informace',
+  	"pre_heading" varchar,
+  	"heading" varchar,
+  	"description" varchar,
+  	"contact_title" varchar DEFAULT 'Kontaktní informace',
+  	"form_id" integer,
+  	"enable_intro" boolean,
+  	"intro_content" jsonb,
   	"block_name" varchar
   );
   
@@ -285,8 +319,13 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"title" varchar,
   	"description" varchar,
   	"primary_button_text" varchar,
+  	"primary_button_href" varchar,
   	"secondary_button_text" varchar,
+  	"secondary_button_href" varchar,
   	"background_image_id" integer,
+  	"badge_text" varchar DEFAULT 'Vizualizace fasád',
+  	"scroll_indicator_enabled" boolean DEFAULT true,
+  	"scroll_indicator_text" varchar DEFAULT 'Scroll',
   	"block_name" varchar
   );
   
@@ -306,25 +345,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"block_name" varchar
   );
   
-  CREATE TABLE IF NOT EXISTS "pages_blocks_benefits_benefits" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" varchar NOT NULL,
-  	"id" varchar PRIMARY KEY NOT NULL,
-  	"title" varchar,
-  	"description" varchar,
-  	"icon" "enum_pages_blocks_benefits_benefits_icon"
-  );
-  
-  CREATE TABLE IF NOT EXISTS "pages_blocks_benefits" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" integer NOT NULL,
-  	"_path" text NOT NULL,
-  	"id" varchar PRIMARY KEY NOT NULL,
-  	"title" varchar,
-  	"description" varchar,
-  	"block_name" varchar
-  );
-  
   CREATE TABLE IF NOT EXISTS "pages_blocks_testimonials_testimonials" (
   	"_order" integer NOT NULL,
   	"_parent_id" varchar NOT NULL,
@@ -333,7 +353,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"role" varchar,
   	"image_id" integer,
   	"quote" varchar,
-  	"result" varchar
+  	"result" varchar,
+  	"rating" numeric DEFAULT 5
   );
   
   CREATE TABLE IF NOT EXISTS "pages_blocks_testimonials" (
@@ -366,19 +387,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"parent_id" integer NOT NULL,
   	"path" varchar NOT NULL,
   	"pages_id" integer
-  );
-  
-  CREATE TABLE IF NOT EXISTS "_pages_v_blocks_hero_section" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" integer NOT NULL,
-  	"_path" text NOT NULL,
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"title" varchar,
-  	"description" varchar,
-  	"button_text" varchar,
-  	"background_image_id" integer,
-  	"_uuid" varchar,
-  	"block_name" varchar
   );
   
   CREATE TABLE IF NOT EXISTS "_pages_v_blocks_featured_projects_projects" (
@@ -422,14 +430,29 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"block_name" varchar
   );
   
+  CREATE TABLE IF NOT EXISTS "_pages_v_blocks_about_services_features" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"title" varchar,
+  	"description" varchar,
+  	"icon" varchar,
+  	"_uuid" varchar
+  );
+  
   CREATE TABLE IF NOT EXISTS "_pages_v_blocks_about_services" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
   	"_path" text NOT NULL,
   	"id" serial PRIMARY KEY NOT NULL,
   	"title" varchar,
+  	"subtitle" varchar,
   	"description" varchar,
   	"image_id" integer,
+  	"cta_enabled" boolean DEFAULT false,
+  	"cta_text" varchar,
+  	"cta_link" varchar,
+  	"layout" "enum__pages_v_blocks_about_services_layout" DEFAULT 'imageLeft',
   	"_uuid" varchar,
   	"block_name" varchar
   );
@@ -446,13 +469,26 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_uuid" varchar
   );
   
+  CREATE TABLE IF NOT EXISTS "_pages_v_blocks_partnership_process_visualization_detail_phases" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"title" varchar,
+  	"subtitle" varchar,
+  	"number" numeric,
+  	"_uuid" varchar
+  );
+  
   CREATE TABLE IF NOT EXISTS "_pages_v_blocks_partnership_process" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
   	"_path" text NOT NULL,
   	"id" serial PRIMARY KEY NOT NULL,
-  	"title" varchar,
-  	"description" varchar,
+  	"title" varchar DEFAULT 'Jak bude spolupráce probíhat?',
+  	"description" varchar DEFAULT 'Mám zájem o vizualizaci návrhu fasády. Jak bude spolupráce probíhat?',
+  	"visualization_detail_heading" varchar DEFAULT 'Postup návrhů',
+  	"visualization_detail_description" varchar DEFAULT 'Samotná vizualizace probíhá ve 3 krocích, které vám zaručí spokojenost s výsledkem',
+  	"visualization_detail_timeframe" varchar DEFAULT 'Celý proces trvá přibližně 5-7 pracovních dní',
   	"_uuid" varchar,
   	"block_name" varchar
   );
@@ -473,6 +509,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"description" varchar,
   	"icon" "enum__pages_v_blocks_service_cards_services_icon",
   	"image_id" integer,
+  	"button_href" varchar,
   	"_uuid" varchar
   );
   
@@ -481,7 +518,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_parent_id" integer NOT NULL,
   	"_path" text NOT NULL,
   	"id" serial PRIMARY KEY NOT NULL,
+  	"pre_heading" varchar,
+  	"heading" varchar,
+  	"description" varchar,
   	"button_text" varchar DEFAULT 'Zjistit více',
+  	"button_href" varchar,
   	"_uuid" varchar,
   	"block_name" varchar
   );
@@ -494,6 +535,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"title" varchar,
   	"description" varchar,
   	"button_text" varchar,
+  	"button_href" varchar,
   	"button_variant" "enum__pages_v_blocks_cta_section_button_variant" DEFAULT 'default',
   	"_uuid" varchar,
   	"block_name" varchar
@@ -515,6 +557,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"price" varchar,
   	"description" varchar,
   	"icon" "enum__pages_v_blocks_pricing_plans_plans_icon",
+  	"button_href" varchar,
   	"popular" boolean DEFAULT false,
   	"_uuid" varchar
   );
@@ -524,9 +567,13 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_parent_id" integer NOT NULL,
   	"_path" text NOT NULL,
   	"id" serial PRIMARY KEY NOT NULL,
+  	"pre_heading" varchar,
+  	"heading" varchar,
+  	"description" varchar,
   	"price_suffix" varchar DEFAULT 'za projekt',
   	"popular_label" varchar DEFAULT 'Oblíbené',
   	"button_text" varchar DEFAULT 'Začít',
+  	"button_href" varchar,
   	"_uuid" varchar,
   	"block_name" varchar
   );
@@ -546,26 +593,35 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_parent_id" integer NOT NULL,
   	"_path" text NOT NULL,
   	"id" serial PRIMARY KEY NOT NULL,
+  	"pre_heading" varchar,
+  	"heading" varchar,
+  	"description" varchar,
   	"_uuid" varchar,
   	"block_name" varchar
   );
   
-  CREATE TABLE IF NOT EXISTS "_pages_v_blocks_contact_info_items" (
+  CREATE TABLE IF NOT EXISTS "_pages_v_blocks_contact_section_contact_items" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
   	"id" serial PRIMARY KEY NOT NULL,
-  	"icon" "enum__pages_v_blocks_contact_info_items_icon",
+  	"icon" "enum__pages_v_blocks_contact_section_contact_items_icon",
   	"label" varchar,
   	"value" varchar,
   	"_uuid" varchar
   );
   
-  CREATE TABLE IF NOT EXISTS "_pages_v_blocks_contact_info" (
+  CREATE TABLE IF NOT EXISTS "_pages_v_blocks_contact_section" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
   	"_path" text NOT NULL,
   	"id" serial PRIMARY KEY NOT NULL,
-  	"title" varchar DEFAULT 'Kontaktní informace',
+  	"pre_heading" varchar,
+  	"heading" varchar,
+  	"description" varchar,
+  	"contact_title" varchar DEFAULT 'Kontaktní informace',
+  	"form_id" integer,
+  	"enable_intro" boolean,
+  	"intro_content" jsonb,
   	"_uuid" varchar,
   	"block_name" varchar
   );
@@ -647,8 +703,13 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"title" varchar,
   	"description" varchar,
   	"primary_button_text" varchar,
+  	"primary_button_href" varchar,
   	"secondary_button_text" varchar,
+  	"secondary_button_href" varchar,
   	"background_image_id" integer,
+  	"badge_text" varchar DEFAULT 'Vizualizace fasád',
+  	"scroll_indicator_enabled" boolean DEFAULT true,
+  	"scroll_indicator_text" varchar DEFAULT 'Scroll',
   	"_uuid" varchar,
   	"block_name" varchar
   );
@@ -671,27 +732,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"block_name" varchar
   );
   
-  CREATE TABLE IF NOT EXISTS "_pages_v_blocks_benefits_benefits" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" integer NOT NULL,
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"title" varchar,
-  	"description" varchar,
-  	"icon" "enum__pages_v_blocks_benefits_benefits_icon",
-  	"_uuid" varchar
-  );
-  
-  CREATE TABLE IF NOT EXISTS "_pages_v_blocks_benefits" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" integer NOT NULL,
-  	"_path" text NOT NULL,
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"title" varchar,
-  	"description" varchar,
-  	"_uuid" varchar,
-  	"block_name" varchar
-  );
-  
   CREATE TABLE IF NOT EXISTS "_pages_v_blocks_testimonials_testimonials" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -701,6 +741,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"image_id" integer,
   	"quote" varchar,
   	"result" varchar,
+  	"rating" numeric DEFAULT 5,
   	"_uuid" varchar
   );
   
@@ -1124,24 +1165,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   
   CREATE TABLE IF NOT EXISTS "footer" (
   	"id" serial PRIMARY KEY NOT NULL,
-  	"newsletter_title" varchar,
-  	"newsletter_description" varchar,
-  	"newsletter_button_text" varchar,
   	"updated_at" timestamp(3) with time zone,
   	"created_at" timestamp(3) with time zone
   );
-  
-  DO $$ BEGIN
-   ALTER TABLE "pages_blocks_hero_section" ADD CONSTRAINT "pages_blocks_hero_section_background_image_id_media_id_fk" FOREIGN KEY ("background_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "pages_blocks_hero_section" ADD CONSTRAINT "pages_blocks_hero_section_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
   
   DO $$ BEGIN
    ALTER TABLE "pages_blocks_featured_projects_projects" ADD CONSTRAINT "pages_blocks_featured_projects_projects_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
@@ -1174,6 +1200,12 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   END $$;
   
   DO $$ BEGIN
+   ALTER TABLE "pages_blocks_about_services_features" ADD CONSTRAINT "pages_blocks_about_services_features_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages_blocks_about_services"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
    ALTER TABLE "pages_blocks_about_services" ADD CONSTRAINT "pages_blocks_about_services_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
@@ -1193,6 +1225,12 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   
   DO $$ BEGIN
    ALTER TABLE "pages_blocks_partnership_process_steps" ADD CONSTRAINT "pages_blocks_partnership_process_steps_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages_blocks_partnership_process"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "pages_blocks_partnership_process_visualization_detail_phases" ADD CONSTRAINT "pages_blocks_partnership_process_visualization_detail_phases_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages_blocks_partnership_process"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
@@ -1270,13 +1308,19 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   END $$;
   
   DO $$ BEGIN
-   ALTER TABLE "pages_blocks_contact_info_items" ADD CONSTRAINT "pages_blocks_contact_info_items_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages_blocks_contact_info"("id") ON DELETE cascade ON UPDATE no action;
+   ALTER TABLE "pages_blocks_contact_section_contact_items" ADD CONSTRAINT "pages_blocks_contact_section_contact_items_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages_blocks_contact_section"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
   
   DO $$ BEGIN
-   ALTER TABLE "pages_blocks_contact_info" ADD CONSTRAINT "pages_blocks_contact_info_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
+   ALTER TABLE "pages_blocks_contact_section" ADD CONSTRAINT "pages_blocks_contact_section_form_id_forms_id_fk" FOREIGN KEY ("form_id") REFERENCES "public"."forms"("id") ON DELETE set null ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "pages_blocks_contact_section" ADD CONSTRAINT "pages_blocks_contact_section_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
@@ -1360,18 +1404,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   END $$;
   
   DO $$ BEGIN
-   ALTER TABLE "pages_blocks_benefits_benefits" ADD CONSTRAINT "pages_blocks_benefits_benefits_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages_blocks_benefits"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "pages_blocks_benefits" ADD CONSTRAINT "pages_blocks_benefits_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
    ALTER TABLE "pages_blocks_testimonials_testimonials" ADD CONSTRAINT "pages_blocks_testimonials_testimonials_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
@@ -1408,18 +1440,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   END $$;
   
   DO $$ BEGIN
-   ALTER TABLE "_pages_v_blocks_hero_section" ADD CONSTRAINT "_pages_v_blocks_hero_section_background_image_id_media_id_fk" FOREIGN KEY ("background_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "_pages_v_blocks_hero_section" ADD CONSTRAINT "_pages_v_blocks_hero_section_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
    ALTER TABLE "_pages_v_blocks_featured_projects_projects" ADD CONSTRAINT "_pages_v_blocks_featured_projects_projects_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
@@ -1450,6 +1470,12 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   END $$;
   
   DO $$ BEGIN
+   ALTER TABLE "_pages_v_blocks_about_services_features" ADD CONSTRAINT "_pages_v_blocks_about_services_features_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v_blocks_about_services"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
    ALTER TABLE "_pages_v_blocks_about_services" ADD CONSTRAINT "_pages_v_blocks_about_services_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
@@ -1469,6 +1495,12 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   
   DO $$ BEGIN
    ALTER TABLE "_pages_v_blocks_partnership_process_steps" ADD CONSTRAINT "_pages_v_blocks_partnership_process_steps_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v_blocks_partnership_process"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "_pages_v_blocks_partnership_process_visualization_detail_phases" ADD CONSTRAINT "_pages_v_blocks_partnership_process_visualization_detail_phases_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v_blocks_partnership_process"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
@@ -1546,13 +1578,19 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   END $$;
   
   DO $$ BEGIN
-   ALTER TABLE "_pages_v_blocks_contact_info_items" ADD CONSTRAINT "_pages_v_blocks_contact_info_items_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v_blocks_contact_info"("id") ON DELETE cascade ON UPDATE no action;
+   ALTER TABLE "_pages_v_blocks_contact_section_contact_items" ADD CONSTRAINT "_pages_v_blocks_contact_section_contact_items_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v_blocks_contact_section"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
   
   DO $$ BEGIN
-   ALTER TABLE "_pages_v_blocks_contact_info" ADD CONSTRAINT "_pages_v_blocks_contact_info_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v"("id") ON DELETE cascade ON UPDATE no action;
+   ALTER TABLE "_pages_v_blocks_contact_section" ADD CONSTRAINT "_pages_v_blocks_contact_section_form_id_forms_id_fk" FOREIGN KEY ("form_id") REFERENCES "public"."forms"("id") ON DELETE set null ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "_pages_v_blocks_contact_section" ADD CONSTRAINT "_pages_v_blocks_contact_section_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
@@ -1631,18 +1669,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   
   DO $$ BEGIN
    ALTER TABLE "_pages_v_blocks_trust_badges" ADD CONSTRAINT "_pages_v_blocks_trust_badges_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "_pages_v_blocks_benefits_benefits" ADD CONSTRAINT "_pages_v_blocks_benefits_benefits_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v_blocks_benefits"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "_pages_v_blocks_benefits" ADD CONSTRAINT "_pages_v_blocks_benefits_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
@@ -1887,10 +1913,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
    WHEN duplicate_object THEN null;
   END $$;
   
-  CREATE INDEX IF NOT EXISTS "pages_blocks_hero_section_order_idx" ON "pages_blocks_hero_section" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "pages_blocks_hero_section_parent_id_idx" ON "pages_blocks_hero_section" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "pages_blocks_hero_section_path_idx" ON "pages_blocks_hero_section" USING btree ("_path");
-  CREATE INDEX IF NOT EXISTS "pages_blocks_hero_section_background_image_idx" ON "pages_blocks_hero_section" USING btree ("background_image_id");
   CREATE INDEX IF NOT EXISTS "pages_blocks_featured_projects_projects_order_idx" ON "pages_blocks_featured_projects_projects" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "pages_blocks_featured_projects_projects_parent_id_idx" ON "pages_blocks_featured_projects_projects" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "pages_blocks_featured_projects_projects_image_idx" ON "pages_blocks_featured_projects_projects" USING btree ("image_id");
@@ -1902,6 +1924,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "pages_blocks_why_choose_us_order_idx" ON "pages_blocks_why_choose_us" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "pages_blocks_why_choose_us_parent_id_idx" ON "pages_blocks_why_choose_us" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "pages_blocks_why_choose_us_path_idx" ON "pages_blocks_why_choose_us" USING btree ("_path");
+  CREATE INDEX IF NOT EXISTS "pages_blocks_about_services_features_order_idx" ON "pages_blocks_about_services_features" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "pages_blocks_about_services_features_parent_id_idx" ON "pages_blocks_about_services_features" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "pages_blocks_about_services_order_idx" ON "pages_blocks_about_services" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "pages_blocks_about_services_parent_id_idx" ON "pages_blocks_about_services" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "pages_blocks_about_services_path_idx" ON "pages_blocks_about_services" USING btree ("_path");
@@ -1909,6 +1933,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "pages_blocks_partnership_process_steps_order_idx" ON "pages_blocks_partnership_process_steps" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "pages_blocks_partnership_process_steps_parent_id_idx" ON "pages_blocks_partnership_process_steps" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "pages_blocks_partnership_process_steps_image_idx" ON "pages_blocks_partnership_process_steps" USING btree ("image_id");
+  CREATE INDEX IF NOT EXISTS "pages_blocks_partnership_process_visualization_detail_phases_order_idx" ON "pages_blocks_partnership_process_visualization_detail_phases" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "pages_blocks_partnership_process_visualization_detail_phases_parent_id_idx" ON "pages_blocks_partnership_process_visualization_detail_phases" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "pages_blocks_partnership_process_order_idx" ON "pages_blocks_partnership_process" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "pages_blocks_partnership_process_parent_id_idx" ON "pages_blocks_partnership_process" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "pages_blocks_partnership_process_path_idx" ON "pages_blocks_partnership_process" USING btree ("_path");
@@ -1936,11 +1962,12 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "pages_blocks_gallery_grid_order_idx" ON "pages_blocks_gallery_grid" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "pages_blocks_gallery_grid_parent_id_idx" ON "pages_blocks_gallery_grid" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "pages_blocks_gallery_grid_path_idx" ON "pages_blocks_gallery_grid" USING btree ("_path");
-  CREATE INDEX IF NOT EXISTS "pages_blocks_contact_info_items_order_idx" ON "pages_blocks_contact_info_items" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "pages_blocks_contact_info_items_parent_id_idx" ON "pages_blocks_contact_info_items" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "pages_blocks_contact_info_order_idx" ON "pages_blocks_contact_info" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "pages_blocks_contact_info_parent_id_idx" ON "pages_blocks_contact_info" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "pages_blocks_contact_info_path_idx" ON "pages_blocks_contact_info" USING btree ("_path");
+  CREATE INDEX IF NOT EXISTS "pages_blocks_contact_section_contact_items_order_idx" ON "pages_blocks_contact_section_contact_items" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "pages_blocks_contact_section_contact_items_parent_id_idx" ON "pages_blocks_contact_section_contact_items" USING btree ("_parent_id");
+  CREATE INDEX IF NOT EXISTS "pages_blocks_contact_section_order_idx" ON "pages_blocks_contact_section" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "pages_blocks_contact_section_parent_id_idx" ON "pages_blocks_contact_section" USING btree ("_parent_id");
+  CREATE INDEX IF NOT EXISTS "pages_blocks_contact_section_path_idx" ON "pages_blocks_contact_section" USING btree ("_path");
+  CREATE INDEX IF NOT EXISTS "pages_blocks_contact_section_form_idx" ON "pages_blocks_contact_section" USING btree ("form_id");
   CREATE INDEX IF NOT EXISTS "pages_blocks_form_block_order_idx" ON "pages_blocks_form_block" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "pages_blocks_form_block_parent_id_idx" ON "pages_blocks_form_block" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "pages_blocks_form_block_path_idx" ON "pages_blocks_form_block" USING btree ("_path");
@@ -1969,11 +1996,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "pages_blocks_trust_badges_order_idx" ON "pages_blocks_trust_badges" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "pages_blocks_trust_badges_parent_id_idx" ON "pages_blocks_trust_badges" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "pages_blocks_trust_badges_path_idx" ON "pages_blocks_trust_badges" USING btree ("_path");
-  CREATE INDEX IF NOT EXISTS "pages_blocks_benefits_benefits_order_idx" ON "pages_blocks_benefits_benefits" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "pages_blocks_benefits_benefits_parent_id_idx" ON "pages_blocks_benefits_benefits" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "pages_blocks_benefits_order_idx" ON "pages_blocks_benefits" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "pages_blocks_benefits_parent_id_idx" ON "pages_blocks_benefits" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "pages_blocks_benefits_path_idx" ON "pages_blocks_benefits" USING btree ("_path");
   CREATE INDEX IF NOT EXISTS "pages_blocks_testimonials_testimonials_order_idx" ON "pages_blocks_testimonials_testimonials" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "pages_blocks_testimonials_testimonials_parent_id_idx" ON "pages_blocks_testimonials_testimonials" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "pages_blocks_testimonials_testimonials_image_idx" ON "pages_blocks_testimonials_testimonials" USING btree ("image_id");
@@ -1989,10 +2011,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "pages_rels_parent_idx" ON "pages_rels" USING btree ("parent_id");
   CREATE INDEX IF NOT EXISTS "pages_rels_path_idx" ON "pages_rels" USING btree ("path");
   CREATE INDEX IF NOT EXISTS "pages_rels_pages_id_idx" ON "pages_rels" USING btree ("pages_id");
-  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_hero_section_order_idx" ON "_pages_v_blocks_hero_section" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_hero_section_parent_id_idx" ON "_pages_v_blocks_hero_section" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_hero_section_path_idx" ON "_pages_v_blocks_hero_section" USING btree ("_path");
-  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_hero_section_background_image_idx" ON "_pages_v_blocks_hero_section" USING btree ("background_image_id");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_featured_projects_projects_order_idx" ON "_pages_v_blocks_featured_projects_projects" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_featured_projects_projects_parent_id_idx" ON "_pages_v_blocks_featured_projects_projects" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_featured_projects_projects_image_idx" ON "_pages_v_blocks_featured_projects_projects" USING btree ("image_id");
@@ -2004,6 +2022,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_why_choose_us_order_idx" ON "_pages_v_blocks_why_choose_us" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_why_choose_us_parent_id_idx" ON "_pages_v_blocks_why_choose_us" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_why_choose_us_path_idx" ON "_pages_v_blocks_why_choose_us" USING btree ("_path");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_about_services_features_order_idx" ON "_pages_v_blocks_about_services_features" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_about_services_features_parent_id_idx" ON "_pages_v_blocks_about_services_features" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_about_services_order_idx" ON "_pages_v_blocks_about_services" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_about_services_parent_id_idx" ON "_pages_v_blocks_about_services" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_about_services_path_idx" ON "_pages_v_blocks_about_services" USING btree ("_path");
@@ -2011,6 +2031,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_partnership_process_steps_order_idx" ON "_pages_v_blocks_partnership_process_steps" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_partnership_process_steps_parent_id_idx" ON "_pages_v_blocks_partnership_process_steps" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_partnership_process_steps_image_idx" ON "_pages_v_blocks_partnership_process_steps" USING btree ("image_id");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_partnership_process_visualization_detail_phases_order_idx" ON "_pages_v_blocks_partnership_process_visualization_detail_phases" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_partnership_process_visualization_detail_phases_parent_id_idx" ON "_pages_v_blocks_partnership_process_visualization_detail_phases" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_partnership_process_order_idx" ON "_pages_v_blocks_partnership_process" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_partnership_process_parent_id_idx" ON "_pages_v_blocks_partnership_process" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_partnership_process_path_idx" ON "_pages_v_blocks_partnership_process" USING btree ("_path");
@@ -2038,11 +2060,12 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_gallery_grid_order_idx" ON "_pages_v_blocks_gallery_grid" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_gallery_grid_parent_id_idx" ON "_pages_v_blocks_gallery_grid" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_gallery_grid_path_idx" ON "_pages_v_blocks_gallery_grid" USING btree ("_path");
-  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_contact_info_items_order_idx" ON "_pages_v_blocks_contact_info_items" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_contact_info_items_parent_id_idx" ON "_pages_v_blocks_contact_info_items" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_contact_info_order_idx" ON "_pages_v_blocks_contact_info" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_contact_info_parent_id_idx" ON "_pages_v_blocks_contact_info" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_contact_info_path_idx" ON "_pages_v_blocks_contact_info" USING btree ("_path");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_contact_section_contact_items_order_idx" ON "_pages_v_blocks_contact_section_contact_items" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_contact_section_contact_items_parent_id_idx" ON "_pages_v_blocks_contact_section_contact_items" USING btree ("_parent_id");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_contact_section_order_idx" ON "_pages_v_blocks_contact_section" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_contact_section_parent_id_idx" ON "_pages_v_blocks_contact_section" USING btree ("_parent_id");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_contact_section_path_idx" ON "_pages_v_blocks_contact_section" USING btree ("_path");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_contact_section_form_idx" ON "_pages_v_blocks_contact_section" USING btree ("form_id");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_form_block_order_idx" ON "_pages_v_blocks_form_block" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_form_block_parent_id_idx" ON "_pages_v_blocks_form_block" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_form_block_path_idx" ON "_pages_v_blocks_form_block" USING btree ("_path");
@@ -2071,11 +2094,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_trust_badges_order_idx" ON "_pages_v_blocks_trust_badges" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_trust_badges_parent_id_idx" ON "_pages_v_blocks_trust_badges" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_trust_badges_path_idx" ON "_pages_v_blocks_trust_badges" USING btree ("_path");
-  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_benefits_benefits_order_idx" ON "_pages_v_blocks_benefits_benefits" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_benefits_benefits_parent_id_idx" ON "_pages_v_blocks_benefits_benefits" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_benefits_order_idx" ON "_pages_v_blocks_benefits" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_benefits_parent_id_idx" ON "_pages_v_blocks_benefits" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_benefits_path_idx" ON "_pages_v_blocks_benefits" USING btree ("_path");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_testimonials_testimonials_order_idx" ON "_pages_v_blocks_testimonials_testimonials" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_testimonials_testimonials_parent_id_idx" ON "_pages_v_blocks_testimonials_testimonials" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_testimonials_testimonials_image_idx" ON "_pages_v_blocks_testimonials_testimonials" USING btree ("image_id");
@@ -2207,13 +2225,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
 
 export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
   await db.execute(sql`
-   DROP TABLE "pages_blocks_hero_section" CASCADE;
-  DROP TABLE "pages_blocks_featured_projects_projects" CASCADE;
+   DROP TABLE "pages_blocks_featured_projects_projects" CASCADE;
   DROP TABLE "pages_blocks_featured_projects" CASCADE;
   DROP TABLE "pages_blocks_why_choose_us_features" CASCADE;
   DROP TABLE "pages_blocks_why_choose_us" CASCADE;
+  DROP TABLE "pages_blocks_about_services_features" CASCADE;
   DROP TABLE "pages_blocks_about_services" CASCADE;
   DROP TABLE "pages_blocks_partnership_process_steps" CASCADE;
+  DROP TABLE "pages_blocks_partnership_process_visualization_detail_phases" CASCADE;
   DROP TABLE "pages_blocks_partnership_process" CASCADE;
   DROP TABLE "pages_blocks_service_cards_services_features" CASCADE;
   DROP TABLE "pages_blocks_service_cards_services" CASCADE;
@@ -2224,8 +2243,8 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "pages_blocks_pricing_plans" CASCADE;
   DROP TABLE "pages_blocks_gallery_grid_projects" CASCADE;
   DROP TABLE "pages_blocks_gallery_grid" CASCADE;
-  DROP TABLE "pages_blocks_contact_info_items" CASCADE;
-  DROP TABLE "pages_blocks_contact_info" CASCADE;
+  DROP TABLE "pages_blocks_contact_section_contact_items" CASCADE;
+  DROP TABLE "pages_blocks_contact_section" CASCADE;
   DROP TABLE "pages_blocks_form_block" CASCADE;
   DROP TABLE "pages_blocks_team_section_team" CASCADE;
   DROP TABLE "pages_blocks_team_section" CASCADE;
@@ -2235,19 +2254,18 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "pages_blocks_landing_hero" CASCADE;
   DROP TABLE "pages_blocks_trust_badges_stats" CASCADE;
   DROP TABLE "pages_blocks_trust_badges" CASCADE;
-  DROP TABLE "pages_blocks_benefits_benefits" CASCADE;
-  DROP TABLE "pages_blocks_benefits" CASCADE;
   DROP TABLE "pages_blocks_testimonials_testimonials" CASCADE;
   DROP TABLE "pages_blocks_testimonials" CASCADE;
   DROP TABLE "pages" CASCADE;
   DROP TABLE "pages_rels" CASCADE;
-  DROP TABLE "_pages_v_blocks_hero_section" CASCADE;
   DROP TABLE "_pages_v_blocks_featured_projects_projects" CASCADE;
   DROP TABLE "_pages_v_blocks_featured_projects" CASCADE;
   DROP TABLE "_pages_v_blocks_why_choose_us_features" CASCADE;
   DROP TABLE "_pages_v_blocks_why_choose_us" CASCADE;
+  DROP TABLE "_pages_v_blocks_about_services_features" CASCADE;
   DROP TABLE "_pages_v_blocks_about_services" CASCADE;
   DROP TABLE "_pages_v_blocks_partnership_process_steps" CASCADE;
+  DROP TABLE "_pages_v_blocks_partnership_process_visualization_detail_phases" CASCADE;
   DROP TABLE "_pages_v_blocks_partnership_process" CASCADE;
   DROP TABLE "_pages_v_blocks_service_cards_services_features" CASCADE;
   DROP TABLE "_pages_v_blocks_service_cards_services" CASCADE;
@@ -2258,8 +2276,8 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "_pages_v_blocks_pricing_plans" CASCADE;
   DROP TABLE "_pages_v_blocks_gallery_grid_projects" CASCADE;
   DROP TABLE "_pages_v_blocks_gallery_grid" CASCADE;
-  DROP TABLE "_pages_v_blocks_contact_info_items" CASCADE;
-  DROP TABLE "_pages_v_blocks_contact_info" CASCADE;
+  DROP TABLE "_pages_v_blocks_contact_section_contact_items" CASCADE;
+  DROP TABLE "_pages_v_blocks_contact_section" CASCADE;
   DROP TABLE "_pages_v_blocks_form_block" CASCADE;
   DROP TABLE "_pages_v_blocks_team_section_team" CASCADE;
   DROP TABLE "_pages_v_blocks_team_section" CASCADE;
@@ -2269,8 +2287,6 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "_pages_v_blocks_landing_hero" CASCADE;
   DROP TABLE "_pages_v_blocks_trust_badges_stats" CASCADE;
   DROP TABLE "_pages_v_blocks_trust_badges" CASCADE;
-  DROP TABLE "_pages_v_blocks_benefits_benefits" CASCADE;
-  DROP TABLE "_pages_v_blocks_benefits" CASCADE;
   DROP TABLE "_pages_v_blocks_testimonials_testimonials" CASCADE;
   DROP TABLE "_pages_v_blocks_testimonials" CASCADE;
   DROP TABLE "_pages_v" CASCADE;
@@ -2309,26 +2325,26 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "footer_footer_columns" CASCADE;
   DROP TABLE "footer" CASCADE;
   DROP TYPE "public"."enum_pages_blocks_why_choose_us_features_icon";
+  DROP TYPE "public"."enum_pages_blocks_about_services_layout";
   DROP TYPE "public"."enum_pages_blocks_partnership_process_steps_icon";
   DROP TYPE "public"."enum_pages_blocks_service_cards_services_icon";
   DROP TYPE "public"."enum_pages_blocks_cta_section_button_variant";
   DROP TYPE "public"."enum_pages_blocks_pricing_plans_plans_icon";
-  DROP TYPE "public"."enum_pages_blocks_contact_info_items_icon";
+  DROP TYPE "public"."enum_pages_blocks_contact_section_contact_items_icon";
   DROP TYPE "public"."enum_pages_blocks_content_columns_size";
   DROP TYPE "public"."enum_pages_blocks_content_columns_link_type";
   DROP TYPE "public"."enum_pages_blocks_content_columns_link_appearance";
-  DROP TYPE "public"."enum_pages_blocks_benefits_benefits_icon";
   DROP TYPE "public"."enum_pages_status";
   DROP TYPE "public"."enum__pages_v_blocks_why_choose_us_features_icon";
+  DROP TYPE "public"."enum__pages_v_blocks_about_services_layout";
   DROP TYPE "public"."enum__pages_v_blocks_partnership_process_steps_icon";
   DROP TYPE "public"."enum__pages_v_blocks_service_cards_services_icon";
   DROP TYPE "public"."enum__pages_v_blocks_cta_section_button_variant";
   DROP TYPE "public"."enum__pages_v_blocks_pricing_plans_plans_icon";
-  DROP TYPE "public"."enum__pages_v_blocks_contact_info_items_icon";
+  DROP TYPE "public"."enum__pages_v_blocks_contact_section_contact_items_icon";
   DROP TYPE "public"."enum__pages_v_blocks_content_columns_size";
   DROP TYPE "public"."enum__pages_v_blocks_content_columns_link_type";
   DROP TYPE "public"."enum__pages_v_blocks_content_columns_link_appearance";
-  DROP TYPE "public"."enum__pages_v_blocks_benefits_benefits_icon";
   DROP TYPE "public"."enum__pages_v_version_status";
   DROP TYPE "public"."enum_redirects_to_type";
   DROP TYPE "public"."enum_forms_confirmation_type";

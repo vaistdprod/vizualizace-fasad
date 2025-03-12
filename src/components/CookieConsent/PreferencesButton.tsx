@@ -11,7 +11,7 @@ export function PreferencesButton() {
     <Button
       variant="outline"
       size="icon"
-      className="fixed bottom-4 left-4 h-11 w-11 rounded-full shadow-lg hover:shadow-xl transition-shadow"
+      className="fixed bottom-4 left-4 h-11 w-11 rounded-full transition-shadow"
       onClick={() => setOpen(true)}
       aria-label="Spravovat nastavení cookies"
     >

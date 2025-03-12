@@ -144,7 +144,6 @@ export interface Page {
   id: number;
   title: string;
   layout: (
-    | HeroSectionBlock
     | FeaturedProjectsBlock
     | WhyChooseUsBlock
     | AboutServicesBlock
@@ -153,14 +152,13 @@ export interface Page {
     | CTASectionBlock
     | PricingPlansBlock
     | GalleryGridBlock
-    | ContactInfoBlock
+    | ContactSectionBlock
     | FormBlock
     | TeamSectionBlock
     | ContentBlock
     | MediaBlock
     | LandingHeroBlock
     | TrustBadgesBlock
-    | BenefitsBlock
     | TestimonialsBlock
   )[];
   meta?: {
@@ -183,16 +181,21 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "HeroSectionBlock".
+ * via the `definition` "FeaturedProjectsBlock".
  */
-export interface HeroSectionBlock {
+export interface FeaturedProjectsBlock {
   title: string;
   description: string;
-  buttonText: string;
-  backgroundImage: number | Media;
+  projects?:
+    | {
+        title: string;
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'heroSection';
+  blockType: 'featuredProjects';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -291,24 +294,6 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FeaturedProjectsBlock".
- */
-export interface FeaturedProjectsBlock {
-  title: string;
-  description: string;
-  projects?:
-    | {
-        title: string;
-        image: number | Media;
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'featuredProjects';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "WhyChooseUsBlock".
  */
 export interface WhyChooseUsBlock {
@@ -332,8 +317,26 @@ export interface WhyChooseUsBlock {
  */
 export interface AboutServicesBlock {
   title: string;
+  subtitle?: string | null;
   description: string;
   image: number | Media;
+  features?:
+    | {
+        title: string;
+        description: string;
+        /**
+         * Enter an icon name from Lucide Icons (e.g., "check", "star", "shield")
+         */
+        icon?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  cta?: {
+    enabled?: boolean | null;
+    text?: string | null;
+    link?: string | null;
+  };
+  layout: 'imageLeft' | 'imageRight';
   id?: string | null;
   blockName?: string | null;
   blockType: 'aboutServices';
@@ -345,16 +348,50 @@ export interface AboutServicesBlock {
 export interface PartnershipProcessBlock {
   title: string;
   description: string;
+  /**
+   * Add up to 4 main steps in the process. Step 3 will be expanded with visualization details.
+   */
   steps?:
     | {
+        /**
+         * Number of this step in the process (1-4)
+         */
         number: number;
         title: string;
         description: string;
-        icon: 'MessageSquare' | 'Lightbulb' | 'ImageIcon' | 'FileEdit' | 'Send';
+        icon:
+          | 'MessageSquare'
+          | 'Lightbulb'
+          | 'ImageIcon'
+          | 'FileEdit'
+          | 'Send'
+          | 'CheckCircle'
+          | 'Camera'
+          | 'Clock'
+          | 'CreditCard';
         image: number | Media;
         id?: string | null;
       }[]
     | null;
+  /**
+   * Details for the visualization process (expanded from step 3)
+   */
+  visualizationDetail?: {
+    heading?: string | null;
+    description?: string | null;
+    /**
+     * The 3 phases of the visualization process
+     */
+    phases?:
+      | {
+          title: string;
+          subtitle?: string | null;
+          number: number;
+          id?: string | null;
+        }[]
+      | null;
+    timeframe?: string | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'partnershipProcess';
@@ -364,13 +401,24 @@ export interface PartnershipProcessBlock {
  * via the `definition` "ServiceCardsBlock".
  */
 export interface ServiceCardsBlock {
+  preHeading?: string | null;
+  heading: string;
+  description?: string | null;
   buttonText: string;
+  /**
+   * URL for the button
+   */
+  buttonHref?: string | null;
   services?:
     | {
         title: string;
         description: string;
         icon: 'Building2' | 'Cube3d' | 'Paintbrush' | 'Compass';
         image: number | Media;
+        /**
+         * URL for this service card button (overrides the section button link)
+         */
+        buttonHref?: string | null;
         features?:
           | {
               feature: string;
@@ -392,6 +440,10 @@ export interface CTASectionBlock {
   title: string;
   description: string;
   buttonText: string;
+  /**
+   * URL for the button
+   */
+  buttonHref?: string | null;
   buttonVariant?: ('default' | 'outline') | null;
   id?: string | null;
   blockName?: string | null;
@@ -402,9 +454,16 @@ export interface CTASectionBlock {
  * via the `definition` "PricingPlansBlock".
  */
 export interface PricingPlansBlock {
+  preHeading?: string | null;
+  heading: string;
+  description?: string | null;
   priceSuffix: string;
   popularLabel: string;
   buttonText: string;
+  /**
+   * Default URL for all plan buttons
+   */
+  buttonHref?: string | null;
   plans?:
     | {
         name: string;
@@ -417,6 +476,10 @@ export interface PricingPlansBlock {
               id?: string | null;
             }[]
           | null;
+        /**
+         * URL for this specific plan button (overrides the section button link)
+         */
+        buttonHref?: string | null;
         popular?: boolean | null;
         id?: string | null;
       }[]
@@ -430,6 +493,15 @@ export interface PricingPlansBlock {
  * via the `definition` "GalleryGridBlock".
  */
 export interface GalleryGridBlock {
+  preHeading?: string | null;
+  /**
+   * Heading displayed above the gallery
+   */
+  heading: string;
+  /**
+   * Optional description displayed below the heading
+   */
+  description?: string | null;
   projects?:
     | {
         title: string;
@@ -444,11 +516,14 @@ export interface GalleryGridBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ContactInfoBlock".
+ * via the `definition` "ContactSectionBlock".
  */
-export interface ContactInfoBlock {
-  title?: string | null;
-  items?:
+export interface ContactSectionBlock {
+  preHeading?: string | null;
+  heading: string;
+  description?: string | null;
+  contactTitle?: string | null;
+  contactItems?:
     | {
         icon: 'Mail' | 'Phone' | 'MapPin' | 'Clock' | 'Building';
         label: string;
@@ -456,15 +531,6 @@ export interface ContactInfoBlock {
         id?: string | null;
       }[]
     | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'contactInfo';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FormBlock".
- */
-export interface FormBlock {
   form: number | Form;
   enableIntro?: boolean | null;
   introContent?: {
@@ -484,7 +550,7 @@ export interface FormBlock {
   } | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'formBlock';
+  blockType: 'contactSection';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -661,6 +727,32 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FormBlock".
+ */
+export interface FormBlock {
+  form: number | Form;
+  enableIntro?: boolean | null;
+  introContent?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'formBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TeamSectionBlock".
  */
 export interface TeamSectionBlock {
@@ -743,8 +835,30 @@ export interface LandingHeroBlock {
   title: string;
   description: string;
   primaryButtonText: string;
-  secondaryButtonText: string;
+  /**
+   * URL for the primary button
+   */
+  primaryButtonHref?: string | null;
+  /**
+   * Optional secondary button text. If left empty, no secondary button will be displayed.
+   */
+  secondaryButtonText?: string | null;
+  /**
+   * URL for the secondary button
+   */
+  secondaryButtonHref?: string | null;
   backgroundImage: number | Media;
+  /**
+   * Text displayed in the badge above the title
+   */
+  badgeText?: string | null;
+  /**
+   * Settings for the scroll indicator at the bottom of the hero section
+   */
+  scrollIndicator?: {
+    enabled?: boolean | null;
+    text?: string | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'landingHero';
@@ -767,25 +881,6 @@ export interface TrustBadgesBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "BenefitsBlock".
- */
-export interface BenefitsBlock {
-  title: string;
-  description: string;
-  benefits?:
-    | {
-        title: string;
-        description: string;
-        icon: 'Clock' | 'CheckCircle2' | 'Shield';
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'benefits';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TestimonialsBlock".
  */
 export interface TestimonialsBlock {
@@ -798,6 +893,7 @@ export interface TestimonialsBlock {
         image: number | Media;
         quote: string;
         result: string;
+        rating?: number | null;
         id?: string | null;
       }[]
     | null;
@@ -1055,7 +1151,6 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
-        heroSection?: T | HeroSectionBlockSelect<T>;
         featuredProjects?: T | FeaturedProjectsBlockSelect<T>;
         whyChooseUs?: T | WhyChooseUsBlockSelect<T>;
         aboutServices?: T | AboutServicesBlockSelect<T>;
@@ -1064,14 +1159,13 @@ export interface PagesSelect<T extends boolean = true> {
         ctaSection?: T | CTASectionBlockSelect<T>;
         pricingPlans?: T | PricingPlansBlockSelect<T>;
         galleryGrid?: T | GalleryGridBlockSelect<T>;
-        contactInfo?: T | ContactInfoBlockSelect<T>;
+        contactSection?: T | ContactSectionBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
         teamSection?: T | TeamSectionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
         landingHero?: T | LandingHeroBlockSelect<T>;
         trustBadges?: T | TrustBadgesBlockSelect<T>;
-        benefits?: T | BenefitsBlockSelect<T>;
         testimonials?: T | TestimonialsBlockSelect<T>;
       };
   meta?:
@@ -1087,18 +1181,6 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "HeroSectionBlock_select".
- */
-export interface HeroSectionBlockSelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
-  buttonText?: T;
-  backgroundImage?: T;
-  id?: T;
-  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1141,8 +1223,25 @@ export interface WhyChooseUsBlockSelect<T extends boolean = true> {
  */
 export interface AboutServicesBlockSelect<T extends boolean = true> {
   title?: T;
+  subtitle?: T;
   description?: T;
   image?: T;
+  features?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        icon?: T;
+        id?: T;
+      };
+  cta?:
+    | T
+    | {
+        enabled?: T;
+        text?: T;
+        link?: T;
+      };
+  layout?: T;
   id?: T;
   blockName?: T;
 }
@@ -1163,6 +1262,21 @@ export interface PartnershipProcessBlockSelect<T extends boolean = true> {
         image?: T;
         id?: T;
       };
+  visualizationDetail?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        phases?:
+          | T
+          | {
+              title?: T;
+              subtitle?: T;
+              number?: T;
+              id?: T;
+            };
+        timeframe?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -1171,7 +1285,11 @@ export interface PartnershipProcessBlockSelect<T extends boolean = true> {
  * via the `definition` "ServiceCardsBlock_select".
  */
 export interface ServiceCardsBlockSelect<T extends boolean = true> {
+  preHeading?: T;
+  heading?: T;
+  description?: T;
   buttonText?: T;
+  buttonHref?: T;
   services?:
     | T
     | {
@@ -1179,6 +1297,7 @@ export interface ServiceCardsBlockSelect<T extends boolean = true> {
         description?: T;
         icon?: T;
         image?: T;
+        buttonHref?: T;
         features?:
           | T
           | {
@@ -1198,6 +1317,7 @@ export interface CTASectionBlockSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   buttonText?: T;
+  buttonHref?: T;
   buttonVariant?: T;
   id?: T;
   blockName?: T;
@@ -1207,9 +1327,13 @@ export interface CTASectionBlockSelect<T extends boolean = true> {
  * via the `definition` "PricingPlansBlock_select".
  */
 export interface PricingPlansBlockSelect<T extends boolean = true> {
+  preHeading?: T;
+  heading?: T;
+  description?: T;
   priceSuffix?: T;
   popularLabel?: T;
   buttonText?: T;
+  buttonHref?: T;
   plans?:
     | T
     | {
@@ -1223,6 +1347,7 @@ export interface PricingPlansBlockSelect<T extends boolean = true> {
               feature?: T;
               id?: T;
             };
+        buttonHref?: T;
         popular?: T;
         id?: T;
       };
@@ -1234,6 +1359,9 @@ export interface PricingPlansBlockSelect<T extends boolean = true> {
  * via the `definition` "GalleryGridBlock_select".
  */
 export interface GalleryGridBlockSelect<T extends boolean = true> {
+  preHeading?: T;
+  heading?: T;
+  description?: T;
   projects?:
     | T
     | {
@@ -1247,11 +1375,14 @@ export interface GalleryGridBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ContactInfoBlock_select".
+ * via the `definition` "ContactSectionBlock_select".
  */
-export interface ContactInfoBlockSelect<T extends boolean = true> {
-  title?: T;
-  items?:
+export interface ContactSectionBlockSelect<T extends boolean = true> {
+  preHeading?: T;
+  heading?: T;
+  description?: T;
+  contactTitle?: T;
+  contactItems?:
     | T
     | {
         icon?: T;
@@ -1259,6 +1390,9 @@ export interface ContactInfoBlockSelect<T extends boolean = true> {
         value?: T;
         id?: T;
       };
+  form?: T;
+  enableIntro?: T;
+  introContent?: T;
   id?: T;
   blockName?: T;
 }
@@ -1336,8 +1470,17 @@ export interface LandingHeroBlockSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   primaryButtonText?: T;
+  primaryButtonHref?: T;
   secondaryButtonText?: T;
+  secondaryButtonHref?: T;
   backgroundImage?: T;
+  badgeText?: T;
+  scrollIndicator?:
+    | T
+    | {
+        enabled?: T;
+        text?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -1358,24 +1501,6 @@ export interface TrustBadgesBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "BenefitsBlock_select".
- */
-export interface BenefitsBlockSelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
-  benefits?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        icon?: T;
-        id?: T;
-      };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TestimonialsBlock_select".
  */
 export interface TestimonialsBlockSelect<T extends boolean = true> {
@@ -1389,6 +1514,7 @@ export interface TestimonialsBlockSelect<T extends boolean = true> {
         image?: T;
         quote?: T;
         result?: T;
+        rating?: T;
         id?: T;
       };
   id?: T;
@@ -1795,11 +1921,6 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
-  newsletter?: {
-    title?: string | null;
-    description?: string | null;
-    buttonText?: string | null;
-  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1856,13 +1977,6 @@ export interface FooterSelect<T extends boolean = true> {
               id?: T;
             };
         id?: T;
-      };
-  newsletter?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        buttonText?: T;
       };
   updatedAt?: T;
   createdAt?: T;

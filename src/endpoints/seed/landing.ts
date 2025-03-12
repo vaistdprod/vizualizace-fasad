@@ -1,3 +1,4 @@
+// src/seed/landing.ts
 import type { RequiredDataFromCollectionSlug } from 'payload'
 import type { Media, Form } from '@/payload-types'
 
@@ -6,7 +7,7 @@ type LandingArgs = {
   testimonialImage1: Media
   testimonialImage2: Media
   testimonialImage3: Media
-  landingForm: Form // Added form argument
+  landingForm: Form
 }
 
 export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
@@ -26,8 +27,15 @@ export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pag
       description:
         'Profesionální služby 3D vizualizace s dodáním do 48 hodin. Oživte své návrhy s fotorealistickou kvalitou.',
       primaryButtonText: 'Získat bezplatnou konzultaci',
+      primaryButtonHref: '/kontakt',
       secondaryButtonText: 'Zobrazit portfolio',
+      secondaryButtonHref: '/galerie',
       backgroundImage: landingHeroImage.id,
+      badgeText: 'Vizualizace fasád',
+      scrollIndicator: {
+        enabled: true,
+        text: 'Scroll',
+      },
     },
     {
       blockType: 'trustBadges',
@@ -39,10 +47,10 @@ export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pag
       ],
     },
     {
-      blockType: 'benefits',
+      blockType: 'whyChooseUs',
       title: 'Proč zvolit FacadeVision?',
       description: 'Špičkové vizualizační služby, kterým důvěřují přední architektonické firmy',
-      benefits: [
+      features: [
         {
           title: '48-Hour Delivery',
           description: 'Get your architectural visualizations in just 2 days',
@@ -51,12 +59,12 @@ export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pag
         {
           title: 'Photorealistic Quality',
           description: 'Ultra-high resolution renders with precise lighting',
-          icon: 'CheckCircle2',
+          icon: 'Star',
         },
         {
           title: '100% Satisfaction',
-          description: 'Unlimited revisions until you’re completely satisfied',
-          icon: 'Shield',
+          description: 'Unlimited revisions until you are completely satisfied',
+          icon: 'PiggyBank',
         },
       ],
     },
@@ -72,6 +80,7 @@ export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pag
           quote:
             'FacadeVision proměnil náš koncept v úchvatné vizualizace, které nám pomohly vyhrát projekt za 50M dolarů.',
           result: 'Vyhráli jsme projekt za 50M dolarů',
+          rating: 5,
         },
         {
           name: 'Sarah Martinez',
@@ -80,6 +89,7 @@ export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pag
           quote:
             '48hodinová doba dodání s výjimečnou kvalitou. Naše prezentace nyní vynikají díky fotorealistickým vizualizacím.',
           result: 'O 30 % rychlejší schvalování projektů',
+          rating: 5,
         },
         {
           name: 'David Chen',
@@ -88,11 +98,26 @@ export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pag
           quote:
             'Pozornost týmu k detailům a přesnost osvětlení je bezkonkurenční. Stali se naším preferovaným partnerem pro vizualizace.',
           result: '100% spokojenost klientů',
+          rating: 5,
         },
       ],
     },
     {
-      blockType: 'formBlock',
+      blockType: 'contactSection',
+      heading: 'Začněte svůj projekt ještě dnes',
+      description: 'Kontaktujte nás pro bezplatnou konzultaci a cenovou nabídku.',
+      contactItems: [
+        {
+          icon: 'Mail',
+          label: 'E-mail',
+          value: 'info@vizualizacefasad.cz',
+        },
+        {
+          icon: 'Phone',
+          label: 'Telefon',
+          value: '+420 725 136 901',
+        },
+      ],
       form: landingForm.id,
       enableIntro: true,
       introContent: {

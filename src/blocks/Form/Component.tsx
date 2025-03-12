@@ -3,18 +3,20 @@
 import type { FormFieldBlock, Form as FormType } from '@payloadcms/plugin-form-builder/types'
 import { useRouter } from 'next/navigation'
 import React, { useCallback, useState } from 'react'
+import { motion } from 'framer-motion'
 import { useForm, FormProvider } from 'react-hook-form'
 import RichText from '@/components/RichText'
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
+import { fadeInUp, defaultViewport } from '@/utilities/animations'
 import { fields } from './fields'
 import { getClientSideURL } from '@/utilities/getURL'
 
 export type FormBlockType = {
   blockName?: string
   blockType?: 'formBlock'
-  enableIntro: boolean
+  enableIntro: boolean | null // Allow null from Payload
   form: FormType
   introContent?: SerializedEditorState
 }
@@ -31,6 +33,11 @@ export const FormBlock: React.FC<
     introContent,
     id,
   } = props
+
+  // Ensure formID is a string
+  if (!formID) {
+    throw new Error('Form ID is missing')
+  }
 
   const formMethods = useForm({
     defaultValues: formFromProps.fields as unknown as Record<string, unknown>,
@@ -53,29 +60,29 @@ export const FormBlock: React.FC<
       const submitForm = async () => {
         setError(undefined)
 
-        const dataToSend = Object.entries(data).map(([name, value]) => ({
-          field: name,
-          value,
-        }))
+        const formData = new FormData()
+        formData.append('form', formID) // formID is now guaranteed to be a string
 
-        loadingTimerID = setTimeout(() => {
-          setIsLoading(true)
-        }, 1000)
+        Object.entries(data).forEach(([name, value]) => {
+          if (value instanceof FileList) {
+            Array.from(value).forEach((file, index) => {
+              formData.append(`${name}[${index}]`, file)
+            })
+          } else if (value !== undefined && value !== null) {
+            // Skip undefined/null
+            formData.append(name, String(value))
+          }
+        })
+
+        loadingTimerID = setTimeout(() => setIsLoading(true), 1000)
 
         try {
           const req = await fetch(`${getClientSideURL()}/api/custom-form-submissions`, {
-            body: JSON.stringify({
-              form: formID,
-              submissionData: dataToSend,
-            }),
-            headers: {
-              'Content-Type': 'application/json',
-            },
+            body: formData,
             method: 'POST',
           })
 
           const res = await req.json()
-
           clearTimeout(loadingTimerID)
 
           if (req.status >= 400) {
@@ -96,9 +103,7 @@ export const FormBlock: React.FC<
           }
         } catch (_err) {
           setIsLoading(false)
-          setError({
-            message: 'Něco se pokazilo. Zkuste to prosím později.',
-          })
+          setError({ message: 'Něco se pokazilo. Zkuste to prosím později.' })
         }
       }
 
@@ -108,8 +113,15 @@ export const FormBlock: React.FC<
   )
 
   return (
-    <div className="mx-auto max-w-3xl px-4 md:px-6" id={`block-${id}`}>
-      <div className="rounded-2xl bg-card/30 backdrop-blur-[2px] border p-8">
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={defaultViewport}
+      variants={fadeInUp}
+      className="mx-auto max-w-3xl px-4 md:px-6"
+      id={`block-${id}`}
+    >
+      <div className="rounded-2xl bg-card/30 backdrop-blur-xs border p-8">
         {enableIntro && introContent && !hasSubmitted && (
           <RichText className="mb-6" data={introContent} enableGutter={false} />
         )}
@@ -168,6 +180,6 @@ export const FormBlock: React.FC<
           )}
         </FormProvider>
       </div>
-    </div>
+    </motion.div>
   )
 }

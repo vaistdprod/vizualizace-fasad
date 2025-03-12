@@ -14,9 +14,14 @@ export const pricing: (args: PricingArgs) => RequiredDataFromCollectionSlug<'pag
   layout: [
     {
       blockType: 'pricingPlans',
+      preHeading: 'Ceník',
+      heading: 'Transparentní cenová politika',
+      description:
+        'Nabízíme jasně definované cenové balíčky pro různé typy projektů. Vyberte si řešení, které nejlépe odpovídá vašim potřebám.',
       priceSuffix: 'za projekt',
       popularLabel: 'Oblíbené',
       buttonText: 'Začít',
+      buttonHref: '/kontakt',
       plans: [
         {
           name: 'Rodinný dům',
@@ -30,6 +35,7 @@ export const pricing: (args: PricingArgs) => RequiredDataFromCollectionSlug<'pag
             { feature: 'Zpracování do 5 pracovních dnů' },
             { feature: 'Realistické vizualizace' },
           ],
+          buttonHref: '/kontakt?plan=basic',
         },
         {
           name: 'Rodinný dům PLUS',
@@ -46,6 +52,7 @@ export const pricing: (args: PricingArgs) => RequiredDataFromCollectionSlug<'pag
             { feature: 'Dva pohledy domu' },
             { feature: 'Konzultace materiálů' },
           ],
+          buttonHref: '/kontakt?plan=plus',
         },
         {
           name: 'Komerční objekt',
@@ -61,6 +68,7 @@ export const pricing: (args: PricingArgs) => RequiredDataFromCollectionSlug<'pag
             { feature: 'Realistické vizualizace' },
             { feature: 'Individuální přístup' },
           ],
+          buttonHref: '/kontakt?plan=commercial',
         },
       ],
     },
@@ -70,6 +78,7 @@ export const pricing: (args: PricingArgs) => RequiredDataFromCollectionSlug<'pag
       description:
         'Pošlete nám fotografie vašeho domu a my vám připravíme nezávaznou cenovou nabídku na míru.',
       buttonText: 'Nezávazná poptávka',
+      buttonHref: '/kontakt',
       buttonVariant: 'outline',
     },
   ],

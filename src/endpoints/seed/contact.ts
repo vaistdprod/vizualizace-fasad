@@ -1,3 +1,4 @@
+// src/seed/contact.ts
 import type { RequiredDataFromCollectionSlug } from 'payload'
 import type { Media, Form } from '@/payload-types'
 
@@ -12,8 +13,7 @@ type ContactArgs = {
 export const contact: (args: ContactArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
   contactImage,
   sarahImage,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  michaelImage,
+  michaelImage: _michaelImage, // Unused but kept for args consistency
   emilyImage,
   contactForm,
 }) => ({
@@ -22,9 +22,13 @@ export const contact: (args: ContactArgs) => RequiredDataFromCollectionSlug<'pag
   title: 'Kontaktujte nás',
   layout: [
     {
-      blockType: 'contactInfo',
-      title: 'Kontaktní informace',
-      items: [
+      blockType: 'contactSection',
+      preHeading: 'Kontaktujte nás',
+      heading: 'Jsme tu pro vás',
+      description:
+        'Máte dotaz nebo zájem o naše služby? Neváhejte nás kontaktovat. Rádi vám pomůžeme s výběrem vhodného řešení pro váš dům.',
+      contactTitle: 'Kontaktní informace',
+      contactItems: [
         {
           icon: 'Mail',
           label: 'E-mail',
@@ -46,11 +50,8 @@ export const contact: (args: ContactArgs) => RequiredDataFromCollectionSlug<'pag
           value: '04189841',
         },
       ],
-    },
-    {
-      blockType: 'formBlock',
       form: contactForm.id,
-      enableIntro: false,
+      enableIntro: false, // No intro content needed here
     },
     {
       blockType: 'teamSection',

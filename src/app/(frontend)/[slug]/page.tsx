@@ -56,8 +56,8 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   const { layout } = page
 
-  // Conditionally set the padding-top class based on whether it's the homepage
-  const articleClassName = slug === 'home' ? 'pt-0 pb-24' : 'pt-16 pb-24'
+  // Conditionally set the padding-top class based on whether it's the homepage or landing page
+  const articleClassName = slug === 'home' || slug === 'landing' ? 'pt-0 pb-24' : 'pt-16 pb-24'
 
   return (
     <article className={articleClassName}>
@@ -98,6 +98,7 @@ const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
         equals: slug,
       },
     },
+    depth: 1, // Add this to populate relationships
   })
 
   return result.docs?.[0] || null

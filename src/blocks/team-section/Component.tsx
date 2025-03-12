@@ -5,25 +5,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Mail, Phone } from 'lucide-react'
 import type { TeamSectionBlock as TeamSectionBlockProps } from '@/payload-types'
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5 },
-  },
-}
+import { fadeInUp, staggerContainer, staggerItem, defaultViewport } from '@/utilities/animations'
 
 export const TeamSectionBlock: React.FC<TeamSectionBlockProps & { id?: string }> = (props) => {
   const { id, title, description, team } = props
@@ -32,9 +14,10 @@ export const TeamSectionBlock: React.FC<TeamSectionBlockProps & { id?: string }>
     <section className="py-24" id={`block-${id}`}>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          initial="hidden"
+          whileInView="visible"
+          viewport={defaultViewport}
+          variants={fadeInUp}
           className="mx-auto max-w-2xl text-center mb-16"
         >
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">{title}</h2>
@@ -42,17 +25,17 @@ export const TeamSectionBlock: React.FC<TeamSectionBlockProps & { id?: string }>
         </motion.div>
 
         <motion.div
-          variants={containerVariants}
+          variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={defaultViewport}
           className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
         >
           {team?.map((member, index) => (
             <motion.div
               key={index}
-              variants={itemVariants}
-              className="rounded-2xl bg-card/30 backdrop-blur-[2px] border p-8 shadow-lg"
+              variants={staggerItem}
+              className="rounded-2xl bg-card/30 backdrop-blur-xs border p-8 "
             >
               <div className="flex items-center gap-6 mb-6">
                 <div className="relative h-16 w-16 overflow-hidden rounded-full">
@@ -63,6 +46,7 @@ export const TeamSectionBlock: React.FC<TeamSectionBlockProps & { id?: string }>
                     alt={member.name}
                     fill
                     className="object-cover"
+                    sizes="64px"
                   />
                 </div>
                 <div>

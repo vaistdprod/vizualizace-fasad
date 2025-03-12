@@ -6,27 +6,7 @@ import { motion } from 'framer-motion'
 import { Building2, Cuboid as Cube3d, Paintbrush, Compass } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import type { ServiceCardsBlock as ServiceCardsBlockProps } from '@/payload-types'
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-    },
-  },
-}
+import { fadeInUp, staggerContainer, staggerItem, defaultViewport } from '@/utilities/animations'
 
 const iconMap = {
   Building2,
@@ -36,59 +16,103 @@ const iconMap = {
 }
 
 export const ServiceCardsBlock: React.FC<ServiceCardsBlockProps & { id?: string }> = (props) => {
-  const { id, services, buttonText } = props
+  const { id, services, buttonText, buttonHref, heading, preHeading, description } = props
 
   return (
-    <motion.div
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      className="max-w-7xl mx-auto px-4 md:px-6 grid gap-8 md:grid-cols-2 lg:grid-cols-3"
-      id={`block-${id}`}
-    >
-      {services?.map((service, index) => {
-        const Icon = iconMap[service.icon as keyof typeof iconMap]
-        return (
-          <motion.div
-            key={index}
-            variants={itemVariants}
-            className="group relative overflow-hidden rounded-lg bg-card/30 backdrop-blur-[2px] border shadow-lg"
-          >
-            <div className="relative h-48">
-              <Image
-                src={
-                  typeof service.image === 'object' && service.image?.url ? service.image.url : ''
-                }
-                alt={service.title}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-background/20 dark:from-black/90 dark:to-black/20" />
-              <div className="absolute bottom-4 left-4 flex items-center">
-                {Icon && <Icon className="h-6 w-6 mr-2" />}
-                <h3 className="text-xl font-semibold text-gray-800 dark:text-white">
+    <div className="relative overflow-hidden">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={defaultViewport}
+        variants={fadeInUp}
+        className="mx-auto max-w-3xl text-center mb-20"
+      >
+        {preHeading && (
+          <div className="inline-block mb-6">
+            <span className="inline-block py-1 px-4 rounded-full text-sm font-medium bg-primary/10 text-primary">
+              {preHeading}
+            </span>
+          </div>
+        )}
+        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6 bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
+          {heading}
+        </h1>
+        {description && (
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            {description}
+          </p>
+        )}
+      </motion.div>
+      <motion.div
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={defaultViewport}
+        className="max-w-7xl mx-auto px-4 md:px-6 grid gap-8 md:grid-cols-2 lg:grid-cols-3"
+        id={`block-${id}`}
+      >
+        {services?.map((service, index) => {
+          const Icon = iconMap[service.icon as keyof typeof iconMap]
+          return (
+            <motion.div
+              key={index}
+              variants={staggerItem}
+              className="relative h-full flex flex-col overflow-hidden rounded-xl bg-card/50 backdrop-blur-md border border-border/50  transition-all duration-300 hover:shadow-primary/5 hover:border-primary/20"
+            >
+              <div className="relative h-56 overflow-hidden">
+                <Image
+                  src={
+                    typeof service.image === 'object' && service.image?.url ? service.image.url : ''
+                  }
+                  alt={service.title}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/60 to-transparent" />
+
+                {/* Icon badge */}
+                <div className="absolute top-4 right-4 p-2.5 rounded-full bg-primary/10 backdrop-blur-md border border-primary/20 text-primary ">
+                  {Icon && <Icon className="h-6 w-6" />}
+                </div>
+              </div>
+
+              <div className="flex flex-col flex-grow p-6">
+                <h3 className="text-2xl font-bold mb-3 text-foreground hover:text-primary transition-colors duration-300">
                   {service.title}
                 </h3>
+
+                <p className="mb-6 text-muted-foreground">{service.description}</p>
+
+                <div className="mt-auto">
+                  <div className="mb-6 p-4 rounded-lg bg-muted/50 border border-border/50">
+                    <ul className="space-y-2.5">
+                      {service.features?.map((item, featureIndex) => (
+                        <li key={featureIndex} className="flex items-center text-sm">
+                          <span className="flex-shrink-0 h-1.5 w-1.5 rounded-full bg-primary mr-2.5" />
+                          <span className="font-medium">{item.feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <Button
+                    variant="default"
+                    className="w-full group relative overflow-hidden"
+                    href={service.buttonHref || buttonHref || '#'}
+                  >
+                    <span className="relative z-10 flex items-center justify-center w-full">
+                      {buttonText}
+                      <span className="ml-2 transition-transform group-hover:translate-x-1">→</span>
+                    </span>
+                    <span className="absolute inset-0 bg-primary/10"></span>
+                  </Button>
+                </div>
               </div>
-            </div>
-            <div className="p-6">
-              <p className="mb-4 text-muted-foreground">{service.description}</p>
-              <ul className="space-y-2">
-                {service.features?.map((item, featureIndex) => (
-                  <li key={featureIndex} className="flex items-center text-sm">
-                    <span className="h-1.5 w-1.5 rounded-full bg-primary mr-2" />
-                    {item.feature}
-                  </li>
-                ))}
-              </ul>
-              <Button variant="ghost" className="mt-6 group">
-                {buttonText}
-                <span className="ml-2 transition-transform group-hover:translate-x-1">→</span>
-              </Button>
-            </div>
-          </motion.div>
-        )
-      })}
-    </motion.div>
+            </motion.div>
+          )
+        })}
+      </motion.div>
+    </div>
   )
 }

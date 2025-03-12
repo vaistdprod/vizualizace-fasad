@@ -9,11 +9,36 @@ export const ServiceCards: Block = {
   },
   fields: [
     {
+      name: 'preHeading',
+      type: 'text',
+      label: 'Pre-Heading',
+    },
+    {
+      name: 'heading',
+      type: 'text',
+      label: 'Section Heading',
+      required: true,
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+      label: 'Description',
+    },
+    {
       name: 'buttonText',
       type: 'text',
       required: true,
       label: 'Button Text',
       defaultValue: 'Zjistit více',
+    },
+    {
+      name: 'buttonHref',
+      type: 'text',
+      required: false,
+      label: 'Button Link',
+      admin: {
+        description: 'URL for the button',
+      },
     },
     {
       name: 'services',
@@ -51,6 +76,15 @@ export const ServiceCards: Block = {
           relationTo: 'media',
           required: true,
           label: 'Service Image',
+        },
+        {
+          name: 'buttonHref',
+          type: 'text',
+          required: false,
+          label: 'Service Button Link',
+          admin: {
+            description: 'URL for this service card button (overrides the section button link)',
+          },
         },
         {
           name: 'features',

@@ -9,6 +9,22 @@ export const PricingPlans: Block = {
   },
   fields: [
     {
+      name: 'preHeading',
+      type: 'text',
+      label: 'Pre-Heading',
+    },
+    {
+      name: 'heading',
+      type: 'text',
+      label: 'Section Heading',
+      required: true,
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+      label: 'Description',
+    },
+    {
       name: 'priceSuffix',
       type: 'text',
       required: true,
@@ -28,6 +44,15 @@ export const PricingPlans: Block = {
       required: true,
       label: 'Button Text',
       defaultValue: 'Začít',
+    },
+    {
+      name: 'buttonHref',
+      type: 'text',
+      required: false,
+      label: 'Button Link',
+      admin: {
+        description: 'Default URL for all plan buttons',
+      },
     },
     {
       name: 'plans',
@@ -76,6 +101,15 @@ export const PricingPlans: Block = {
               label: 'Feature',
             },
           ],
+        },
+        {
+          name: 'buttonHref',
+          type: 'text',
+          required: false,
+          label: 'Plan Button Link',
+          admin: {
+            description: 'URL for this specific plan button (overrides the section button link)',
+          },
         },
         {
           name: 'popular',

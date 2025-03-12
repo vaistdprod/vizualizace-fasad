@@ -28,6 +28,10 @@ export const gallery: (args: GalleryArgs) => RequiredDataFromCollectionSlug<'pag
   layout: [
     {
       blockType: 'galleryGrid',
+      preHeading: 'Naše práce',
+      heading: 'Galerie realizací',
+      description:
+        'Prohlédněte si ukázky našich realizací. Porovnejte původní stav, vizualizaci a výslednou realizaci.',
       projects: [
         { title: 'Realizace fasády Ostrava - před', image: modernOffice.id, location: 'Ostrava' },
         {

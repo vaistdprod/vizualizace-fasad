@@ -23,7 +23,7 @@ export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
 
   return (
     <footer className="bg-muted/30 border-t">
-      <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
+      <div className="mx-auto max-w-7xl px-6 pt-16 lg:px-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
           {/* Company Info */}
           <motion.div
@@ -79,7 +79,7 @@ export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
           ))}
         </div>
 
-        <div className="mt-12 pt-8 border-t">
+        <div className="mt-12 py-8 border-t">
           <p className="text-sm text-muted-foreground text-center">
             © {new Date().getFullYear()} VizualizaceFasad.cz - Terapeutika – grafika s.r.o. Všechna
             práva vyhrazena.

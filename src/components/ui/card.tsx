@@ -4,11 +4,7 @@ import * as React from 'react'
 const Card: React.FC<
   { ref?: React.Ref<HTMLDivElement> } & React.HTMLAttributes<HTMLDivElement>
 > = ({ className, ref, ...props }) => (
-  <div
-    className={cn('rounded-xl bg-card text-card-foreground shadow-xs', className)}
-    ref={ref}
-    {...props}
-  />
+  <div className={cn('rounded-xl bg-card text-card-foreground ', className)} ref={ref} {...props} />
 )
 
 const CardHeader: React.FC<

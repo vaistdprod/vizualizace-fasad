@@ -364,6 +364,15 @@ export const seed = async ({
               { label: 'Komerční objekty', url: '/sluzby#komercni' },
             ],
           },
+          {
+            title: 'Otevírací doba',
+            links: [
+              { label: 'Pondělí - Pátek: 9:00 - 17:00', url: '#' },
+              { label: 'Sobota: Dle dohody', url: '#' },
+              { label: 'Neděle: Zavřeno', url: '#' },
+              { label: 'Státní svátky: Zavřeno', url: '#' },
+            ],
+          },
         ],
       },
       depth: 0,

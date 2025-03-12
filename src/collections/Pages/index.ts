@@ -2,7 +2,6 @@ import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
-import { HeroSection } from '../../blocks/hero-section/config'
 import { FeaturedProjects } from '../../blocks/featured-projects/config'
 import { WhyChooseUs } from '../../blocks/why-choose-us/config'
 import { AboutServices } from '../../blocks/about-services/config'
@@ -11,15 +10,13 @@ import { ServiceCards } from '../../blocks/service-cards/config'
 import { CTASection } from '../../blocks/cta-section/config'
 import { PricingPlans } from '../../blocks/pricing-plans/config'
 import { GalleryGrid } from '../../blocks/gallery-grid/config'
-import { ContactInfo } from '../../blocks/contact-info/config'
+import { ContactSection } from '../../blocks/contact-section/config'
 import { FormBlock } from '../../blocks/Form/config'
 import { TeamSection } from '../../blocks/team-section/config'
 import { Content } from '../../blocks/Content/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
-// New block imports
 import { LandingHero } from '../../blocks/landing-hero/config'
 import { TrustBadges } from '../../blocks/trust-badges/config'
-import { Benefits } from '../../blocks/benefits/config'
 import { Testimonials } from '../../blocks/testimonials/config'
 import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
@@ -88,7 +85,6 @@ export const Pages: CollectionConfig = {
               name: 'layout',
               type: 'blocks',
               blocks: [
-                HeroSection,
                 FeaturedProjects,
                 WhyChooseUs,
                 AboutServices,
@@ -97,15 +93,13 @@ export const Pages: CollectionConfig = {
                 CTASection,
                 PricingPlans,
                 GalleryGrid,
-                ContactInfo,
+                ContactSection,
                 FormBlock,
                 TeamSection,
                 Content,
                 MediaBlock,
-                // New blocks added here
                 LandingHero,
                 TrustBadges,
-                Benefits,
                 Testimonials,
               ],
               required: true,

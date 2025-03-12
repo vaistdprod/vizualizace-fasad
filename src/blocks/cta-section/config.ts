@@ -27,6 +27,15 @@ export const CTASection: Block = {
       label: 'Button Text',
     },
     {
+      name: 'buttonHref',
+      type: 'text',
+      required: false,
+      label: 'Button Link',
+      admin: {
+        description: 'URL for the button',
+      },
+    },
+    {
       name: 'buttonVariant',
       type: 'select',
       label: 'Button Variant',

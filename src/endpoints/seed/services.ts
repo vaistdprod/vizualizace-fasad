@@ -20,7 +20,12 @@ export const services: (args: ServicesArgs) => RequiredDataFromCollectionSlug<'p
   layout: [
     {
       blockType: 'serviceCards',
+      preHeading: 'Naše služby',
+      heading: 'Profesionální vizualizace fasád',
+      description:
+        'Nabízíme komplexní služby v oblasti vizualizací fasád pro novostavby i rekonstrukce. Vyzkoušejte různé barevné kombinace a materiály před samotnou realizací.',
       buttonText: 'Zjistit více',
+      buttonHref: '/sluzby',
       services: [
         {
           title: 'Vizualizace fasád novostaveb',
@@ -33,6 +38,7 @@ export const services: (args: ServicesArgs) => RequiredDataFromCollectionSlug<'p
             { feature: 'Obkladové materiály' },
             { feature: 'Realistické vizualizace' },
           ],
+          buttonHref: '/sluzby#novostavby',
         },
         {
           title: 'Návrhy rekonstrukcí',
@@ -45,6 +51,7 @@ export const services: (args: ServicesArgs) => RequiredDataFromCollectionSlug<'p
             { feature: 'Fasádní prvky' },
             { feature: 'Barevná řešení' },
           ],
+          buttonHref: '/sluzby#rekonstrukce',
         },
         {
           title: 'Fasádní obklady',
@@ -57,6 +64,7 @@ export const services: (args: ServicesArgs) => RequiredDataFromCollectionSlug<'p
             { feature: 'Kamenné obklady' },
             { feature: 'Cihlové obklady' },
           ],
+          buttonHref: '/sluzby#obklady',
         },
         {
           title: 'Komerční objekty',
@@ -69,6 +77,7 @@ export const services: (args: ServicesArgs) => RequiredDataFromCollectionSlug<'p
             { feature: 'Komerční budovy' },
             { feature: 'Průmyslové objekty' },
           ],
+          buttonHref: '/sluzby#komercni',
         },
       ],
     },
@@ -77,6 +86,7 @@ export const services: (args: ServicesArgs) => RequiredDataFromCollectionSlug<'p
       title: 'Máte zájem o vizualizaci fasády?',
       description: 'Pošlete nám fotografie vašeho domu, připravíme nezávaznou cenovou nabídku.',
       buttonText: 'Nezávazná poptávka',
+      buttonHref: '/kontakt',
     },
   ],
   meta: {

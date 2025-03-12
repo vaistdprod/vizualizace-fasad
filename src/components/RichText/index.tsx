@@ -10,7 +10,6 @@ import {
   RichText as RichTextWithoutBlocks,
 } from '@payloadcms/richtext-lexical/react'
 
-import { HeroSectionBlock } from '@/blocks/hero-section/Component'
 import { FeaturedProjectsBlock } from '@/blocks/featured-projects/Component'
 import { WhyChooseUsBlock } from '@/blocks/why-choose-us/Component'
 import { AboutServicesBlock } from '@/blocks/about-services/Component'
@@ -19,16 +18,12 @@ import { ServiceCardsBlock } from '@/blocks/service-cards/Component'
 import { CTASectionBlock } from '@/blocks/cta-section/Component'
 import { PricingPlansBlock } from '@/blocks/pricing-plans/Component'
 import { GalleryGridBlock } from '@/blocks/gallery-grid/Component'
-import { ContactInfoBlock } from '@/blocks/contact-info/Component'
 import { TeamSectionBlock } from '@/blocks/team-section/Component'
-// New block imports
 import { LandingHeroBlock } from '@/blocks/landing-hero/Component'
 import { TrustBadgesBlock } from '@/blocks/trust-badges/Component'
-import { BenefitsBlock } from '@/blocks/benefits/Component'
 import { TestimonialsBlock } from '@/blocks/testimonials/Component'
 
 import type {
-  HeroSectionBlock as HeroSectionBlockProps,
   FeaturedProjectsBlock as FeaturedProjectsBlockProps,
   WhyChooseUsBlock as WhyChooseUsBlockProps,
   AboutServicesBlock as AboutServicesBlockProps,
@@ -37,12 +32,9 @@ import type {
   CTASectionBlock as CTASectionBlockProps,
   PricingPlansBlock as PricingPlansBlockProps,
   GalleryGridBlock as GalleryGridBlockProps,
-  ContactInfoBlock as ContactInfoBlockProps,
   TeamSectionBlock as TeamSectionBlockProps,
-  // New block types
   LandingHeroBlock as LandingHeroBlockProps,
   TrustBadgesBlock as TrustBadgesBlockProps,
-  BenefitsBlock as BenefitsBlockProps,
   TestimonialsBlock as TestimonialsBlockProps,
 } from '@/payload-types'
 import { cn } from '@/utilities/ui'
@@ -50,7 +42,6 @@ import { cn } from '@/utilities/ui'
 type NodeTypes =
   | DefaultNodeTypes
   | SerializedBlockNode<
-      | HeroSectionBlockProps
       | FeaturedProjectsBlockProps
       | WhyChooseUsBlockProps
       | AboutServicesBlockProps
@@ -59,12 +50,9 @@ type NodeTypes =
       | CTASectionBlockProps
       | PricingPlansBlockProps
       | GalleryGridBlockProps
-      | ContactInfoBlockProps
       | TeamSectionBlockProps
-      // New block types added here
       | LandingHeroBlockProps
       | TrustBadgesBlockProps
-      | BenefitsBlockProps
       | TestimonialsBlockProps
     >
 
@@ -81,7 +69,6 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
   ...defaultConverters,
   ...LinkJSXConverter({ internalDocToHref }),
   blocks: {
-    heroSection: ({ node }) => <HeroSectionBlock {...node.fields} />,
     featuredProjects: ({ node }) => <FeaturedProjectsBlock {...node.fields} />,
     whyChooseUs: ({ node }) => <WhyChooseUsBlock {...node.fields} />,
     aboutServices: ({ node }) => <AboutServicesBlock {...node.fields} />,
@@ -90,12 +77,9 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
     ctaSection: ({ node }) => <CTASectionBlock {...node.fields} />,
     pricingPlans: ({ node }) => <PricingPlansBlock {...node.fields} />,
     galleryGrid: ({ node }) => <GalleryGridBlock {...node.fields} />,
-    contactInfo: ({ node }) => <ContactInfoBlock {...node.fields} />,
     teamSection: ({ node }) => <TeamSectionBlock {...node.fields} />,
-    // New blocks added here
     landingHero: ({ node }) => <LandingHeroBlock {...node.fields} />,
     trustBadges: ({ node }) => <TrustBadgesBlock {...node.fields} />,
-    benefits: ({ node }) => <BenefitsBlock {...node.fields} />,
     testimonials: ({ node }) => <TestimonialsBlock {...node.fields} />,
   },
 })

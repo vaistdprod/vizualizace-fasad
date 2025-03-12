@@ -9,6 +9,28 @@ export const GalleryGrid: Block = {
   },
   fields: [
     {
+      name: 'preHeading',
+      type: 'text',
+      label: 'Pre-Heading',
+    },
+    {
+      name: 'heading',
+      type: 'text',
+      label: 'Section Heading',
+      required: true,
+      admin: {
+        description: 'Heading displayed above the gallery',
+      },
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+      label: 'Description',
+      admin: {
+        description: 'Optional description displayed below the heading',
+      },
+    },
+    {
       name: 'projects',
       type: 'array',
       label: 'Projects',

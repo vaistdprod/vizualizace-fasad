@@ -16,14 +16,12 @@ interface HeaderClientProps {
 
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [mounted, setMounted] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const { headerTheme } = useHeaderTheme()
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen)
 
   useEffect(() => {
-    setMounted(true)
     const handleScroll = () => setScrolled(window.scrollY > 0)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
@@ -45,8 +43,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     return () => document.removeEventListener('click', handleClickOutside)
   }, [isMobileMenuOpen])
 
-  if (!mounted) return null
-
   const { navItems = [], topBar } = data
 
   return (
@@ -54,8 +50,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       {topBar && <TopBar phone={topBar.phone} email={topBar.email} />}
       <header
         className={cn(
-          'sticky top-0 z-50 w-full transition-all duration-300',
-          scrolled ? 'backdrop-blur-lg bg-background/80 border-b' : 'bg-transparent',
+          'sticky top-0 z-50 w-full transition-all duration-300 border-b',
+          scrolled
+            ? 'backdrop-blur-xl bg-background/80 border-opacity-100'
+            : 'bg-transparent border-transparent',
         )}
         {...(headerTheme ? { 'data-theme': headerTheme } : {})}
       >
@@ -67,11 +65,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             className="flex lg:flex-1"
           >
             <Link href="/" className="flex items-center">
-              <span className="font-semibold text-xl">VizualizaceFasad.cz</span>
+              <span className="font-semibold text-xl">studiofasad.cz</span>
             </Link>
           </motion.div>
 
-          <nav className="hidden lg:flex lg:gap-x-12">
+          <nav className="hidden lg:flex lg:gap-x-8">
             {navItems?.map((item, index) => (
               <motion.div
                 key={item.link.url}
@@ -81,7 +79,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               >
                 <Link
                   href={item.link.url || '#'}
-                  className="text-sm font-semibold leading-6 hover:text-primary/80 transition-colors"
+                  className="text-sm font-semibold leading-6 hover:text-primary/80"
                 >
                   {item.link.label}
                 </Link>
@@ -89,7 +87,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             ))}
           </nav>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center pl-4 h-full">
             <ThemeSelector />
             <motion.button
               className="lg:hidden cursor-pointer"
@@ -104,7 +102,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
         {isMobileMenuOpen && (
           <motion.div
-            className="lg:hidden bg-background/95 backdrop-blur-lg border-b mobile-menu"
+            className="lg:hidden bg-background/95 backdrop-blur-xl border-b mobile-menu"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}

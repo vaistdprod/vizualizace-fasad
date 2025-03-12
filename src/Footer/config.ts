@@ -38,7 +38,7 @@ export const Footer: GlobalConfig = {
       name: 'footerColumns',
       type: 'array',
       label: 'Sloupce patičky',
-      maxRows: 2, // Limit to two columns (Quick Links, Services)
+      maxRows: 3, // Allow three columns (Quick Links, Services, Contact Info)
       fields: [
         {
           name: 'title',
@@ -69,28 +69,6 @@ export const Footer: GlobalConfig = {
       admin: {
         initCollapsed: true,
       },
-    },
-    {
-      name: 'newsletter',
-      type: 'group',
-      label: 'Newsletter',
-      fields: [
-        {
-          name: 'title',
-          type: 'text',
-          label: 'Název',
-        },
-        {
-          name: 'description',
-          type: 'textarea',
-          label: 'Popis',
-        },
-        {
-          name: 'buttonText',
-          type: 'text',
-          label: 'Text tlačítka',
-        },
-      ],
     },
   ],
   hooks: {
