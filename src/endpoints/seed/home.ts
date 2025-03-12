@@ -49,6 +49,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
     },
     {
       blockType: 'whyChooseUs',
+      badgeText: 'Why Choose Us',
       title: 'Proč s námi?',
       description:
         'Více než 1000 úspěšně provedených návrhů fasád jak novostaveb, rekonstrukcí rodinných příp. panelových domů či komerčních objektů.',
@@ -92,7 +93,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
     {
       blockType: 'aboutServices',
       title: 'O našich službách',
-      subtitle: 'Profesionální vizualizace fasád',
+      badgeText: 'Profesionální vizualizace fasád',
       description:
         'Aby výsledný dojem vašeho domu byl přesně podle vašich představ, nechejte si ještě před zahájením stavebních prací ukázat, jak bude dům vypadat, až bude hotový. Máte spoustu možností jak z fasády vašeho domu udělat ozdobu ulice.\n\nBez obav zvolte jednobarevnou fasádu nebo moderní fasádu vícebarevnou. Zakomponujte venkovní obklady. Dřevo, kámen, cihlové obklady to vše může vašemu domu vtisknout punc výjimečnosti.',
       image: heroImage.id,

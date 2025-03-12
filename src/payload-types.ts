@@ -170,9 +170,6 @@ export interface Page {
     description?: string | null;
   };
   publishedAt?: string | null;
-  /**
-   * Pro domovskou stránku je hodnota vždy "home" a nelze ji změnit.
-   */
   slug?: string | null;
   slugLock?: boolean | null;
   updatedAt: string;
@@ -297,6 +294,7 @@ export interface Media {
  * via the `definition` "WhyChooseUsBlock".
  */
 export interface WhyChooseUsBlock {
+  badgeText: string;
   title: string;
   description: string;
   features?:
@@ -317,7 +315,7 @@ export interface WhyChooseUsBlock {
  */
 export interface AboutServicesBlock {
   title: string;
-  subtitle?: string | null;
+  badgeText?: string | null;
   description: string;
   image: number | Media;
   features?:
@@ -401,7 +399,7 @@ export interface PartnershipProcessBlock {
  * via the `definition` "ServiceCardsBlock".
  */
 export interface ServiceCardsBlock {
-  preHeading?: string | null;
+  badgeText?: string | null;
   heading: string;
   description?: string | null;
   buttonText: string;
@@ -454,7 +452,7 @@ export interface CTASectionBlock {
  * via the `definition` "PricingPlansBlock".
  */
 export interface PricingPlansBlock {
-  preHeading?: string | null;
+  badgeText?: string | null;
   heading: string;
   description?: string | null;
   priceSuffix: string;
@@ -493,7 +491,7 @@ export interface PricingPlansBlock {
  * via the `definition` "GalleryGridBlock".
  */
 export interface GalleryGridBlock {
-  preHeading?: string | null;
+  badgeText?: string | null;
   /**
    * Heading displayed above the gallery
    */
@@ -519,7 +517,7 @@ export interface GalleryGridBlock {
  * via the `definition` "ContactSectionBlock".
  */
 export interface ContactSectionBlock {
-  preHeading?: string | null;
+  badgeText?: string | null;
   heading: string;
   description?: string | null;
   contactTitle?: string | null;
@@ -799,7 +797,10 @@ export interface ContentBlock {
         link?: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
-          reference?: (number | null) | Page;
+          reference?: {
+            relationTo: 'pages';
+            value: number | Page;
+          } | null;
           url?: string | null;
           label: string;
           /**
@@ -1201,6 +1202,7 @@ export interface FeaturedProjectsBlockSelect<T extends boolean = true> {
  * via the `definition` "WhyChooseUsBlock_select".
  */
 export interface WhyChooseUsBlockSelect<T extends boolean = true> {
+  badgeText?: T;
   title?: T;
   description?: T;
   features?:
@@ -1220,7 +1222,7 @@ export interface WhyChooseUsBlockSelect<T extends boolean = true> {
  */
 export interface AboutServicesBlockSelect<T extends boolean = true> {
   title?: T;
-  subtitle?: T;
+  badgeText?: T;
   description?: T;
   image?: T;
   features?:
@@ -1282,7 +1284,7 @@ export interface PartnershipProcessBlockSelect<T extends boolean = true> {
  * via the `definition` "ServiceCardsBlock_select".
  */
 export interface ServiceCardsBlockSelect<T extends boolean = true> {
-  preHeading?: T;
+  badgeText?: T;
   heading?: T;
   description?: T;
   buttonText?: T;
@@ -1324,7 +1326,7 @@ export interface CTASectionBlockSelect<T extends boolean = true> {
  * via the `definition` "PricingPlansBlock_select".
  */
 export interface PricingPlansBlockSelect<T extends boolean = true> {
-  preHeading?: T;
+  badgeText?: T;
   heading?: T;
   description?: T;
   priceSuffix?: T;
@@ -1356,7 +1358,7 @@ export interface PricingPlansBlockSelect<T extends boolean = true> {
  * via the `definition` "GalleryGridBlock_select".
  */
 export interface GalleryGridBlockSelect<T extends boolean = true> {
-  preHeading?: T;
+  badgeText?: T;
   heading?: T;
   description?: T;
   projects?:
@@ -1375,7 +1377,7 @@ export interface GalleryGridBlockSelect<T extends boolean = true> {
  * via the `definition` "ContactSectionBlock_select".
  */
 export interface ContactSectionBlockSelect<T extends boolean = true> {
-  preHeading?: T;
+  badgeText?: T;
   heading?: T;
   description?: T;
   contactTitle?: T;
@@ -1879,7 +1881,10 @@ export interface Header {
         link: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
-          reference?: (number | null) | Page;
+          reference?: {
+            relationTo: 'pages';
+            value: number | Page;
+          } | null;
           url?: string | null;
           label: string;
         };

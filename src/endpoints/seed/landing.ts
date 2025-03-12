@@ -48,6 +48,7 @@ export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pag
     },
     {
       blockType: 'whyChooseUs',
+      badgeText: 'Why Choose Us',
       title: 'Proč zvolit FacadeVision?',
       description: 'Špičkové vizualizační služby, kterým důvěřují přední architektonické firmy',
       features: [

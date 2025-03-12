@@ -32,7 +32,7 @@ export const SlugComponent: React.FC<SlugComponentProps> = ({
   // The value of the checkbox
   // We're using separate useFormFields to minimise re-renders
   const checkboxValue = useFormFields(([fields]) => {
-    return fields[checkboxFieldPath]?.value as boolean
+    return fields[checkboxFieldPath]?.value as string
   })
 
   // The value of the field we're listening to for the slug
@@ -40,23 +40,7 @@ export const SlugComponent: React.FC<SlugComponentProps> = ({
     return fields[fieldToUse]?.value as string
   })
 
-  // Check if this is the homepage
-  const isHomePage =
-    value === 'uvod' ||
-    (targetFieldValue &&
-      (targetFieldValue.toLowerCase().includes('domů') ||
-        targetFieldValue.toLowerCase().includes('hlavní stránka') ||
-        targetFieldValue.toLowerCase().includes('úvodní stránka') ||
-        targetFieldValue.toLowerCase().includes('home') ||
-        targetFieldValue.toLowerCase().includes('dětská ambulance mudr')))
-
   useEffect(() => {
-    // If this is the homepage, always keep the slug as 'uvod'
-    if (isHomePage) {
-      if (value !== 'uvod') setValue('uvod')
-      return
-    }
-
     if (checkboxValue) {
       if (targetFieldValue) {
         const formattedSlug = formatSlug(targetFieldValue)
@@ -66,43 +50,30 @@ export const SlugComponent: React.FC<SlugComponentProps> = ({
         if (value !== '') setValue('')
       }
     }
-  }, [targetFieldValue, checkboxValue, setValue, value, isHomePage])
+  }, [targetFieldValue, checkboxValue, setValue, value])
 
   const handleLock = useCallback(
     (e: React.MouseEvent<Element>) => {
       e.preventDefault()
 
-      // Don't allow unlocking for homepage
-      if (isHomePage) return
-
       dispatchFields({
         type: 'UPDATE',
         path: checkboxFieldPath,
-        value: !(checkboxValue || false), // Ensure we're dealing with a boolean
+        value: !checkboxValue,
       })
     },
-    [checkboxValue, checkboxFieldPath, dispatchFields, isHomePage],
+    [checkboxValue, checkboxFieldPath, dispatchFields],
   )
 
-  // Homepage is always read-only
-  const readOnly = readOnlyFromProps || checkboxValue || isHomePage
+  const readOnly = readOnlyFromProps || checkboxValue
 
   return (
     <div className="field-type slug-field-component">
       <div className="label-wrapper">
         <FieldLabel htmlFor={`field-${path}`} label={label} />
 
-        <Button
-          className="lock-button"
-          buttonStyle="none"
-          onClick={handleLock}
-          disabled={Boolean(isHomePage)}
-        >
-          {isHomePage
-            ? 'Domovská stránka (nelze změnit)'
-            : Boolean(checkboxValue)
-              ? 'Odemknout'
-              : 'Zamknout'}
+        <Button className="lock-button" buttonStyle="none" onClick={handleLock}>
+          {checkboxValue ? 'Unlock' : 'Lock'}
         </Button>
       </div>
 
@@ -112,12 +83,6 @@ export const SlugComponent: React.FC<SlugComponentProps> = ({
         path={path || field.name}
         readOnly={Boolean(readOnly)}
       />
-
-      {isHomePage && (
-        <div className="field-description">
-          Toto je domovská stránka. Slug musí být vždy &quot;uvod&quot; pro správné fungování webu.
-        </div>
-      )}
     </div>
   )
 }

@@ -11,7 +11,6 @@ const nextConfig = {
     remotePatterns: [
       ...[NEXT_PUBLIC_SERVER_URL /* 'https://example.com' */].map((item) => {
         const url = new URL(item)
-
         return {
           hostname: url.hostname,
           protocol: url.protocol.replace(':', ''),
@@ -24,7 +23,7 @@ const nextConfig = {
     minimumCacheTTL: 60 * 60 * 24 * 30,
   },
   reactStrictMode: true,
-  redirects,
+  redirects, // Your existing redirects from redirects.js
   poweredByHeader: false,
   compress: true,
   compiler: {
@@ -36,6 +35,26 @@ const nextConfig = {
   },
   httpAgentOptions: {
     keepAlive: true,
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/', // User visits /
+        destination: '/home', // Serve content from /home (slug: 'home')
+      },
+    ]
+  },
+  async redirects() {
+    // Combine with existing redirects from redirects.js
+    const existingRedirects = typeof redirects === 'function' ? await redirects() : redirects || []
+    return [
+      ...existingRedirects,
+      {
+        source: '/home', // User visits /home
+        destination: '/', // Redirect to / with a 301
+        permanent: true, // Permanent redirect (301) for SEO
+      },
+    ]
   },
 }
 

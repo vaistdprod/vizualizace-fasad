@@ -20,7 +20,7 @@ export const services: (args: ServicesArgs) => RequiredDataFromCollectionSlug<'p
   layout: [
     {
       blockType: 'serviceCards',
-      preHeading: 'Naše služby',
+      badgeText: 'Naše služby',
       heading: 'Profesionální vizualizace fasád',
       description:
         'Nabízíme komplexní služby v oblasti vizualizací fasád pro novostavby i rekonstrukce. Vyzkoušejte různé barevné kombinace a materiály před samotnou realizací.',

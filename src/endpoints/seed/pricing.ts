@@ -14,7 +14,7 @@ export const pricing: (args: PricingArgs) => RequiredDataFromCollectionSlug<'pag
   layout: [
     {
       blockType: 'pricingPlans',
-      preHeading: 'Ceník',
+      badgeText: 'Ceník',
       heading: 'Transparentní cenová politika',
       description:
         'Nabízíme jasně definované cenové balíčky pro různé typy projektů. Vyberte si řešení, které nejlépe odpovídá vašim potřebám.',

@@ -16,7 +16,7 @@ const iconMap = {
 }
 
 export const ServiceCardsBlock: React.FC<ServiceCardsBlockProps & { id?: string }> = (props) => {
-  const { id, services, buttonText, buttonHref, heading, preHeading, description } = props
+  const { id, services, buttonText, buttonHref, heading, badgeText, description } = props
 
   return (
     <div className="relative overflow-hidden">
@@ -27,10 +27,10 @@ export const ServiceCardsBlock: React.FC<ServiceCardsBlockProps & { id?: string 
         variants={fadeInUp}
         className="mx-auto max-w-3xl text-center mb-20"
       >
-        {preHeading && (
+        {badgeText && (
           <div className="inline-block mb-6">
             <span className="inline-block py-1 px-4 rounded-full text-sm font-medium bg-primary/10 text-primary">
-              {preHeading}
+              {badgeText}
             </span>
           </div>
         )}

@@ -31,29 +31,20 @@ const getPagesSitemap = unstable_cache(
 
     const dateFallback = new Date().toISOString()
 
-    const defaultSitemap = [
-      {
-        loc: `${SITE_URL}/search`,
-        lastmod: dateFallback,
-      },
-      {
-        loc: `${SITE_URL}/posts`,
-        lastmod: dateFallback,
-      },
-    ]
-
     const sitemap = results.docs
       ? results.docs
-          .filter((page) => Boolean(page?.slug))
+          .filter((page) => Boolean(page?.slug) || page?.slug === '') // Allow empty slugs if you switch later
           .map((page) => {
+            // Homepage is always /
+            const isHomepage = page?.slug === 'home'
             return {
-              loc: page?.slug === 'home' ? `${SITE_URL}/` : `${SITE_URL}/${page?.slug}`,
+              loc: isHomepage ? `${SITE_URL}/` : `${SITE_URL}/${page?.slug}`,
               lastmod: page.updatedAt || dateFallback,
             }
           })
       : []
 
-    return [...defaultSitemap, ...sitemap]
+    return [...sitemap]
   },
   ['pages-sitemap'],
   {
@@ -63,6 +54,5 @@ const getPagesSitemap = unstable_cache(
 
 export async function GET() {
   const sitemap = await getPagesSitemap()
-
   return getServerSideSitemap(sitemap)
 }

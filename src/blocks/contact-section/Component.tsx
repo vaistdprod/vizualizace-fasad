@@ -18,7 +18,7 @@ const iconMap = {
 
 export const ContactSectionBlock: React.FC<{
   id?: string
-  preHeading?: string | null
+  badgeText?: string | null
   heading: string
   description?: string | null
   contactTitle?: string | null
@@ -34,7 +34,7 @@ export const ContactSectionBlock: React.FC<{
 }> = (props) => {
   const {
     id,
-    preHeading,
+    badgeText,
     heading,
     description,
     contactTitle,
@@ -86,10 +86,10 @@ export const ContactSectionBlock: React.FC<{
       id={`block-${id}`}
     >
       <div className="text-center mb-12">
-        {preHeading && (
+        {badgeText && (
           <div className="inline-block mb-6">
             <span className="inline-block py-1 px-4 rounded-full text-sm font-medium bg-primary/10 text-primary">
-              {preHeading}
+              {badgeText}
             </span>
           </div>
         )}

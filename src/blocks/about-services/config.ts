@@ -15,10 +15,10 @@ export const AboutServices: Block = {
       label: 'Title',
     },
     {
-      name: 'subtitle',
+      name: 'badgeText',
       type: 'text',
       required: false,
-      label: 'Subtitle',
+      label: 'Badge Text',
     },
     {
       name: 'description',

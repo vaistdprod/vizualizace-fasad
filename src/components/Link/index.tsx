@@ -12,8 +12,8 @@ type CMSLinkType = {
   label?: string | null
   newTab?: boolean | null
   reference?: {
-    relationTo: 'pages'
-    value: Page | string | number
+    relationTo: 'pages' // Only 'pages', no 'posts'
+    value: Page | string | number // Still allowing string/number for ID references
   } | null
   size?: ButtonProps['size'] | null
   type?: 'custom' | 'reference' | null
@@ -35,9 +35,7 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
 
   const href =
     type === 'reference' && typeof reference?.value === 'object' && reference.value.slug
-      ? `${reference?.relationTo !== 'pages' ? `/${reference?.relationTo}` : ''}/${
-          reference.value.slug
-        }`
+      ? `/${reference.value.slug}` // Simplified: no need to check relationTo since it's always 'pages'
       : url
 
   if (!href) return null
@@ -56,15 +54,11 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
   }
 
   return (
-    <Button
-      className={className}
-      size={size}
-      variant={appearance}
-      href={href || url || ''}
-      {...newTabProps}
-    >
-      {label && label}
-      {children && children}
+    <Button asChild className={className} size={size} variant={appearance}>
+      <Link className={cn(className)} href={href || url || ''} {...newTabProps}>
+        {label && label}
+        {children && children}
+      </Link>
     </Button>
   )
 }

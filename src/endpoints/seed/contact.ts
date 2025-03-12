@@ -23,7 +23,7 @@ export const contact: (args: ContactArgs) => RequiredDataFromCollectionSlug<'pag
   layout: [
     {
       blockType: 'contactSection',
-      preHeading: 'Kontaktujte nás',
+      badgeText: 'Kontaktujte nás',
       heading: 'Jsme tu pro vás',
       description:
         'Máte dotaz nebo zájem o naše služby? Neváhejte nás kontaktovat. Rádi vám pomůžeme s výběrem vhodného řešení pro váš dům.',

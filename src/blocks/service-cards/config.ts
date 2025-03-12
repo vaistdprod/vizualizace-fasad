@@ -9,9 +9,9 @@ export const ServiceCards: Block = {
   },
   fields: [
     {
-      name: 'preHeading',
+      name: 'badgeText',
       type: 'text',
-      label: 'Pre-Heading',
+      label: 'Badge Text',
     },
     {
       name: 'heading',

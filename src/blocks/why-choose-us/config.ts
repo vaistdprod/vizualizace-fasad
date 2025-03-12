@@ -9,6 +9,13 @@ export const WhyChooseUs: Block = {
   },
   fields: [
     {
+      name: 'badgeText',
+      type: 'text',
+      required: true,
+      label: 'Badge Text',
+      defaultValue: 'Why Choose Us',
+    },
+    {
       name: 'title',
       type: 'text',
       required: true,

@@ -28,7 +28,7 @@ export const gallery: (args: GalleryArgs) => RequiredDataFromCollectionSlug<'pag
   layout: [
     {
       blockType: 'galleryGrid',
-      preHeading: 'Naše práce',
+      badgeText: 'Naše práce',
       heading: 'Galerie realizací',
       description:
         'Prohlédněte si ukázky našich realizací. Porovnejte původní stav, vizualizaci a výslednou realizaci.',

@@ -8,7 +8,7 @@ import type { GalleryGridBlock as GalleryGridBlockProps } from '@/payload-types'
 import { fadeInUp, staggerContainer, staggerItem, defaultViewport } from '@/utilities/animations'
 
 export const GalleryGridBlock: React.FC<GalleryGridBlockProps & { id?: string }> = (props) => {
-  const { id, projects, heading, description, preHeading } = props
+  const { id, projects, heading, description, badgeText } = props
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
 
   const navigateToNext = useCallback(() => {
@@ -52,10 +52,10 @@ export const GalleryGridBlock: React.FC<GalleryGridBlockProps & { id?: string }>
         variants={fadeInUp}
         className="mx-auto max-w-3xl text-center mb-20"
       >
-        {preHeading && (
+        {badgeText && (
           <div className="inline-block mb-6">
             <span className="inline-block py-1 px-4 rounded-full text-sm font-medium bg-primary/10 text-primary">
-              {preHeading}
+              {badgeText}
             </span>
           </div>
         )}

@@ -22,8 +22,6 @@ import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
-import { enforceHomeSlug } from './hooks/enforceHomeSlug'
-import { ensureHomeSlug } from './hooks/ensureHomeSlug'
 
 import {
   MetaDescriptionField,
@@ -35,10 +33,6 @@ import {
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
-  labels: {
-    singular: 'Stránka',
-    plural: 'Stránky',
-  },
   access: {
     create: authenticated,
     delete: authenticated,
@@ -74,7 +68,6 @@ export const Pages: CollectionConfig = {
       name: 'title',
       type: 'text',
       required: true,
-      label: 'Název',
     },
     {
       type: 'tabs',
@@ -108,7 +101,7 @@ export const Pages: CollectionConfig = {
               },
             },
           ],
-          label: 'Obsah',
+          label: 'Content',
         },
         {
           name: 'meta',
@@ -142,30 +135,11 @@ export const Pages: CollectionConfig = {
         position: 'sidebar',
       },
     },
-    ...slugField('title', {
-      slugOverrides: {
-        hooks: {
-          beforeValidate: [enforceHomeSlug],
-        },
-        admin: {
-          description: 'Pro domovskou stránku je hodnota vždy "home" a nelze ji změnit.',
-          components: {
-            Field: {
-              path: '@/fields/slug/HomeSlugComponent#HomeSlugComponent',
-              clientProps: {
-                fieldToUse: 'title',
-                checkboxFieldPath: 'slugLock',
-              },
-            },
-          },
-        },
-      },
-    }),
+    ...slugField(),
   ],
   hooks: {
     afterChange: [revalidatePage],
     beforeChange: [populatePublishedAt],
-    beforeValidate: [ensureHomeSlug],
     afterDelete: [revalidateDelete],
   },
   versions: {

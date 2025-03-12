@@ -16,7 +16,7 @@ const iconMap = {
 }
 
 export const WhyChooseUsBlock: React.FC<WhyChooseUsBlockProps & { id?: string }> = (props) => {
-  const { id, title, description, features } = props
+  const { id, badgeText, title, description, features } = props
 
   return (
     <section
@@ -36,7 +36,7 @@ export const WhyChooseUsBlock: React.FC<WhyChooseUsBlockProps & { id?: string }>
         >
           <div className="inline-block mb-6">
             <span className="inline-block py-1 px-4 rounded-full text-sm font-medium bg-primary/10 text-primary">
-              Why Choose Us
+              {badgeText}
             </span>
           </div>
           <h2 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6 bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
