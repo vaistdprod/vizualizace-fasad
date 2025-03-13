@@ -54,7 +54,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             : 'bg-transparent border-transparent',
         )}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
+        <div className="mx-auto flex max-w-7xl items-center justify-between py-4.5 px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}

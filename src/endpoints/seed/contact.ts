@@ -22,55 +22,61 @@ export const contact: (args: ContactArgs) => RequiredDataFromCollectionSlug<'pag
   title: 'Kontaktujte nás',
   layout: [
     {
-      blockType: 'contactSection',
-      badgeText: 'Kontaktujte nás',
-      heading: 'Jsme tu pro vás',
-      description:
-        'Máte dotaz nebo zájem o naše služby? Neváhejte nás kontaktovat. Rádi vám pomůžeme s výběrem vhodného řešení pro váš dům.',
-      contactTitle: 'Kontaktní informace',
-      contactItems: [
+      blockType: 'backgroundImage',
+      backgroundType: 'gridPattern', // Explicitly grid for this client
+      blocks: [
         {
-          icon: 'Mail',
-          label: 'E-mail',
-          value: 'info@vizualizacefasad.cz',
+          blockType: 'contactSection',
+          badgeText: 'Kontaktujte nás',
+          heading: 'Jsme tu pro vás',
+          description:
+            'Máte dotaz nebo zájem o naše služby? Neváhejte nás kontaktovat. Rádi vám pomůžeme s výběrem vhodného řešení pro váš dům.',
+          contactTitle: 'Kontaktní informace',
+          contactItems: [
+            {
+              icon: 'Mail',
+              label: 'E-mail',
+              value: 'info@vizualizacefasad.cz',
+            },
+            {
+              icon: 'Phone',
+              label: 'Telefon',
+              value: '+420 725 136 901',
+            },
+            {
+              icon: 'MapPin',
+              label: 'Adresa',
+              value: 'Stará Ves nad Ondřejnicí, Luční 706',
+            },
+            {
+              icon: 'Building',
+              label: 'IČO',
+              value: '04189841',
+            },
+          ],
+          form: contactForm.id,
+          enableIntro: false, // No intro content needed here
         },
         {
-          icon: 'Phone',
-          label: 'Telefon',
-          value: '+420 725 136 901',
-        },
-        {
-          icon: 'MapPin',
-          label: 'Adresa',
-          value: 'Stará Ves nad Ondřejnicí, Luční 706',
-        },
-        {
-          icon: 'Building',
-          label: 'IČO',
-          value: '04189841',
-        },
-      ],
-      form: contactForm.id,
-      enableIntro: false, // No intro content needed here
-    },
-    {
-      blockType: 'teamSection',
-      title: 'Náš tým',
-      description: 'Seznamte se s našimi odborníky na vizualizace fasád.',
-      team: [
-        {
-          name: 'Ing. Jan Kantor',
-          role: 'Návrhy, design, obchod',
-          email: 'kantor@vizualizacefasad.cz',
-          phone: '+420 725 136 901',
-          image: sarahImage.id,
-        },
-        {
-          name: 'Zuzana Polášková',
-          role: 'Návrhy, design',
-          email: 'info@vizualizacefasad.cz',
-          phone: '+420 725 136 901',
-          image: emilyImage.id,
+          blockType: 'teamSection',
+          title: 'Náš tým',
+          description: 'Seznamte se s našimi odborníky na vizualizace fasád.',
+          team: [
+            {
+              name: 'Ing. Jan Kantor',
+              role: 'Návrhy, design, obchod',
+              email: 'kantor@vizualizacefasad.cz',
+              phone: '+420 725 136 901',
+              image: sarahImage.id,
+            },
+            {
+              name: 'Zuzana Polášková',
+              role: 'Návrhy, design',
+              email: 'info@vizualizacefasad.cz',
+              phone: '+420 725 136 901',
+              image: emilyImage.id,
+            },
+          ],
         },
       ],
     },

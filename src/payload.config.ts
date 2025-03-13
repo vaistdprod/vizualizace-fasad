@@ -60,8 +60,8 @@ function throwError(varName: string): never {
 export default buildConfig({
   admin: {
     components: {
-      beforeLogin: ['@/components/BeforeLogin'],
-      beforeDashboard: ['@/components/BeforeDashboard'],
+      beforeLogin: ['./components/BeforeLogin'],
+      beforeDashboard: ['./components/BeforeDashboard'],
     },
     importMap: {
       baseDir: path.resolve(dirname),

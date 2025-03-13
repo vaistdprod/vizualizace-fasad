@@ -160,6 +160,7 @@ export interface Page {
     | LandingHeroBlock
     | TrustBadgesBlock
     | TestimonialsBlock
+    | BackgroundImageBlock
   )[];
   meta?: {
     title?: string | null;
@@ -426,6 +427,23 @@ export interface ServiceCardsBlock {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Title for the call to action section at the bottom
+   */
+  ctaTitle?: string | null;
+  /**
+   * Description for the call to action section
+   */
+  ctaDescription?: string | null;
+  /**
+   * Text for the call to action button
+   */
+  ctaButtonText?: string | null;
+  /**
+   * URL for the call to action button
+   */
+  ctaButtonHref?: string | null;
+  ctaButtonVariant?: ('default' | 'outline' | 'secondary') | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'serviceCards';
@@ -901,6 +919,37 @@ export interface TestimonialsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BackgroundImageBlock".
+ */
+export interface BackgroundImageBlock {
+  backgroundType: 'image' | 'gridPattern' | 'dotPattern';
+  image?: (number | null) | Media;
+  /**
+   * Value between 0 (transparent) and 1 (opaque). Only applies to images.
+   */
+  opacity?: number | null;
+  blocks?:
+    | (
+        | FeaturedProjectsBlock
+        | WhyChooseUsBlock
+        | AboutServicesBlock
+        | PartnershipProcessBlock
+        | ServiceCardsBlock
+        | CTASectionBlock
+        | PricingPlansBlock
+        | GalleryGridBlock
+        | ContactSectionBlock
+        | TeamSectionBlock
+        | TrustBadgesBlock
+        | TestimonialsBlock
+      )[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'backgroundImage';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories".
  */
 export interface Category {
@@ -1165,6 +1214,7 @@ export interface PagesSelect<T extends boolean = true> {
         landingHero?: T | LandingHeroBlockSelect<T>;
         trustBadges?: T | TrustBadgesBlockSelect<T>;
         testimonials?: T | TestimonialsBlockSelect<T>;
+        backgroundImage?: T | BackgroundImageBlockSelect<T>;
       };
   meta?:
     | T
@@ -1305,6 +1355,11 @@ export interface ServiceCardsBlockSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  ctaTitle?: T;
+  ctaDescription?: T;
+  ctaButtonText?: T;
+  ctaButtonHref?: T;
+  ctaButtonVariant?: T;
   id?: T;
   blockName?: T;
 }
@@ -1515,6 +1570,33 @@ export interface TestimonialsBlockSelect<T extends boolean = true> {
         result?: T;
         rating?: T;
         id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BackgroundImageBlock_select".
+ */
+export interface BackgroundImageBlockSelect<T extends boolean = true> {
+  backgroundType?: T;
+  image?: T;
+  opacity?: T;
+  blocks?:
+    | T
+    | {
+        featuredProjects?: T | FeaturedProjectsBlockSelect<T>;
+        whyChooseUs?: T | WhyChooseUsBlockSelect<T>;
+        aboutServices?: T | AboutServicesBlockSelect<T>;
+        partnershipProcess?: T | PartnershipProcessBlockSelect<T>;
+        serviceCards?: T | ServiceCardsBlockSelect<T>;
+        ctaSection?: T | CTASectionBlockSelect<T>;
+        pricingPlans?: T | PricingPlansBlockSelect<T>;
+        galleryGrid?: T | GalleryGridBlockSelect<T>;
+        contactSection?: T | ContactSectionBlockSelect<T>;
+        teamSection?: T | TeamSectionBlockSelect<T>;
+        trustBadges?: T | TrustBadgesBlockSelect<T>;
+        testimonials?: T | TestimonialsBlockSelect<T>;
       };
   id?: T;
   blockName?: T;

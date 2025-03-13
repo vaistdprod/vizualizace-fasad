@@ -6,23 +6,27 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE TYPE "public"."enum_pages_blocks_about_services_layout" AS ENUM('imageLeft', 'imageRight');
   CREATE TYPE "public"."enum_pages_blocks_partnership_process_steps_icon" AS ENUM('MessageSquare', 'Lightbulb', 'ImageIcon', 'FileEdit', 'Send', 'CheckCircle', 'Camera', 'Clock', 'CreditCard');
   CREATE TYPE "public"."enum_pages_blocks_service_cards_services_icon" AS ENUM('Building2', 'Cube3d', 'Paintbrush', 'Compass');
+  CREATE TYPE "public"."enum_pages_blocks_service_cards_cta_button_variant" AS ENUM('default', 'outline', 'secondary');
   CREATE TYPE "public"."enum_pages_blocks_cta_section_button_variant" AS ENUM('default', 'outline');
   CREATE TYPE "public"."enum_pages_blocks_pricing_plans_plans_icon" AS ENUM('Building2', 'Building');
   CREATE TYPE "public"."enum_pages_blocks_contact_section_contact_items_icon" AS ENUM('Mail', 'Phone', 'MapPin', 'Clock', 'Building');
   CREATE TYPE "public"."enum_pages_blocks_content_columns_size" AS ENUM('oneThird', 'half', 'twoThirds', 'full');
   CREATE TYPE "public"."enum_pages_blocks_content_columns_link_type" AS ENUM('reference', 'custom');
   CREATE TYPE "public"."enum_pages_blocks_content_columns_link_appearance" AS ENUM('default', 'outline');
+  CREATE TYPE "public"."enum_pages_blocks_background_image_background_type" AS ENUM('image', 'gridPattern', 'dotPattern');
   CREATE TYPE "public"."enum_pages_status" AS ENUM('draft', 'published');
   CREATE TYPE "public"."enum__pages_v_blocks_why_choose_us_features_icon" AS ENUM('Star', 'Clock', 'Settings', 'Cpu', 'PiggyBank', 'Users');
   CREATE TYPE "public"."enum__pages_v_blocks_about_services_layout" AS ENUM('imageLeft', 'imageRight');
   CREATE TYPE "public"."enum__pages_v_blocks_partnership_process_steps_icon" AS ENUM('MessageSquare', 'Lightbulb', 'ImageIcon', 'FileEdit', 'Send', 'CheckCircle', 'Camera', 'Clock', 'CreditCard');
   CREATE TYPE "public"."enum__pages_v_blocks_service_cards_services_icon" AS ENUM('Building2', 'Cube3d', 'Paintbrush', 'Compass');
+  CREATE TYPE "public"."enum__pages_v_blocks_service_cards_cta_button_variant" AS ENUM('default', 'outline', 'secondary');
   CREATE TYPE "public"."enum__pages_v_blocks_cta_section_button_variant" AS ENUM('default', 'outline');
   CREATE TYPE "public"."enum__pages_v_blocks_pricing_plans_plans_icon" AS ENUM('Building2', 'Building');
   CREATE TYPE "public"."enum__pages_v_blocks_contact_section_contact_items_icon" AS ENUM('Mail', 'Phone', 'MapPin', 'Clock', 'Building');
   CREATE TYPE "public"."enum__pages_v_blocks_content_columns_size" AS ENUM('oneThird', 'half', 'twoThirds', 'full');
   CREATE TYPE "public"."enum__pages_v_blocks_content_columns_link_type" AS ENUM('reference', 'custom');
   CREATE TYPE "public"."enum__pages_v_blocks_content_columns_link_appearance" AS ENUM('default', 'outline');
+  CREATE TYPE "public"."enum__pages_v_blocks_background_image_background_type" AS ENUM('image', 'gridPattern', 'dotPattern');
   CREATE TYPE "public"."enum__pages_v_version_status" AS ENUM('draft', 'published');
   CREATE TYPE "public"."enum_redirects_to_type" AS ENUM('reference', 'custom');
   CREATE TYPE "public"."enum_forms_confirmation_type" AS ENUM('message', 'redirect');
@@ -155,6 +159,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"description" varchar,
   	"button_text" varchar DEFAULT 'Zjistit více',
   	"button_href" varchar,
+  	"cta_title" varchar,
+  	"cta_description" varchar,
+  	"cta_button_text" varchar,
+  	"cta_button_href" varchar,
+  	"cta_button_variant" "enum_pages_blocks_service_cards_cta_button_variant" DEFAULT 'default',
   	"block_name" varchar
   );
   
@@ -368,6 +377,17 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"block_name" varchar
   );
   
+  CREATE TABLE IF NOT EXISTS "pages_blocks_background_image" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"_path" text NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
+  	"background_type" "enum_pages_blocks_background_image_background_type" DEFAULT 'gridPattern',
+  	"image_id" integer,
+  	"opacity" numeric DEFAULT 0.15,
+  	"block_name" varchar
+  );
+  
   CREATE TABLE IF NOT EXISTS "pages" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"title" varchar,
@@ -525,6 +545,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"description" varchar,
   	"button_text" varchar DEFAULT 'Zjistit více',
   	"button_href" varchar,
+  	"cta_title" varchar,
+  	"cta_description" varchar,
+  	"cta_button_text" varchar,
+  	"cta_button_href" varchar,
+  	"cta_button_variant" "enum__pages_v_blocks_service_cards_cta_button_variant" DEFAULT 'default',
   	"_uuid" varchar,
   	"block_name" varchar
   );
@@ -754,6 +779,18 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"id" serial PRIMARY KEY NOT NULL,
   	"title" varchar,
   	"description" varchar,
+  	"_uuid" varchar,
+  	"block_name" varchar
+  );
+  
+  CREATE TABLE IF NOT EXISTS "_pages_v_blocks_background_image" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"_path" text NOT NULL,
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"background_type" "enum__pages_v_blocks_background_image_background_type" DEFAULT 'gridPattern',
+  	"image_id" integer,
+  	"opacity" numeric DEFAULT 0.15,
   	"_uuid" varchar,
   	"block_name" varchar
   );
@@ -1424,6 +1461,18 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   END $$;
   
   DO $$ BEGIN
+   ALTER TABLE "pages_blocks_background_image" ADD CONSTRAINT "pages_blocks_background_image_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "pages_blocks_background_image" ADD CONSTRAINT "pages_blocks_background_image_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
    ALTER TABLE "pages" ADD CONSTRAINT "pages_meta_image_id_media_id_fk" FOREIGN KEY ("meta_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
@@ -1689,6 +1738,18 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   
   DO $$ BEGIN
    ALTER TABLE "_pages_v_blocks_testimonials" ADD CONSTRAINT "_pages_v_blocks_testimonials_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "_pages_v_blocks_background_image" ADD CONSTRAINT "_pages_v_blocks_background_image_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "_pages_v_blocks_background_image" ADD CONSTRAINT "_pages_v_blocks_background_image_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
@@ -2004,6 +2065,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "pages_blocks_testimonials_order_idx" ON "pages_blocks_testimonials" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "pages_blocks_testimonials_parent_id_idx" ON "pages_blocks_testimonials" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "pages_blocks_testimonials_path_idx" ON "pages_blocks_testimonials" USING btree ("_path");
+  CREATE INDEX IF NOT EXISTS "pages_blocks_background_image_order_idx" ON "pages_blocks_background_image" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "pages_blocks_background_image_parent_id_idx" ON "pages_blocks_background_image" USING btree ("_parent_id");
+  CREATE INDEX IF NOT EXISTS "pages_blocks_background_image_path_idx" ON "pages_blocks_background_image" USING btree ("_path");
+  CREATE INDEX IF NOT EXISTS "pages_blocks_background_image_image_idx" ON "pages_blocks_background_image" USING btree ("image_id");
   CREATE INDEX IF NOT EXISTS "pages_meta_meta_image_idx" ON "pages" USING btree ("meta_image_id");
   CREATE INDEX IF NOT EXISTS "pages_slug_idx" ON "pages" USING btree ("slug");
   CREATE INDEX IF NOT EXISTS "pages_updated_at_idx" ON "pages" USING btree ("updated_at");
@@ -2102,6 +2167,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_testimonials_order_idx" ON "_pages_v_blocks_testimonials" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_testimonials_parent_id_idx" ON "_pages_v_blocks_testimonials" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_testimonials_path_idx" ON "_pages_v_blocks_testimonials" USING btree ("_path");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_background_image_order_idx" ON "_pages_v_blocks_background_image" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_background_image_parent_id_idx" ON "_pages_v_blocks_background_image" USING btree ("_parent_id");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_background_image_path_idx" ON "_pages_v_blocks_background_image" USING btree ("_path");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_background_image_image_idx" ON "_pages_v_blocks_background_image" USING btree ("image_id");
   CREATE INDEX IF NOT EXISTS "_pages_v_parent_idx" ON "_pages_v" USING btree ("parent_id");
   CREATE INDEX IF NOT EXISTS "_pages_v_version_meta_version_meta_image_idx" ON "_pages_v" USING btree ("version_meta_image_id");
   CREATE INDEX IF NOT EXISTS "_pages_v_version_version_slug_idx" ON "_pages_v" USING btree ("version_slug");
@@ -2258,6 +2327,7 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "pages_blocks_trust_badges" CASCADE;
   DROP TABLE "pages_blocks_testimonials_testimonials" CASCADE;
   DROP TABLE "pages_blocks_testimonials" CASCADE;
+  DROP TABLE "pages_blocks_background_image" CASCADE;
   DROP TABLE "pages" CASCADE;
   DROP TABLE "pages_rels" CASCADE;
   DROP TABLE "_pages_v_blocks_featured_projects_projects" CASCADE;
@@ -2291,6 +2361,7 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "_pages_v_blocks_trust_badges" CASCADE;
   DROP TABLE "_pages_v_blocks_testimonials_testimonials" CASCADE;
   DROP TABLE "_pages_v_blocks_testimonials" CASCADE;
+  DROP TABLE "_pages_v_blocks_background_image" CASCADE;
   DROP TABLE "_pages_v" CASCADE;
   DROP TABLE "_pages_v_rels" CASCADE;
   DROP TABLE "media" CASCADE;
@@ -2330,23 +2401,27 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TYPE "public"."enum_pages_blocks_about_services_layout";
   DROP TYPE "public"."enum_pages_blocks_partnership_process_steps_icon";
   DROP TYPE "public"."enum_pages_blocks_service_cards_services_icon";
+  DROP TYPE "public"."enum_pages_blocks_service_cards_cta_button_variant";
   DROP TYPE "public"."enum_pages_blocks_cta_section_button_variant";
   DROP TYPE "public"."enum_pages_blocks_pricing_plans_plans_icon";
   DROP TYPE "public"."enum_pages_blocks_contact_section_contact_items_icon";
   DROP TYPE "public"."enum_pages_blocks_content_columns_size";
   DROP TYPE "public"."enum_pages_blocks_content_columns_link_type";
   DROP TYPE "public"."enum_pages_blocks_content_columns_link_appearance";
+  DROP TYPE "public"."enum_pages_blocks_background_image_background_type";
   DROP TYPE "public"."enum_pages_status";
   DROP TYPE "public"."enum__pages_v_blocks_why_choose_us_features_icon";
   DROP TYPE "public"."enum__pages_v_blocks_about_services_layout";
   DROP TYPE "public"."enum__pages_v_blocks_partnership_process_steps_icon";
   DROP TYPE "public"."enum__pages_v_blocks_service_cards_services_icon";
+  DROP TYPE "public"."enum__pages_v_blocks_service_cards_cta_button_variant";
   DROP TYPE "public"."enum__pages_v_blocks_cta_section_button_variant";
   DROP TYPE "public"."enum__pages_v_blocks_pricing_plans_plans_icon";
   DROP TYPE "public"."enum__pages_v_blocks_contact_section_contact_items_icon";
   DROP TYPE "public"."enum__pages_v_blocks_content_columns_size";
   DROP TYPE "public"."enum__pages_v_blocks_content_columns_link_type";
   DROP TYPE "public"."enum__pages_v_blocks_content_columns_link_appearance";
+  DROP TYPE "public"."enum__pages_v_blocks_background_image_background_type";
   DROP TYPE "public"."enum__pages_v_version_status";
   DROP TYPE "public"."enum_redirects_to_type";
   DROP TYPE "public"."enum_forms_confirmation_type";

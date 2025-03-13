@@ -20,7 +20,9 @@ export const TrustBadgesBlock: React.FC<TrustBadgesBlockProps & { id?: string }>
         >
           {stats?.map((stat, index) => (
             <motion.div key={index} variants={staggerItem} className="text-center">
-              <div className="text-4xl font-bold text-primary mb-2">{stat.value}</div>
+              <div className="text-4xl font-bold tracking-tight sm:text-5xl mb-6 bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70  ">
+                {stat.value}
+              </div>
               <div className="text-sm text-muted-foreground">{stat.label}</div>
             </motion.div>
           ))}

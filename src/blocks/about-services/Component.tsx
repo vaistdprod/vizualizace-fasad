@@ -20,6 +20,7 @@ import {
   ArrowRight,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { MagicCard } from '@/components/ui/magic-card'
 import type { AboutServicesBlock as AboutServicesBlockProps } from '@/payload-types'
 import {
   fadeIn,
@@ -90,7 +91,7 @@ export const AboutServicesBlock: React.FC<AboutServicesBlockProps & { id?: strin
             variants={imageVariants}
             className={`relative ${imageOrder}`}
           >
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+            <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
               <Image
                 src={typeof image === 'object' && image?.url ? image.url : ''}
                 alt={title || 'Service image'}
@@ -115,18 +116,11 @@ export const AboutServicesBlock: React.FC<AboutServicesBlockProps & { id?: strin
           >
             <div className="relative">
               {/* Subtitle with enhanced styling */}
-              {badgeText && (
-                <motion.div variants={fadeIn} className="mb-3">
-                  <span className="inline-flex items-center rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
-                    {badgeText}
-                  </span>
-                </motion.div>
-              )}
 
               {/* Title with enhanced styling */}
               <motion.h2
                 variants={fadeIn}
-                className="text-3xl font-bold tracking-tight sm:text-4xl mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80"
+                className="text-3xl font-bold tracking-tight sm:text-4xl mb-6 bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70"
               >
                 {title}
               </motion.h2>
@@ -148,21 +142,23 @@ export const AboutServicesBlock: React.FC<AboutServicesBlockProps & { id?: strin
                 <motion.div variants={staggerContainer} className="grid gap-4 sm:grid-cols-2 mt-10">
                   {features.map((feature, index) => (
                     <motion.div key={index} variants={staggerItem} className="group relative">
-                      <div className="flex gap-4 p-4 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 transition-all duration-300 h-full">
-                        <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors duration-300">
-                          {feature.icon ? (
-                            renderIcon(feature.icon)
-                          ) : (
-                            <Check className="h-5 w-5 text-primary" />
-                          )}
+                      <MagicCard>
+                        <div className="flex gap-4 p-4 h-full">
+                          <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors duration-300">
+                            {feature.icon ? (
+                              renderIcon(feature.icon)
+                            ) : (
+                              <Check className="h-5 w-5 text-primary" />
+                            )}
+                          </div>
+                          <div>
+                            <h3 className="text-base font-medium mb-1 group-hover:text-primary transition-colors duration-300">
+                              {feature.title}
+                            </h3>
+                            <p className="text-muted-foreground text-sm">{feature.description}</p>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="text-base font-medium mb-1 group-hover:text-primary transition-colors duration-300">
-                            {feature.title}
-                          </h3>
-                          <p className="text-muted-foreground text-sm">{feature.description}</p>
-                        </div>
-                      </div>
+                      </MagicCard>
                     </motion.div>
                   ))}
                 </motion.div>

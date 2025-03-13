@@ -202,39 +202,6 @@
     @apply transition-shadow duration-300 ease-in-out;
   }
 
-  .btn-premium {
-    @apply relative overflow-hidden transition-all duration-300;
-  }
-
-  .btn-premium::after {
-    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full;
-    content: '';
-    transition: transform 0.6s ease;
-  }
-
-  .btn-premium:hover::after {
-    transform: translateX(100%);
-  }
-
-  .card-premium {
-    @apply transition-all duration-300;
-    box-shadow: 0 4px 20px -4px hsl(var(--primary) / 0.1);
-  }
-
-  .card-premium:hover {
-    box-shadow: 0 8px 30px -6px hsl(var(--primary) / 0.2);
-    transform: translateY(-2px);
-  }
-
-  .input-premium {
-    @apply transition-shadow duration-300;
-    box-shadow: 0 0 0 0 hsl(var(--ring) / 0);
-  }
-
-  .input-premium:focus {
-    box-shadow: 0 0 0 2px hsl(var(--ring) / 0.3);
-  }
-
   @keyframes rippling {
     0% {
       opacity: 1;
@@ -247,5 +214,18 @@
   
   .animate-rippling {
     animation: rippling var(--duration, 1s) ease-out;
+  }
+
+  @keyframes fadeLoop {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.3; /* Adjust this value to control fade depth */
+    }
+  }
+  
+  .animate-fade-loop {
+    animation: fadeLoop 8s ease-in-out infinite; /* 8s duration, tweak as needed */
   }
 }

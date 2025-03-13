@@ -8,6 +8,7 @@ export const ServiceCards: Block = {
     plural: 'Service Cards Sections',
   },
   fields: [
+    // Section Header Fields
     {
       name: 'badgeText',
       type: 'text',
@@ -40,6 +41,7 @@ export const ServiceCards: Block = {
         description: 'URL for the button',
       },
     },
+    // Service Cards Array
     {
       name: 'services',
       type: 'array',
@@ -100,6 +102,50 @@ export const ServiceCards: Block = {
             },
           ],
         },
+      ],
+    },
+    // Call to Action Section
+    {
+      name: 'ctaTitle',
+      type: 'text',
+      label: 'CTA Title',
+      admin: {
+        description: 'Title for the call to action section at the bottom',
+      },
+    },
+    {
+      name: 'ctaDescription',
+      type: 'textarea',
+      label: 'CTA Description',
+      admin: {
+        description: 'Description for the call to action section',
+      },
+    },
+    {
+      name: 'ctaButtonText',
+      type: 'text',
+      label: 'CTA Button Text',
+      admin: {
+        description: 'Text for the call to action button',
+      },
+    },
+    {
+      name: 'ctaButtonHref',
+      type: 'text',
+      label: 'CTA Button Link',
+      admin: {
+        description: 'URL for the call to action button',
+      },
+    },
+    {
+      name: 'ctaButtonVariant',
+      type: 'select',
+      label: 'CTA Button Variant',
+      defaultValue: 'default',
+      options: [
+        { label: 'Default', value: 'default' },
+        { label: 'Outline', value: 'outline' },
+        { label: 'Secondary', value: 'secondary' },
       ],
     },
   ],

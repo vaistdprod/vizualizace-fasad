@@ -6,13 +6,7 @@ import { motion } from 'framer-motion'
 import { ChevronDown, ChevronRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import type { LandingHeroBlock as LandingHeroBlockProps } from '@/payload-types'
-import {
-  fadeInUp,
-  fadeIn,
-  staggerContainer,
-  staggerItem,
-  defaultViewport,
-} from '@/utilities/animations'
+import { fadeIn, staggerContainer, staggerItem, defaultViewport } from '@/utilities/animations'
 
 export const LandingHeroBlock: React.FC<LandingHeroBlockProps & { id?: string }> = (props) => {
   const {

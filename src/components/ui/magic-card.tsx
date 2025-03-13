@@ -2,33 +2,26 @@
 
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion'
 import React, { useCallback, useEffect, useRef } from 'react'
-import { BorderBeam } from './border-beam'
+
 import { cn } from '@/utilities/ui'
 
-interface MagicBorderCardProps extends React.HTMLAttributes<HTMLDivElement> {
+interface MagicCardProps extends React.HTMLAttributes<HTMLDivElement> {
   gradientSize?: number
   gradientColor?: string
   gradientOpacity?: number
   gradientFrom?: string
   gradientTo?: string
-  borderBeamSize?: number
-  borderBeamDuration?: number
-  showBorderBeamOnHover?: boolean
 }
 
-export function MagicBorderCard({
+export function MagicCard({
   children,
   className,
   gradientSize = 200,
-  gradientColor = '#262626',
-  gradientOpacity = 0.8,
-  gradientFrom = '#74a9d6', // Baby blue
-  gradientTo = '#8cd9b4', // Mint green
-  borderBeamSize = 80,
-  borderBeamDuration = 8,
-  showBorderBeamOnHover = true,
-  ...props
-}: MagicBorderCardProps) {
+  gradientColor = 'hsl(var(--foreground))',
+  gradientOpacity = 0.03,
+  gradientFrom = 'hsl(var(--primary) / 0.5)', // Primary color
+  gradientTo = 'hsl(var(--accent) / 0.5)', // Accent color (gold)
+}: MagicCardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
   const mouseX = useMotionValue(-gradientSize)
   const mouseY = useMotionValue(-gradientSize)
@@ -81,17 +74,11 @@ export function MagicBorderCard({
   }, [gradientSize, mouseX, mouseY])
 
   return (
-    <div
-      ref={cardRef}
-      className={cn('group relative flex size-full rounded-2xl', className)}
-      {...props}
-    >
-      <div className="absolute inset-px z-10 rounded-2xl bg-background" />
+    <div ref={cardRef} className={cn('group relative flex size-full rounded-xl', className)}>
+      <div className="absolute inset-px z-10 rounded-xl bg-background" />
       <div className="relative z-30 w-full">{children}</div>
-
-      {/* Magic Card gradient effect */}
       <motion.div
-        className="pointer-events-none absolute inset-px z-10 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        className="pointer-events-none absolute inset-px z-10 rounded-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
           background: useMotionTemplate`
             radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px, ${gradientColor}, transparent 100%)
@@ -100,7 +87,7 @@ export function MagicBorderCard({
         }}
       />
       <motion.div
-        className="pointer-events-none absolute inset-0 rounded-2xl bg-border duration-300 group-hover:opacity-100"
+        className="pointer-events-none absolute inset-0 rounded-xl bg-border duration-300 group-hover:opacity-100"
         style={{
           background: useMotionTemplate`
             radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px,
@@ -111,22 +98,6 @@ export function MagicBorderCard({
           `,
         }}
       />
-
-      {/* Border Beam effect */}
-      <div className="absolute inset-0 z-20 overflow-hidden rounded-2xl">
-        <BorderBeam
-          size={borderBeamSize}
-          duration={borderBeamDuration}
-          colorFrom={gradientFrom}
-          colorTo={gradientTo}
-          className={cn(
-            'absolute',
-            showBorderBeamOnHover
-              ? 'opacity-0 group-hover:opacity-100 transition-opacity duration-500'
-              : '',
-          )}
-        />
-      </div>
     </div>
   )
 }

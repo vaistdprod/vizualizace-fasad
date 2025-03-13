@@ -12,6 +12,7 @@ import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical
 import { fadeInUp, defaultViewport } from '@/utilities/animations'
 import { fields } from './fields'
 import { getClientSideURL } from '@/utilities/getURL'
+import { MagicCard } from '@/components/ui/magic-card'
 
 export type FormBlockType = {
   blockName?: string
@@ -121,65 +122,67 @@ export const FormBlock: React.FC<
       className="mx-auto max-w-3xl px-4 md:px-6"
       id={`block-${id}`}
     >
-      <div className="rounded-2xl bg-card/30 backdrop-blur-xs border p-8">
-        {enableIntro && introContent && !hasSubmitted && (
-          <RichText className="mb-6" data={introContent} enableGutter={false} />
-        )}
-        <FormProvider {...formMethods}>
-          {!isLoading && hasSubmitted && confirmationType === 'message' && (
-            <RichText data={confirmationMessage} className="space-y-4" />
+      <MagicCard className="h-full">
+        <div className="rounded-xl bg-card/30 p-8">
+          {enableIntro && introContent && !hasSubmitted && (
+            <RichText className="mb-6" data={introContent} enableGutter={false} />
           )}
-          {isLoading && !hasSubmitted && (
-            <p className="text-center text-muted-foreground">Načítání, prosím čekejte...</p>
-          )}
-          {error && (
-            <p className="text-sm text-destructive text-center mb-4">
-              {`${error.status || '500'}: ${error.message || ''}`}
-            </p>
-          )}
-          {!hasSubmitted && (
-            <form id={formID} onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              {formFromProps &&
-                formFromProps.fields &&
-                formFromProps.fields.map((field: FormFieldBlock, index) => {
-                  const Field = fields[field.blockType as keyof typeof fields] as React.FC<
-                    FormFieldBlock & {
-                      form: FormType
-                      control: typeof control
-                      errors: typeof errors
-                      register: typeof register
-                      [key: string]: unknown
+          <FormProvider {...formMethods}>
+            {!isLoading && hasSubmitted && confirmationType === 'message' && (
+              <RichText data={confirmationMessage} className="space-y-4" />
+            )}
+            {isLoading && !hasSubmitted && (
+              <p className="text-center text-muted-foreground">Načítání, prosím čekejte...</p>
+            )}
+            {error && (
+              <p className="text-sm text-destructive text-center mb-4">
+                {`${error.status || '500'}: ${error.message || ''}`}
+              </p>
+            )}
+            {!hasSubmitted && (
+              <form id={formID} onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                {formFromProps &&
+                  formFromProps.fields &&
+                  formFromProps.fields.map((field: FormFieldBlock, index) => {
+                    const Field = fields[field.blockType as keyof typeof fields] as React.FC<
+                      FormFieldBlock & {
+                        form: FormType
+                        control: typeof control
+                        errors: typeof errors
+                        register: typeof register
+                        [key: string]: unknown
+                      }
+                    >
+                    if (Field) {
+                      return (
+                        <div key={index}>
+                          <Field
+                            form={formFromProps}
+                            {...field}
+                            control={control}
+                            errors={errors}
+                            register={register}
+                          />
+                        </div>
+                      )
                     }
-                  >
-                  if (Field) {
-                    return (
-                      <div key={index}>
-                        <Field
-                          form={formFromProps}
-                          {...field}
-                          control={control}
-                          errors={errors}
-                          register={register}
-                        />
-                      </div>
-                    )
-                  }
-                  return null
-                })}
-              <Button
-                form={formID}
-                type="submit"
-                variant="default"
-                disabled={isLoading}
-                className="w-full"
-              >
-                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {submitButtonLabel || 'Odeslat zprávu'}
-              </Button>
-            </form>
-          )}
-        </FormProvider>
-      </div>
+                    return null
+                  })}
+                <Button
+                  form={formID}
+                  type="submit"
+                  variant="default"
+                  disabled={isLoading}
+                  className="w-full"
+                >
+                  {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  {submitButtonLabel || 'Odeslat zprávu'}
+                </Button>
+              </form>
+            )}
+          </FormProvider>
+        </div>
+      </MagicCard>
     </motion.div>
   )
 }

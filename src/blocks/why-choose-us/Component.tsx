@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { Star, Clock, Settings, Cpu, PiggyBank, Users } from 'lucide-react'
 import type { WhyChooseUsBlock as WhyChooseUsBlockProps } from '@/payload-types'
 import { fadeInUp, staggerContainer, staggerItem, defaultViewport } from '@/utilities/animations'
+import { MagicCard } from '@/components/ui/magic-card'
 
 const iconMap = {
   Star,
@@ -57,20 +58,18 @@ export const WhyChooseUsBlock: React.FC<WhyChooseUsBlockProps & { id?: string }>
           {features?.map((feature, index) => {
             const Icon = iconMap[feature.icon as keyof typeof iconMap]
             return (
-              <motion.div
-                key={index}
-                variants={staggerItem}
-                className="relative group overflow-hidden rounded-2xl bg-card/40 backdrop-blur-md border border-muted p-8 transition-all duration-300 hover:-translate-y-1"
-              >
-                <div className="mb-6 inline-flex items-center justify-center w-16 h-16 rounded-xl bg-primary/10 text-primary ring-4 ring-primary/5">
-                  {Icon && <Icon className="h-8 w-8" strokeWidth={1.5} />}
-                </div>
+              <motion.div key={index} variants={staggerItem}>
+                <MagicCard className="p-8 bg-card/40 backdrop-blur-md">
+                  <div className="mb-6 inline-flex items-center justify-center w-16 h-16 rounded-xl bg-primary/10 text-primary ring-4 ring-primary/5">
+                    {Icon && <Icon className="h-8 w-8" strokeWidth={1.5} />}
+                  </div>
 
-                <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors duration-300">
-                  {feature.title}
-                </h3>
+                  <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors duration-300">
+                    {feature.title}
+                  </h3>
 
-                <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+                  <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+                </MagicCard>
               </motion.div>
             )
           })}

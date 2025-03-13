@@ -16,6 +16,7 @@ import {
 } from 'lucide-react'
 import type { PartnershipProcessBlock as PartnershipProcessBlockProps } from '@/payload-types'
 import { fadeInUp, staggerContainer, staggerItem, defaultViewport } from '@/utilities/animations'
+import { MagicCard } from '@/components/ui/magic-card'
 
 const iconMap = {
   MessageSquare,
@@ -34,17 +35,11 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
 ) => {
   const { id, title, description, steps, visualizationDetail } = props
 
-  // Group steps by phase (if we have 4 steps as in the content)
   const mainSteps = steps?.filter((step) => step.number <= 4) || []
-
-  // Find the visualization process step (step 3 in the content)
   const visualizationStep = mainSteps.find((step) => step.number === 3)
 
   return (
-    <section
-      className="py-16 overflow-hidden bg-gradient-to-b from-background to-background/80"
-      id={`block-${id}`}
-    >
+    <section className="py-16 overflow-hidden" id={`block-${id}`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -69,9 +64,9 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
             const Icon = iconMap[step.icon as keyof typeof iconMap] || MessageSquare
             return (
               <motion.div key={step.number} variants={staggerItem} className="flex flex-col h-full">
-                <div className="bg-card rounded-xl  overflow-hidden flex flex-col h-full border border-border/50">
-                  {/* Step header with number and icon */}
-                  <div className="bg-primary/5 p-4 border-b border-border/50 flex items-center">
+                <MagicCard className="bg-card overflow-hidden flex-col">
+                  {/* Step header - add rounded-t-xl to match MagicCard */}
+                  <div className="bg-primary/5 p-4 border-b border-border/50 flex items-center rounded-t-xl">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground mr-4">
                       <Icon className="h-6 w-6" />
                     </div>
@@ -97,13 +92,13 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
                   <div className="p-6 flex-grow">
                     <p className="text-muted-foreground">{step.description}</p>
                   </div>
-                </div>
+                </MagicCard>
               </motion.div>
             )
           })}
         </motion.div>
 
-        {/* Visualization process detail (step 3 expanded) */}
+        {/* Visualization process detail */}
         {visualizationStep && visualizationDetail && (
           <motion.div
             initial="hidden"
@@ -133,19 +128,16 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
                       : 'bg-blue-900/5'
 
                 return (
-                  <div
-                    key={phaseNumber}
-                    className="bg-card rounded-xl overflow-hidden flex flex-col h-full border border-border/50"
-                  >
-                    {/* Phase header */}
+                  <MagicCard key={phaseNumber} className="bg-card overflow-hidden flex-col">
+                    {/* Phase header - add rounded-t-xl */}
                     <div
-                      className={`${bgClass} p-4 border-b border-border/50 flex items-center justify-between`}
+                      className={`${bgClass} p-4 border-b border-border/50 flex items-center justify-between rounded-t-xl`}
                     >
                       <div className="flex flex-col">
                         <h4 className="text-xl font-bold">{phase.title}</h4>
                         <p className="text-sm text-muted-foreground">{phase.subtitle}</p>
                       </div>
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white text-primary-foreground ">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white text-primary-foreground">
                         <span className="text-xl font-bold text-primary">{phaseNumber}</span>
                       </div>
                     </div>
@@ -165,7 +157,6 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
                             </div>
                           ))}
                         </div>
-
                         <div className="flex justify-between items-center py-3 border-y border-border/30">
                           <div className="text-sm font-medium">Vyberete vzory</div>
                           <div className="w-12 h-6 group">
@@ -180,7 +171,6 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
                             </svg>
                           </div>
                         </div>
-
                         <div className="grid grid-cols-2 gap-3 mt-4">
                           {[1, 2].map((i) => (
                             <div
@@ -193,7 +183,6 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
                             </div>
                           ))}
                         </div>
-
                         <div className="flex justify-between items-center mt-4 pt-3 border-t border-border/30">
                           <div className="text-sm font-medium">Vyberete barvy</div>
                           <div className="w-12 h-6 group">
@@ -210,7 +199,6 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
                         </div>
                       </div>
                     )}
-
                     {phaseNumber === 2 && (
                       <div className="p-6 flex-grow">
                         <div className="grid grid-cols-2 gap-3">
@@ -227,7 +215,6 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
                         </div>
                       </div>
                     )}
-
                     {phaseNumber === 3 && (
                       <div className="p-6 flex-grow flex flex-col justify-between">
                         <div className="aspect-[4/3] relative rounded-md overflow-hidden bg-muted mb-4">
@@ -235,20 +222,19 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
                             <ImageIcon className="h-12 w-12 opacity-40" />
                           </div>
                         </div>
-
                         <div className="flex items-center justify-center mt-4 p-3 bg-green-500/10 rounded-lg">
                           <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
                           <span className="text-green-500 font-medium">Hotovo!</span>
                         </div>
                       </div>
                     )}
-                  </div>
+                  </MagicCard>
                 )
               })}
             </div>
 
             <div className="flex justify-center mt-10">
-              <div className="inline-flex items-center px-5 py-2.5 rounded-full bg-primary/15 text-primary border border-primary/30 ">
+              <div className="inline-flex items-center px-5 py-2.5 rounded-full bg-primary/15 text-primary border border-primary/30">
                 <Clock className="h-5 w-5 mr-2" />
                 <span className="text-sm font-medium">{visualizationDetail.timeframe}</span>
               </div>

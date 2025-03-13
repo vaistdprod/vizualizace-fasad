@@ -1,7 +1,7 @@
 import type { Form } from '@/payload-types'
 
 export const landingForm: Omit<Form, 'createdAt' | 'id' | 'updatedAt'> = {
-  title: 'Landing Page Contact Form',
+  title: 'Kontaktní formulář úvodní stránky',
   fields: [
     {
       blockType: 'text',

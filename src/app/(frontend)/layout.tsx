@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import Script from 'next/script'
-
 import { cn } from '@/utilities/ui'
 import { GeistSans } from 'geist/font/sans'
 import React from 'react'
@@ -35,7 +34,7 @@ export default async function RootLayout({ children }: { readonly children: Reac
           strategy="afterInteractive"
         />
       </head>
-      <body className="antialiased">
+      <body className="antialiased relative">
         <Providers>
           <Header />
           <main>{children}</main>

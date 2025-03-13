@@ -18,6 +18,7 @@ import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { LandingHeroBlock } from '@/blocks/landing-hero/Component'
 import { TrustBadgesBlock } from '@/blocks/trust-badges/Component'
 import { TestimonialsBlock } from '@/blocks/testimonials/Component'
+import { BackgroundImageBlock } from '@/blocks/background-image/Component'
 
 const blockComponents = {
   featuredProjects: FeaturedProjectsBlock,
@@ -36,6 +37,7 @@ const blockComponents = {
   landingHero: LandingHeroBlock,
   trustBadges: TrustBadgesBlock,
   testimonials: TestimonialsBlock,
+  backgroundImage: BackgroundImageBlock,
 }
 
 export const RenderBlocks: React.FC<{
@@ -56,7 +58,8 @@ export const RenderBlocks: React.FC<{
 
             if (Block) {
               // Conditionally set the margin class based on block type
-              const blockClassName = blockType === 'landingHero' ? 'mb-16' : 'my-16'
+              const blockClassName =
+                blockType === 'trustBadges' || blockType === 'landingHero' ? 'my-0' : 'my-16'
 
               return (
                 <div className={blockClassName} key={index}>

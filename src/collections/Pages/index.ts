@@ -18,6 +18,7 @@ import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { LandingHero } from '../../blocks/landing-hero/config'
 import { TrustBadges } from '../../blocks/trust-badges/config'
 import { Testimonials } from '../../blocks/testimonials/config'
+import { BackgroundImage } from '../../blocks/background-image/config'
 import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
@@ -94,6 +95,7 @@ export const Pages: CollectionConfig = {
                 LandingHero,
                 TrustBadges,
                 Testimonials,
+                BackgroundImage,
               ],
               required: true,
               admin: {
