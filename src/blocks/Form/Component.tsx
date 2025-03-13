@@ -1,5 +1,5 @@
+// src/blocks/Form/Component.tsx
 'use client'
-
 import type { FormFieldBlock, Form as FormType } from '@payloadcms/plugin-form-builder/types'
 import { useRouter } from 'next/navigation'
 import React, { useCallback, useState } from 'react'
@@ -11,22 +11,19 @@ import { Loader2 } from 'lucide-react'
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 import { fadeInUp, defaultViewport } from '@/utilities/animations'
 import { fields } from './fields'
+import { File } from './File' // Import File directly
 import { getClientSideURL } from '@/utilities/getURL'
 import { MagicCard } from '@/components/ui/magic-card'
 
 export type FormBlockType = {
   blockName?: string
   blockType?: 'formBlock'
-  enableIntro: boolean | null // Allow null from Payload
+  enableIntro: boolean | null
   form: FormType
   introContent?: SerializedEditorState
 }
 
-export const FormBlock: React.FC<
-  {
-    id?: string
-  } & FormBlockType
-> = (props) => {
+export const FormBlock: React.FC<{ id?: string } & FormBlockType> = (props) => {
   const {
     enableIntro,
     form: formFromProps,
@@ -35,7 +32,6 @@ export const FormBlock: React.FC<
     id,
   } = props
 
-  // Ensure formID is a string
   if (!formID) {
     throw new Error('Form ID is missing')
   }
@@ -62,7 +58,7 @@ export const FormBlock: React.FC<
         setError(undefined)
 
         const formData = new FormData()
-        formData.append('form', formID) // formID is now guaranteed to be a string
+        formData.append('form', formID)
 
         Object.entries(data).forEach(([name, value]) => {
           if (value instanceof FileList) {
@@ -70,7 +66,6 @@ export const FormBlock: React.FC<
               formData.append(`${name}[${index}]`, file)
             })
           } else if (value !== undefined && value !== null) {
-            // Skip undefined/null
             formData.append(name, String(value))
           }
         })
@@ -168,6 +163,14 @@ export const FormBlock: React.FC<
                     }
                     return null
                   })}
+                <File
+                  blockType="file" // We'll fix this in File/index.tsx
+                  name="attachment"
+                  label="Přiložit fotografie domu (max. 5 souborů, 5 MB na soubor)"
+                  register={register}
+                  errors={errors}
+                  required={false}
+                />
                 <Button
                   form={formID}
                   type="submit"

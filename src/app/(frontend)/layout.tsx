@@ -1,5 +1,5 @@
+// src/app/(frontend)/layout.tsx
 import type { Metadata } from 'next'
-import Script from 'next/script'
 import { cn } from '@/utilities/ui'
 import { GeistSans } from 'geist/font/sans'
 import React from 'react'
@@ -12,7 +12,7 @@ import { CookieConsent } from '@/components/CookieConsent'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
 import { getServerSideURL } from '@/utilities/getURL'
-import { GTM_ID } from '@/lib/gtm'
+import { GTM } from '@/components/GTM'
 
 import './globals.css'
 
@@ -20,7 +20,7 @@ export default async function RootLayout({ children }: { readonly children: Reac
   const { isEnabled: _isEnabled } = await draftMode()
 
   return (
-    <html className={cn(GeistSans.variable)} lang="cs" data-theme="light" suppressHydrationWarning>
+    <html className={cn(GeistSans.variable)} lang="cs" suppressHydrationWarning>
       <head>
         <InitTheme />
         <link href="/favicon.png" rel="icon" sizes="32x32" />
@@ -29,13 +29,10 @@ export default async function RootLayout({ children }: { readonly children: Reac
         <link href="/favicon-192x192.png" rel="icon" sizes="192x192" />
         <link rel="preconnect" href={getServerSideURL()} />
         <link rel="dns-prefetch" href={getServerSideURL()} />
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GTM_ID}`}
-          strategy="afterInteractive"
-        />
       </head>
       <body className="antialiased relative">
         <Providers>
+          <GTM /> {/* Moved up to be right after <body> */}
           <Header />
           <main>{children}</main>
           <Footer />
@@ -80,7 +77,7 @@ export const metadata: Metadata = {
     'fasády Ostrava',
     'fasády Brno',
     'fasády Česká republika',
-    'VizualizaceFasad.cz',
+    'studiofasad.cz',
   ],
   openGraph: mergeOpenGraph(),
   robots: {
@@ -92,8 +89,5 @@ export const metadata: Metadata = {
       'max-image-preview': 'large',
       'max-snippet': -1,
     },
-  },
-  verification: {
-    google: 'verification-code',
   },
 }

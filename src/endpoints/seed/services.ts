@@ -96,7 +96,7 @@ export const services: (args: ServicesArgs) => RequiredDataFromCollectionSlug<'p
     },
   ],
   meta: {
-    title: 'Návrhy a vizualizace fasád - VizualizaceFasad.cz',
+    title: 'Návrhy a vizualizace fasád - studiofasad.cz',
     description:
       'Profesionální návrhy a vizualizace fasád pro novostavby, rekonstrukce i komerční objekty.',
     image: facadeImage.id,

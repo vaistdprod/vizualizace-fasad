@@ -75,7 +75,7 @@ export const gallery: (args: GalleryArgs) => RequiredDataFromCollectionSlug<'pag
     },
   ],
   meta: {
-    title: 'Fotogalerie realizací - VizualizaceFasad.cz',
+    title: 'Fotogalerie realizací - studiofasad.cz',
     description:
       'Ukázky realizovaných fasád podle našich návrhů. Porovnejte původní stav, vizualizaci a výslednou realizaci.',
     image: modernOffice.id,

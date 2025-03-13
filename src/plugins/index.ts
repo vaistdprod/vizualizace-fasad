@@ -1,3 +1,4 @@
+// src/plugins.ts
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { seoPlugin } from '@payloadcms/plugin-seo'
@@ -16,7 +17,6 @@ const generateTitle: GenerateTitle<Page> = ({ doc }) => {
 
 const generateURL: GenerateURL<Page> = ({ doc }) => {
   const url = getServerSideURL()
-
   return doc?.slug ? `${url}/${doc.slug}` : url
 }
 
@@ -50,6 +50,14 @@ export const plugins: Plugin[] = [
   formBuilderPlugin({
     fields: {
       payment: false,
+      text: true,
+      textarea: true,
+      email: true,
+      select: false,
+      checkbox: false,
+      country: false,
+      message: false,
+      state: false,
     },
     formOverrides: {
       fields: ({ defaultFields }) => {

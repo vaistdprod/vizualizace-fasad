@@ -1,3 +1,4 @@
+// src/providers/Theme/index.tsx
 'use client'
 
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
@@ -10,7 +11,7 @@ import { themeIsValid } from './types'
 
 const initialContext: ThemeContextType = {
   setTheme: () => null,
-  theme: undefined,
+  theme: defaultTheme, // Set a default theme to avoid undefined
 }
 
 const ThemeContext = createContext(initialContext)
@@ -25,7 +26,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
       window.localStorage.removeItem(themeLocalStorageKey)
       const implicitPreference = getImplicitPreference()
       document.documentElement.setAttribute('data-theme', implicitPreference || '')
-      if (implicitPreference) setThemeState(implicitPreference)
+      setThemeState(implicitPreference as Theme)
     } else {
       setThemeState(themeToSet)
       window.localStorage.setItem(themeLocalStorageKey, themeToSet)
@@ -41,7 +42,6 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
       themeToSet = preference
     } else {
       const implicitPreference = getImplicitPreference()
-
       if (implicitPreference) {
         themeToSet = implicitPreference
       }

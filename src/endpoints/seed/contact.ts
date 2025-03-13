@@ -82,7 +82,7 @@ export const contact: (args: ContactArgs) => RequiredDataFromCollectionSlug<'pag
     },
   ],
   meta: {
-    title: 'Kontakt - VizualizaceFasad.cz',
+    title: 'Kontakt - studiofasad.cz',
     description: 'Kontaktujte nás pro profesionální návrhy a vizualizace fasád vašich domů.',
     image: contactImage.id,
   },

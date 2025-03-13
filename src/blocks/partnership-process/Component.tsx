@@ -65,8 +65,7 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
             return (
               <motion.div key={step.number} variants={staggerItem} className="flex flex-col h-full">
                 <MagicCard className="bg-card overflow-hidden flex-col">
-                  {/* Step header - add rounded-t-xl to match MagicCard */}
-                  <div className="bg-primary/5 p-4 border-b border-border/50 flex items-center rounded-t-xl">
+                  <div className="bg-primary/5 p-4 flex-grow-1 border-b border-border/50 flex items-center rounded-t-xl">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground mr-4">
                       <Icon className="h-6 w-6" />
                     </div>
@@ -108,7 +107,7 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
             className="mt-16 pt-16 border-t border-border"
           >
             <div className="flex flex-col items-center mb-12">
-              <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-primary/10 mb-4">
+              <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-primary/10 backdrop-blur-xs mb-4">
                 <ImageIcon className="h-8 w-8 text-primary" />
               </div>
               <h3 className="text-2xl font-bold text-center">{visualizationDetail.heading}</h3>
@@ -234,7 +233,7 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
             </div>
 
             <div className="flex justify-center mt-10">
-              <div className="inline-flex items-center px-5 py-2.5 rounded-full bg-primary/15 text-primary border border-primary/30">
+              <div className="inline-flex items-center px-5 py-2.5 rounded-full bg-primary/15 text-primary border backdrop-blur-xs border-primary/30">
                 <Clock className="h-5 w-5 mr-2" />
                 <span className="text-sm font-medium">{visualizationDetail.timeframe}</span>
               </div>

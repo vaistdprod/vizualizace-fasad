@@ -1,3 +1,4 @@
+// collections/Header.ts
 import type { GlobalConfig } from 'payload'
 import { link } from '@/fields/link'
 import { revalidateHeader } from './hooks/revalidateHeader'
@@ -27,6 +28,13 @@ export const Header: GlobalConfig = {
           required: true,
         },
       ],
+    },
+    {
+      name: 'logo',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Logo',
+      required: false, // Optional: Make it required if you want
     },
     {
       name: 'navItems',

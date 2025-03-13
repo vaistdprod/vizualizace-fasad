@@ -1,3 +1,4 @@
+// src/components/GridPattern.tsx (or wherever this file is located)
 import { useId } from 'react'
 
 import { cn } from '@/utilities/ui'
@@ -28,15 +29,17 @@ export function GridPattern({
   return (
     <svg
       aria-hidden="true"
-      className={cn(
-        'pointer-events-none absolute inset-0 h-full w-full fill-gray-400/30 stroke-gray-400/30',
-        className,
-      )}
+      className={cn('pointer-events-none absolute inset-0 h-full w-full', className)}
       {...props}
     >
       <defs>
         <pattern id={id} width={width} height={height} patternUnits="userSpaceOnUse" x={x} y={y}>
-          <path d={`M.5 ${height}V.5H${width}`} fill="none" strokeDasharray={strokeDasharray} />
+          <path
+            d={`M.5 ${height}V.5H${width}`}
+            fill="none"
+            strokeDasharray={strokeDasharray}
+            stroke="hsl(var(--border) / 0.4)" // Use theme's border color with 30% opacity
+          />
         </pattern>
       </defs>
       <rect width="100%" height="100%" strokeWidth={0} fill={`url(#${id})`} />
@@ -50,6 +53,7 @@ export function GridPattern({
               height={height - 1}
               x={x * width + 1}
               y={y * height + 1}
+              fill="hsl(var(--border) / 0.4)" // Use theme's border color with 30% opacity for squares
             />
           ))}
         </svg>

@@ -89,7 +89,7 @@ export const pricing: (args: PricingArgs) => RequiredDataFromCollectionSlug<'pag
     },
   ],
   meta: {
-    title: 'Ceník návrhů fasád - VizualizaceFasad.cz',
+    title: 'Ceník návrhů fasád - studiofasad.cz',
     description:
       'Ceník návrhů a vizualizací fasád pro rodinné domy, bytové domy a komerční objekty.',
     image: pricingImage.id,

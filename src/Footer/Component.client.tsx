@@ -35,7 +35,7 @@ export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
           >
             <div className="flex items-center gap-2">
               <Building2 className="h-6 w-6" />
-              <span className="text-xl font-semibold">VizualizaceFasad.cz</span>
+              <span className="text-xl font-semibold">studiofasad.cz</span>
             </div>
             <div className="space-y-4">
               {companyInfo?.map((item, index) => {
@@ -81,8 +81,8 @@ export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
 
         <div className="mt-12 py-8 border-t">
           <p className="text-sm text-muted-foreground text-center">
-            © {new Date().getFullYear()} VizualizaceFasad.cz - Terapeutika – grafika s.r.o. Všechna
-            práva vyhrazena.
+            © {new Date().getFullYear()} studiofasad.cz | Terapeutika – grafika s.r.o. | Vytvořilo{' '}
+            <a href="https://tdprod.cz">TD Productions</a>
           </p>
         </div>
       </div>

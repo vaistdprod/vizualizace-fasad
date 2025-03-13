@@ -1,5 +1,5 @@
+// src/blocks/RenderBlocks.tsx
 import React, { Fragment } from 'react'
-
 import type { Page } from '@/payload-types'
 
 import { FeaturedProjectsBlock } from '@/blocks/featured-projects/Component'
@@ -57,12 +57,45 @@ export const RenderBlocks: React.FC<{
             const Block = blockComponents[blockType]
 
             if (Block) {
-              // Conditionally set the margin class based on block type
+              // Special handling for backgroundImage to render nested blocks
+              if (blockType === 'backgroundImage') {
+                const {
+                  blocks: nestedBlocks,
+                  backgroundType,
+                  image,
+                  opacity,
+                  ...rest
+                } = block as {
+                  blockType: 'backgroundImage'
+                  blocks?: Page['layout'][0][]
+                  backgroundType: 'image' | 'gridPattern' | 'dotPattern'
+                  image?: any
+                  opacity?: number
+                  id?: string
+                  blockName?: string
+                }
+                console.log('Rendering BackgroundImageBlock with nestedBlocks:', nestedBlocks)
+                return (
+                  <BackgroundImageBlock
+                    key={block.id || `${blockType}-${index}`}
+                    backgroundType={backgroundType}
+                    image={image}
+                    opacity={opacity}
+                    {...rest}
+                  >
+                    {nestedBlocks && nestedBlocks.length > 0 ? (
+                      <RenderBlocks blocks={nestedBlocks} />
+                    ) : null}
+                  </BackgroundImageBlock>
+                )
+              }
+
+              // Conditionally set margin class for other block types
               const blockClassName =
                 blockType === 'trustBadges' || blockType === 'landingHero' ? 'my-0' : 'my-16'
 
               return (
-                <div className={blockClassName} key={index}>
+                <div className={blockClassName} key={block.id || `${blockType}-${index}`}>
                   {/* @ts-expect-error there may be some mismatch between the expected types here */}
                   <Block {...block} />
                 </div>

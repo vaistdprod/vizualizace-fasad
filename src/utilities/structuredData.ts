@@ -14,7 +14,7 @@ export const generatePageSchema = (page: Pick<Page, 'title' | 'publishedAt' | 'm
     dateModified: new Date().toISOString(),
     publisher: {
       '@type': 'Organization',
-      name: 'VizualizaceFasad.cz',
+      name: 'studiofasad.cz',
       logo: {
         '@type': 'ImageObject',
         url: `${process.env.NEXT_PUBLIC_SERVER_URL}/favicon.svg`,
@@ -28,7 +28,7 @@ export const generateOrganizationSchema = () => {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     '@id': process.env.NEXT_PUBLIC_SERVER_URL,
-    name: 'VizualizaceFasad.cz',
+    name: 'studiofasad.cz',
     description:
       'Profesionální návrhy a vizualizace fasád pro novostavby, rekonstrukce i komerční objekty.',
     url: process.env.NEXT_PUBLIC_SERVER_URL,

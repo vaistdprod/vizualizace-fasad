@@ -1,10 +1,11 @@
+// seed/index.ts
 import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from 'payload'
 import { home } from './home'
 import { services } from './services'
 import { pricing } from './pricing'
 import { gallery } from './gallery'
 import { contact } from './contact'
-import { landing } from './landing' // Add this import
+import { landing } from './landing'
 import {
   heroBg,
   modernOfficeTower,
@@ -26,13 +27,14 @@ import {
   sarahImage,
   michaelImage,
   emilyImage,
-  landingHeroImage, // Added
-  testimonialImage1, // Added
-  testimonialImage2, // Added
-  testimonialImage3, // Added
+  landingHeroImage,
+  testimonialImage1,
+  testimonialImage2,
+  testimonialImage3,
+  logo, // Add logo to the imports
 } from './images'
 import { contactForm } from './contact-form'
-import { landingForm } from './landing-form' // Add this import (create this file, see below)
+import { landingForm } from './landing-form'
 import type { Header } from '@/payload-types'
 import { fileURLToPath } from 'url'
 
@@ -98,7 +100,7 @@ export const seed = async ({
   await payload.create({
     collection: 'users',
     data: {
-      name: 'Admin VizualizaceFasad.cz',
+      name: 'Admin studiofasad.cz',
       email: 'info@vizualizacefasad.cz',
       password: DEMO_USER_PASSWORD,
     },
@@ -206,7 +208,6 @@ export const seed = async ({
     data: emilyImage,
     file: await fetchFileByPath('./polaskova.jpg'),
   })
-  // New images added here
   const landingHeroImageDoc = await payload.create({
     collection: 'media',
     data: landingHeroImage,
@@ -226,6 +227,12 @@ export const seed = async ({
     collection: 'media',
     data: testimonialImage3,
     file: await fetchFileByPath('./david-chen.jpg'),
+  })
+  const logoDoc = await payload.create({
+    // Add logo seeding
+    collection: 'media',
+    data: logo,
+    file: await fetchFileByPath('./logo.svg'), // Adjust path to your SVG file
   })
 
   // Seed forms
@@ -309,8 +316,7 @@ export const seed = async ({
   // Seed globals (header and footer)
   payload.logger.info('— Seeding globals...')
   const navigation = [
-    { label: 'Úvod', url: '/' },
-    { label: 'Služby', url: '/sluzby' },
+    { label: 'Služby', url: '/sluzby' }, // Removed 'Úvod'
     { label: 'Ceník', url: '/cenik' },
     { label: 'Galerie', url: '/galerie' },
     { label: 'Kontakt', url: '/kontakt' },
@@ -330,6 +336,7 @@ export const seed = async ({
           phone: '+420 725 136 901',
           email: 'info@vizualizacefasad.cz',
         },
+        logo: logoDoc.id, // Add logo to header data
       } as Header,
       depth: 0,
       context: { disableRevalidate: true },
@@ -348,8 +355,7 @@ export const seed = async ({
           {
             title: 'Menu',
             links: [
-              { label: 'Úvod', url: '/' },
-              { label: 'Služby', url: '/sluzby' },
+              { label: 'Služby', url: '/sluzby' }, // Removed 'Úvod'
               { label: 'Ceník', url: '/cenik' },
               { label: 'Galerie', url: '/galerie' },
               { label: 'Kontakt', url: '/kontakt' },
@@ -395,6 +401,8 @@ async function fetchFileByPath(filePath: string): Promise<File> {
     mimeType = 'image/jpeg'
   } else if (filePath.endsWith('.png')) {
     mimeType = 'image/png'
+  } else if (filePath.endsWith('.svg')) {
+    mimeType = 'image/svg+xml' // Add SVG mime type
   } else {
     mimeType = 'image/jpeg' // Default to JPEG
   }

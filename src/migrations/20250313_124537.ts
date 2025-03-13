@@ -1167,6 +1167,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"id" serial PRIMARY KEY NOT NULL,
   	"top_bar_phone" varchar NOT NULL,
   	"top_bar_email" varchar NOT NULL,
+  	"logo_id" integer,
   	"updated_at" timestamp(3) with time zone,
   	"created_at" timestamp(3) with time zone
   );
@@ -1947,6 +1948,12 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   END $$;
   
   DO $$ BEGIN
+   ALTER TABLE "header" ADD CONSTRAINT "header_logo_id_media_id_fk" FOREIGN KEY ("logo_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
    ALTER TABLE "header_rels" ADD CONSTRAINT "header_rels_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."header"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
@@ -2282,6 +2289,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "payload_migrations_created_at_idx" ON "payload_migrations" USING btree ("created_at");
   CREATE INDEX IF NOT EXISTS "header_nav_items_order_idx" ON "header_nav_items" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "header_nav_items_parent_id_idx" ON "header_nav_items" USING btree ("_parent_id");
+  CREATE INDEX IF NOT EXISTS "header_logo_idx" ON "header" USING btree ("logo_id");
   CREATE INDEX IF NOT EXISTS "header_rels_order_idx" ON "header_rels" USING btree ("order");
   CREATE INDEX IF NOT EXISTS "header_rels_parent_idx" ON "header_rels" USING btree ("parent_id");
   CREATE INDEX IF NOT EXISTS "header_rels_path_idx" ON "header_rels" USING btree ("path");

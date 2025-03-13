@@ -54,7 +54,7 @@ export const GalleryGridBlock: React.FC<GalleryGridBlockProps & { id?: string }>
       >
         {badgeText && (
           <div className="inline-block mb-6">
-            <span className="inline-block py-1 px-4 rounded-full text-sm font-medium bg-primary/10 text-primary">
+            <span className="inline-block py-1 px-4 rounded-full text-sm font-medium bg-primary/10 backdrop-blur-xs text-primary">
               {badgeText}
             </span>
           </div>

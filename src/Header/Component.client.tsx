@@ -1,3 +1,4 @@
+// components/HeaderClient.tsx
 'use client'
 
 import Link from 'next/link'
@@ -7,6 +8,7 @@ import { Menu, X } from 'lucide-react'
 import { TopBar } from './TopBar'
 import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 import { cn } from '@/utilities/ui'
+import Image from 'next/image'
 import type { Header } from '@/payload-types'
 
 interface HeaderClientProps {
@@ -41,7 +43,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     return () => document.removeEventListener('click', handleClickOutside)
   }, [isMobileMenuOpen])
 
-  const { navItems = [], topBar } = data
+  const { navItems = [], topBar, logo } = data
 
   return (
     <>
@@ -62,7 +64,17 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             className="flex lg:flex-1"
           >
             <Link href="/" className="flex items-center">
-              <span className="font-semibold text-xl">studiofasad.cz</span>
+              {logo && typeof logo === 'object' && 'url' in logo && logo.url ? (
+                <Image
+                  src={logo.url}
+                  alt="Studio fasád Logo"
+                  width={150}
+                  height={50}
+                  className="object-contain"
+                />
+              ) : (
+                <span className="font-semibold text-xl">studiofasad.cz</span>
+              )}
             </Link>
           </motion.div>
 

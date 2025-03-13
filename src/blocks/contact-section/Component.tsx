@@ -89,7 +89,7 @@ export const ContactSectionBlock: React.FC<{
       <div className="text-center mb-12">
         {badgeText && (
           <div className="inline-block mb-6">
-            <span className="inline-block py-1 px-4 rounded-full text-sm font-medium bg-primary/10 text-primary">
+            <span className="inline-block py-1 px-4 rounded-full text-sm font-medium bg-primary/10 backdrop-blur-xs text-primary">
               {badgeText}
             </span>
           </div>
@@ -104,7 +104,7 @@ export const ContactSectionBlock: React.FC<{
         )}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <MagicCard className="p-8 bg-card/30 backdrop-blur-xs">
+        <MagicCard className="p-8 bg-card/30">
           <h2 className="text-3xl font-semibold mb-6">{contactTitle || 'Kontaktní informace'}</h2>
           <div className="space-y-6">
             {contactItems?.map((item, index) => {
@@ -123,7 +123,7 @@ export const ContactSectionBlock: React.FC<{
             })}
           </div>
         </MagicCard>
-        <MagicCard className="p-8 bg-card/30 backdrop-blur-xs">
+        <MagicCard className="p-8 bg-card/30">
           <FormBlock form={formData} enableIntro={enableIntro} introContent={introContent} />
         </MagicCard>
       </div>

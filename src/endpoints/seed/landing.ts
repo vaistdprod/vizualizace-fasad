@@ -235,7 +235,7 @@ export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pag
     },
   ],
   meta: {
-    title: 'Vizualizace fasád a 3D návrhy - VizualizaceFasad.cz',
+    title: 'Vizualizace fasád a 3D návrhy - studiofasad.cz',
     description:
       'Profesionální 3D vizualizace fasád s dodáním do 48 hodin. Kontaktujte nás pro bezplatnou konzultaci.',
     image: landingHeroImage.id,

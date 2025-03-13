@@ -36,7 +36,7 @@ export const WhyChooseUsBlock: React.FC<WhyChooseUsBlockProps & { id?: string }>
           className="mx-auto max-w-3xl text-center mb-20"
         >
           <div className="inline-block mb-6">
-            <span className="inline-block py-1 px-4 rounded-full text-sm font-medium bg-primary/10 text-primary">
+            <span className="inline-block py-1 px-4 rounded-full text-sm font-medium bg-primary/10 backdrop-blur-xs text-primary">
               {badgeText}
             </span>
           </div>
@@ -53,7 +53,7 @@ export const WhyChooseUsBlock: React.FC<WhyChooseUsBlockProps & { id?: string }>
           initial="hidden"
           whileInView="visible"
           viewport={defaultViewport}
-          className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
+          className="grid gap-9 sm:grid-cols-2 lg:grid-cols-3"
         >
           {features?.map((feature, index) => {
             const Icon = iconMap[feature.icon as keyof typeof iconMap]

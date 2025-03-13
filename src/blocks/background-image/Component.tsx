@@ -12,7 +12,10 @@ export const BackgroundImageBlock: React.FC<
     children?: React.ReactNode
   }
 > = (props) => {
-  const { id, backgroundType, image, opacity = 0.15, blocks } = props
+  const { id, backgroundType, image, opacity = 0.15, blocks, children } = props
+
+  // Debug logs
+  console.log('BackgroundImageBlock props:', { blocks, children })
 
   // Handle image URL with stricter type checking
   let backgroundImageUrl = ''
@@ -47,7 +50,7 @@ export const BackgroundImageBlock: React.FC<
             style={{
               objectFit: 'cover',
               objectPosition: 'center',
-              opacity: opacity ?? 0.15, // Convert null to 0.15
+              opacity: opacity ?? 0.15,
               willChange: 'transform',
             }}
           />
@@ -81,7 +84,15 @@ export const BackgroundImageBlock: React.FC<
       </div>
 
       {/* Content */}
-      <div className="relative z-10">{hasNestedBlocks ? props.children : null}</div>
+      <div className="relative z-10">
+        {children ? (
+          children
+        ) : hasNestedBlocks ? (
+          <p className="text-red-500">Nested blocks exist but no children passed!</p>
+        ) : (
+          <p className="text-red-500">No nested blocks or children!</p>
+        )}
+      </div>
     </section>
   )
 }

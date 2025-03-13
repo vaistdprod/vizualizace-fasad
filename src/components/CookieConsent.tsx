@@ -1,6 +1,7 @@
+// src/components/CookieConsent.tsx
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Cookies from 'js-cookie'
 import {
   Dialog,
@@ -12,7 +13,7 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
-import { initGTM } from '@/lib/gtm'
+import { initGTM, updateGTMConsent } from '@/lib/gtm'
 
 const COOKIE_CONSENT_KEY = 'cookie-consent'
 
@@ -33,6 +34,7 @@ const defaultConsent: CookieConsent = {
 export function CookieConsent() {
   const [open, setOpen] = useState(false)
   const [consent, setConsent] = useState<CookieConsent>(defaultConsent)
+  const isGTMLoaded = useRef(false) // Track if GTM script has loaded
 
   useEffect(() => {
     const savedConsent = Cookies.get(COOKIE_CONSENT_KEY)
@@ -42,7 +44,13 @@ export function CookieConsent() {
       const parsedConsent = JSON.parse(savedConsent)
       setConsent(parsedConsent)
       if (parsedConsent.analytics) {
-        initGTM()
+        initGTM({
+          analytics_storage: 'granted',
+          ad_storage: parsedConsent.marketing ? 'granted' : 'denied',
+          ad_user_data: parsedConsent.marketing ? 'granted' : 'denied',
+          ad_personalization: parsedConsent.marketing ? 'granted' : 'denied',
+        })
+        isGTMLoaded.current = true // Mark GTM as loaded after initialization
       }
     }
   }, [])
@@ -52,8 +60,26 @@ export function CookieConsent() {
     setConsent(preferences)
     setOpen(false)
 
+    // Only update GTM consent if analytics is enabled and GTM has loaded
+    if (preferences.analytics && isGTMLoaded.current) {
+      updateGTMConsent({
+        analytics_storage: preferences.analytics ? 'granted' : 'denied',
+        ad_storage: preferences.marketing ? 'granted' : 'denied',
+        ad_user_data: preferences.marketing ? 'granted' : 'denied',
+        ad_personalization: preferences.marketing ? 'granted' : 'denied',
+      })
+    }
+
     if (preferences.analytics) {
-      initGTM()
+      initGTM({
+        analytics_storage: 'granted',
+        ad_storage: preferences.marketing ? 'granted' : 'denied',
+        ad_user_data: preferences.marketing ? 'granted' : 'denied',
+        ad_personalization: preferences.marketing ? 'granted' : 'denied',
+      })
+      isGTMLoaded.current = true // Update loaded state
+    } else {
+      isGTMLoaded.current = false // Reset if analytics is turned off
     }
   }
 

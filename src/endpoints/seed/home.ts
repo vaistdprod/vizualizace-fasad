@@ -19,7 +19,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
 }) => ({
   slug: 'home',
   _status: 'published',
-  title: 'VizualizaceFasad.cz - Profesionální návrhy fasád',
+  title: 'studiofasad.cz - Profesionální návrhy fasád',
   layout: [
     {
       blockType: 'landingHero',
@@ -248,7 +248,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
     },
   ],
   meta: {
-    title: 'VizualizaceFasad.cz - Profesionální návrhy fasád',
+    title: 'studiofasad.cz - Profesionální návrhy fasád',
     description:
       'Profesionálně navrhujeme fasády vašich domů. Nechte si ukázat, jak bude váš dům vypadat, ještě před zahájením stavebních prací.',
     image: heroImage.id,

@@ -1,31 +1,32 @@
-import type { Form } from '@/payload-types'
+// src/endpoints/seed/contact-form.ts
+import type { Form as BaseForm } from '@/payload-types'
 
-export const contactForm: Omit<Form, 'createdAt' | 'id' | 'updatedAt'> = {
+export const contactForm: Omit<BaseForm, 'createdAt' | 'id' | 'sizes' | 'updatedAt'> &
+  Partial<Pick<BaseForm, 'id'>> = {
   title: 'Poptávkový formulář',
   fields: [
     {
-      blockType: 'text',
+      blockType: 'text' as const,
       name: 'name',
       label: 'Jméno',
       required: true,
     },
     {
-      blockType: 'email',
+      blockType: 'email' as const,
       name: 'email',
       label: 'E-mail',
       required: true,
     },
     {
-      blockType: 'text',
+      blockType: 'text' as const,
       name: 'phone',
       label: 'Telefon',
       required: true,
     },
     {
-      blockType: 'textarea',
+      blockType: 'textarea' as const,
       name: 'message',
-      label:
-        'Vaše představy a požadavky (Poznámka: fotografie domu prosím zašlete na info@vizualizacefasad.cz)',
+      label: 'Vaše představy a požadavky',
       required: true,
     },
   ],
@@ -44,7 +45,7 @@ export const contactForm: Omit<Form, 'createdAt' | 'id' | 'updatedAt'> = {
               format: 0,
               mode: 'normal',
               style: '',
-              text: 'Děkujeme za vaši poptávku! Pokud jste ještě nezaslali fotografie vašeho domu, prosím pošlete je na info@vizualizacefasad.cz. Po obdržení fotografií vám zašleme potvrzovací email a připravíme cenovou nabídku.',
+              text: 'Děkujeme za vaši poptávku! Pokud jste přiložili fotografie, budou zpracovány spolu s vaším požadavkem. Brzy vám zašleme potvrzovací email a připravíme cenovou nabídku.',
               version: 1,
             },
           ],

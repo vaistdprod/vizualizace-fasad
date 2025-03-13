@@ -10,11 +10,11 @@ const defaultOpenGraph: Metadata['openGraph'] = {
       url: `${getServerSideURL()}/og-image.jpg`,
       width: 1200,
       height: 630,
-      alt: 'VizualizaceFasad.cz - Profesionální návrhy fasád',
+      alt: 'studiofasad.cz - Profesionální návrhy fasád',
     },
   ],
-  siteName: 'VizualizaceFasad.cz - Profesionální návrhy fasád',
-  title: 'VizualizaceFasad.cz - Profesionální návrhy a vizualizace fasád',
+  siteName: 'studiofasad.cz - Profesionální návrhy fasád',
+  title: 'studiofasad.cz - Profesionální návrhy a vizualizace fasád',
   locale: 'cs_CZ',
 }
 

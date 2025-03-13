@@ -46,7 +46,7 @@ export const LandingHeroBlock: React.FC<LandingHeroBlockProps & { id?: string }>
         <div className="max-w-xl lg:max-w-2xl">
           <motion.div
             variants={staggerItem}
-            className="inline-block px-4 py-1.5 mb-6 rounded-full border border-primary/30 bg-primary/10 text-primary"
+            className="inline-block px-4 py-1.5 mb-6 rounded-full border border-primary/30 bg-primary/10 backdrop-blur-xs text-primary"
           >
             {badgeText}
           </motion.div>

@@ -1,4 +1,8 @@
+// src/payload.config.ts
 import { s3Storage } from '@payloadcms/storage-s3'
+import { S3Client, S3ClientConfig } from '@aws-sdk/client-s3'
+import { GetObjectCommand } from '@aws-sdk/client-s3'
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import type { FormSubmission } from '@payloadcms/plugin-form-builder/types'
@@ -6,7 +10,7 @@ import formidable from 'formidable'
 import fs from 'fs/promises'
 import sharp from 'sharp'
 import path from 'path'
-import { buildConfig, PayloadRequest } from 'payload'
+import { buildConfig, PayloadRequest, CollectionConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
@@ -17,6 +21,98 @@ import { Header } from './Header/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
+
+// Centralized S3 configuration
+const R2_BUCKET = process.env.R2_BUCKET ?? throwError('R2_BUCKET')
+const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID ?? throwError('R2_ACCESS_KEY_ID')
+const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY ?? throwError('R2_SECRET_ACCESS_KEY')
+const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID ?? throwError('R2_ACCOUNT_ID')
+
+const s3Config: S3ClientConfig = {
+  region: 'auto',
+  endpoint: `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+  credentials: {
+    accessKeyId: R2_ACCESS_KEY_ID,
+    secretAccessKey: R2_SECRET_ACCESS_KEY,
+  },
+}
+
+const s3Client = new S3Client(s3Config)
+
+// Custom FormSubmissions collection
+const FormSubmissions: CollectionConfig = {
+  slug: 'custom-form-submissions',
+  admin: {
+    useAsTitle: 'createdAt',
+  },
+  fields: [
+    {
+      name: 'form',
+      type: 'relationship',
+      relationTo: 'forms',
+      required: true,
+    },
+    {
+      name: 'submissionData',
+      type: 'array',
+      fields: [
+        { name: 'field', type: 'text' },
+        { name: 'value', type: 'text' },
+      ],
+    },
+    {
+      name: 'attachments',
+      type: 'relationship',
+      relationTo: 'media',
+      hasMany: true,
+    },
+    {
+      name: 'attachmentLinks',
+      type: 'textarea',
+      admin: {
+        readOnly: true,
+        position: 'sidebar',
+        description: 'Signed URLs for attached media (valid for 1 hour)',
+      },
+      hooks: {
+        afterRead: [
+          async ({ data, req }) => {
+            if (!data?.attachments?.length) return 'No attachments'
+            const { payload } = req
+
+            const mediaDocs = await Promise.all(
+              data.attachments.map((id: string | number) =>
+                payload.findByID({ collection: 'media', id }),
+              ),
+            )
+
+            const urls = await Promise.all(
+              mediaDocs.map((doc) =>
+                getSignedUrl(
+                  s3Client,
+                  new GetObjectCommand({
+                    Bucket: R2_BUCKET,
+                    Key: doc.filename,
+                  }),
+                  { expiresIn: 3600 },
+                ),
+              ),
+            )
+
+            return urls.join('\n')
+          },
+        ],
+      },
+    },
+  ],
+}
+
+// Type for our custom FormSubmissions collection
+type FormSubmissionWithAttachments = {
+  form: number
+  submissionData: { field: string; value: string }[]
+  attachments?: number[]
+}
 
 // Simple in-memory rate limiter
 const rateLimitStore = new Map<string, { count: number; lastReset: number }>()
@@ -44,12 +140,6 @@ function rateLimit(req: PayloadRequest): { limited: boolean; message?: string } 
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
-
-// Ensure required env vars are defined
-const R2_BUCKET = process.env.R2_BUCKET ?? throwError('R2_BUCKET')
-const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID ?? throwError('R2_ACCESS_KEY_ID')
-const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY ?? throwError('R2_SECRET_ACCESS_KEY')
-const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID ?? throwError('R2_ACCOUNT_ID')
 
 function throwError(varName: string): never {
   throw new Error(
@@ -87,24 +177,17 @@ export default buildConfig({
       process.env.DEFAULT_FROM_NAME ||
       'Ordinace praktického lékaře pro děti a dorost | MUDr. Janulová',
   }),
-  collections: [Pages, Media, Categories, Users],
+  collections: [Pages, Media, Categories, Users, FormSubmissions],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [
     ...plugins,
     s3Storage({
       collections: {
-        media: true,
+        [Media.slug]: true,
       },
       bucket: R2_BUCKET,
-      config: {
-        credentials: {
-          accessKeyId: R2_ACCESS_KEY_ID,
-          secretAccessKey: R2_SECRET_ACCESS_KEY,
-        },
-        endpoint: `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
-        region: 'auto',
-      },
+      config: s3Config, // Reuse the centralized config
     }),
   ],
   secret: process.env.PAYLOAD_SECRET,
@@ -115,12 +198,7 @@ export default buildConfig({
   jobs: {
     access: {
       run: ({ req }: { req: PayloadRequest }): boolean => {
-        // Allow logged in users to execute this endpoint (default)
         if (req.user) return true
-
-        // If there is no logged in user, then check
-        // for the Vercel Cron secret to be present as an
-        // Authorization header:
         const authHeader = req.headers.get('authorization')
         return authHeader === `Bearer ${process.env.CRON_SECRET}`
       },
@@ -133,7 +211,6 @@ export default buildConfig({
       method: 'post',
       handler: async (req: PayloadRequest) => {
         try {
-          // Apply rate limiting
           const { limited, message } = rateLimit(req)
           if (limited) {
             return new Response(JSON.stringify({ error: message }), {
@@ -142,11 +219,10 @@ export default buildConfig({
             })
           }
 
-          // Parse FormData
           const form = formidable({
             multiples: true,
-            maxFileSize: 5 * 1024 * 1024, // 5MB
-            maxFiles: 5, // Max 5 files
+            maxFileSize: 5 * 1024 * 1024,
+            maxFiles: 5,
           })
 
           const [fields, files] = await new Promise<
@@ -172,10 +248,9 @@ export default buildConfig({
             })
           }
 
-          // Validate file types
           const allowedMimetypes = ['image/png', 'image/heic', 'image/jpeg', 'image/webp']
           for (const [fieldName, fileArray] of Object.entries(files)) {
-            if (!fileArray || fileArray.length === 0) continue // Skip if no files
+            if (!fileArray || fileArray.length === 0) continue
             for (const file of fileArray) {
               if (!allowedMimetypes.includes(file.mimetype || '')) {
                 return new Response(
@@ -188,10 +263,9 @@ export default buildConfig({
             }
           }
 
-          // Sanitize filenames and upload files
           const uploadedFiles = await Promise.all(
             Object.entries(files).map(async ([fieldName, fileArray]) => {
-              if (!fileArray || fileArray.length === 0) return null // Skip if no files
+              if (!fileArray || fileArray.length === 0) return null
               const file = fileArray[0]
               if (!file) return null
               const fileBuffer = await fs.readFile(file.filepath)
@@ -213,18 +287,25 @@ export default buildConfig({
             }),
           ).then((results) => results.filter((r): r is NonNullable<typeof r> => r !== null))
 
-          // Process other fields
           const submissionData = Object.entries(fields)
-            .filter(([key]) => key !== 'form')
+            .filter(([key]) => key !== 'form' && key !== 'attachment')
             .map(([field, values]) => ({ field, value: values?.[0] || '' }))
 
-          // Call handleFormSubmission
+          await req.payload.create({
+            collection: 'custom-form-submissions',
+            data: {
+              form: Number(formId),
+              submissionData,
+              attachments: uploadedFiles.map((f) => f.fileId),
+            } as FormSubmissionWithAttachments,
+          })
+
           const response = await handleFormSubmission(
             {
               form: formId,
               submissionData: [
                 ...submissionData,
-                ...uploadedFiles.map((f) => ({ field: f.field, value: f.fileId })),
+                ...uploadedFiles.map((f) => ({ field: f.field, value: f.fileId.toString() })),
               ],
             },
             req,
@@ -246,7 +327,6 @@ export default buildConfig({
   ],
 })
 
-// Update handleFormSubmission to handle file IDs if needed
 export async function handleFormSubmission(submission: FormSubmission, req: PayloadRequest) {
   const { payload } = req
   const { submissionData } = submission
@@ -259,12 +339,26 @@ export async function handleFormSubmission(submission: FormSubmission, req: Payl
   const phone = phoneField?.value as string
   const messageField = submissionData.find((field) => field.field === 'message')
   const message = messageField?.value as string
-  const fileFields = submissionData.filter((field) => field.field === 'attachment') // Adjust field name as needed
+  const fileFields = submissionData.filter((field) => field.field === 'attachment')
 
-  // Include file info in emails if present
-  const fileLinks = fileFields.length
-    ? fileFields.map((f) => `<p><strong>Příloha:</strong> Media ID ${f.value}</p>`).join('')
-    : ''
+  const fileLinks = await Promise.all(
+    fileFields.map(async (f) => {
+      const mediaDoc = await payload.findByID({
+        collection: 'media',
+        id: f.value as string,
+      })
+      const filename = mediaDoc.filename ?? `unknown-file-${mediaDoc.id}`
+      const signedUrl = await getSignedUrl(
+        s3Client,
+        new GetObjectCommand({
+          Bucket: R2_BUCKET,
+          Key: filename,
+        }),
+        { expiresIn: 3600 },
+      )
+      return `<p><strong>Příloha:</strong> <a href="${signedUrl}">${filename}</a></p>`
+    }),
+  ).then((links) => links.join(''))
 
   await payload.sendEmail({
     to: process.env.DEFAULT_TO_ADDRESS || 'info@vizualizacefasad.cz',
@@ -276,7 +370,7 @@ export async function handleFormSubmission(submission: FormSubmission, req: Payl
       <p><strong>E-mail:</strong> ${senderEmail || 'Neuvedeno'}</p>
       <p><strong>Telefon:</strong> ${phone || 'Neuvedeno'}</p>
       <p><strong>Zpráva:</strong> ${message || 'Neuvedeno'}</p>
-      ${fileLinks}
+      ${fileLinks || ''}
     `,
   })
 

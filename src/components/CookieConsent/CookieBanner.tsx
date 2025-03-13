@@ -1,3 +1,4 @@
+// src/components/CookieConsent/CookieBanner.tsx
 'use client'
 
 import { useEffect } from 'react'
@@ -15,7 +16,7 @@ import {
 } from '@/components/ui/dialog'
 import { Switch } from '@/components/ui/switch'
 import { useCookieConsent, type CookieConsent } from '@/hooks/useCookieConsent'
-import { initGTM } from '@/lib/gtm'
+import { initGTM, updateGTMConsent } from '@/lib/gtm'
 
 const defaultConsent: Omit<CookieConsent, 'timestamp'> = {
   necessary: true,
@@ -32,7 +33,12 @@ export function CookieBanner() {
     if (!consent) {
       setOpen(true)
     } else if (consent.analytics) {
-      initGTM()
+      initGTM({
+        analytics_storage: 'granted',
+        ad_storage: consent.marketing ? 'granted' : 'denied',
+        ad_user_data: consent.marketing ? 'granted' : 'denied',
+        ad_personalization: consent.marketing ? 'granted' : 'denied',
+      })
     }
   }, [consent, setOpen])
 
@@ -43,8 +49,21 @@ export function CookieBanner() {
     }
     setConsent(newConsent)
 
+    // Update GTM consent
+    updateGTMConsent({
+      analytics_storage: preferences.analytics ? 'granted' : 'denied',
+      ad_storage: preferences.marketing ? 'granted' : 'denied',
+      ad_user_data: preferences.marketing ? 'granted' : 'denied',
+      ad_personalization: preferences.marketing ? 'granted' : 'denied',
+    })
+
     if (preferences.analytics) {
-      initGTM()
+      initGTM({
+        analytics_storage: 'granted',
+        ad_storage: preferences.marketing ? 'granted' : 'denied',
+        ad_user_data: preferences.marketing ? 'granted' : 'denied',
+        ad_personalization: preferences.marketing ? 'granted' : 'denied',
+      })
     }
   }
 
@@ -70,7 +89,8 @@ export function CookieBanner() {
               <DialogDescription>
                 Používáme soubory cookie, abychom vám poskytli nejlepší možný zážitek z našich
                 webových stránek. Některé jsou nezbytné pro fungování webu, zatímco jiné nám
-                pomáhají web vylepšovat a personalizovat obsah.
+                pomáhají web vylepšovat a personalizovat obsah. Vaše preference budou uložena na 90
+                dní.
               </DialogDescription>
             </DialogHeader>
 
@@ -144,7 +164,7 @@ export function CookieBanner() {
                   <Link href="/privacy" className="underline hover:text-foreground">
                     Zásady ochrany soukromí
                   </Link>
-                  .
+                  , kde také naleznete informace o tom, jak nás kontaktovat pro zrušení souhlasu.
                 </p>
               </div>
             </div>

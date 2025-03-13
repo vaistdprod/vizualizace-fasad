@@ -1,3 +1,4 @@
+// src/blocks/Form/File/index.tsx
 import type { FormFieldBlock } from '@payloadcms/plugin-form-builder/types'
 import type { FieldErrorsImpl, FieldValues, UseFormRegister } from 'react-hook-form'
 import React from 'react'
@@ -6,12 +7,13 @@ import { Input } from '@/components/ui/input'
 import { Error } from '../Error'
 import { Width } from '../Width'
 
-// Use intersection instead of extending
-type FileField = FormFieldBlock & {
+// Adjusted props type: Remove blockType from FormFieldBlock intersection and add it optionally
+type FileField = Omit<FormFieldBlock, 'blockType'> & {
   name: string
   label: string
   required?: boolean
   width?: string
+  blockType?: 'file' // Optional, specific to our custom field
 }
 
 export const File: React.FC<

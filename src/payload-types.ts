@@ -70,6 +70,7 @@ export interface Config {
     media: Media;
     categories: Category;
     users: User;
+    'custom-form-submissions': CustomFormSubmission;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -84,6 +85,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    'custom-form-submissions': CustomFormSubmissionsSelect<false> | CustomFormSubmissionsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -582,48 +584,9 @@ export interface Form {
             label?: string | null;
             width?: number | null;
             required?: boolean | null;
-            defaultValue?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'checkbox';
-          }
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'country';
-          }
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            required?: boolean | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'email';
-          }
-        | {
-            message?: {
-              root: {
-                type: string;
-                children: {
-                  type: string;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            } | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'message';
           }
         | {
             name: string;
@@ -634,32 +597,6 @@ export interface Form {
             id?: string | null;
             blockName?: string | null;
             blockType: 'number';
-          }
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            defaultValue?: string | null;
-            options?:
-              | {
-                  label: string;
-                  value: string;
-                  id?: string | null;
-                }[]
-              | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'select';
-          }
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'state';
           }
         | {
             name: string;
@@ -980,6 +917,24 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "custom-form-submissions".
+ */
+export interface CustomFormSubmission {
+  id: number;
+  form: number | Form;
+  submissionData?:
+    | {
+        field?: string | null;
+        value?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  attachments?: (number | Media)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1130,6 +1085,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: number | User;
+      } | null)
+    | ({
+        relationTo: 'custom-form-submissions';
+        value: number | CustomFormSubmission;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1723,6 +1682,23 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "custom-form-submissions_select".
+ */
+export interface CustomFormSubmissionsSelect<T extends boolean = true> {
+  form?: T;
+  submissionData?:
+    | T
+    | {
+        field?: T;
+        value?: T;
+        id?: T;
+      };
+  attachments?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects_select".
  */
 export interface RedirectsSelect<T extends boolean = true> {
@@ -1746,27 +1722,6 @@ export interface FormsSelect<T extends boolean = true> {
   fields?:
     | T
     | {
-        checkbox?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              required?: T;
-              defaultValue?: T;
-              id?: T;
-              blockName?: T;
-            };
-        country?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
         email?:
           | T
           | {
@@ -1777,13 +1732,6 @@ export interface FormsSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        message?:
-          | T
-          | {
-              message?: T;
-              id?: T;
-              blockName?: T;
-            };
         number?:
           | T
           | {
@@ -1791,34 +1739,6 @@ export interface FormsSelect<T extends boolean = true> {
               label?: T;
               width?: T;
               defaultValue?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
-        select?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              defaultValue?: T;
-              options?:
-                | T
-                | {
-                    label?: T;
-                    value?: T;
-                    id?: T;
-                  };
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
-        state?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
               required?: T;
               id?: T;
               blockName?: T;
@@ -1958,6 +1878,7 @@ export interface Header {
     phone: string;
     email: string;
   };
+  logo?: (number | null) | Media;
   navItems?:
     | {
         link: {
@@ -2016,6 +1937,7 @@ export interface HeaderSelect<T extends boolean = true> {
         phone?: T;
         email?: T;
       };
+  logo?: T;
   navItems?:
     | T
     | {

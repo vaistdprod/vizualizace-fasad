@@ -1,7 +1,7 @@
 import type { Media } from '@/payload-types'
 
 export const heroBg: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Profesionální návrhy fasád vašich domů - VizualizaceFasad.cz',
+  alt: 'Profesionální návrhy fasád vašich domů - studiofasad.cz',
 }
 
 export const modernOfficeTower: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
@@ -33,7 +33,7 @@ export const customImage: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
 }
 
 export const pricingImage: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Ceník návrhů fasád - VizualizaceFasad.cz',
+  alt: 'Ceník návrhů fasád - studiofasad.cz',
 }
 
 export const modernOffice: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
@@ -65,7 +65,7 @@ export const innovationCenter: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
 }
 
 export const contactImage: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Kontaktujte nás pro profesionální návrhy fasád - VizualizaceFasad.cz',
+  alt: 'Kontaktujte nás pro profesionální návrhy fasád - studiofasad.cz',
 }
 
 export const sarahImage: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
@@ -81,17 +81,21 @@ export const emilyImage: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
 }
 
 export const landingHeroImage: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Moderní architektonická vizualizace - VizualizaceFasad.cz',
+  alt: 'Moderní architektonická vizualizace - studiofasad.cz',
 }
 
 export const testimonialImage1: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'John Anderson - VizualizaceFasad.cz',
+  alt: 'John Anderson - studiofasad.cz',
 }
 
 export const testimonialImage2: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'Sarah Martinez - VizualizaceFasad.cz',
+  alt: 'Sarah Martinez - studiofasad.cz',
 }
 
 export const testimonialImage3: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
-  alt: 'David Chen - VizualizaceFasad.cz',
+  alt: 'David Chen - studiofasad.cz',
+}
+
+export const logo: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
+  alt: 'Logo',
 }
