@@ -1,7 +1,7 @@
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { seoPlugin } from '@payloadcms/plugin-seo'
-import { Plugin } from 'payload'
+import { Field, Plugin } from 'payload'
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { Page } from '@/payload-types'
@@ -22,7 +22,7 @@ export const plugins: Plugin[] = [
             }
           }
           return field
-        }) as any,
+        }) as Field[],
       hooks: {
         afterChange: [revalidateRedirects],
       },
@@ -90,7 +90,7 @@ export const plugins: Plugin[] = [
             }
           }
           return field
-        }) as any,
+        }) as Field[],
     },
   }),
 ]

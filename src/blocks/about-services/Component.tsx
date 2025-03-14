@@ -33,6 +33,7 @@ import {
 } from '@/utilities/animations'
 
 export const AboutServicesBlock: React.FC<AboutServicesBlockProps & { id?: string }> = (props) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { id, title, badgeText, description, image, features, cta, layout = 'imageLeft' } = props
 
   // Function to render icons based on name

@@ -31,7 +31,7 @@ export const ContactSectionBlock: React.FC<{
   }> | null
   form: number | PluginForm // Use PluginForm directly
   enableIntro?: boolean | null
-  introContent?: any
+  introContent?: import('@payloadcms/richtext-lexical/lexical').SerializedEditorState
 }> = (props) => {
   const {
     id,

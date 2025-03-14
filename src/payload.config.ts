@@ -227,7 +227,7 @@ export default buildConfig({
 
           const [fields, files] = await new Promise<
             [formidable.Fields<string>, formidable.Files<string>]
-          >((resolve, reject) => {
+          >((resolve, reject): void => {
             form.parse(req as any, (err, fields, files) => {
               if (err) {
                 if (err.code === 'formidable.FILE_SIZE_EXCEEDED') {
