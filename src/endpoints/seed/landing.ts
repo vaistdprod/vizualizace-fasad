@@ -1,4 +1,3 @@
-// src/seed/landing.ts
 import type { RequiredDataFromCollectionSlug } from 'payload'
 import type { Media, Form } from '@/payload-types'
 
@@ -17,7 +16,7 @@ export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pag
   testimonialImage3,
   landingForm,
 }) => ({
-  slug: 'landing',
+  slug: 'fasady',
   _status: 'published',
   title: 'Domovská stránka',
   layout: [
@@ -39,7 +38,7 @@ export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pag
     },
     {
       blockType: 'backgroundImage',
-      backgroundType: 'gridPattern', // Explicitly grid for this client
+      backgroundType: 'gridPattern',
       blocks: [
         {
           blockType: 'trustBadges',
@@ -239,5 +238,7 @@ export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pag
     description:
       'Profesionální 3D vizualizace fasád s dodáním do 48 hodin. Kontaktujte nás pro bezplatnou konzultaci.',
     image: landingHeroImage.id,
+    keywords:
+      '3d vizualizace fasád, fotorealistické vizualizace, studiofasad.cz, návrhy fasád, rychlé vizualizace, architektonické vizualizace',
   },
 })

@@ -17,7 +17,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
   culturalCenter,
   contactForm,
 }) => ({
-  slug: 'home',
+  slug: 'uvod',
   _status: 'published',
   title: 'studiofasad.cz - Profesionální návrhy fasád',
   layout: [
@@ -250,7 +250,9 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
   meta: {
     title: 'studiofasad.cz - Profesionální návrhy fasád',
     description:
-      'Profesionálně navrhujeme fasády vašich domů. Nechte si ukázat, jak bude váš dům vypadat, ještě před zahájením stavebních prací.',
+      'Profesionálně navrhujeme fasády vašich domů. Realistické vizualizace pro novostavby a rekonstrukce.',
     image: heroImage.id,
+    keywords:
+      'vizualizace fasád, návrhy fasád, fasády novostaveb, rekonstrukce fasád, zateplení fasády, fasádní obklady, studiofasad.cz',
   },
 })

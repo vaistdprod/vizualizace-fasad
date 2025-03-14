@@ -9,6 +9,7 @@ import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { StructuredData } from '@/components/StructuredData'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -25,7 +26,7 @@ export async function generateStaticParams() {
 
   const params = pages.docs
     ?.filter((doc) => {
-      return doc.slug !== 'home'
+      return doc.slug !== 'uvod'
     })
     .map(({ slug }) => {
       return { slug }
@@ -42,7 +43,7 @@ type Args = {
 
 export default async function Page({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
-  const { slug = 'home' } = await paramsPromise
+  const { slug = 'uvod' } = await paramsPromise
   const url = '/' + slug
 
   const page = await queryPageBySlug({
@@ -55,25 +56,22 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   const { layout } = page
 
-  // Conditionally set the padding-top class based on whether it's the homepage or landing page
-  const articleClassName = slug === 'home' || slug === 'landing' ? 'pt-0 pb-24' : 'pt-16 pb-24'
-
   return (
-    <article className={articleClassName}>
+    <>
       <PageClient />
       {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />
 
       {draft && <LivePreviewListener />}
 
-      {/* <RenderHero {...hero} /> */}
       <RenderBlocks blocks={layout} />
-    </article>
+      <StructuredData page={page} />
+    </>
   )
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { slug = 'home' } = await paramsPromise
+  const { slug = 'uvod' } = await paramsPromise
   const page = await queryPageBySlug({
     slug,
   })

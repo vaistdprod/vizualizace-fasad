@@ -28,7 +28,7 @@ export const gallery: (args: GalleryArgs) => RequiredDataFromCollectionSlug<'pag
   layout: [
     {
       blockType: 'backgroundImage',
-      backgroundType: 'gridPattern', // Explicitly grid for this client
+      backgroundType: 'gridPattern',
       blocks: [
         {
           blockType: 'galleryGrid',
@@ -79,5 +79,7 @@ export const gallery: (args: GalleryArgs) => RequiredDataFromCollectionSlug<'pag
     description:
       'Ukázky realizovaných fasád podle našich návrhů. Porovnejte původní stav, vizualizaci a výslednou realizaci.',
     image: modernOffice.id,
+    keywords:
+      'galerie fasád, realizace fasád, studiofasad.cz, fotogalerie vizualizací, před a po fasády',
   },
 })

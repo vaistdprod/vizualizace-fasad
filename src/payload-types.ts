@@ -164,17 +164,21 @@ export interface Page {
     | TestimonialsBlock
     | BackgroundImageBlock
   )[];
+  publishedAt?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
   meta?: {
     title?: string | null;
+    description?: string | null;
     /**
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
     image?: (number | null) | Media;
-    description?: string | null;
+    /**
+     * Comma-separated keywords for SEO (e.g., "fasády, vizualizace, studiofasad.cz")
+     */
+    keywords?: string | null;
   };
-  publishedAt?: string | null;
-  slug?: string | null;
-  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -930,6 +934,10 @@ export interface CustomFormSubmission {
       }[]
     | null;
   attachments?: (number | Media)[] | null;
+  /**
+   * Signed URLs for attached media (valid for 1 hour)
+   */
+  attachmentLinks?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1175,16 +1183,17 @@ export interface PagesSelect<T extends boolean = true> {
         testimonials?: T | TestimonialsBlockSelect<T>;
         backgroundImage?: T | BackgroundImageBlockSelect<T>;
       };
+  publishedAt?: T;
+  slug?: T;
+  slugLock?: T;
   meta?:
     | T
     | {
         title?: T;
-        image?: T;
         description?: T;
+        image?: T;
+        keywords?: T;
       };
-  publishedAt?: T;
-  slug?: T;
-  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1694,6 +1703,7 @@ export interface CustomFormSubmissionsSelect<T extends boolean = true> {
         id?: T;
       };
   attachments?: T;
+  attachmentLinks?: T;
   updatedAt?: T;
   createdAt?: T;
 }

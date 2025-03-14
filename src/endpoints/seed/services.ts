@@ -96,9 +96,11 @@ export const services: (args: ServicesArgs) => RequiredDataFromCollectionSlug<'p
     },
   ],
   meta: {
-    title: 'Návrhy a vizualizace fasád - studiofasad.cz',
+    title: 'Ceník návrhů fasád - studiofasad.cz',
     description:
-      'Profesionální návrhy a vizualizace fasád pro novostavby, rekonstrukce i komerční objekty.',
+      'Ceník návrhů a vizualizací fasád pro rodinné domy, bytové domy a komerční objekty.',
     image: facadeImage.id,
+    keywords:
+      'ceník fasád, cena vizualizace fasády, návrhy fasád cena, studiofasad.cz, rodinný dům fasáda cena, komerční fasády cena',
   },
 })

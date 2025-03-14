@@ -1,19 +1,15 @@
-// src/app/(frontend)/layout.tsx
 import type { Metadata } from 'next'
 import { cn } from '@/utilities/ui'
 import { GeistSans } from 'geist/font/sans'
 import React from 'react'
 import { InitTheme } from '@/providers/Theme/InitTheme'
-import { StructuredData } from '@/components/StructuredData'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
 import { CookieConsent } from '@/components/CookieConsent'
-import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
-import { getServerSideURL } from '@/utilities/getURL'
 import { GTM } from '@/components/GTM'
-
+import { getServerSideURL } from '@/utilities/getURL'
 import './globals.css'
 
 export default async function RootLayout({ children }: { readonly children: React.ReactNode }) {
@@ -32,12 +28,11 @@ export default async function RootLayout({ children }: { readonly children: Reac
       </head>
       <body className="antialiased relative">
         <Providers>
-          <GTM /> {/* Moved up to be right after <body> */}
+          <GTM />
           <Header />
           <main>{children}</main>
           <Footer />
           <CookieConsent />
-          <StructuredData />
         </Providers>
       </body>
     </html>
@@ -52,42 +47,14 @@ export const viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
-  keywords: [
-    'vizualizace fasád',
-    'návrhy fasád',
-    'fasády novostaveb',
-    'rekonstrukce fasád',
-    'zateplení fasády',
-    'fasádní obklady',
-    'kamenné obklady',
-    'dřevěné obklady',
-    'cihlové obklady',
-    'bytové domy',
-    'komerční objekty',
-    'průmyslové objekty',
-    'barevné řešení fasády',
-    'vizualizace domu',
-    'návrh fasády',
-    'fasáda rodinného domu',
-    'fasáda bytového domu',
-    'fasáda komerčního objektu',
-    'realistické vizualizace',
-    'grafický návrh fasády',
-    'architektonické vizualizace',
-    'fasády Ostrava',
-    'fasády Brno',
-    'fasády Česká republika',
-    'studiofasad.cz',
-  ],
-  openGraph: mergeOpenGraph(),
+  openGraph: {
+    type: 'website',
+    siteName: 'studiofasad.cz - Profesionální návrhy fasád',
+    locale: 'cs_CZ',
+  },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
   },
 }

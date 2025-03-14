@@ -1,4 +1,3 @@
-// src/seed/contact.ts
 import type { RequiredDataFromCollectionSlug } from 'payload'
 import type { Media, Form } from '@/payload-types'
 
@@ -13,7 +12,7 @@ type ContactArgs = {
 export const contact: (args: ContactArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
   contactImage,
   sarahImage,
-  michaelImage: _michaelImage, // Unused but kept for args consistency
+  michaelImage: _michaelImage,
   emilyImage,
   contactForm,
 }) => ({
@@ -23,7 +22,7 @@ export const contact: (args: ContactArgs) => RequiredDataFromCollectionSlug<'pag
   layout: [
     {
       blockType: 'backgroundImage',
-      backgroundType: 'gridPattern', // Explicitly grid for this client
+      backgroundType: 'gridPattern',
       blocks: [
         {
           blockType: 'contactSection',
@@ -55,7 +54,7 @@ export const contact: (args: ContactArgs) => RequiredDataFromCollectionSlug<'pag
             },
           ],
           form: contactForm.id,
-          enableIntro: false, // No intro content needed here
+          enableIntro: false,
         },
         {
           blockType: 'teamSection',
@@ -85,5 +84,7 @@ export const contact: (args: ContactArgs) => RequiredDataFromCollectionSlug<'pag
     title: 'Kontakt - studiofasad.cz',
     description: 'Kontaktujte nás pro profesionální návrhy a vizualizace fasád vašich domů.',
     image: contactImage.id,
+    keywords:
+      'kontakt studiofasad.cz, vizualizace fasád kontakt, návrhy fasád kontakt, info@vizualizacefasad.cz, +420 725 136 901',
   },
 })
