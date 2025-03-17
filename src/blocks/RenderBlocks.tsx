@@ -1,12 +1,11 @@
 // src/blocks/RenderBlocks.tsx
 import React, { Fragment } from 'react'
-import type { Page } from '@/payload-types'
+import type { Media, Page } from '@/payload-types'
 
 import { FeaturedProjectsBlock } from '@/blocks/featured-projects/Component'
 import { WhyChooseUsBlock } from '@/blocks/why-choose-us/Component'
 import { AboutServicesBlock } from '@/blocks/about-services/Component'
 import { PartnershipProcessBlock } from '@/blocks/partnership-process/Component'
-import { ServiceCardsBlock } from '@/blocks/service-cards/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
 import { CTASectionBlock } from '@/blocks/cta-section/Component'
 import { PricingPlansBlock } from '@/blocks/pricing-plans/Component'
@@ -17,15 +16,14 @@ import { TeamSectionBlock } from '@/blocks/team-section/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { LandingHeroBlock } from '@/blocks/landing-hero/Component'
 import { TrustBadgesBlock } from '@/blocks/trust-badges/Component'
-import { TestimonialsBlock } from '@/blocks/testimonials/Component'
 import { BackgroundImageBlock } from '@/blocks/background-image/Component'
+import { ConversionBlock } from '@/blocks/conversion-block/Component'
 
 const blockComponents = {
   featuredProjects: FeaturedProjectsBlock,
   whyChooseUs: WhyChooseUsBlock,
   aboutServices: AboutServicesBlock,
   partnershipProcess: PartnershipProcessBlock,
-  serviceCards: ServiceCardsBlock,
   content: ContentBlock,
   ctaSection: CTASectionBlock,
   pricingPlans: PricingPlansBlock,
@@ -36,8 +34,8 @@ const blockComponents = {
   mediaBlock: MediaBlock,
   landingHero: LandingHeroBlock,
   trustBadges: TrustBadgesBlock,
-  testimonials: TestimonialsBlock,
   backgroundImage: BackgroundImageBlock,
+  conversionBlock: ConversionBlock,
 }
 
 export const RenderBlocks: React.FC<{
@@ -69,12 +67,11 @@ export const RenderBlocks: React.FC<{
                   blockType: 'backgroundImage'
                   blocks?: Page['layout'][0][]
                   backgroundType: 'image' | 'gridPattern' | 'dotPattern'
-                  image?: any
+                  image?: number | Media | null
                   opacity?: number
                   id?: string
                   blockName?: string
                 }
-                console.log('Rendering BackgroundImageBlock with nestedBlocks:', nestedBlocks)
                 return (
                   <BackgroundImageBlock
                     key={block.id || `${blockType}-${index}`}

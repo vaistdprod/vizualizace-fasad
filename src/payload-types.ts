@@ -68,9 +68,11 @@ export interface Config {
   collections: {
     pages: Page;
     media: Media;
+    private_media: PrivateMedia;
     categories: Category;
     users: User;
-    'custom-form-submissions': CustomFormSubmission;
+    custom_form_submissions: CustomFormSubmission;
+    projects: Project;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -83,9 +85,11 @@ export interface Config {
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    private_media: PrivateMediaSelect<false> | PrivateMediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
-    'custom-form-submissions': CustomFormSubmissionsSelect<false> | CustomFormSubmissionsSelect<true>;
+    custom_form_submissions: CustomFormSubmissionsSelect<false> | CustomFormSubmissionsSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -150,7 +154,6 @@ export interface Page {
     | WhyChooseUsBlock
     | AboutServicesBlock
     | PartnershipProcessBlock
-    | ServiceCardsBlock
     | CTASectionBlock
     | PricingPlansBlock
     | GalleryGridBlock
@@ -161,8 +164,8 @@ export interface Page {
     | MediaBlock
     | LandingHeroBlock
     | TrustBadgesBlock
-    | TestimonialsBlock
     | BackgroundImageBlock
+    | ConversionBlockProps
   )[];
   publishedAt?: string | null;
   slug?: string | null;
@@ -190,16 +193,70 @@ export interface Page {
 export interface FeaturedProjectsBlock {
   title: string;
   description: string;
-  projects?:
+  afterProjectsText?: string | null;
+  primaryButton?: {
+    enabled?: boolean | null;
+    text?: string | null;
+    link?: string | null;
+  };
+  secondaryButton?: {
+    enabled?: boolean | null;
+    text?: string | null;
+    link?: string | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featuredProjects';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WhyChooseUsBlock".
+ */
+export interface WhyChooseUsBlock {
+  badgeText: string;
+  title: string;
+  description: string;
+  features?:
     | {
         title: string;
-        image: number | Media;
+        description: string;
+        icon: 'Star' | 'Clock' | 'Settings' | 'Cpu' | 'PiggyBank' | 'Users' | 'Award';
         id?: string | null;
       }[]
     | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'featuredProjects';
+  blockType: 'whyChooseUs';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutServicesBlock".
+ */
+export interface AboutServicesBlock {
+  title: string;
+  badgeText?: string | null;
+  description: string;
+  image: number | Media;
+  features?:
+    | {
+        title: string;
+        description: string;
+        /**
+         * Enter an icon name from Lucide Icons (e.g., "check", "star", "shield")
+         */
+        icon?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  cta?: {
+    enabled?: boolean | null;
+    text?: string | null;
+    link?: string | null;
+  };
+  layout: 'imageLeft' | 'imageRight';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'aboutServices';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -298,56 +355,6 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "WhyChooseUsBlock".
- */
-export interface WhyChooseUsBlock {
-  badgeText: string;
-  title: string;
-  description: string;
-  features?:
-    | {
-        title: string;
-        description: string;
-        icon: 'Star' | 'Clock' | 'Settings' | 'Cpu' | 'PiggyBank' | 'Users';
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'whyChooseUs';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "AboutServicesBlock".
- */
-export interface AboutServicesBlock {
-  title: string;
-  badgeText?: string | null;
-  description: string;
-  image: number | Media;
-  features?:
-    | {
-        title: string;
-        description: string;
-        /**
-         * Enter an icon name from Lucide Icons (e.g., "check", "star", "shield")
-         */
-        icon?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  cta?: {
-    enabled?: boolean | null;
-    text?: string | null;
-    link?: string | null;
-  };
-  layout: 'imageLeft' | 'imageRight';
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'aboutServices';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "PartnershipProcessBlock".
  */
 export interface PartnershipProcessBlock {
@@ -381,7 +388,7 @@ export interface PartnershipProcessBlock {
   /**
    * Details for the visualization process (expanded from step 3)
    */
-  visualizationDetail?: {
+  vizDetail?: {
     heading?: string | null;
     description?: string | null;
     /**
@@ -400,59 +407,6 @@ export interface PartnershipProcessBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'partnershipProcess';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ServiceCardsBlock".
- */
-export interface ServiceCardsBlock {
-  badgeText?: string | null;
-  heading: string;
-  description?: string | null;
-  buttonText: string;
-  /**
-   * URL for the button
-   */
-  buttonHref?: string | null;
-  services?:
-    | {
-        title: string;
-        description: string;
-        icon: 'Building2' | 'Cube3d' | 'Paintbrush' | 'Compass';
-        image: number | Media;
-        /**
-         * URL for this service card button (overrides the section button link)
-         */
-        buttonHref?: string | null;
-        features?:
-          | {
-              feature: string;
-              id?: string | null;
-            }[]
-          | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Title for the call to action section at the bottom
-   */
-  ctaTitle?: string | null;
-  /**
-   * Description for the call to action section
-   */
-  ctaDescription?: string | null;
-  /**
-   * Text for the call to action button
-   */
-  ctaButtonText?: string | null;
-  /**
-   * URL for the call to action button
-   */
-  ctaButtonHref?: string | null;
-  ctaButtonVariant?: ('default' | 'outline' | 'secondary') | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'serviceCards';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -479,33 +433,61 @@ export interface PricingPlansBlock {
   badgeText?: string | null;
   heading: string;
   description?: string | null;
-  priceSuffix: string;
-  popularLabel: string;
   buttonText: string;
   /**
-   * Default URL for all plan buttons
+   * URL for the call-to-action buttons
    */
   buttonHref?: string | null;
-  plans?:
-    | {
-        name: string;
-        price: string;
-        description: string;
-        icon: 'Building2' | 'Building';
-        features?:
-          | {
-              feature: string;
-              id?: string | null;
-            }[]
-          | null;
-        /**
-         * URL for this specific plan button (overrides the section button link)
-         */
-        buttonHref?: string | null;
-        popular?: boolean | null;
-        id?: string | null;
-      }[]
-    | null;
+  /**
+   * Additional text to display after the pricing table
+   */
+  afterPricingText?: string | null;
+  primaryButton?: {
+    enabled?: boolean | null;
+    text?: string | null;
+    link?: string | null;
+  };
+  secondaryButton?: {
+    enabled?: boolean | null;
+    text?: string | null;
+    link?: string | null;
+  };
+  /**
+   * Pricing options to display in the table
+   */
+  options: {
+    count: number;
+    base: number;
+    discount: number;
+    final: number;
+    fee: number;
+    concepts: number;
+    series: number;
+    adjust: number;
+    id?: string | null;
+  }[];
+  /**
+   * Headers for the pricing table columns
+   */
+  tableHeaders?: {
+    service?: string | null;
+    concepts?: string | null;
+    series?: string | null;
+    adjust?: string | null;
+    fee?: string | null;
+  };
+  /**
+   * Text labels used in the pricing component
+   */
+  labels?: {
+    discount?: string | null;
+    photo?: string | null;
+    photos?: string | null;
+    currency?: string | null;
+    from?: string | null;
+    for?: string | null;
+  };
+  note?: string | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'pricingPlans';
@@ -516,22 +498,8 @@ export interface PricingPlansBlock {
  */
 export interface GalleryGridBlock {
   badgeText?: string | null;
-  /**
-   * Heading displayed above the gallery
-   */
   heading: string;
-  /**
-   * Optional description displayed below the heading
-   */
   description?: string | null;
-  projects?:
-    | {
-        title: string;
-        image: number | Media;
-        location: string;
-        id?: string | null;
-      }[]
-    | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'galleryGrid';
@@ -545,6 +513,8 @@ export interface ContactSectionBlock {
   heading: string;
   description?: string | null;
   contactTitle?: string | null;
+  enableContactContent?: boolean | null;
+  contactContent?: string | null;
   contactItems?:
     | {
         icon: 'Mail' | 'Phone' | 'MapPin' | 'Clock' | 'Building';
@@ -721,7 +691,7 @@ export interface TeamSectionBlock {
         role: string;
         email: string;
         phone: string;
-        image: number | Media;
+        image?: (number | null) | Media;
         id?: string | null;
       }[]
     | null;
@@ -838,28 +808,6 @@ export interface TrustBadgesBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TestimonialsBlock".
- */
-export interface TestimonialsBlock {
-  title: string;
-  description: string;
-  testimonials?:
-    | {
-        name: string;
-        role: string;
-        image: number | Media;
-        quote: string;
-        result: string;
-        rating?: number | null;
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'testimonials';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "BackgroundImageBlock".
  */
 export interface BackgroundImageBlock {
@@ -875,19 +823,98 @@ export interface BackgroundImageBlock {
         | WhyChooseUsBlock
         | AboutServicesBlock
         | PartnershipProcessBlock
-        | ServiceCardsBlock
         | CTASectionBlock
         | PricingPlansBlock
         | GalleryGridBlock
         | ContactSectionBlock
         | TeamSectionBlock
         | TrustBadgesBlock
-        | TestimonialsBlock
+        | ConversionBlockProps
       )[]
     | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'backgroundImage';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ConversionBlockProps".
+ */
+export interface ConversionBlockProps {
+  badgeText?: string | null;
+  headline: string;
+  subheading: string;
+  /**
+   * Date when the offer expires
+   */
+  endDate?: string | null;
+  /**
+   * Original price before discount
+   */
+  originalPrice?: number | null;
+  /**
+   * Price after discount
+   */
+  discountPrice?: string | null;
+  /**
+   * Percentage of discount (0-100)
+   */
+  discountPercentage?: number | null;
+  currency?: string | null;
+  testimonial: {
+    quote: string;
+    name: string;
+    role: string;
+    image?: (number | null) | Media;
+  };
+  trustBadges?:
+    | {
+        icon: 'ShieldCheck' | 'CheckCircle' | 'Clock';
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  primaryCTA: {
+    text: string;
+    href: string;
+  };
+  secondaryCTA: {
+    text?: string | null;
+    href: string;
+  };
+  urgencyText?: string | null;
+  packageDetails?: {
+    title?: string | null;
+    features?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+    additionalFeeText?: string | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'conversionBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "private_media".
+ */
+export interface PrivateMedia {
+  id: number;
+  alt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -921,7 +948,7 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "custom-form-submissions".
+ * via the `definition` "custom_form_submissions".
  */
 export interface CustomFormSubmission {
   id: number;
@@ -933,13 +960,61 @@ export interface CustomFormSubmission {
         id?: string | null;
       }[]
     | null;
-  attachments?: (number | Media)[] | null;
+  attachments?: (number | PrivateMedia)[] | null;
+  accessToken?: string | null;
   /**
-   * Signed URLs for attached media (valid for 1 hour)
+   * Permanent links for attached media (requires token access)
    */
   attachmentLinks?: string | null;
+  debugFlag?: string | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * A collection of projects with titles, descriptions, and images.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: number;
+  title: string;
+  /**
+   * URL-friendly identifier for the project (e.g., "realizace-fasady-ostrava").
+   */
+  slug: string;
+  /**
+   * Brief description of the project.
+   */
+  description?: string | null;
+  images?:
+    | {
+        title: string;
+        image: number | Media;
+        /**
+         * Optional caption for the image.
+         */
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * The main image to represent this project (used on homepage).
+   */
+  featuredImage?: (number | null) | Media;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1087,6 +1162,10 @@ export interface PayloadLockedDocument {
         value: number | Media;
       } | null)
     | ({
+        relationTo: 'private_media';
+        value: number | PrivateMedia;
+      } | null)
+    | ({
         relationTo: 'categories';
         value: number | Category;
       } | null)
@@ -1095,8 +1174,12 @@ export interface PayloadLockedDocument {
         value: number | User;
       } | null)
     | ({
-        relationTo: 'custom-form-submissions';
+        relationTo: 'custom_form_submissions';
         value: number | CustomFormSubmission;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: number | Project;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1169,7 +1252,6 @@ export interface PagesSelect<T extends boolean = true> {
         whyChooseUs?: T | WhyChooseUsBlockSelect<T>;
         aboutServices?: T | AboutServicesBlockSelect<T>;
         partnershipProcess?: T | PartnershipProcessBlockSelect<T>;
-        serviceCards?: T | ServiceCardsBlockSelect<T>;
         ctaSection?: T | CTASectionBlockSelect<T>;
         pricingPlans?: T | PricingPlansBlockSelect<T>;
         galleryGrid?: T | GalleryGridBlockSelect<T>;
@@ -1180,8 +1262,8 @@ export interface PagesSelect<T extends boolean = true> {
         mediaBlock?: T | MediaBlockSelect<T>;
         landingHero?: T | LandingHeroBlockSelect<T>;
         trustBadges?: T | TrustBadgesBlockSelect<T>;
-        testimonials?: T | TestimonialsBlockSelect<T>;
         backgroundImage?: T | BackgroundImageBlockSelect<T>;
+        conversionBlock?: T | ConversionBlockPropsSelect<T>;
       };
   publishedAt?: T;
   slug?: T;
@@ -1205,12 +1287,20 @@ export interface PagesSelect<T extends boolean = true> {
 export interface FeaturedProjectsBlockSelect<T extends boolean = true> {
   title?: T;
   description?: T;
-  projects?:
+  afterProjectsText?: T;
+  primaryButton?:
     | T
     | {
-        title?: T;
-        image?: T;
-        id?: T;
+        enabled?: T;
+        text?: T;
+        link?: T;
+      };
+  secondaryButton?:
+    | T
+    | {
+        enabled?: T;
+        text?: T;
+        link?: T;
       };
   id?: T;
   blockName?: T;
@@ -1279,7 +1369,7 @@ export interface PartnershipProcessBlockSelect<T extends boolean = true> {
         image?: T;
         id?: T;
       };
-  visualizationDetail?:
+  vizDetail?:
     | T
     | {
         heading?: T;
@@ -1294,40 +1384,6 @@ export interface PartnershipProcessBlockSelect<T extends boolean = true> {
             };
         timeframe?: T;
       };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ServiceCardsBlock_select".
- */
-export interface ServiceCardsBlockSelect<T extends boolean = true> {
-  badgeText?: T;
-  heading?: T;
-  description?: T;
-  buttonText?: T;
-  buttonHref?: T;
-  services?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        icon?: T;
-        image?: T;
-        buttonHref?: T;
-        features?:
-          | T
-          | {
-              feature?: T;
-              id?: T;
-            };
-        id?: T;
-      };
-  ctaTitle?: T;
-  ctaDescription?: T;
-  ctaButtonText?: T;
-  ctaButtonHref?: T;
-  ctaButtonVariant?: T;
   id?: T;
   blockName?: T;
 }
@@ -1352,27 +1408,56 @@ export interface PricingPlansBlockSelect<T extends boolean = true> {
   badgeText?: T;
   heading?: T;
   description?: T;
-  priceSuffix?: T;
-  popularLabel?: T;
   buttonText?: T;
   buttonHref?: T;
-  plans?:
+  afterPricingText?: T;
+  primaryButton?:
     | T
     | {
-        name?: T;
-        price?: T;
-        description?: T;
-        icon?: T;
-        features?:
-          | T
-          | {
-              feature?: T;
-              id?: T;
-            };
-        buttonHref?: T;
-        popular?: T;
+        enabled?: T;
+        text?: T;
+        link?: T;
+      };
+  secondaryButton?:
+    | T
+    | {
+        enabled?: T;
+        text?: T;
+        link?: T;
+      };
+  options?:
+    | T
+    | {
+        count?: T;
+        base?: T;
+        discount?: T;
+        final?: T;
+        fee?: T;
+        concepts?: T;
+        series?: T;
+        adjust?: T;
         id?: T;
       };
+  tableHeaders?:
+    | T
+    | {
+        service?: T;
+        concepts?: T;
+        series?: T;
+        adjust?: T;
+        fee?: T;
+      };
+  labels?:
+    | T
+    | {
+        discount?: T;
+        photo?: T;
+        photos?: T;
+        currency?: T;
+        from?: T;
+        for?: T;
+      };
+  note?: T;
   id?: T;
   blockName?: T;
 }
@@ -1384,14 +1469,6 @@ export interface GalleryGridBlockSelect<T extends boolean = true> {
   badgeText?: T;
   heading?: T;
   description?: T;
-  projects?:
-    | T
-    | {
-        title?: T;
-        image?: T;
-        location?: T;
-        id?: T;
-      };
   id?: T;
   blockName?: T;
 }
@@ -1404,6 +1481,8 @@ export interface ContactSectionBlockSelect<T extends boolean = true> {
   heading?: T;
   description?: T;
   contactTitle?: T;
+  enableContactContent?: T;
+  contactContent?: T;
   contactItems?:
     | T
     | {
@@ -1523,27 +1602,6 @@ export interface TrustBadgesBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TestimonialsBlock_select".
- */
-export interface TestimonialsBlockSelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
-  testimonials?:
-    | T
-    | {
-        name?: T;
-        role?: T;
-        image?: T;
-        quote?: T;
-        result?: T;
-        rating?: T;
-        id?: T;
-      };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "BackgroundImageBlock_select".
  */
 export interface BackgroundImageBlockSelect<T extends boolean = true> {
@@ -1557,14 +1615,69 @@ export interface BackgroundImageBlockSelect<T extends boolean = true> {
         whyChooseUs?: T | WhyChooseUsBlockSelect<T>;
         aboutServices?: T | AboutServicesBlockSelect<T>;
         partnershipProcess?: T | PartnershipProcessBlockSelect<T>;
-        serviceCards?: T | ServiceCardsBlockSelect<T>;
         ctaSection?: T | CTASectionBlockSelect<T>;
         pricingPlans?: T | PricingPlansBlockSelect<T>;
         galleryGrid?: T | GalleryGridBlockSelect<T>;
         contactSection?: T | ContactSectionBlockSelect<T>;
         teamSection?: T | TeamSectionBlockSelect<T>;
         trustBadges?: T | TrustBadgesBlockSelect<T>;
-        testimonials?: T | TestimonialsBlockSelect<T>;
+        conversionBlock?: T | ConversionBlockPropsSelect<T>;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ConversionBlockProps_select".
+ */
+export interface ConversionBlockPropsSelect<T extends boolean = true> {
+  badgeText?: T;
+  headline?: T;
+  subheading?: T;
+  endDate?: T;
+  originalPrice?: T;
+  discountPrice?: T;
+  discountPercentage?: T;
+  currency?: T;
+  testimonial?:
+    | T
+    | {
+        quote?: T;
+        name?: T;
+        role?: T;
+        image?: T;
+      };
+  trustBadges?:
+    | T
+    | {
+        icon?: T;
+        text?: T;
+        id?: T;
+      };
+  primaryCTA?:
+    | T
+    | {
+        text?: T;
+        href?: T;
+      };
+  secondaryCTA?:
+    | T
+    | {
+        text?: T;
+        href?: T;
+      };
+  urgencyText?: T;
+  packageDetails?:
+    | T
+    | {
+        title?: T;
+        features?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        additionalFeeText?: T;
       };
   id?: T;
   blockName?: T;
@@ -1664,6 +1777,24 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "private_media_select".
+ */
+export interface PrivateMediaSelect<T extends boolean = true> {
+  alt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories_select".
  */
 export interface CategoriesSelect<T extends boolean = true> {
@@ -1691,7 +1822,7 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "custom-form-submissions_select".
+ * via the `definition` "custom_form_submissions_select".
  */
 export interface CustomFormSubmissionsSelect<T extends boolean = true> {
   form?: T;
@@ -1703,9 +1834,42 @@ export interface CustomFormSubmissionsSelect<T extends boolean = true> {
         id?: T;
       };
   attachments?: T;
+  accessToken?: T;
   attachmentLinks?: T;
+  debugFlag?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  description?: T;
+  images?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        caption?: T;
+        id?: T;
+      };
+  featuredImage?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1888,7 +2052,7 @@ export interface Header {
     phone: string;
     email: string;
   };
-  logo?: (number | null) | Media;
+  logoSvg?: string | null;
   navItems?:
     | {
         link: {
@@ -1913,9 +2077,10 @@ export interface Header {
  */
 export interface Footer {
   id: number;
+  logoSvg?: string | null;
   companyInfo?:
     | {
-        icon: 'Building2' | 'MapPin' | 'Phone' | 'Mail' | 'Clock';
+        icon: 'Building2' | 'MapPin' | 'Phone' | 'Mail' | 'Clock' | 'Briefcase';
         text: string;
         id?: string | null;
       }[]
@@ -1926,7 +2091,7 @@ export interface Footer {
         links?:
           | {
               label: string;
-              url: string;
+              url?: string | null;
               id?: string | null;
             }[]
           | null;
@@ -1947,7 +2112,7 @@ export interface HeaderSelect<T extends boolean = true> {
         phone?: T;
         email?: T;
       };
-  logo?: T;
+  logoSvg?: T;
   navItems?:
     | T
     | {
@@ -1971,6 +2136,7 @@ export interface HeaderSelect<T extends boolean = true> {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
+  logoSvg?: T;
   companyInfo?:
     | T
     | {
@@ -2003,10 +2169,15 @@ export interface TaskSchedulePublish {
   input: {
     type?: ('publish' | 'unpublish') | null;
     locale?: string | null;
-    doc?: {
-      relationTo: 'pages';
-      value: number | Page;
-    } | null;
+    doc?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'projects';
+          value: number | Project;
+        } | null);
     global?: string | null;
     user?: (number | null) | User;
   };

@@ -33,14 +33,14 @@ const iconMap = {
 export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { id?: string }> = (
   props,
 ) => {
-  const { id, title, description, steps, visualizationDetail } = props
+  const { id, title, description, steps, vizDetail } = props
 
   const mainSteps = steps?.filter((step) => step.number <= 4) || []
   const visualizationStep = mainSteps.find((step) => step.number === 3)
 
   return (
     <section className="py-16 overflow-hidden" id={`block-${id}`}>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -58,14 +58,14 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
           initial="hidden"
           whileInView="visible"
           viewport={defaultViewport}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16"
+          className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16"
         >
           {mainSteps.map((step) => {
             const Icon = iconMap[step.icon as keyof typeof iconMap] || MessageSquare
             return (
               <motion.div key={step.number} variants={staggerItem} className="flex flex-col h-full">
                 <MagicCard className="bg-card overflow-hidden flex-col">
-                  <div className="bg-primary/5 p-4 flex-grow-1 border-b border-border/50 flex items-center rounded-t-xl">
+                  <div className="bg-primary/5 p-4 border-b border-border/50 flex items-center rounded-t-xl">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground mr-4">
                       <Icon className="h-6 w-6" />
                     </div>
@@ -76,7 +76,7 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
                   </div>
 
                   {/* Step image */}
-                  <div className="relative h-48 w-full">
+                  <div className="relative h-50 w-full">
                     <Image
                       src={typeof step.image === 'object' && step.image?.url ? step.image.url : ''}
                       alt={step.title}
@@ -98,7 +98,7 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
         </motion.div>
 
         {/* Visualization process detail */}
-        {visualizationStep && visualizationDetail && (
+        {visualizationStep && vizDetail && (
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -110,14 +110,14 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
               <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-primary/10 backdrop-blur-xs mb-4">
                 <ImageIcon className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-2xl font-bold text-center">{visualizationDetail.heading}</h3>
+              <h3 className="text-2xl font-bold text-center">{vizDetail.heading}</h3>
               <p className="text-muted-foreground text-center mt-2 max-w-2xl">
-                {visualizationDetail.description}
+                {vizDetail.description}
               </p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {visualizationDetail.phases?.map((phase) => {
+              {vizDetail.phases?.map((phase) => {
                 const phaseNumber = phase.number
                 const bgClass =
                   phaseNumber === 1
@@ -144,34 +144,8 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
                     {/* Phase content */}
                     {phaseNumber === 1 && (
                       <div className="p-6 flex-grow">
-                        <div className="grid grid-cols-2 gap-3 mb-4">
-                          {[1, 2, 3, 4].map((i) => (
-                            <div
-                              key={i}
-                              className="aspect-square relative rounded-md overflow-hidden bg-muted"
-                            >
-                              <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
-                                <ImageIcon className="h-8 w-8 opacity-40" />
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                        <div className="flex justify-between items-center py-3 border-y border-border/30">
-                          <div className="text-sm font-medium">Vyberete vzory</div>
-                          <div className="w-12 h-6 group">
-                            <svg viewBox="0 0 24 24" fill="none" className="w-full h-full">
-                              <path
-                                d="M5 12H19M19 12L13 6M19 12L13 18"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
-                          </div>
-                        </div>
-                        <div className="grid grid-cols-2 gap-3 mt-4">
-                          {[1, 2].map((i) => (
+                        <div className="grid grid-cols-3 gap-3 mb-4">
+                          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
                             <div
                               key={i}
                               className="aspect-square relative rounded-md overflow-hidden bg-muted"
@@ -183,11 +157,11 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
                           ))}
                         </div>
                         <div className="flex justify-between items-center mt-4 pt-3 border-t border-border/30">
-                          <div className="text-sm font-medium">Vyberete barvy</div>
+                          <div className="text-sm font-medium">Vyberete vzory a barvy</div>
                           <div className="w-12 h-6 group">
                             <svg viewBox="0 0 24 24" fill="none" className="w-full h-full">
                               <path
-                                d="M5 12H19M19 12L13 6M19 12L13 18"
+                                d="M5 13L9 17L19 7"
                                 stroke="currentColor"
                                 strokeWidth="2"
                                 strokeLinecap="round"
@@ -235,7 +209,7 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
             <div className="flex justify-center mt-10">
               <div className="inline-flex items-center px-5 py-2.5 rounded-full bg-primary/15 text-primary border backdrop-blur-xs border-primary/30">
                 <Clock className="h-5 w-5 mr-2" />
-                <span className="text-sm font-medium">{visualizationDetail.timeframe}</span>
+                <span className="text-sm font-medium">{vizDetail.timeframe}</span>
               </div>
             </div>
           </motion.div>

@@ -31,6 +31,7 @@ const nextConfig = {
   },
   experimental: {
     optimizeCss: true,
+    viewTransition: true,
     optimizePackageImports: ['framer-motion', 'lucide-react'],
   },
   httpAgentOptions: {
@@ -40,7 +41,7 @@ const nextConfig = {
     return [
       {
         source: '/', // User visits /
-        destination: '/home', // Serve content from /home (slug: 'home')
+        destination: '/uvod', // Serve content from /uvod (slug: 'uvod')
       },
     ]
   },
@@ -50,7 +51,7 @@ const nextConfig = {
     return [
       ...existingRedirects,
       {
-        source: '/home', // User visits /home
+        source: '/uvod', // User visits /uvod
         destination: '/', // Redirect to / with a 301
         permanent: true, // Permanent redirect (301) for SEO
       },

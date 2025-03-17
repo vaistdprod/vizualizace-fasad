@@ -8,7 +8,7 @@ export const getServerSideURL = () => {
   }
 
   if (!url) {
-    url = 'https://dokonalafasada.cz'
+    url = 'https://studiofasad.cz'
   }
 
   return url

@@ -30,11 +30,12 @@ export const Header: GlobalConfig = {
       ],
     },
     {
-      name: 'logo',
-      type: 'upload',
-      relationTo: 'media',
-      label: 'Logo',
-      required: false, // Optional: Make it required if you want
+      name: 'logoSvg',
+      type: 'code',
+      label: 'Logo SVG Code',
+      admin: {
+        language: 'html', // Sets the editor to HTML mode for SVG
+      },
     },
     {
       name: 'navItems',

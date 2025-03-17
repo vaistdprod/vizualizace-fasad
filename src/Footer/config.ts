@@ -9,6 +9,14 @@ export const Footer: GlobalConfig = {
   },
   fields: [
     {
+      name: 'logoSvg',
+      type: 'code',
+      label: 'Logo SVG Code',
+      admin: {
+        language: 'html', // Sets the editor to HTML mode for SVG
+      },
+    },
+    {
       name: 'companyInfo',
       type: 'array',
       label: 'Informace o společnosti',
@@ -23,6 +31,7 @@ export const Footer: GlobalConfig = {
             { label: 'Phone', value: 'Phone' },
             { label: 'Mail', value: 'Mail' },
             { label: 'Clock', value: 'Clock' },
+            { label: 'Briefcase', value: 'Briefcase' },
           ],
           required: true,
         },
@@ -38,7 +47,7 @@ export const Footer: GlobalConfig = {
       name: 'footerColumns',
       type: 'array',
       label: 'Sloupce patičky',
-      maxRows: 3, // Allow three columns (Quick Links, Services, Contact Info)
+      maxRows: 2,
       fields: [
         {
           name: 'title',
@@ -60,7 +69,7 @@ export const Footer: GlobalConfig = {
             {
               name: 'url',
               type: 'text',
-              required: true,
+              required: false,
               label: 'URL',
             },
           ],

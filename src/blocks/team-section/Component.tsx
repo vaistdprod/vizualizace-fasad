@@ -13,13 +13,13 @@ export const TeamSectionBlock: React.FC<TeamSectionBlockProps & { id?: string }>
 
   return (
     <section className="py-24" id={`block-${id}`}>
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={defaultViewport}
           variants={fadeInUp}
-          className="mx-auto max-w-2xl text-center mb-16"
+          className="mx-auto max-w-3xl text-center mb-16"
         >
           <h2 className="text-3xl font-bold tracking-tight mb-4">{title}</h2>
           <p className="text-lg text-muted-foreground">{description}</p>
@@ -36,19 +36,17 @@ export const TeamSectionBlock: React.FC<TeamSectionBlockProps & { id?: string }>
             <motion.div key={index} variants={staggerItem} className="h-full">
               <MagicCard className="p-8">
                 <div className="flex items-center gap-6 mb-6">
-                  <div className="relative h-16 w-16 overflow-hidden rounded-full">
-                    <Image
-                      src={
-                        typeof member.image === 'object' && member.image?.url
-                          ? member.image.url
-                          : ''
-                      }
-                      alt={member.name}
-                      fill
-                      className="object-cover"
-                      sizes="64px"
-                    />
-                  </div>
+                  {typeof member.image === 'object' && member.image?.url ? (
+                    <div className="relative h-16 w-16 overflow-hidden rounded-full">
+                      <Image
+                        src={member.image.url}
+                        alt={member.name}
+                        fill
+                        className="object-cover"
+                        sizes="64px"
+                      />
+                    </div>
+                  ) : null}
                   <div>
                     <h3 className="text-xl font-semibold">{member.name}</h3>
                     <p className="text-muted-foreground">{member.role}</p>
@@ -57,11 +55,21 @@ export const TeamSectionBlock: React.FC<TeamSectionBlockProps & { id?: string }>
                 <div className="space-y-3">
                   <div className="flex items-center gap-2 text-sm">
                     <Mail className="h-4 w-4 text-primary" />
-                    <span>{member.email}</span>
+                    <a
+                      href={`mailto:${member.email}`}
+                      className="hover:text-primary transition-colors"
+                    >
+                      {member.email}
+                    </a>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
                     <Phone className="h-4 w-4 text-primary" />
-                    <span>{member.phone}</span>
+                    <a
+                      href={`tel:${member.phone.replace(/\s+/g, '')}`}
+                      className="hover:text-primary transition-colors"
+                    >
+                      {member.phone}
+                    </a>
                   </div>
                 </div>
               </MagicCard>

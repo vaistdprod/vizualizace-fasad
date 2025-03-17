@@ -50,16 +50,13 @@ export const File: React.FC<
       <Input
         id={name}
         type="file"
-        {...register(name, {
-          required,
+        {...register('attachment', {
+          required: required ? 'At least one file is required' : false,
           validate: {
-            size: (files: FileList | undefined) =>
-              !files ||
-              files.length === 0 ||
+            size: (files: FileList) =>
               Array.from(files).every((file) => file.size <= maxSize) ||
-              `Každý soubor nesmí překročit ${maxSize / (1024 * 1024)} MB`,
-            count: (files: FileList | undefined) =>
-              !files || files.length <= maxFiles || `Maximálně ${maxFiles} souborů povoleno`,
+              `Each file must be under ${maxSize / (1024 * 1024)} MB`,
+            count: (files: FileList) => files.length <= maxFiles || `Max ${maxFiles} files allowed`,
           },
         })}
         accept={accept}

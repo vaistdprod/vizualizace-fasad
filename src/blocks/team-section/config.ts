@@ -54,7 +54,7 @@ export const TeamSection: Block = {
           name: 'image',
           type: 'upload',
           relationTo: 'media',
-          required: true,
+          required: false,
           label: 'Image',
         },
       ],

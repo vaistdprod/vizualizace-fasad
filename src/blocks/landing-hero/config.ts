@@ -66,7 +66,6 @@ export const LandingHero: Block = {
       name: 'badgeText',
       type: 'text',
       label: 'Badge Text',
-      defaultValue: 'Vizualizace fasád',
       admin: {
         description: 'Text displayed in the badge above the title',
       },
@@ -83,13 +82,11 @@ export const LandingHero: Block = {
           name: 'enabled',
           type: 'checkbox',
           label: 'Show Scroll Indicator',
-          defaultValue: true,
         },
         {
           name: 'text',
           type: 'text',
           label: 'Scroll Text',
-          defaultValue: 'Scroll',
           admin: {
             condition: (_, siblingData) => siblingData?.enabled,
           },

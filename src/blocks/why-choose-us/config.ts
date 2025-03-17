@@ -13,7 +13,6 @@ export const WhyChooseUs: Block = {
       type: 'text',
       required: true,
       label: 'Badge Text',
-      defaultValue: 'Why Choose Us',
     },
     {
       name: 'title',
@@ -57,6 +56,7 @@ export const WhyChooseUs: Block = {
             { label: 'Cpu', value: 'Cpu' },
             { label: 'PiggyBank', value: 'PiggyBank' },
             { label: 'Users', value: 'Users' },
+            { label: 'Award', value: 'Award' },
           ],
         },
       ],

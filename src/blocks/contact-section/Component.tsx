@@ -32,6 +32,8 @@ export const ContactSectionBlock: React.FC<{
   form: number | PluginForm // Use PluginForm directly
   enableIntro?: boolean | null
   introContent?: import('@payloadcms/richtext-lexical/lexical').SerializedEditorState
+  enableContactContent?: boolean | null
+  contactContent?: string | null
 }> = (props) => {
   const {
     id,
@@ -43,6 +45,8 @@ export const ContactSectionBlock: React.FC<{
     form,
     enableIntro = false,
     introContent,
+    enableContactContent = false,
+    contactContent,
   } = props
 
   // Set initial formData as PluginForm
@@ -83,7 +87,7 @@ export const ContactSectionBlock: React.FC<{
       whileInView="visible"
       viewport={defaultViewport}
       variants={fadeInUp}
-      className="mx-auto max-w-7xl px-4 md:px-6"
+      className="mx-auto py-16 max-w-7xl px-4 md:px-6"
       id={`block-${id}`}
     >
       <div className="text-center mb-12">
@@ -106,6 +110,17 @@ export const ContactSectionBlock: React.FC<{
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <MagicCard className="p-8 bg-card/30">
           <h2 className="text-3xl font-semibold mb-6">{contactTitle || 'Kontaktní informace'}</h2>
+
+          {enableContactContent && contactContent && (
+            <div className="mb-8">
+              {contactContent.split('\n').map((paragraph, i) => (
+                <p key={i} className="mb-4 text-muted-foreground leading-relaxed">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          )}
+
           <div className="space-y-6">
             {contactItems?.map((item, index) => {
               const Icon = iconMap[item.icon]
@@ -116,7 +131,23 @@ export const ContactSectionBlock: React.FC<{
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">{item.label}</p>
-                    <p className="font-medium">{item.value}</p>
+                    {item.icon === 'Phone' ? (
+                      <a
+                        href={`tel:${item.value.replace(/\s+/g, '')}`}
+                        className="font-medium hover:text-primary transition-colors"
+                      >
+                        {item.value}
+                      </a>
+                    ) : item.icon === 'Mail' ? (
+                      <a
+                        href={`mailto:${item.value}`}
+                        className="font-medium hover:text-primary transition-colors"
+                      >
+                        {item.value}
+                      </a>
+                    ) : (
+                      <p className="font-medium">{item.value}</p>
+                    )}
                   </div>
                 </motion.div>
               )

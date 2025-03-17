@@ -113,6 +113,10 @@
 
     /* Elegant border radius */
     --radius: 0.75rem;
+
+    --topbar-bg: 0 0% 93%; /* light mode gray-100 equivalent */
+    --topbar-text: 0 0% 40%; /* light mode gray-600 equivalent */
+    --topbar-hover: 220 70% 20%; /* your primary */
   }
 
   [data-theme="dark"] {
@@ -164,6 +168,10 @@
     --success: 196 100% 14%;
     --warning: 34 51% 25%;
     --error: 10 39% 43%;
+
+    --topbar-bg: 0 0% 20%; /* dark mode gray-800 equivalent */
+    --topbar-text: 0 0% 70%; /* dark mode gray-300 equivalent */
+    --topbar-hover: 220 70% 60%; /* your dark primary */
   }
 
   * {

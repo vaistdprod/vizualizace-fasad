@@ -43,7 +43,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     return () => document.removeEventListener('click', handleClickOutside)
   }, [isMobileMenuOpen])
 
-  const { navItems = [], topBar, logo } = data
+  const { navItems = [], topBar, logoSvg } = data
 
   return (
     <>
@@ -64,13 +64,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             className="flex lg:flex-1"
           >
             <Link href="/" className="flex items-center">
-              {logo && typeof logo === 'object' && 'url' in logo && logo.url ? (
-                <Image
-                  src={logo.url}
-                  alt="Studio fasád Logo"
-                  width={150}
-                  height={50}
-                  className="object-contain"
+              {logoSvg ? (
+                <div
+                  dangerouslySetInnerHTML={{ __html: logoSvg }}
+                  className="w-[81px] h-[54px] object-contain"
                 />
               ) : (
                 <span className="font-semibold text-xl">studiofasad.cz</span>

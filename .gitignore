@@ -15,3 +15,7 @@ public/media/*
 public/robots.txt
 public/sitemap*.xml
 tsconfig.tsbuildinfo
+
+%USERPROFILE%/
+%USERPROFILE%/*
+%APPDATA%/

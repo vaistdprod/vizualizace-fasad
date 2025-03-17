@@ -52,60 +52,49 @@ export const FormBlock: React.FC<{ id?: string } & FormBlockType> = (props) => {
   const router = useRouter()
 
   const onSubmit = useCallback(
-    (data: Record<string, unknown>) => {
-      let loadingTimerID: ReturnType<typeof setTimeout>
-      const submitForm = async () => {
-        setError(undefined)
+    async (data: Record<string, unknown>) => {
+      setIsLoading(true)
+      setError(undefined)
 
-        const formData = new FormData()
-        formData.append('form', formID)
+      const formData = new FormData()
+      formData.append('form', formID)
 
-        Object.entries(data).forEach(([name, value]) => {
-          if (value instanceof FileList) {
-            Array.from(value).forEach((file, index) => {
-              formData.append(`${name}[${index}]`, file)
-            })
-          } else if (value !== undefined && value !== null) {
-            formData.append(name, String(value))
-          }
+      Object.entries(data).forEach(([name, value]) => {
+        if (value instanceof FileList) {
+          Array.from(value).forEach((file) => formData.append('attachment', file))
+        } else if (value !== undefined && value !== null) {
+          formData.append(name, String(value))
+        }
+      })
+
+      let response // Declare response here so it’s in scope for catch
+      try {
+        response = await fetch(`${getClientSideURL()}/api/custom-form-submissions`, {
+          method: 'POST',
+          body: formData,
         })
 
-        loadingTimerID = setTimeout(() => setIsLoading(true), 1000)
+        const result = await response.json()
 
-        try {
-          const req = await fetch(`${getClientSideURL()}/api/custom-form-submissions`, {
-            body: formData,
-            method: 'POST',
-          })
-
-          const res = await req.json()
-          clearTimeout(loadingTimerID)
-
-          if (req.status >= 400) {
-            setIsLoading(false)
-            setError({
-              message: res.error?.message || 'Interní chyba serveru',
-              status: res.status?.toString(),
-            })
-            return
-          }
-
-          setIsLoading(false)
-          setHasSubmitted(true)
-
-          if (confirmationType === 'redirect' && redirect) {
-            const { url } = redirect
-            if (url) router.push(url)
-          }
-        } catch (_err) {
-          setIsLoading(false)
-          setError({ message: 'Něco se pokazilo. Zkuste to prosím později.' })
+        if (!response.ok) {
+          throw new Error(result.error || 'Submission failed')
         }
-      }
 
-      void submitForm()
+        setIsLoading(false)
+        setHasSubmitted(true)
+
+        if (confirmationType === 'redirect' && redirect?.url) {
+          router.push(redirect.url)
+        }
+      } catch (err) {
+        setIsLoading(false)
+        setError({
+          message: err instanceof Error ? err.message : 'Something went wrong',
+          status: response?.status?.toString() || '500', // Now response is accessible
+        })
+      }
     },
-    [router, formID, redirect, confirmationType],
+    [formID, confirmationType, redirect, router],
   )
 
   return (

@@ -35,11 +35,27 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
   let src: StaticImageData | string = srcFromProps || ''
 
   if (!src && resource && typeof resource === 'object') {
-    const { alt: altFromResource, height: fullHeight, url, width: fullWidth } = resource
+    const { alt: altFromResource, height: fullHeight, url, width: fullWidth, filename } = resource
 
     width = fullWidth!
     height = fullHeight!
-    alt = altFromResource || ''
+
+    // Improved alt text handling for SEO
+    // Priority: 1. Alt from props, 2. Alt from resource, 3. Filename without extension, 4. Default
+    if (altFromProps) {
+      alt = altFromProps
+    } else if (altFromResource) {
+      alt = altFromResource
+    } else if (filename) {
+      // Convert filename to readable alt text (remove extension, replace hyphens/underscores with spaces)
+      const filenameWithoutExt = filename.split('.').slice(0, -1).join('.')
+      alt = filenameWithoutExt
+        .replace(/[-_]/g, ' ')
+        .replace(/([a-z])([A-Z])/g, '$1 $2') // Convert camelCase to spaces
+        .trim()
+    } else {
+      alt = 'Vizualizace fasády - studiofasad.cz'
+    }
 
     const cacheTag = resource.updatedAt
 

@@ -103,7 +103,6 @@ export const AboutServices: Block = {
       type: 'select',
       required: true,
       label: 'Layout Style',
-      defaultValue: 'imageLeft',
       options: [
         {
           label: 'Image on Left',

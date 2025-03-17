@@ -86,17 +86,21 @@ export const LandingHeroBlock: React.FC<LandingHeroBlockProps & { id?: string }>
           transition={{ delay: 0.8 }}
           className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10"
         >
-          <div className="flex flex-col items-center">
+          <motion.div
+            className="flex flex-col items-center"
+            animate={{ y: [0, 5, 0] }}
+            transition={{
+              duration: 2.5,
+              repeat: Infinity,
+              ease: 'easeInOut',
+              repeatType: 'loop',
+            }}
+          >
             <span className="text-xs uppercase tracking-wider text-foreground/80 mb-2">
               {scrollIndicator.text}
             </span>
-            <motion.div
-              animate={{ y: [0, 3, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            >
-              <ChevronDown className="h-5 w-5 text-foreground cursor-pointer hover:text-primary transition-colors duration-300" />
-            </motion.div>
-          </div>
+            <ChevronDown className="h-5 w-5 text-foreground cursor-pointer hover:text-primary transition-colors duration-300" />
+          </motion.div>
         </motion.div>
       )}
     </section>

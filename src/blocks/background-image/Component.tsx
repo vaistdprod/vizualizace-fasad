@@ -3,8 +3,8 @@ import React from 'react'
 import Image from 'next/image'
 import { cn } from '@/utilities/ui'
 import type { BackgroundImageBlock as BackgroundImageBlockType } from '@/payload-types'
-import { GridPattern } from '@/components/ui/grid-pattern' // Adjust path
-import { DotPattern } from '@/components/ui/dot-pattern' // Adjust path
+import { GridPattern } from '@/components/ui/grid-pattern'
+import { DotPattern } from '@/components/ui/dot-pattern'
 
 export const BackgroundImageBlock: React.FC<
   BackgroundImageBlockType & {
@@ -12,10 +12,7 @@ export const BackgroundImageBlock: React.FC<
     children?: React.ReactNode
   }
 > = (props) => {
-  const { id, backgroundType, image, opacity = 0.15, blocks, children } = props
-
-  // Debug logs
-  console.log('BackgroundImageBlock props:', { blocks, children })
+  const { id, backgroundType, image, opacity = 0.15, children } = props
 
   // Handle image URL with stricter type checking
   let backgroundImageUrl = ''
@@ -24,8 +21,6 @@ export const BackgroundImageBlock: React.FC<
   } else if (typeof image === 'string') {
     backgroundImageUrl = image
   }
-
-  const hasNestedBlocks = blocks && Array.isArray(blocks) && blocks.length > 0
 
   return (
     <section className="relative w-full overflow-hidden" id={`block-${id}`}>
@@ -84,15 +79,7 @@ export const BackgroundImageBlock: React.FC<
       </div>
 
       {/* Content */}
-      <div className="relative z-10">
-        {children ? (
-          children
-        ) : hasNestedBlocks ? (
-          <p className="text-red-500">Nested blocks exist but no children passed!</p>
-        ) : (
-          <p className="text-red-500">No nested blocks or children!</p>
-        )}
-      </div>
+      <div className="relative z-10">{children}</div>
     </section>
   )
 }

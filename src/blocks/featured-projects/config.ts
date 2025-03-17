@@ -1,4 +1,4 @@
-import type { Block } from 'payload'
+import { Block } from 'payload'
 
 export const FeaturedProjects: Block = {
   slug: 'featuredProjects',
@@ -21,23 +21,57 @@ export const FeaturedProjects: Block = {
       label: 'Description',
     },
     {
-      name: 'projects',
-      type: 'array',
-      label: 'Projects',
-      minRows: 1,
+      name: 'afterProjectsText',
+      type: 'textarea',
+      label: 'Text After Projects',
+    },
+    {
+      name: 'primaryButton',
+      type: 'group',
+      label: 'Primary Button',
       fields: [
         {
-          name: 'title',
-          type: 'text',
-          required: true,
-          label: 'Project Title',
+          name: 'enabled',
+          type: 'checkbox',
+          label: 'Enable Primary Button',
+          defaultValue: false,
         },
         {
-          name: 'image',
-          type: 'upload',
-          relationTo: 'media',
-          required: true,
-          label: 'Project Image',
+          name: 'text',
+          type: 'text',
+          label: 'Button Text',
+          admin: { condition: (_, siblingData) => siblingData?.enabled },
+        },
+        {
+          name: 'link',
+          type: 'text',
+          label: 'Button Link',
+          admin: { condition: (_, siblingData) => siblingData?.enabled },
+        },
+      ],
+    },
+    {
+      name: 'secondaryButton',
+      type: 'group',
+      label: 'Secondary Button',
+      fields: [
+        {
+          name: 'enabled',
+          type: 'checkbox',
+          label: 'Enable Secondary Button',
+          defaultValue: false,
+        },
+        {
+          name: 'text',
+          type: 'text',
+          label: 'Button Text',
+          admin: { condition: (_, siblingData) => siblingData?.enabled },
+        },
+        {
+          name: 'link',
+          type: 'text',
+          label: 'Button Link',
+          admin: { condition: (_, siblingData) => siblingData?.enabled },
         },
       ],
     },

@@ -35,7 +35,20 @@ export const ContactSection: Block = {
       name: 'contactTitle',
       type: 'text',
       label: 'Contact Info Title',
-      defaultValue: 'Kontaktní informace',
+    },
+    {
+      name: 'enableContactContent',
+      type: 'checkbox',
+      label: 'Enable Contact Content',
+      defaultValue: false,
+    },
+    {
+      name: 'contactContent',
+      type: 'textarea',
+      label: 'Contact Content',
+      admin: {
+        condition: (_, { enableContactContent }) => Boolean(enableContactContent),
+      },
     },
     {
       name: 'contactItems',

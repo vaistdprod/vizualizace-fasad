@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Mail, Phone, MapPin, Building2, Clock } from 'lucide-react'
+import { Mail, Phone, MapPin, Building2, Clock, Briefcase } from 'lucide-react'
 import type { Footer } from '@/payload-types'
 import { LucideIcon } from 'lucide-react'
 
@@ -16,15 +16,16 @@ const iconMap: Record<string, LucideIcon> = {
   Phone,
   Mail,
   Clock,
+  Briefcase,
 }
 
 export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
-  const { companyInfo, footerColumns } = data
+  const { companyInfo, footerColumns, logoSvg } = data
 
   return (
     <footer className="bg-muted/30 border-t">
       <div className="mx-auto max-w-7xl px-6 pt-16 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Company Info */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -33,9 +34,18 @@ export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
             viewport={{ once: true }}
             className="space-y-8"
           >
-            <div className="flex items-center gap-2">
-              <Building2 className="h-6 w-6" />
-              <span className="text-xl font-semibold">studiofasad.cz</span>
+            <div className="flex items-center">
+              {logoSvg ? (
+                <div
+                  dangerouslySetInnerHTML={{ __html: logoSvg }}
+                  className="w-[81px] h-[54px] object-contain"
+                />
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Building2 className="h-6 w-6" />
+                  <span className="text-xl font-semibold">studiofasad.cz</span>
+                </div>
+              )}
             </div>
             <div className="space-y-4">
               {companyInfo?.map((item, index) => {
@@ -46,7 +56,23 @@ export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
                     className="flex items-center gap-2 text-sm text-muted-foreground"
                   >
                     {Icon && <Icon className="h-4 w-4" />}
-                    <span>{item.text}</span>
+                    {item.icon === 'Phone' ? (
+                      <a
+                        href={`tel:${item.text.replace(/\s+/g, '')}`}
+                        className="hover:text-foreground transition-colors"
+                      >
+                        {item.text}
+                      </a>
+                    ) : item.icon === 'Mail' ? (
+                      <a
+                        href={`mailto:${item.text}`}
+                        className="hover:text-foreground transition-colors"
+                      >
+                        {item.text}
+                      </a>
+                    ) : (
+                      <span>{item.text}</span>
+                    )}
                   </div>
                 )
               })}
@@ -66,12 +92,16 @@ export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
               <ul className="space-y-3">
                 {column.links?.map((link) => (
                   <li key={link.label}>
-                    <Link
-                      href={link.url || '#'}
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      {link.label}
-                    </Link>
+                    {link.url ? (
+                      <Link
+                        href={link.url}
+                        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    ) : (
+                      <span className="text-sm text-muted-foreground">{link.label}</span>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -82,7 +112,9 @@ export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
         <div className="mt-12 py-8 border-t">
           <p className="text-sm text-muted-foreground text-center">
             © {new Date().getFullYear()} studiofasad.cz | Terapeutika – grafika s.r.o. | Vytvořilo{' '}
-            <a href="https://tdprod.cz">TD Productions</a>
+            <a href="https://tdprod.cz" target="_blank" rel="noopener noreferrer">
+              TD Productions
+            </a>
           </p>
         </div>
       </div>

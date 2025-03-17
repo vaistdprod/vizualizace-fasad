@@ -206,7 +206,7 @@ export const StructuredData: React.FC<StructuredDataProps> = ({ page }) => {
       case 'cenik':
         schemas.push(generateOfferSchema(page))
         break
-      case 'galerie':
+      case 'fotogalerie':
         schemas.push(generateImageGallerySchema(page))
         break
       case 'kontakt':

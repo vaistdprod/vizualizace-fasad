@@ -4,14 +4,13 @@ import { FeaturedProjects } from '../featured-projects/config'
 import { WhyChooseUs } from '../why-choose-us/config'
 import { AboutServices } from '../about-services/config'
 import { PartnershipProcess } from '../partnership-process/config'
-import { ServiceCards } from '../service-cards/config'
 import { CTASection } from '../cta-section/config'
 import { PricingPlans } from '../pricing-plans/config'
 import { GalleryGrid } from '../gallery-grid/config'
 import { ContactSection } from '../contact-section/config'
 import { TeamSection } from '../team-section/config'
 import { TrustBadges } from '../trust-badges/config'
-import { Testimonials } from '../testimonials/config'
+import { ConversionBlock } from '../conversion-block/config'
 
 export const BackgroundImage: Block = {
   slug: 'backgroundImage',
@@ -64,14 +63,13 @@ export const BackgroundImage: Block = {
         WhyChooseUs,
         AboutServices,
         PartnershipProcess,
-        ServiceCards,
         CTASection,
         PricingPlans,
         GalleryGrid,
         ContactSection,
         TeamSection,
         TrustBadges,
-        Testimonials,
+        ConversionBlock,
       ],
       minRows: 1,
     },

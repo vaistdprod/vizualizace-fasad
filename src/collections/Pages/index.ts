@@ -6,7 +6,6 @@ import { FeaturedProjects } from '../../blocks/featured-projects/config'
 import { WhyChooseUs } from '../../blocks/why-choose-us/config'
 import { AboutServices } from '../../blocks/about-services/config'
 import { PartnershipProcess } from '../../blocks/partnership-process/config'
-import { ServiceCards } from '../../blocks/service-cards/config'
 import { CTASection } from '../../blocks/cta-section/config'
 import { PricingPlans } from '../../blocks/pricing-plans/config'
 import { GalleryGrid } from '../../blocks/gallery-grid/config'
@@ -17,8 +16,8 @@ import { Content } from '../../blocks/Content/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { LandingHero } from '../../blocks/landing-hero/config'
 import { TrustBadges } from '../../blocks/trust-badges/config'
-import { Testimonials } from '../../blocks/testimonials/config'
 import { BackgroundImage } from '../../blocks/background-image/config'
+import { ConversionBlock } from '../../blocks/conversion-block/config'
 import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
@@ -75,7 +74,6 @@ export const Pages: CollectionConfig = {
                 WhyChooseUs,
                 AboutServices,
                 PartnershipProcess,
-                ServiceCards,
                 CTASection,
                 PricingPlans,
                 GalleryGrid,
@@ -86,8 +84,8 @@ export const Pages: CollectionConfig = {
                 MediaBlock,
                 LandingHero,
                 TrustBadges,
-                Testimonials,
                 BackgroundImage,
+                ConversionBlock,
               ],
               required: true,
               admin: {

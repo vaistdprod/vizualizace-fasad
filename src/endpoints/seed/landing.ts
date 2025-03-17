@@ -3,18 +3,12 @@ import type { Media, Form } from '@/payload-types'
 
 type LandingArgs = {
   landingHeroImage: Media
-  testimonialImage1: Media
-  testimonialImage2: Media
-  testimonialImage3: Media
-  landingForm: Form
+  contactForm: Form
 }
 
 export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
   landingHeroImage,
-  testimonialImage1,
-  testimonialImage2,
-  testimonialImage3,
-  landingForm,
+  contactForm,
 }) => ({
   slug: 'fasady',
   _status: 'published',
@@ -28,7 +22,7 @@ export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pag
       primaryButtonText: 'Získat bezplatnou konzultaci',
       primaryButtonHref: '/kontakt',
       secondaryButtonText: 'Zobrazit portfolio',
-      secondaryButtonHref: '/galerie',
+      secondaryButtonHref: '/fotogalerie-fasad',
       backgroundImage: landingHeroImage.id,
       badgeText: 'Vizualizace fasád',
       scrollIndicator: {
@@ -43,73 +37,111 @@ export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pag
         {
           blockType: 'trustBadges',
           stats: [
-            { value: '500+', label: 'Dokončených projektů' },
-            { value: '98%', label: 'Spokojenost klientů' },
+            { value: '1000+', label: 'Dokončených projektů' },
+            { value: '99%', label: 'Spokojenost klientů' },
             { value: '15+', label: 'Let zkušeností' },
-            { value: '48h', label: 'Průměrná doba dodání' },
+            { value: '5 dní', label: 'Doba dodání' },
           ],
         },
         {
           blockType: 'whyChooseUs',
           badgeText: 'Proč nás zvolit',
-          title: 'Proč zvolit FacadeVision?',
-          description: 'Špičkové vizualizační služby, kterým důvěřují přední architektonické firmy',
+          title: 'Proč s námi?',
+          description:
+            'Více než 1000 úspěšně provedených návrhů fasád jak novostaveb, rekonstrukcí rodinných příp. panelových domů či komerčních objektů.',
           features: [
             {
-              title: 'Dodání do 48 hodin',
-              description: 'Získejte své architektonické vizualizace již za 2 dny',
-              icon: 'Clock',
-            },
-            {
-              title: 'Fotorealistická kvalita',
-              description: 'Vizualizace ve vysokém rozlišení s přesným osvětlením',
+              title: 'Profesionální návrhy',
+              description:
+                'Naše návrhy jsou profesionální a realisticky propracované, zohledňují vaše představy.',
               icon: 'Star',
             },
             {
-              title: '100% spokojenost',
-              description: 'Neomezené revize, dokud nebudete zcela spokojeni',
+              title: 'Rychlé zpracování',
+              description: 'První série návrhů jsou zpravidla do 5 pracovních dní hotové.',
+              icon: 'Clock',
+            },
+            {
+              title: 'Jasná cena',
+              description:
+                'Cenu vizualizace fasády u nás znáte dopředu, nedochází k nečekanému navyšování ceny.',
               icon: 'PiggyBank',
+            },
+            {
+              title: 'Bohaté zkušenosti',
+              description:
+                'Máme nejbohatší zkušenosti s navrhováním a s vizualizací fasádních obkladových materiálů na našem trhu.',
+              icon: 'Award',
+            },
+            {
+              title: 'Technická zdatnost',
+              description: 'Technicky náročné zakázky jsou pro nás výzvou a neodmítáme je.',
+              icon: 'Settings',
+            },
+            {
+              title: 'Nasloucháme vám',
+              description:
+                'Nasloucháme vašim představám, v případě vašeho zájmu je rádi doplníme o naše návrhy.',
+              icon: 'Users',
             },
           ],
         },
         {
-          blockType: 'testimonials',
-          title: 'Co říkají naši klienti',
-          description: 'Důvěřují nám přední architektonické firmy po celém světě',
-          testimonials: [
+          blockType: 'conversionBlock',
+          badgeText: 'Výhodná nabídka',
+          headline: 'Získejte profesionální vizualizaci fasády',
+          subheading:
+            'Připojte se ke stovkám spokojených zákazníků a proměňte svůj dům s našimi fotorealistickými vizualizacemi.',
+          originalPrice: 6000,
+          discountPrice: 'od 4800',
+          discountPercentage: 20,
+          currency: 'Kč',
+          urgencyText: 'Pospěšte si, nabídka je časově omezená!',
+          primaryCTA: {
+            text: 'Získat nabídku',
+            href: '/kontakt',
+          },
+          secondaryCTA: {
+            text: 'Zjistit více',
+            href: '/',
+          },
+          trustBadges: [
             {
-              name: 'Jan Novák',
-              role: 'Vedoucí architekt, Novák & Partners',
-              image: testimonialImage1.id,
-              quote:
-                'FacadeVision proměnil náš koncept v úchvatné vizualizace, které nám pomohly vyhrát projekt za 50M dolarů.',
-              result: 'Vyhráli jsme projekt za 50M dolarů',
-              rating: 5,
+              icon: 'ShieldCheck',
+              text: '100% garance spokojenosti',
             },
             {
-              name: 'Zuzana Marková',
-              role: 'Ředitelka designu, BIG Architects',
-              image: testimonialImage2.id,
-              quote:
-                '48hodinová doba dodání s výjimečnou kvalitou. Naše prezentace nyní vynikají díky fotorealistickým vizualizacím.',
-              result: 'O 30 % rychlejší schvalování projektů',
-              rating: 5,
+              icon: 'CheckCircle',
+              text: 'Více než 1000 spokojených klientů',
             },
             {
-              name: 'David Černý',
-              role: 'Ředitel, ČNP Architekti',
-              image: testimonialImage3.id,
-              quote:
-                'Pozornost týmu k detailům a přesnost osvětlení je bezkonkurenční. Stali se naším preferovaným partnerem pro vizualizace.',
-              result: '100% spokojenost klientů',
-              rating: 5,
+              icon: 'Clock',
+              text: 'Dodání do 5 dní',
             },
           ],
+          testimonial: {
+            quote:
+              'Proměnili náš nápad v perfektní vizualizace, které nám pomohly ušetřit statisíce na nepovedených fasádách.',
+            name: 'Matěj Vais',
+            role: 'Majitel rodinného domu',
+          },
+          packageDetails: {
+            title: '3 fotografie',
+            features: [
+              { text: '10 variant v úvodních konceptech' },
+              { text: '6 variant ve 2. sérii' },
+              { text: '1 finální úprava' },
+            ],
+            additionalFeeText: '+ 1500 Kč za obkladové materiály',
+          },
         },
         {
           blockType: 'contactSection',
-          heading: 'Začněte svůj projekt ještě dnes',
-          description: 'Kontaktujte nás pro bezplatnou konzultaci a cenovou nabídku.',
+          badgeText: 'Kontaktujte nás',
+          heading: 'Poptávka cenové nabídky',
+          description:
+            'Pošlete nám fotografie vašeho domu, my připravíme cenovou nabídku přesně na míru. Nezávazně a ZDARMA.',
+          contactTitle: 'Kontaktní informace',
           contactItems: [
             {
               icon: 'Mail',
@@ -121,124 +153,29 @@ export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pag
               label: 'Telefon',
               value: '+420 725 136 901',
             },
-          ],
-          form: landingForm.id,
-          enableIntro: false,
-          introContent: {
-            root: {
-              type: 'root',
-              format: '',
-              indent: 0,
-              version: 1,
-              children: [
-                {
-                  children: [
-                    {
-                      detail: 0,
-                      format: 0,
-                      mode: 'normal',
-                      style: '',
-                      text: 'Začněte svůj projekt ještě dnes',
-                      type: 'text',
-                      version: 1,
-                    },
-                  ],
-                  direction: 'ltr',
-                  format: '',
-                  indent: 0,
-                  type: 'heading',
-                  version: 1,
-                  tag: 'h2',
-                },
-                {
-                  children: [
-                    {
-                      detail: 0,
-                      format: 0,
-                      mode: 'normal',
-                      style: '',
-                      text: 'Získejte bezplatnou konzultaci a cenovou nabídku pro vaše potřeby architektonické vizualizace',
-                      type: 'text',
-                      version: 1,
-                    },
-                  ],
-                  direction: 'ltr',
-                  format: '',
-                  indent: 0,
-                  type: 'paragraph',
-                  version: 1,
-                },
-                {
-                  children: [
-                    {
-                      detail: 0,
-                      format: 0,
-                      mode: 'normal',
-                      style: '',
-                      text: 'Dodání do 48 hodin',
-                      type: 'text',
-                      version: 1,
-                    },
-                  ],
-                  direction: 'ltr',
-                  format: '',
-                  indent: 0,
-                  type: 'listitem',
-                  version: 1,
-                  value: 1,
-                },
-                {
-                  children: [
-                    {
-                      detail: 0,
-                      format: 0,
-                      mode: 'normal',
-                      style: '',
-                      text: 'Neomezené revize',
-                      type: 'text',
-                      version: 1,
-                    },
-                  ],
-                  direction: 'ltr',
-                  format: '',
-                  indent: 0,
-                  type: 'listitem',
-                  version: 1,
-                  value: 2,
-                },
-                {
-                  children: [
-                    {
-                      detail: 0,
-                      format: 0,
-                      mode: 'normal',
-                      style: '',
-                      text: 'Záruka vrácení peněz',
-                      type: 'text',
-                      version: 1,
-                    },
-                  ],
-                  direction: 'ltr',
-                  format: '',
-                  indent: 0,
-                  type: 'listitem',
-                  version: 1,
-                  value: 3,
-                },
-              ],
-              direction: 'ltr',
+            {
+              icon: 'MapPin',
+              label: 'Adresa',
+              value: 'Stará Ves nad Ondřejnicí, Luční 706',
             },
-          },
+            {
+              icon: 'Building',
+              label: 'IČO',
+              value: '04189841',
+            },
+          ],
+          form: contactForm.id,
+          enableIntro: false,
         },
       ],
     },
   ],
   meta: {
-    title: 'Vizualizace fasád a 3D návrhy - studiofasad.cz',
+    title: 'Vizualizace a návrhy fasád - studiofasad.cz',
     description:
-      'Profesionální 3D vizualizace fasád s dodáním do 48 hodin. Kontaktujte nás pro bezplatnou konzultaci.',
+      'Profesionální vizualizace fasád s dodáním do 5 dní. Kontaktujte nás pro cenovou nabídku zdarma.',
     image: landingHeroImage.id,
     keywords:
-      '3d vizualizace fasád, fotorealistické vizualizace, studiofasad.cz, návrhy fasád, rychlé vizualizace, architektonické vizualizace',
+      'vizualizace fasád, fotorealistické vizualizace, studiofasad.cz, návrhy fasád, rychlé vizualizace, architektonické vizualizace',
   },
 })

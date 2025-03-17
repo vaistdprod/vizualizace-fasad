@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Star, Clock, Settings, Cpu, PiggyBank, Users } from 'lucide-react'
+import { Star, Clock, Settings, Cpu, PiggyBank, Users, Award } from 'lucide-react'
 import type { WhyChooseUsBlock as WhyChooseUsBlockProps } from '@/payload-types'
 import { fadeInUp, staggerContainer, staggerItem, defaultViewport } from '@/utilities/animations'
 import { MagicCard } from '@/components/ui/magic-card'
@@ -14,6 +14,7 @@ const iconMap = {
   Cpu,
   PiggyBank,
   Users,
+  Award,
 }
 
 export const WhyChooseUsBlock: React.FC<WhyChooseUsBlockProps & { id?: string }> = (props) => {
@@ -21,13 +22,13 @@ export const WhyChooseUsBlock: React.FC<WhyChooseUsBlockProps & { id?: string }>
 
   return (
     <section
-      className="py-28 relative overflow-hidden"
+      className="py-24 relative overflow-hidden"
       id={`block-${id}`}
       style={{
         background: 'linear-gradient(to bottom, var(--muted) 0%, transparent 100%)',
       }}
     >
-      <div className="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
         <motion.div
           initial="hidden"
           whileInView="visible"

@@ -4,8 +4,8 @@ export const PricingPlans: Block = {
   slug: 'pricingPlans',
   interfaceName: 'PricingPlansBlock',
   labels: {
-    singular: 'Pricing Plans',
-    plural: 'Pricing Plans Sections',
+    singular: 'Pricing Table',
+    plural: 'Pricing Tables',
   },
   fields: [
     {
@@ -25,25 +25,10 @@ export const PricingPlans: Block = {
       label: 'Description',
     },
     {
-      name: 'priceSuffix',
-      type: 'text',
-      required: true,
-      label: 'Price Suffix',
-      defaultValue: 'za projekt',
-    },
-    {
-      name: 'popularLabel',
-      type: 'text',
-      required: true,
-      label: 'Popular Label',
-      defaultValue: 'Oblíbené',
-    },
-    {
       name: 'buttonText',
       type: 'text',
       required: true,
       label: 'Button Text',
-      defaultValue: 'Začít',
     },
     {
       name: 'buttonHref',
@@ -51,73 +36,225 @@ export const PricingPlans: Block = {
       required: false,
       label: 'Button Link',
       admin: {
-        description: 'Default URL for all plan buttons',
+        description: 'URL for the call-to-action buttons',
       },
     },
     {
-      name: 'plans',
-      type: 'array',
-      label: 'Plans',
-      minRows: 1,
+      name: 'afterPricingText',
+      type: 'textarea',
+      required: false,
+      label: 'Text After Pricing Table',
+      admin: {
+        description: 'Additional text to display after the pricing table',
+      },
+    },
+    {
+      name: 'primaryButton',
+      type: 'group',
+      label: 'Primary Button',
       fields: [
         {
-          name: 'name',
-          type: 'text',
-          required: true,
-          label: 'Plan Name',
+          name: 'enabled',
+          type: 'checkbox',
+          label: 'Enable Primary Button',
+          defaultValue: false,
         },
         {
-          name: 'price',
-          type: 'text',
-          required: true,
-          label: 'Price',
-        },
-        {
-          name: 'description',
-          type: 'textarea',
-          required: true,
-          label: 'Description',
-        },
-        {
-          name: 'icon',
-          type: 'select',
-          required: true,
-          label: 'Icon',
-          options: [
-            { label: 'Building2', value: 'Building2' },
-            { label: 'Building', value: 'Building' },
-          ],
-        },
-        {
-          name: 'features',
-          type: 'array',
-          label: 'Features',
-          minRows: 1,
-          fields: [
-            {
-              name: 'feature',
-              type: 'text',
-              required: true,
-              label: 'Feature',
-            },
-          ],
-        },
-        {
-          name: 'buttonHref',
+          name: 'text',
           type: 'text',
           required: false,
-          label: 'Plan Button Link',
+          label: 'Button Text',
           admin: {
-            description: 'URL for this specific plan button (overrides the section button link)',
+            condition: (_, siblingData) => siblingData?.enabled,
           },
         },
         {
-          name: 'popular',
-          type: 'checkbox',
-          label: 'Mark as Popular',
-          defaultValue: false,
+          name: 'link',
+          type: 'text',
+          required: false,
+          label: 'Button Link',
+          admin: {
+            condition: (_, siblingData) => siblingData?.enabled,
+          },
         },
       ],
+    },
+    {
+      name: 'secondaryButton',
+      type: 'group',
+      label: 'Secondary Button',
+      fields: [
+        {
+          name: 'enabled',
+          type: 'checkbox',
+          label: 'Enable Secondary Button',
+          defaultValue: false,
+        },
+        {
+          name: 'text',
+          type: 'text',
+          required: false,
+          label: 'Button Text',
+          admin: {
+            condition: (_, siblingData) => siblingData?.enabled,
+          },
+        },
+        {
+          name: 'link',
+          type: 'text',
+          required: false,
+          label: 'Button Link',
+          admin: {
+            condition: (_, siblingData) => siblingData?.enabled,
+          },
+        },
+      ],
+    },
+    {
+      name: 'options',
+      type: 'array',
+      label: 'Price Options',
+      required: true,
+      minRows: 1,
+      admin: {
+        description: 'Pricing options to display in the table',
+      },
+      fields: [
+        {
+          name: 'count',
+          type: 'number',
+          required: true,
+          label: 'Photo Count',
+          min: 1,
+        },
+        {
+          name: 'base',
+          type: 'number',
+          required: true,
+          label: 'Base Price',
+        },
+        {
+          name: 'discount',
+          type: 'number',
+          required: true,
+          label: 'Discount %',
+          min: 0,
+          max: 100,
+        },
+        {
+          name: 'final',
+          type: 'number',
+          required: true,
+          label: 'Final Price',
+        },
+        {
+          name: 'fee',
+          type: 'number',
+          required: true,
+          label: 'Additional Fee',
+        },
+        {
+          name: 'concepts',
+          type: 'number',
+          required: true,
+          label: 'Initial Concepts',
+        },
+        {
+          name: 'series',
+          type: 'number',
+          required: true,
+          label: 'Second Series',
+        },
+        {
+          name: 'adjust',
+          type: 'number',
+          required: true,
+          label: 'Final Adjustments',
+        },
+      ],
+    },
+    {
+      name: 'tableHeaders',
+      type: 'group',
+      label: 'Table Headers',
+      admin: {
+        description: 'Headers for the pricing table columns',
+      },
+      fields: [
+        {
+          name: 'service',
+          type: 'text',
+          label: 'Service Column',
+        },
+        {
+          name: 'concepts',
+          type: 'text',
+          label: 'Concepts Column',
+        },
+        {
+          name: 'series',
+          type: 'text',
+          label: 'Series Column',
+        },
+        {
+          name: 'adjust',
+          type: 'text',
+          label: 'Adjustments Column',
+        },
+        {
+          name: 'fee',
+          type: 'text',
+          label: 'Fee Column',
+        },
+      ],
+    },
+    {
+      name: 'labels',
+      type: 'group',
+      label: 'Text Labels',
+      admin: {
+        description: 'Text labels used in the pricing component',
+      },
+      fields: [
+        {
+          name: 'discount',
+          type: 'text',
+          label: 'Discount Label',
+        },
+        {
+          name: 'photo',
+          type: 'text',
+          label: 'Photo Label (singular)',
+        },
+        {
+          name: 'photos',
+          type: 'text',
+          label: 'Photo Label (plural)',
+        },
+        {
+          name: 'currency',
+          type: 'text',
+          label: 'Currency Symbol',
+          defaultValue: 'Kč',
+        },
+        {
+          name: 'from',
+          type: 'text',
+          label: 'From Label',
+          defaultValue: 'od',
+        },
+        {
+          name: 'for',
+          type: 'text',
+          label: 'For Label',
+          defaultValue: 'za',
+        },
+      ],
+    },
+    {
+      name: 'note',
+      type: 'text',
+      label: 'Footer Note',
     },
   ],
 }

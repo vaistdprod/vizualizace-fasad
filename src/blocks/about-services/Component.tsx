@@ -81,8 +81,8 @@ export const AboutServicesBlock: React.FC<AboutServicesBlockProps & { id?: strin
   const contentVariants = layout === 'imageLeft' ? fadeInRight : fadeInLeft
 
   return (
-    <section className="py-28 relative overflow-hidden" id={`block-${id}`}>
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+    <section className="py-24 relative overflow-hidden" id={`block-${id}`}>
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid gap-16 lg:grid-cols-2 items-center">
           {/* Image Column */}
           <motion.div
