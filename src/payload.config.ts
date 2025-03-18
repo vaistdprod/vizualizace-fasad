@@ -108,6 +108,15 @@ const FormSubmissions: CollectionConfig = {
       defaultValue: () => crypto.randomUUID(),
     },
     {
+      name: 'expiresAt',
+      type: 'date',
+      defaultValue: () => {
+        const date = new Date()
+        date.setDate(date.getDate() + 30) // 30 days expiration
+        return date.toISOString()
+      },
+    },
+    {
       name: 'attachmentLinks',
       type: 'textarea',
       admin: {
@@ -221,10 +230,10 @@ export default buildConfig({
   plugins: [
     ...plugins,
     s3Storage({
-      bucket: R2_PRIVATE_BUCKET, // Default to private bucket
+      bucket: R2_PRIVATE_BUCKET,
       collections: {
-        [Media.slug]: { bucket: R2_PUBLIC_BUCKET }, // Override for Media and Projects
-        [PrivateMedia.slug]: { bucket: R2_PRIVATE_BUCKET }, // Explicitly set for PrivateMedia
+        [Media.slug]: { bucket: R2_PUBLIC_BUCKET },
+        [PrivateMedia.slug]: { bucket: R2_PRIVATE_BUCKET },
         [Projects.slug]: { bucket: R2_PUBLIC_BUCKET },
       },
       config: s3Config,
@@ -268,16 +277,24 @@ export default buildConfig({
           if (submission.accessToken !== token) {
             return res.status(403).send('Invalid token')
           }
+          // Check expiration
+          if (submission.expiresAt) {
+            const expiresAt = new Date(submission.expiresAt)
+            if (expiresAt < new Date()) {
+              return res.status(403).send('Link has expired')
+            }
+          }
           const mediaDoc = await req.payload.findByID({
             collection: 'private_media',
             id: mediaId,
           })
           const filename = mediaDoc.filename || 'unknown'
-          console.log('Serving media:', { mediaId, filename })
+          console.log('Serving media:', { mediaId, filename, fullDoc: mediaDoc })
           console.log('Fetching from S3:', { Bucket: R2_PRIVATE_BUCKET, Key: filename })
           const fileStream = await s3Client.send(
             new GetObjectCommand({ Bucket: R2_PRIVATE_BUCKET, Key: filename }),
           )
+          console.log('S3 response:', fileStream)
           console.log('File stream retrieved:', !!fileStream.Body)
           if (!fileStream.Body) {
             return res.status(404).send('File not found')

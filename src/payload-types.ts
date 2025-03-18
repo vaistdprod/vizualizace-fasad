@@ -962,6 +962,7 @@ export interface CustomFormSubmission {
     | null;
   attachments?: (number | PrivateMedia)[] | null;
   accessToken?: string | null;
+  expiresAt?: string | null;
   /**
    * Permanent links for attached media (requires token access)
    */
@@ -1839,6 +1840,7 @@ export interface CustomFormSubmissionsSelect<T extends boolean = true> {
       };
   attachments?: T;
   accessToken?: T;
+  expiresAt?: T;
   attachmentLinks?: T;
   debugFlag?: T;
   updatedAt?: T;
