@@ -165,13 +165,14 @@ async function handleFormSubmission(
     collection: 'custom_form_submissions',
     id: submissionId,
   })
-  const fileLinks = attachments?.length
+  console.log('Submission attachments:', submission.attachments) // Debug log
+  const fileLinks = submission.attachments?.length
     ? `<p><strong>Přílohy:</strong><br>` +
       submission.attachments
-        .map(
-          (mediaId: number) =>
-            `<a href="${getClientSideURL()}/submission/${submissionId}/${submission.accessToken}/${mediaId}">Soubor ${mediaId}</a>`,
-        )
+        .map((attachment: { id: number }) => {
+          const mediaId = attachment.id
+          return `<a href="${getClientSideURL()}/submission/${submissionId}/${submission.accessToken}/${mediaId}">Soubor ${mediaId}</a>`
+        })
         .join('<br>') +
       `</p>`
     : ''
