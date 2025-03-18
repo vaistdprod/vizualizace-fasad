@@ -44,6 +44,7 @@ const s3Config: S3ClientConfig = {
 
 const s3Client = new S3Client(s3Config)
 console.log('S3 Client initialized with config:', s3Config) // Verify S3 client setup
+console.log('Payload config loaded successfully') // Confirm config is loaded
 
 // Private Media collection for form attachments
 const PrivateMedia: CollectionConfig = {
@@ -138,7 +139,7 @@ const FormSubmissions: CollectionConfig = {
             return mediaDocs
               .map(
                 (doc) =>
-                  `${getServerSideURL()}/submission/${data.id}/${data.accessToken}/${doc.id}`,
+                  `${getServerSideURL()}/api/submission/${data.id}/${data.accessToken}/${doc.id}`, // Changed to /api/
               )
               .join('\n')
           },
@@ -226,7 +227,7 @@ export default buildConfig({
     },
   }),
   collections: [Pages, Media, PrivateMedia, Categories, Users, FormSubmissions, Projects],
-  cors: [getServerSideURL()].filter(Boolean),
+  cors: ['http://localhost:3000', getServerSideURL()].filter(Boolean), // Ensure localhost is allowed
   globals: [Header, Footer],
   plugins: [
     ...plugins,
@@ -257,6 +258,15 @@ export default buildConfig({
     tasks: [],
   },
   endpoints: [
+    // Test endpoint under /api/ to verify custom endpoints
+    {
+      path: '/test-endpoint',
+      method: 'get',
+      handler: (async (req: CustomPayloadRequest, res: NextApiResponse) => {
+        console.log('Test endpoint hit with params:', req.params, 'Headers:', req.headers)
+        res.status(200).send('Test endpoint working!')
+      }) as unknown as PayloadHandler,
+    },
     {
       path: '/submission/:id/:token/:mediaId',
       method: 'get',
@@ -300,7 +310,7 @@ export default buildConfig({
             return res.status(404).send('Media not found')
           }
           const filename = mediaDoc.filename || 'unknown'
-          const s3Key = filename // Matches bucket structure (e.g., dech-2.jpg)
+          const s3Key = filename // Matches bucket structure (e.g., dech-3.jpg)
           console.log('Serving media:', { mediaId, filename, fullDoc: mediaDoc, s3Key })
           console.log('Fetching from S3:', { Bucket: R2_PRIVATE_BUCKET, Key: s3Key })
           const fileStream = await s3Client.send(
