@@ -63,7 +63,7 @@ export const Projects: CollectionConfig = {
       type: 'array',
       label: 'Project Images',
       minRows: 1,
-      maxRows: 12,
+      maxRows: 16,
       fields: [
         {
           name: 'title',

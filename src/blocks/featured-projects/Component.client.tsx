@@ -4,7 +4,6 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import Link from 'next/link'
 import type { FeaturedProjectsBlock } from '@/payload-types'
 import { fadeInUp, defaultViewport } from '@/utilities/animations'
 
@@ -41,19 +40,27 @@ export const FeaturedProjectsBlockClient: React.FC<FeaturedProjectsBlockClientPr
           className="flex flex-wrap justify-center gap-4 mt-8"
         >
           {primaryButton?.enabled && primaryButton.text && primaryButton.link && (
-            <Button asChild size="lg" variant="default" className="group relative overflow-hidden">
-              <Link href={primaryButton.link}>
-                <span className="relative z-10">{primaryButton.text}</span>
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 relative z-10" />
-              </Link>
+            <Button
+              asChild
+              href={primaryButton.link}
+              size="lg"
+              variant="default"
+              className="group relative overflow-hidden"
+            >
+              <span className="relative z-10">{primaryButton.text}</span>
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 relative z-10" />
             </Button>
           )}
           {secondaryButton?.enabled && secondaryButton.text && secondaryButton.link && (
-            <Button asChild size="lg" variant="outline" className="group relative overflow-hidden">
-              <Link href={secondaryButton.link}>
-                <span className="relative z-10">{secondaryButton.text}</span>
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 relative z-10" />
-              </Link>
+            <Button
+              asChild
+              href={secondaryButton.link}
+              size="lg"
+              variant="outline"
+              className="group relative overflow-hidden"
+            >
+              <span className="relative z-10">{secondaryButton.text}</span>
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 relative z-10" />
             </Button>
           )}
         </motion.div>

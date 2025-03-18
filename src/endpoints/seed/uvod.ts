@@ -1,4 +1,4 @@
-// src/seed/uvod.ts
+// src/endpoints/seed/uvod.ts
 import type { RequiredDataFromCollectionSlug } from 'payload'
 import type { Media, Form } from '@/payload-types'
 
@@ -82,7 +82,6 @@ export const uvod: (args: UvodArgs) => RequiredDataFromCollectionSlug<'pages'> =
           title: 'Ukázky našich návrhů',
           description:
             'Prohlédněte si ukázky našich prací. Máte spoustu možností jak z fasády vašeho domu udělat ozdobu ulice. Bez obav zvolte jednobarevnou fasádu nebo moderní fasádu vícebarevnou.',
-          // Removed hardcoded projects array—fetched dynamically from Projects collection
           afterProjectsText:
             'Více návrhů a vizualizací z naší dílny stejně tak jako ukázky hotových realizací fasád dle návrhu od nás jsou pro vás k nahlédnutí v naší fotogalerii.',
           primaryButton: {

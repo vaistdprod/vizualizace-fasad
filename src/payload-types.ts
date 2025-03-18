@@ -999,6 +999,10 @@ export interface Project {
       }[]
     | null;
   /**
+   * Check this box to feature this project on the homepage.
+   */
+  featured?: boolean | null;
+  /**
    * The main image to represent this project (used on homepage).
    */
   featuredImage?: (number | null) | Media;
@@ -1856,6 +1860,7 @@ export interface ProjectsSelect<T extends boolean = true> {
         caption?: T;
         id?: T;
       };
+  featured?: T;
   featuredImage?: T;
   publishedAt?: T;
   updatedAt?: T;
