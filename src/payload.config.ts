@@ -289,10 +289,11 @@ export default buildConfig({
             id: mediaId,
           })
           const filename = mediaDoc.filename || 'unknown'
-          console.log('Serving media:', { mediaId, filename, fullDoc: mediaDoc })
-          console.log('Fetching from S3:', { Bucket: R2_PRIVATE_BUCKET, Key: filename })
+          const s3Key = filename // Simplified to match bucket structure
+          console.log('Serving media:', { mediaId, filename, fullDoc: mediaDoc, s3Key })
+          console.log('Fetching from S3:', { Bucket: R2_PRIVATE_BUCKET, Key: s3Key })
           const fileStream = await s3Client.send(
-            new GetObjectCommand({ Bucket: R2_PRIVATE_BUCKET, Key: filename }),
+            new GetObjectCommand({ Bucket: R2_PRIVATE_BUCKET, Key: s3Key }),
           )
           console.log('S3 response:', fileStream)
           console.log('File stream retrieved:', !!fileStream.Body)

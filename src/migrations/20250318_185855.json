@@ -1,5 +1,5 @@
 {
-  "id": "41a2e62c-eaa3-4382-9b25-b5fbe599068d",
+  "id": "feddff65-1e24-4158-b4f2-0af3913eb124",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -9166,6 +9166,12 @@
         "access_token": {
           "name": "access_token",
           "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
           "notNull": false
         },
