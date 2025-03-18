@@ -43,7 +43,7 @@ const s3Config: S3ClientConfig = {
 }
 
 const s3Client = new S3Client(s3Config)
-console.log('S3 Client initialized with config:', s3Config) // Verify S3 client setup
+console.log('S3 Client initialized with config:', s3Config)
 console.log('Payload config loaded successfully') // Confirm config is loaded
 
 // Private Media collection for form attachments
@@ -137,10 +137,7 @@ const FormSubmissions: CollectionConfig = {
               ),
             )
             return mediaDocs
-              .map(
-                (doc) =>
-                  `${getServerSideURL()}/api/submission/${data.id}/${data.accessToken}/${doc.id}`, // Changed to /api/
-              )
+              .map((doc) => `Signed URL would be generated here (see email for actual link)`)
               .join('\n')
           },
         ],
@@ -187,6 +184,15 @@ function throwError(varName: string): never {
   )
 }
 
+// Export streamToBuffer for use in other files
+export async function streamToBuffer(stream: any): Promise<Buffer> {
+  const chunks: Uint8Array[] = []
+  for await (const chunk of stream) {
+    chunks.push(chunk)
+  }
+  return Buffer.concat(chunks)
+}
+
 export default buildConfig({
   admin: {
     components: {
@@ -227,7 +233,7 @@ export default buildConfig({
     },
   }),
   collections: [Pages, Media, PrivateMedia, Categories, Users, FormSubmissions, Projects],
-  cors: ['http://localhost:3000', getServerSideURL()].filter(Boolean), // Ensure localhost is allowed
+  cors: ['http://localhost:3000', getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [
     ...plugins,
@@ -258,7 +264,6 @@ export default buildConfig({
     tasks: [],
   },
   endpoints: [
-    // Test endpoint under /api/ to verify custom endpoints
     {
       path: '/test-endpoint',
       method: 'get',
@@ -267,88 +272,5 @@ export default buildConfig({
         res.status(200).send('Test endpoint working!')
       }) as unknown as PayloadHandler,
     },
-    {
-      path: '/submission/:id/:token/:mediaId',
-      method: 'get',
-      handler: (async (req: CustomPayloadRequest, res: NextApiResponse) => {
-        console.log('Endpoint hit with params:', req.params, 'Headers:', req.headers) // Detailed request log
-        const rateLimitResult = rateLimit(req)
-        if (rateLimitResult.limited) {
-          return res.status(429).send(rateLimitResult.message || 'Too many requests')
-        }
-
-        const { id, token, mediaId } = req.params
-        if (!id || !token || !mediaId) {
-          return res.status(400).send('Missing required parameters')
-        }
-        try {
-          const submission = await req.payload.findByID({
-            collection: 'custom_form_submissions',
-            id,
-          })
-          if (!submission) {
-            console.log('Submission not found for id:', id)
-            return res.status(404).send('Submission not found')
-          }
-          if (submission.accessToken !== token) {
-            console.log('Invalid token for submission id:', id)
-            return res.status(403).send('Invalid token')
-          }
-          if (submission.expiresAt) {
-            const expiresAt = new Date(submission.expiresAt)
-            if (expiresAt < new Date()) {
-              console.log('Link expired for submission id:', id)
-              return res.status(403).send('Link has expired')
-            }
-          }
-          const mediaDoc = await req.payload.findByID({
-            collection: 'private_media',
-            id: mediaId,
-          })
-          if (!mediaDoc) {
-            console.log('Media not found for id:', mediaId)
-            return res.status(404).send('Media not found')
-          }
-          const filename = mediaDoc.filename || 'unknown'
-          const s3Key = filename // Matches bucket structure (e.g., dech-3.jpg)
-          console.log('Serving media:', { mediaId, filename, fullDoc: mediaDoc, s3Key })
-          console.log('Fetching from S3:', { Bucket: R2_PRIVATE_BUCKET, Key: s3Key })
-          const fileStream = await s3Client.send(
-            new GetObjectCommand({ Bucket: R2_PRIVATE_BUCKET, Key: s3Key }),
-          )
-          console.log('S3 response:', fileStream)
-          if (!fileStream.Body) {
-            console.log('File not found in S3, listing bucket contents...')
-            const listResponse = await s3Client.send(
-              new ListObjectsV2Command({ Bucket: R2_PRIVATE_BUCKET }),
-            )
-            console.log(
-              'Bucket contents:',
-              listResponse.Contents?.map((c) => c.Key) || 'No contents',
-            )
-            return res.status(404).send('File not found in S3')
-          }
-          console.log('File stream retrieved:', !!fileStream.Body)
-          const buffer = await streamToBuffer(fileStream.Body)
-          res.setHeader('Content-Type', mediaDoc.mimeType || 'application/octet-stream')
-          res.send(buffer)
-        } catch (error) {
-          console.error('Error serving file:', error)
-          if (error instanceof Error && 'message' in error) {
-            console.error('Error details:', error.message, 'Stack:', error.stack)
-          }
-          res.status(500).send('Error serving file')
-        }
-      }) as unknown as PayloadHandler,
-    },
   ],
 })
-
-// Helper to convert stream to buffer
-async function streamToBuffer(stream: any): Promise<Buffer> {
-  const chunks: Uint8Array[] = []
-  for await (const chunk of stream) {
-    chunks.push(chunk)
-  }
-  return Buffer.concat(chunks)
-}

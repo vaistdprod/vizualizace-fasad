@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import { getClientSideURL } from '@/utilities/getURL'
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+import { S3Client } from '@aws-sdk/client-s3'
+import { GetObjectCommand } from '@aws-sdk/client-s3'
 
 function throwError(varName: string): never {
   throw new Error(`Environment variable ${varName} is missing.`)
@@ -166,15 +169,42 @@ async function handleFormSubmission(
     collection: 'custom_form_submissions',
     id: submissionId,
   })
-  console.log('Submission attachments:', submission.attachments) // Debug log
+  console.log('Submission attachments:', submission.attachments)
+
+  // Initialize S3 client with R2 credentials
+  const s3Client = new S3Client({
+    region: 'auto',
+    endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+    credentials: {
+      accessKeyId: process.env.R2_ACCESS_KEY_ID ?? throwError('R2_ACCESS_KEY_ID'),
+      secretAccessKey: process.env.R2_SECRET_ACCESS_KEY ?? throwError('R2_SECRET_ACCESS_KEY'),
+    },
+  })
+
+  // Generate signed URLs for attachments
   const fileLinks = submission.attachments?.length
     ? `<p><strong>Přílohy:</strong><br>` +
-      submission.attachments
-        .map((attachment: { id: number }) => {
-          const mediaId = attachment.id
-          return `<a href="${getClientSideURL()}/submission/${submissionId}/${submission.accessToken}/${mediaId}">Soubor ${mediaId}</a>`
-        })
-        .join('<br>') +
+      (
+        await Promise.all(
+          submission.attachments.map(async (attachment: { id: number }) => {
+            const mediaDoc = await payload.findByID({
+              collection: 'private_media',
+              id: attachment.id,
+            })
+            if (!mediaDoc || !mediaDoc.filename) {
+              console.warn(`Media not found for attachment ID: ${attachment.id}`)
+              return `<span>Chybějící soubor ${attachment.id}</span>`
+            }
+            const command = new GetObjectCommand({
+              Bucket: process.env.R2_PRIVATE_BUCKET ?? throwError('R2_PRIVATE_BUCKET'),
+              Key: mediaDoc.filename,
+            })
+            const signedUrl = await getSignedUrl(s3Client, command, { expiresIn: 3600 }) // 1-hour expiration
+            console.log(`Generated signed URL for ${mediaDoc.filename}: ${signedUrl}`)
+            return `<a href="${signedUrl}">Soubor ${attachment.id}</a>`
+          }),
+        )
+      ).join('<br>') +
       `</p>`
     : ''
 
