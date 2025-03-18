@@ -3,11 +3,11 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Clock, ShieldCheck, CheckCircle, ChevronRight, Check, Info, Camera } from 'lucide-react'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { MagicCard } from '@/components/ui/magic-card'
 import type { ConversionBlockProps } from '@/payload-types'
-import { fadeInUp, staggerContainer, staggerItem, defaultViewport } from '@/utilities/animations'
-import { cn } from '@/utilities/ui'
+import { staggerContainer, staggerItem, defaultViewport } from '@/utilities/animations'
 
 export const ConversionBlock: React.FC<ConversionBlockProps & { id?: string }> = (props) => {
   const {
@@ -106,16 +106,20 @@ export const ConversionBlock: React.FC<ConversionBlockProps & { id?: string }> =
                     variants={staggerItem}
                     className="rounded-lg border border-border bg-background/50 p-4 backdrop-blur-sm"
                   >
-                    <p className="mb-4 text-foreground/80 italic">"{testimonial.quote}"</p>
+                    <p className="mb-4 text-foreground/80 italic">
+                      &ldquo;{testimonial.quote}&rdquo;
+                    </p>
                     <div className="flex items-center gap-3">
                       {testimonial.image &&
                         typeof testimonial.image === 'object' &&
                         testimonial.image.url && (
                           <div className="h-10 w-10 overflow-hidden rounded-full">
-                            <img
+                            <Image
                               src={testimonial.image.url}
                               alt={testimonial.name}
                               className="h-full w-full object-cover"
+                              width={40}
+                              height={40}
                             />
                           </div>
                         )}

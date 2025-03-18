@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button'
 import { MagicCard } from '@/components/ui/magic-card'
 import type { PricingPlansBlock as PricingPlansBlockProps } from '@/payload-types'
 import { fadeInUp, staggerContainer, staggerItem, defaultViewport } from '@/utilities/animations'
-import { cn } from '@/utilities/ui'
 
 export const PricingPlansBlock: React.FC<PricingPlansBlockProps & { id?: string }> = (props) => {
   const {

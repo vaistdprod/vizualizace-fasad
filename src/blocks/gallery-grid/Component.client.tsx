@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, ChevronLeft, ChevronRight, Plus } from 'lucide-react'
@@ -42,7 +42,10 @@ export const GalleryGridBlockClient: React.FC<GalleryGridBlockClientProps> = ({
   }, [])
 
   const currentProject = selectedProject !== null ? projects[selectedProject] : null
-  const currentProjectImages = (currentProject?.images ?? []) as GalleryImage[]
+  const currentProjectImages = useMemo(
+    () => (currentProject?.images ?? []) as GalleryImage[],
+    [currentProject],
+  )
 
   const navigateToNext = useCallback(() => {
     if (selectedImage === null || currentProjectImages.length === 0) return
@@ -84,7 +87,7 @@ export const GalleryGridBlockClient: React.FC<GalleryGridBlockClientProps> = ({
       window.removeEventListener('keydown', handleKeyDown)
       document.body.style.overflow = ''
     }
-  }, [navigateToNext, navigateToPrevious, closeLightbox, navigateToIndex])
+  }, [navigateToNext, navigateToPrevious, closeLightbox, navigateToIndex, selectedImage])
 
   const currentImage =
     selectedProject !== null &&

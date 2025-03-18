@@ -8,7 +8,6 @@ import { Menu, X } from 'lucide-react'
 import { TopBar } from './TopBar'
 import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 import { cn } from '@/utilities/ui'
-import Image from 'next/image'
 import type { Header } from '@/payload-types'
 
 interface HeaderClientProps {
