@@ -221,10 +221,10 @@ export default buildConfig({
   plugins: [
     ...plugins,
     s3Storage({
-      bucket: R2_PUBLIC_BUCKET,
+      bucket: R2_PRIVATE_BUCKET, // Default to private bucket
       collections: {
-        [Media.slug]: { bucket: R2_PUBLIC_BUCKET },
-        [PrivateMedia.slug]: { bucket: R2_PRIVATE_BUCKET },
+        [Media.slug]: { bucket: R2_PUBLIC_BUCKET }, // Override for Media and Projects
+        [PrivateMedia.slug]: { bucket: R2_PRIVATE_BUCKET }, // Explicitly set for PrivateMedia
         [Projects.slug]: { bucket: R2_PUBLIC_BUCKET },
       },
       config: s3Config,
