@@ -1,25 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getPayload } from 'payload'
-import { S3Client, S3ClientConfig } from '@aws-sdk/client-s3'
-import { GetObjectCommand } from '@aws-sdk/client-s3'
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { getClientSideURL } from '@/utilities/getURL'
-
-const R2_PRIVATE_BUCKET = process.env.R2_PRIVATE_BUCKET || throwError('R2_PRIVATE_BUCKET')
-const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID || throwError('R2_ACCESS_KEY_ID')
-const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY || throwError('R2_SECRET_ACCESS_KEY')
-const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID || throwError('R2_ACCOUNT_ID')
-
-const s3Config: S3ClientConfig = {
-  region: 'auto',
-  endpoint: `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
-  credentials: {
-    accessKeyId: R2_ACCESS_KEY_ID,
-    secretAccessKey: R2_SECRET_ACCESS_KEY,
-  },
-}
-
-const s3Client = new S3Client(s3Config)
 
 function throwError(varName: string): never {
   throw new Error(`Environment variable ${varName} is missing.`)
@@ -83,7 +64,7 @@ export async function POST(req: Request) {
             size: file.size,
           },
         })
-        console.log('Media created:', mediaDoc)
+        console.log('Media created full doc:', JSON.stringify(mediaDoc, null, 2))
         return mediaDoc.id
       }),
     )
@@ -146,7 +127,6 @@ export async function POST(req: Request) {
 
     await handleFormSubmission(
       {
-        form: formId,
         submissionData,
         attachments: uploadedFiles,
         submissionId: submission.id.toString(),
@@ -166,12 +146,10 @@ export async function POST(req: Request) {
 
 async function handleFormSubmission(
   {
-    form,
     submissionData,
     attachments,
     submissionId,
   }: {
-    form: string
     submissionData: { field: string; value: string }[]
     attachments?: number[]
     submissionId: string
@@ -188,7 +166,14 @@ async function handleFormSubmission(
     id: submissionId,
   })
   const fileLinks = attachments?.length
-    ? `<p><strong>Přílohy:</strong> <a href="${getClientSideURL()}/submission/${submissionId}/${submission.accessToken}">Zobrazit přílohy</a></p>`
+    ? `<p><strong>Přílohy:</strong><br>` +
+      submission.attachments
+        .map(
+          (mediaId: number) =>
+            `<a href="${getClientSideURL()}/submission/${submissionId}/${submission.accessToken}/${mediaId}">Soubor ${mediaId}</a>`,
+        )
+        .join('<br>') +
+      `</p>`
     : ''
 
   console.log(
@@ -224,7 +209,6 @@ async function handleFormSubmission(
           <h1>Dobrý den, ${name}!</h1>
           <p>Vaše zpráva byla odeslána. Brzy se ozveme.</p>
           <p><strong>Vaše zpráva:</strong> ${message}</p>
-          ${fileLinks}
         `,
     })
     console.log('User email sent successfully')

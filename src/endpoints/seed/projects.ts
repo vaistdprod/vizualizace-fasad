@@ -154,9 +154,11 @@ export const seedProjects = async (payload: Payload): Promise<void> => {
           description: project.description,
           images: project.images.map((img) => ({
             title: img.title,
-            image: null as any,
+            image: 0 as number, // Initialize as 0, will be media ID (number)
+            caption: null,
+            id: null,
           })),
-          featuredImage: null as any,
+          featuredImage: null as number | null, // Initialize as null, will be media ID (number)
           featured: project.featured,
           publishedAt: project.publishedAt,
           _status: project._status,
@@ -176,12 +178,12 @@ export const seedProjects = async (payload: Payload): Promise<void> => {
             payload.logger.info(
               `Uploaded image for ${project.title}: ${img.title}, ID: ${mediaDoc.id}, Filename: ${uniqueFilename}`,
             )
-            return { title: img.title, image: mediaDoc.id }
+            return { title: img.title, image: mediaDoc.id as number, caption: null, id: null }
           }),
         )
         projectDataForPayload.images = uploadedImages
 
-        let featuredImageFile: any = null
+        let featuredImageFile: File | null = null
         if (uploadedImages.length > 0) {
           const nonEmptyImages = uploadedImages as [
             (typeof uploadedImages)[number],
@@ -190,9 +192,8 @@ export const seedProjects = async (payload: Payload): Promise<void> => {
           const finalImage = nonEmptyImages.find((img) => img.title.includes('Finální realizace'))
           const featuredImageData = finalImage || nonEmptyImages[0]
           projectDataForPayload.featuredImage = featuredImageData.image
-          featuredImageFile = project.images.find(
-            (img) => img.title === featuredImageData.title,
-          )?.image
+          featuredImageFile =
+            project.images.find((img) => img.title === featuredImageData.title)?.image ?? null
           payload.logger.info(
             `Set featured image for ${project.title}, ID: ${projectDataForPayload.featuredImage}`,
           )

@@ -1,7 +1,6 @@
 import { s3Storage } from '@payloadcms/storage-s3'
 import { S3Client, S3ClientConfig } from '@aws-sdk/client-s3'
 import { GetObjectCommand } from '@aws-sdk/client-s3'
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import sharp from 'sharp'
@@ -12,7 +11,7 @@ import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Users } from './collections/Users'
-import { Projects } from './collections/Projects' // Add this import
+import { Projects } from './collections/Projects'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { plugins } from './plugins'
@@ -216,7 +215,7 @@ export default buildConfig({
       debug: process.env.NODE_ENV === 'development',
     },
   }),
-  collections: [Pages, Media, PrivateMedia, Categories, Users, FormSubmissions, Projects], // Add Projects here
+  collections: [Pages, Media, PrivateMedia, Categories, Users, FormSubmissions, Projects],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [
@@ -226,9 +225,10 @@ export default buildConfig({
       collections: {
         [Media.slug]: { bucket: R2_PUBLIC_BUCKET },
         [PrivateMedia.slug]: { bucket: R2_PRIVATE_BUCKET },
-        [Projects.slug]: { bucket: R2_PUBLIC_BUCKET }, // Add Projects to use public bucket
+        [Projects.slug]: { bucket: R2_PUBLIC_BUCKET },
       },
       config: s3Config,
+      disableLocalStorage: true,
     }),
   ],
   secret: process.env.PAYLOAD_SECRET,
@@ -251,6 +251,11 @@ export default buildConfig({
       path: '/submission/:id/:token/:mediaId',
       method: 'get',
       handler: (async (req: CustomPayloadRequest, res: NextApiResponse) => {
+        const rateLimitResult = rateLimit(req)
+        if (rateLimitResult.limited) {
+          return res.status(429).send(rateLimitResult.message || 'Too many requests')
+        }
+
         const { id, token, mediaId } = req.params
         if (!id || !token || !mediaId) {
           return res.status(400).send('Missing required parameters')
@@ -268,9 +273,12 @@ export default buildConfig({
             id: mediaId,
           })
           const filename = mediaDoc.filename || 'unknown'
+          console.log('Serving media:', { mediaId, filename })
+          console.log('Fetching from S3:', { Bucket: R2_PRIVATE_BUCKET, Key: filename })
           const fileStream = await s3Client.send(
             new GetObjectCommand({ Bucket: R2_PRIVATE_BUCKET, Key: filename }),
           )
+          console.log('File stream retrieved:', !!fileStream.Body)
           if (!fileStream.Body) {
             return res.status(404).send('File not found')
           }
@@ -278,6 +286,7 @@ export default buildConfig({
           res.setHeader('Content-Type', mediaDoc.mimeType || 'application/octet-stream')
           res.send(buffer)
         } catch (error) {
+          console.error('Error serving file:', error)
           res.status(500).send('Error serving file')
         }
       }) as unknown as PayloadHandler,
