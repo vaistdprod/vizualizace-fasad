@@ -1,6 +1,6 @@
 import { s3Storage } from '@payloadcms/storage-s3'
 import { S3Client, S3ClientConfig } from '@aws-sdk/client-s3'
-import { GetObjectCommand } from '@aws-sdk/client-s3'
+import { GetObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import sharp from 'sharp'
@@ -43,6 +43,7 @@ const s3Config: S3ClientConfig = {
 }
 
 const s3Client = new S3Client(s3Config)
+console.log('S3 Client initialized with config:', s3Config) // Verify S3 client setup
 
 // Private Media collection for form attachments
 const PrivateMedia: CollectionConfig = {
@@ -260,6 +261,7 @@ export default buildConfig({
       path: '/submission/:id/:token/:mediaId',
       method: 'get',
       handler: (async (req: CustomPayloadRequest, res: NextApiResponse) => {
+        console.log('Endpoint hit with params:', req.params, 'Headers:', req.headers) // Detailed request log
         const rateLimitResult = rateLimit(req)
         if (rateLimitResult.limited) {
           return res.status(429).send(rateLimitResult.message || 'Too many requests')
@@ -274,13 +276,18 @@ export default buildConfig({
             collection: 'custom_form_submissions',
             id,
           })
+          if (!submission) {
+            console.log('Submission not found for id:', id)
+            return res.status(404).send('Submission not found')
+          }
           if (submission.accessToken !== token) {
+            console.log('Invalid token for submission id:', id)
             return res.status(403).send('Invalid token')
           }
-          // Check expiration
           if (submission.expiresAt) {
             const expiresAt = new Date(submission.expiresAt)
             if (expiresAt < new Date()) {
+              console.log('Link expired for submission id:', id)
               return res.status(403).send('Link has expired')
             }
           }
@@ -288,23 +295,38 @@ export default buildConfig({
             collection: 'private_media',
             id: mediaId,
           })
+          if (!mediaDoc) {
+            console.log('Media not found for id:', mediaId)
+            return res.status(404).send('Media not found')
+          }
           const filename = mediaDoc.filename || 'unknown'
-          const s3Key = filename // Simplified to match bucket structure
+          const s3Key = filename // Matches bucket structure (e.g., dech-2.jpg)
           console.log('Serving media:', { mediaId, filename, fullDoc: mediaDoc, s3Key })
           console.log('Fetching from S3:', { Bucket: R2_PRIVATE_BUCKET, Key: s3Key })
           const fileStream = await s3Client.send(
             new GetObjectCommand({ Bucket: R2_PRIVATE_BUCKET, Key: s3Key }),
           )
           console.log('S3 response:', fileStream)
-          console.log('File stream retrieved:', !!fileStream.Body)
           if (!fileStream.Body) {
-            return res.status(404).send('File not found')
+            console.log('File not found in S3, listing bucket contents...')
+            const listResponse = await s3Client.send(
+              new ListObjectsV2Command({ Bucket: R2_PRIVATE_BUCKET }),
+            )
+            console.log(
+              'Bucket contents:',
+              listResponse.Contents?.map((c) => c.Key) || 'No contents',
+            )
+            return res.status(404).send('File not found in S3')
           }
+          console.log('File stream retrieved:', !!fileStream.Body)
           const buffer = await streamToBuffer(fileStream.Body)
           res.setHeader('Content-Type', mediaDoc.mimeType || 'application/octet-stream')
           res.send(buffer)
         } catch (error) {
           console.error('Error serving file:', error)
+          if (error instanceof Error && 'message' in error) {
+            console.error('Error details:', error.message, 'Stack:', error.stack)
+          }
           res.status(500).send('Error serving file')
         }
       }) as unknown as PayloadHandler,
