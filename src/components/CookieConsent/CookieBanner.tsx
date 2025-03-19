@@ -160,11 +160,14 @@ export function CookieBanner() {
 
               <div className="text-sm text-muted-foreground">
                 <p>
-                  Pro více informací o tom, jak používáme cookies, navštivte naše{' '}
-                  <Link href="/privacy" className="underline hover:text-foreground">
-                    Zásady ochrany soukromí
-                  </Link>
-                  , kde také naleznete informace o tom, jak nás kontaktovat pro zrušení souhlasu.
+                  Pro více informací o tom, jak používáme cookies a jak zpracováváme vaše osobní
+                  údaje nás kontaktujte na e-mailu{' '}
+                  <a
+                    href="mailto:info@vizualizacefasad.cz"
+                    className="underline hover:text-foreground"
+                  >
+                    info@vizualizacefasad.cz
+                  </a>
                 </p>
               </div>
             </div>

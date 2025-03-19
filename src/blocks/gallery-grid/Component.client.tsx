@@ -141,7 +141,7 @@ export const GalleryGridBlockClient: React.FC<GalleryGridBlockClientProps> = ({
                 <div className="absolute inset-0 overflow-hidden">
                   <Image
                     src={typeof image.image === 'object' && image.image?.url ? image.image.url : ''}
-                    alt={image.title || `Image ${imageIndex + 1}`}
+                    alt={image.title || `Obrázek ${imageIndex + 1}`}
                     fill
                     className="object-cover transition-all duration-300 group-hover:scale-105"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"

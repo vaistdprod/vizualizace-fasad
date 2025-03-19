@@ -265,7 +265,7 @@ export interface AboutServicesBlock {
 export interface Media {
   id: number;
   /**
-   * Popis obrázku pro nevidomé uživatele a vyhledávače. Měl by být výstižný a popisovat obsah obrázku.
+   * Image description for blind users and search engines. It should be concise and describe the content of the image.
    */
   alt: string;
   caption?: {

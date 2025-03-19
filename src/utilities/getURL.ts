@@ -15,7 +15,6 @@ export const getServerSideURL = (): string => {
     url = 'https://studiofasad.cz'
   }
 
-  console.log('Server-side URL:', url) // Debug log
   return url
 }
 

@@ -30,7 +30,7 @@ export const Number: React.FC<
           required: required ? `${label} je povinné` : false,
           pattern: {
             value: /^\+?\d{9,}$/, // Basic phone number validation (optional + and at least 9 digits)
-            message: `Zadejte platné telefonní číslo (např. +420123456789)`,
+            message: `Zadejte platné telefonní číslo (např. 123 456 789)`,
           },
         })}
       />

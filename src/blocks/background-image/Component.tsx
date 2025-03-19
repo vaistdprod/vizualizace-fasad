@@ -32,7 +32,7 @@ export const BackgroundImageBlock: React.FC<
             alt={
               image && typeof image === 'object' && 'alt' in image && image.alt
                 ? image.alt
-                : 'Background Image'
+                : 'Obrázek v pozadí'
             }
             fill
             sizes="100vw"

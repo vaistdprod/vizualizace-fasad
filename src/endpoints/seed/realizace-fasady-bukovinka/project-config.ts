@@ -8,12 +8,10 @@ export const projectConfig = {
     {
       filename: 'puvodni-zepredu-a-z-boku.jpg',
       title: 'Původní stav - zepředu a z boku',
-      caption: '',
     },
     {
       filename: 'puvodni-zezadu-s-terasou.jpg',
       title: 'Původní stav - zezadu s terasou',
-      caption: '',
     },
     { filename: 'navrh-predni-strana.jpg', title: 'Návrh - přední strana' },
     { filename: 'navrh-vchod-a-garaz.jpg', title: 'Návrh - vchod a garáž' },
@@ -24,12 +22,10 @@ export const projectConfig = {
     {
       filename: 'realizace-zepredu-a-z-boku.jpg',
       title: 'Realizace - zepředu a z boku',
-      caption: '',
     },
     {
       filename: 'realizace-zezadu-s-terasou.jpg',
       title: 'Realizace - zezadu s terasou',
-      caption: '',
     },
   ],
 }

@@ -3,7 +3,7 @@ import { revalidateFooter } from './hooks/revalidateFooter'
 
 export const Footer: GlobalConfig = {
   slug: 'footer',
-  label: 'Patička',
+  label: 'Footer',
   access: {
     read: () => true,
   },
@@ -19,12 +19,12 @@ export const Footer: GlobalConfig = {
     {
       name: 'companyInfo',
       type: 'array',
-      label: 'Informace o společnosti',
+      label: 'Company Information',
       fields: [
         {
           name: 'icon',
           type: 'select',
-          label: 'Ikona',
+          label: 'Icon',
           options: [
             { label: 'Building2', value: 'Building2' },
             { label: 'MapPin', value: 'MapPin' },
@@ -46,19 +46,19 @@ export const Footer: GlobalConfig = {
     {
       name: 'footerColumns',
       type: 'array',
-      label: 'Sloupce patičky',
+      label: 'Footer Columns',
       maxRows: 2,
       fields: [
         {
           name: 'title',
           type: 'text',
           required: true,
-          label: 'Název',
+          label: 'Title',
         },
         {
           name: 'links',
           type: 'array',
-          label: 'Odkazy',
+          label: 'Links',
           fields: [
             {
               name: 'label',

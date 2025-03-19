@@ -42,10 +42,6 @@ const s3Config: S3ClientConfig = {
   },
 }
 
-const s3Client = new S3Client(s3Config)
-console.log('S3 Client initialized with config:', s3Config)
-console.log('Payload config loaded successfully') // Confirm config is loaded
-
 // Private Media collection for form attachments
 const PrivateMedia: CollectionConfig = {
   slug: 'private_media',
@@ -193,6 +189,7 @@ export async function streamToBuffer(stream: any): Promise<Buffer> {
   return Buffer.concat(chunks)
 }
 
+export { rateLimit } // Export rateLimit for use in other files
 export default buildConfig({
   admin: {
     components: {
@@ -268,7 +265,6 @@ export default buildConfig({
       path: '/test-endpoint',
       method: 'get',
       handler: (async (req: CustomPayloadRequest, res: NextApiResponse) => {
-        console.log('Test endpoint hit with params:', req.params, 'Headers:', req.headers)
         res.status(200).send('Test endpoint working!')
       }) as unknown as PayloadHandler,
     },

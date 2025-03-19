@@ -92,5 +92,11 @@ export const plugins: Plugin[] = [
           return field
         }) as Field[],
     },
+    // Add formSubmissionOverrides to hide the default form-submissions collection in the admin panel
+    formSubmissionOverrides: {
+      admin: {
+        hidden: true, // Hide the default form-submissions collection in the admin panel
+      },
+    },
   }),
 ]

@@ -8,12 +8,10 @@ export const projectConfig = {
     {
       filename: 'vizualizace-navrhu-fasady.jpg',
       title: 'Vizualizace návrhu fasády - pohled 1',
-      caption: '',
     },
     {
       filename: 'vizualizace-navrhu-fasady-2.jpg',
       title: 'Vizualizace návrhu fasády - pohled 2',
-      caption: '',
     },
     { filename: 'realizace.jpg', title: 'Finální realizace fasády' },
   ],

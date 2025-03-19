@@ -5,8 +5,8 @@ import { authenticated } from '../../access/authenticated'
 export const Users: CollectionConfig = {
   slug: 'users',
   labels: {
-    singular: 'Uživatel',
-    plural: 'Uživatelé',
+    singular: 'User',
+    plural: 'Users',
   },
   access: {
     admin: authenticated,
@@ -24,7 +24,7 @@ export const Users: CollectionConfig = {
     {
       name: 'name',
       type: 'text',
-      label: 'Jméno',
+      label: 'Name',
     },
   ],
   timestamps: true,

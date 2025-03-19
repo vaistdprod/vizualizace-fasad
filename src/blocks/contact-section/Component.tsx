@@ -74,7 +74,6 @@ export const ContactSectionBlock: React.FC<{
             emails: data.emails ?? [],
           }),
         )
-        .catch((err) => console.error('Failed to fetch form:', err))
     }
   }, [form])
 

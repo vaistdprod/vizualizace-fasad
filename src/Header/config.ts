@@ -5,7 +5,7 @@ import { revalidateHeader } from './hooks/revalidateHeader'
 
 export const Header: GlobalConfig = {
   slug: 'header',
-  label: 'Hlavička',
+  label: 'Header',
   access: {
     read: () => true,
   },
@@ -13,18 +13,18 @@ export const Header: GlobalConfig = {
     {
       name: 'topBar',
       type: 'group',
-      label: 'Horní lišta',
+      label: 'Top Bar',
       fields: [
         {
           name: 'phone',
           type: 'text',
-          label: 'Telefonní číslo',
+          label: 'Phone Number',
           required: true,
         },
         {
           name: 'email',
           type: 'text',
-          label: 'E-mail',
+          label: 'Email address',
           required: true,
         },
       ],
@@ -40,7 +40,7 @@ export const Header: GlobalConfig = {
     {
       name: 'navItems',
       type: 'array',
-      label: 'Položky navigace',
+      label: 'Navigation Items',
       fields: [
         link({
           appearances: false,

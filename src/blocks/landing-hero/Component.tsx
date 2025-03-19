@@ -27,7 +27,7 @@ export const LandingHeroBlock: React.FC<LandingHeroBlockProps & { id?: string }>
       {backgroundImage && typeof backgroundImage === 'object' && backgroundImage?.url && (
         <Image
           src={backgroundImage.url}
-          alt="Landing hero background"
+          alt="Pozadí úvodní sekce"
           fill
           className="object-cover"
           priority
@@ -86,21 +86,22 @@ export const LandingHeroBlock: React.FC<LandingHeroBlockProps & { id?: string }>
           transition={{ delay: 0.8 }}
           className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10"
         >
-          <motion.div
-            className="flex flex-col items-center"
-            animate={{ y: [0, 5, 0] }}
-            transition={{
-              duration: 2.5,
-              repeat: Infinity,
-              ease: 'easeInOut',
-              repeatType: 'loop',
-            }}
-          >
+          <div className="flex flex-col items-center">
             <span className="text-xs uppercase tracking-wider text-foreground/80 mb-2">
               {scrollIndicator.text}
             </span>
-            <ChevronDown className="h-5 w-5 text-foreground cursor-pointer hover:text-primary transition-colors duration-300" />
-          </motion.div>
+            <motion.div
+              animate={{ y: [0, 5, 0] }}
+              transition={{
+                duration: 2.5,
+                repeat: Infinity,
+                ease: 'easeInOut',
+                repeatType: 'loop',
+              }}
+            >
+              <ChevronDown className="h-5 w-5 text-foreground cursor-pointer hover:text-primary transition-colors duration-300" />
+            </motion.div>
+          </div>
         </motion.div>
       )}
     </section>

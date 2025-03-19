@@ -95,7 +95,7 @@ export const AboutServicesBlock: React.FC<AboutServicesBlockProps & { id?: strin
             <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
               <Image
                 src={typeof image === 'object' && image?.url ? image.url : ''}
-                alt={title || 'Service image'}
+                alt={title || 'Obrázek služby'}
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"

@@ -12,6 +12,15 @@ function throwError(varName: string): never {
 export async function POST(req: Request) {
   console.log('Route hit with headers:', Object.fromEntries(req.headers))
 
+  // Apply rate limiting
+  const rateLimitResult = rateLimit(req as any) // Cast to any to match PayloadRequest type
+  if (rateLimitResult.limited) {
+    return NextResponse.json(
+      { error: rateLimitResult.message || 'Too many requests' },
+      { status: 429 },
+    )
+  }
+
   try {
     const payload = await getPayload({ config: (await import('@/payload.config')).default })
     console.log('Payload initialized')
@@ -250,3 +259,6 @@ async function handleFormSubmission(
 
   return { success: true }
 }
+
+// Import rateLimit function from payload.config.ts
+import { rateLimit } from '@/payload.config'
