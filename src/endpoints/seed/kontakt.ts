@@ -2,12 +2,12 @@ import type { RequiredDataFromCollectionSlug } from 'payload'
 import type { Media, Form } from '@/payload-types'
 
 type KontaktArgs = {
-  contactImage: Media
+  dumKamen: Media
   contactForm: Form
 }
 
 export const kontakt: (args: KontaktArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
-  contactImage,
+  dumKamen,
   contactForm,
 }) => ({
   slug: 'kontakt-cenik',
@@ -148,7 +148,7 @@ export const kontakt: (args: KontaktArgs) => RequiredDataFromCollectionSlug<'pag
     title: 'Kontakt a ceník návrhů fasád - studiofasad.cz',
     description:
       'Kontaktujte nás pro profesionální návrhy a vizualizace fasád vašich domů. Ceník návrhů a vizualizací fasád pro rodinné domy, bytové domy a komerční objekty.',
-    image: contactImage.id,
+    image: dumKamen.id,
     keywords:
       'ceník fasád, cena vizualizace fasády, návrhy fasád cena, studiofasad.cz, rodinný dům fasáda cena, komerční fasády cena, kontakt studiofasad.cz, vizualizace fasád kontakt, návrhy fasád kontakt, info@vizualizacefasad.cz, +420 725 136 901',
   },

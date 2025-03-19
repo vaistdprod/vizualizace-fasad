@@ -3,16 +3,16 @@ export const projectConfig = {
   description:
     'Ukázka realizace fasády rodinného domu od původního stavu, přes vizualizaci návrhu až po finální realizaci.',
   images: [
-    { filename: 'puvodni-stav.jpg', title: 'Původní stav fasády - pohled 1' },
-    { filename: 'puvodni-stav-2.jpg', title: 'Původní stav fasády - pohled 2' },
-    {
-      filename: 'vizualizace-navrhu-fasady.jpg',
-      title: 'Vizualizace návrhu fasády - pohled 1',
-    },
+    { filename: 'puvodni-stav-2.jpg', title: 'Původní stav fasády - přední pohled' },
+    { filename: 'puvodni-stav.jpg', title: 'Původní stav fasády - boční pohled' },
     {
       filename: 'vizualizace-navrhu-fasady-2.jpg',
-      title: 'Vizualizace návrhu fasády - pohled 2',
+      title: 'Vizualizace návrhu fasády - přední pohled',
     },
-    { filename: 'realizace.jpg', title: 'Finální realizace fasády' },
+    {
+      filename: 'vizualizace-navrhu-fasady.jpg',
+      title: 'Vizualizace návrhu fasády - boční pohled',
+    },
+    { filename: 'realizace.jpg', title: 'Dům po finální realizaci fasády' },
   ],
 }

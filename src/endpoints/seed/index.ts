@@ -5,7 +5,17 @@ import { fotogalerie } from './fotogalerie'
 import { kontakt } from './kontakt'
 import { landing } from './landing'
 import { poptavka } from './poptavka'
-import { heroBg, contactImage, landingHeroImage, modernOffice } from './images'
+import {
+  dumKamenDrevo,
+  rodinnyDum,
+  predPo,
+  domekDrevo,
+  domek,
+  dumKamen,
+  novostavba,
+  rodinnyDomek,
+  kontaktujteNas,
+} from './images'
 import { contactForm } from './contact-form'
 import { seedProjects } from './projects' // Add this import
 import type { Header } from '@/payload-types'
@@ -73,25 +83,50 @@ export const seed = async ({
 
   // Seed media
   payload.logger.info('— Seeding media...')
-  const heroBgDoc = await payload.create({
+  const dumKamenDrevoDoc = await payload.create({
     collection: 'media',
-    data: heroBg,
-    file: await fetchFileByPath('./fasada-hlavni.jpg'),
+    data: dumKamenDrevo,
+    file: await fetchFileByPath('./dum-kamen-drevo.jpg'),
   })
-  const modernOfficeDoc = await payload.create({
+  const rodinnyDumDoc = await payload.create({
     collection: 'media',
-    data: modernOffice,
-    file: await fetchFileByPath('./bukovinka-pred.jpg'),
+    data: rodinnyDum,
+    file: await fetchFileByPath('./rodinny-dum.jpg'),
   })
-  const contactImageDoc = await payload.create({
+  const predPoDoc = await payload.create({
     collection: 'media',
-    data: contactImage,
-    file: await fetchFileByPath('./kontakt.jpg'),
+    data: predPo,
+    file: await fetchFileByPath('./pred-po.jpg'),
   })
-  const landingHeroImageDoc = await payload.create({
+  const domekDrevoDoc = await payload.create({
     collection: 'media',
-    data: landingHeroImage,
-    file: await fetchFileByPath('./landing-hero.jpg'),
+    data: domekDrevo,
+    file: await fetchFileByPath('./domek-drevo.jpg'),
+  })
+  const domekDoc = await payload.create({
+    collection: 'media',
+    data: domek,
+    file: await fetchFileByPath('./domek.jpg'),
+  })
+  const dumKamenDoc = await payload.create({
+    collection: 'media',
+    data: dumKamen,
+    file: await fetchFileByPath('./dum-kamen.jpg'),
+  })
+  const novostavbaDoc = await payload.create({
+    collection: 'media',
+    data: novostavba,
+    file: await fetchFileByPath('./novostavba.jpg'),
+  })
+  const rodinnyDomekDoc = await payload.create({
+    collection: 'media',
+    data: rodinnyDomek,
+    file: await fetchFileByPath('./rodinny-domek.jpg'),
+  })
+  const kontaktujteNasDoc = await payload.create({
+    collection: 'media',
+    data: kontaktujteNas,
+    file: await fetchFileByPath('./kontaktujte-nas.jpg'),
   })
 
   // Seed projects
@@ -110,7 +145,12 @@ export const seed = async ({
     collection: 'pages',
     depth: 3,
     data: uvod({
-      heroImage: heroBgDoc,
+      dumKamenDrevo: dumKamenDrevoDoc,
+      domek: domekDoc,
+      novostavba: novostavbaDoc,
+      kontaktujteNas: kontaktujteNasDoc,
+      predPo: predPoDoc,
+      rodinnyDomek: rodinnyDomekDoc,
       contactForm: contactFormDoc,
     }),
   })
@@ -118,14 +158,14 @@ export const seed = async ({
     collection: 'pages',
     depth: 3,
     data: fotogalerie({
-      modernOffice: modernOfficeDoc,
+      predPo: predPoDoc,
     }),
   })
   await payload.create({
     collection: 'pages',
     depth: 3,
     data: kontakt({
-      contactImage: contactImageDoc,
+      dumKamen: dumKamenDoc,
       contactForm: contactFormDoc,
     }),
   })
@@ -133,7 +173,7 @@ export const seed = async ({
     collection: 'pages',
     depth: 3,
     data: landing({
-      landingHeroImage: landingHeroImageDoc,
+      rodinnyDum: rodinnyDumDoc,
       contactForm: contactFormDoc,
     }),
   })
@@ -141,7 +181,7 @@ export const seed = async ({
     collection: 'pages',
     depth: 3,
     data: poptavka({
-      contactImage: contactImageDoc,
+      domekDrevo: domekDrevoDoc,
       contactForm: contactFormDoc,
     }),
   })

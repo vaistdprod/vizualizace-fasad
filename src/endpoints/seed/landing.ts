@@ -2,12 +2,12 @@ import type { RequiredDataFromCollectionSlug } from 'payload'
 import type { Media, Form } from '@/payload-types'
 
 type LandingArgs = {
-  landingHeroImage: Media
+  rodinnyDum: Media
   contactForm: Form
 }
 
 export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
-  landingHeroImage,
+  rodinnyDum,
   contactForm,
 }) => ({
   slug: 'fasady',
@@ -23,7 +23,7 @@ export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pag
       primaryButtonHref: '/kontakt',
       secondaryButtonText: 'Zobrazit portfolio',
       secondaryButtonHref: '/fotogalerie-fasad',
-      backgroundImage: landingHeroImage.id,
+      backgroundImage: rodinnyDum.id,
       badgeText: 'Vizualizace fasád',
       scrollIndicator: {
         enabled: true,
@@ -174,7 +174,7 @@ export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pag
     title: 'Vizualizace a návrhy fasád - studiofasad.cz',
     description:
       'Profesionální vizualizace fasád s dodáním do 5 dní. Kontaktujte nás pro cenovou nabídku zdarma.',
-    image: landingHeroImage.id,
+    image: rodinnyDum.id,
     keywords:
       'vizualizace fasád, fotorealistické vizualizace, studiofasad.cz, návrhy fasád, rychlé vizualizace, architektonické vizualizace',
   },

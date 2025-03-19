@@ -3,22 +3,20 @@ export const projectConfig = {
   description:
     'U této vizualizace fasády klient požadoval nejen barevný návrh fasády, ale chtěl vidět, jak by fasáda vypadala v kombinaci omítka a dřevěný obklad či barevná omítka a kamenný obklad. Klient v tomto případě požadoval navíc zakreslit náhradu dřevěného zábradlí na balkónu za nerez zábradlí a výměnu vchodových dveří.',
   images: [
-    { filename: '1.jpg', title: 'Návrh fasády s dřevěným obkladem - varianta 1' },
-    { filename: '2.jpg', title: 'Návrh fasády s dřevěným obkladem - varianta 2' },
-    { filename: '3.jpg', title: 'Návrh fasády s kamenným obkladem - varianta 1' },
-    { filename: '4.jpg', title: 'Návrh fasády s kamenným obkladem - varianta 2' },
-    { filename: '5.jpg', title: 'Návrh fasády s nerezovým zábradlím - varianta 1' },
-    { filename: '6.jpg', title: 'Návrh fasády s nerezovým zábradlím - varianta 2' },
+    { filename: '1.jpg', title: 'Rodinný dům před návrhem fasády - přední pohled' },
+    { filename: '2.jpg', title: 'Návrh fasády s cihlovým obkladem - varianta 1' },
+    { filename: '3.jpg', title: 'Návrh fasády s cihlovým obkladem - varianta 2' },
+    { filename: '9.jpg', title: 'Návrh fasády s cihlovým obkladem - varianta 3' },
+    { filename: '4.jpg', title: 'Návrh fasády s kamenným obkladem - varianta 1' },
+    { filename: '6.jpg', title: 'Návrh fasády s kamenným obkladem - varianta 2' },
     {
       filename: '7.jpg',
-      title: 'Návrh fasády s novými vchodovými dveřmi - varianta 1',
-      caption: '',
+      title: 'NNávrh fasády s kamenným obkladem - varianta 3',
     },
     {
       filename: '8.jpg',
-      title: 'Návrh fasády s novými vchodovými dveřmi - varianta 2',
-      caption: '',
+      title: 'Návrh fasády s kamenným obkladem - varianta 4',
     },
-    { filename: '9.jpg', title: 'Finální návrh fasády s kombinovanými prvky' },
+    { filename: '5.jpg', title: 'Návrh fasády s dřevěným obkladem' },
   ],
 }

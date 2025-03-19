@@ -7,7 +7,7 @@ export const projectConfig = {
     { filename: '4.jpg', title: 'Kamenný obklad na fasádě - přední pohled' },
     { filename: '5.jpg', title: 'Rodinný dům před návrhem fasády - boční pohled' },
     { filename: '6.jpg', title: 'Kamenný obklad na fasádě - boční pohled' },
-    { filename: 'cihla.jpg', title: 'Cihlový obklad na fasádě - přední varianta' },
+    { filename: 'cihla.jpg', title: 'Cihlový obklad na fasádě - přední pohled' },
     {
       filename: 'cihla-2.jpg',
       title: 'Cihlový obklad na fasádě - boční pohled',

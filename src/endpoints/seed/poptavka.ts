@@ -2,12 +2,12 @@ import type { RequiredDataFromCollectionSlug } from 'payload'
 import type { Media, Form } from '@/payload-types'
 
 type PoptavkaArgs = {
-  contactImage: Media
+  domekDrevo: Media
   contactForm: Form
 }
 
 export const poptavka: (args: PoptavkaArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
-  contactImage,
+  domekDrevo,
   contactForm,
 }) => ({
   slug: 'poptavka',
@@ -60,7 +60,7 @@ export const poptavka: (args: PoptavkaArgs) => RequiredDataFromCollectionSlug<'p
     title: 'Poptávka vizualizace fasády - studiofasad.cz',
     description:
       'Poptejte profesionální návrhy a vizualizace fasád vašich domů. Nezávazná poptávka pro vizualizace fasád rodinných domů, bytových domů a komerčních objektů.',
-    image: contactImage.id,
+    image: domekDrevo.id,
     keywords:
       'poptávka fasády, poptávka vizualizace fasády, návrhy fasád poptávka, studiofasad.cz, rodinný dům fasáda poptávka, komerční fasády poptávka, vizualizace fasád poptávka, návrhy fasád poptávka, info@vizualizacefasad.cz, +420 725 136 901',
   },

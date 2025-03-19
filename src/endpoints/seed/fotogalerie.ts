@@ -3,11 +3,11 @@ import type { RequiredDataFromCollectionSlug } from 'payload'
 import type { Media } from '@/payload-types'
 
 type FotogalerieArgs = {
-  modernOffice: Media
+  predPo: Media
 }
 
 export const fotogalerie: (args: FotogalerieArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
-  modernOffice,
+  predPo,
 }) => ({
   slug: 'fotogalerie-fasad',
   _status: 'published',
@@ -31,7 +31,7 @@ export const fotogalerie: (args: FotogalerieArgs) => RequiredDataFromCollectionS
     title: 'Fotogalerie realizací - studiofasad.cz',
     description:
       'Ukázky realizovaných fasád podle našich návrhů. Porovnejte původní stav, vizualizaci a výslednou realizaci.',
-    image: modernOffice.id,
+    image: predPo.id,
     keywords:
       'fotogalerie fasád, realizace fasád, studiofasad.cz, fotogalerie vizualizací, před a po fasády',
   },

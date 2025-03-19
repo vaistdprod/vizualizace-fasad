@@ -3,12 +3,22 @@ import type { RequiredDataFromCollectionSlug } from 'payload'
 import type { Media, Form } from '@/payload-types'
 
 type UvodArgs = {
-  heroImage: Media
+  dumKamenDrevo: Media
+  domek: Media
+  novostavba: Media
+  kontaktujteNas: Media
+  predPo: Media
+  rodinnyDomek: Media
   contactForm: Form
 }
 
 export const uvod: (args: UvodArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
-  heroImage,
+  dumKamenDrevo,
+  domek,
+  novostavba,
+  kontaktujteNas,
+  predPo,
+  rodinnyDomek,
   contactForm,
 }) => ({
   slug: 'uvod',
@@ -23,7 +33,7 @@ export const uvod: (args: UvodArgs) => RequiredDataFromCollectionSlug<'pages'> =
       primaryButtonText: 'Nezávazná poptávka',
       primaryButtonHref: '/kontakt',
       secondaryButtonHref: '/',
-      backgroundImage: heroImage.id,
+      backgroundImage: dumKamenDrevo.id,
       badgeText: 'Vizualizace fasád',
       scrollIndicator: {
         enabled: true,
@@ -100,7 +110,7 @@ export const uvod: (args: UvodArgs) => RequiredDataFromCollectionSlug<'pages'> =
           title: 'Proč využít vizualizaci fasády?',
           description:
             'Aby výsledný dojem vašeho domu byl přesně podle vašich představ nechejte si ještě před zahájením stavebních prací ukázat, jak bude dům vypadat, až bude hotový. Vizualizací návrhu fasády do fotografie získáte jasnou představu o tom, jak následná realizace bude vypadat a nemusíte se již obávat výsledku. To vám rovněž usnadní komunikaci s realizační firmou.\n\nMáte spoustu možností jak z fasády vašeho domu udělat ozdobu ulice. Bez obav zvolte jednobarevnou fasádu nebo moderní fasádu vícebarevnou. Zakomponujte venkovní obklady. Dřevo, kámen, cihlové obklady to vše může vašemu domu vtisknout punc výjimečnosti.\n\nBylo by chybou nezkusit více variant toho, co by vašemu domu mohlo slušet. Vizualizací návrhu fasády do fotografie. Bez obav. S vašimi i našimi nápady. Za rozumnou cenu.',
-          image: heroImage.id,
+          image: domek.id,
           layout: 'imageRight',
           features: [
             {
@@ -143,7 +153,7 @@ export const uvod: (args: UvodArgs) => RequiredDataFromCollectionSlug<'pages'> =
               description:
                 'Zdarma a nezávazně vytvoříme cenovou nabídku vizualizace návrhu fasády. Prostřednictvím poptávkového formuláře zašlete prosím fotografie domu do nichž požadujete vizualizovat fasádu. Pokud je to možné, pořiďte fotografie bez stínících prvků jako jsou stromy, sloupy, postavy a podobně.\n\nDo poptávkového formuláře rovněž uveďte informace o představách, jak by měla fasáda domu vypadat, máte-li již nějaké. Pokud Vás mezi našimi referenčními návrhy zaujaly některé konkrétní barvy či prvky, uveďte je spolu s označením fotografie v referencích do požadavků. Pro snadnější orientaci v možnostech návrhu fasády jsme pro vás připravili "PRŮVODCE NÁVRHEM". V případě, že budete potřebovat další informace neváhejte se na nás obrátit:',
               icon: 'Camera',
-              image: heroImage.id, // Swapped to heroImage since project images are gone
+              image: novostavba.id,
             },
             {
               number: 2,
@@ -151,7 +161,7 @@ export const uvod: (args: UvodArgs) => RequiredDataFromCollectionSlug<'pages'> =
               description:
                 'Jakmile k nám údaje dorazí, zasíláme potvrzovací e-mail, v některých případech vás poprosíme o doplňující informace. Nyní vytvoříme cenovou kalkulaci vaší zakázky. V případě, že s cenou budete souhlasit začneme ihned tvořit vizualizace návrhů.',
               icon: 'FileEdit',
-              image: heroImage.id, // Swapped to heroImage
+              image: kontaktujteNas.id,
             },
             {
               number: 3,
@@ -159,7 +169,7 @@ export const uvod: (args: UvodArgs) => RequiredDataFromCollectionSlug<'pages'> =
               description:
                 'Samotná vizualizace probíhá ve 3 krocích tak, že nejprve zasíláme 1. sérii konceptů (5-10 návrhů), z nichž vyberete prvky, motivy a barvy jenž se Vám líbí. Na jejich základě a dle Vašich připomínek vytvoříme 2. sérii návrhů (6 variant) a poté následuje finální doladění detailů (pokud již není plná spokojenost po 2. kroku).',
               icon: 'ImageIcon',
-              image: heroImage.id, // Swapped to heroImage
+              image: predPo.id,
             },
             {
               number: 4,
@@ -167,7 +177,7 @@ export const uvod: (args: UvodArgs) => RequiredDataFromCollectionSlug<'pages'> =
               description:
                 'První série návrhů jsou zpravidla do 5 pracovních dní hotové. Poté, co jsou návrhy fasády ve formátu JPG nachystány k elektronickému odeslání, zašleme vám email s výzvou k platbě. Návrhy zasíláme ihned po přijetí platby na náš účet.',
               icon: 'CreditCard',
-              image: heroImage.id,
+              image: rodinnyDomek.id,
             },
           ],
           vizDetail: {
@@ -230,10 +240,10 @@ export const uvod: (args: UvodArgs) => RequiredDataFromCollectionSlug<'pages'> =
     },
   ],
   meta: {
-    title: 'studiofasad.cz - Profesionální návrhy fasád',
+    title: 'Studio fasád - Profesionální vizualizace a návrhy fasád',
     description:
       'Profesionálně navrhujeme fasády vašich domů. Realistické vizualizace pro novostavby a rekonstrukce.',
-    image: heroImage.id,
+    image: dumKamenDrevo.id,
     keywords:
       'vizualizace fasád, návrhy fasád, fasády novostaveb, rekonstrukce fasád, zateplení fasády, fasádní obklady, studiofasad.cz',
   },
