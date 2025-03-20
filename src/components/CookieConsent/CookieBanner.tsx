@@ -1,11 +1,8 @@
-// src/components/CookieConsent/CookieBanner.tsx
 'use client'
 
 import { useEffect } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import { Cookie } from 'lucide-react'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -14,9 +11,10 @@ import {
   DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
 import { useCookieConsent, type CookieConsent } from '@/hooks/useCookieConsent'
-import { initGTM, updateGTMConsent } from '@/lib/gtm'
+import { updateGTMConsent, pushEvent } from '@/lib/gtm'
 
 const defaultConsent: Omit<CookieConsent, 'timestamp'> = {
   necessary: true,
@@ -29,16 +27,9 @@ export function CookieBanner() {
   const { consent, isOpen, setConsent, setOpen } = useCookieConsent()
 
   useEffect(() => {
-    // Show banner on first visit or when consent is null
     if (!consent) {
       setOpen(true)
-    } else if (consent.analytics) {
-      initGTM({
-        analytics_storage: 'granted',
-        ad_storage: consent.marketing ? 'granted' : 'denied',
-        ad_user_data: consent.marketing ? 'granted' : 'denied',
-        ad_personalization: consent.marketing ? 'granted' : 'denied',
-      })
+      pushEvent('cookie_banner_shown') // Optional: Track banner display
     }
   }, [consent, setOpen])
 
@@ -48,6 +39,7 @@ export function CookieBanner() {
       timestamp: Date.now(),
     }
     setConsent(newConsent)
+    setOpen(false)
 
     // Update GTM consent
     updateGTMConsent({
@@ -56,15 +48,6 @@ export function CookieBanner() {
       ad_user_data: preferences.marketing ? 'granted' : 'denied',
       ad_personalization: preferences.marketing ? 'granted' : 'denied',
     })
-
-    if (preferences.analytics) {
-      initGTM({
-        analytics_storage: 'granted',
-        ad_storage: preferences.marketing ? 'granted' : 'denied',
-        ad_user_data: preferences.marketing ? 'granted' : 'denied',
-        ad_personalization: preferences.marketing ? 'granted' : 'denied',
-      })
-    }
   }
 
   const handleAcceptAll = () => {

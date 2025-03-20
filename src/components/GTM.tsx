@@ -1,4 +1,3 @@
-// src/components/GTM.tsx
 'use client'
 
 import { useEffect } from 'react'
@@ -20,7 +19,14 @@ export function GTM() {
     }
   }, [consent])
 
-  if (!consent?.analytics || !GTM_ID) return null
+  if (!GTM_ID) {
+    console.warn(
+      'GTM_ID is not set. Please define NEXT_PUBLIC_GTM_ID in your environment variables.',
+    )
+    return null
+  }
+
+  if (!consent?.analytics) return null
 
   return (
     <>

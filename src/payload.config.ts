@@ -1,11 +1,10 @@
 import { s3Storage } from '@payloadcms/storage-s3'
-import { S3Client, S3ClientConfig } from '@aws-sdk/client-s3'
-import { GetObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3'
+import { S3ClientConfig } from '@aws-sdk/client-s3'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import sharp from 'sharp'
 import path from 'path'
-import { buildConfig, PayloadRequest, CollectionConfig, Payload } from 'payload'
+import { buildConfig, PayloadRequest, CollectionConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
@@ -20,11 +19,6 @@ import { getServerSideURL } from './utilities/getURL'
 import { anyone } from './access/anyone'
 import { authenticated } from './access/authenticated'
 import type { CustomFormSubmission } from './payload-types'
-
-// Extend PayloadRequest to include params
-interface CustomPayloadRequest extends PayloadRequest {
-  params: { [key: string]: string | undefined }
-}
 
 // Centralized S3 configuration
 const R2_BUCKET = process.env.R2_PRIVATE_BUCKET ?? throwError('R2_PRIVATE_BUCKET')
@@ -131,9 +125,7 @@ const FormSubmissions: CollectionConfig = {
                 payload.findByID({ collection: 'private_media', id }),
               ),
             )
-            return mediaDocs
-              .map((doc) => `Signed URL would be generated here (see email for actual link)`)
-              .join('\n')
+            return mediaDocs.join('\n')
           },
         ],
       },

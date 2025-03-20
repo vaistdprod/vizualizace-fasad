@@ -6,7 +6,7 @@ import { InitTheme } from '@/providers/Theme/InitTheme'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
-import { CookieConsent } from '@/components/CookieConsent'
+import { CookieBanner } from '@/components/CookieConsent/CookieBanner' // Updated to use CookieBanner
 import { draftMode } from 'next/headers'
 import { GTM } from '@/components/GTM'
 import { getServerSideURL } from '@/utilities/getURL'
@@ -32,7 +32,7 @@ export default async function RootLayout({ children }: { readonly children: Reac
           <Header />
           <main>{children}</main>
           <Footer />
-          <CookieConsent />
+          <CookieBanner />
         </Providers>
       </body>
     </html>

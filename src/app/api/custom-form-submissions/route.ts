@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import { getPayload } from 'payload'
-import { getClientSideURL } from '@/utilities/getURL'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { S3Client } from '@aws-sdk/client-s3'
 import { GetObjectCommand } from '@aws-sdk/client-s3'
@@ -160,7 +159,6 @@ export async function POST(req: Request) {
 async function handleFormSubmission(
   {
     submissionData,
-    attachments,
     submissionId,
   }: {
     submissionData: { field: string; value: string }[]

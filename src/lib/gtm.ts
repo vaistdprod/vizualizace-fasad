@@ -1,4 +1,3 @@
-// src/lib/gtm.ts
 export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID
 
 type GTMEvent = {
@@ -23,28 +22,28 @@ declare global {
 export const initGTM = (consent: ConsentSettings) => {
   if (typeof window === 'undefined') return
 
-  window.dataLayer = window.dataLayer || [] // Ensure dataLayer is initialized
+  window.dataLayer = window.dataLayer || []
 
-  // Set Consent Mode v2 defaults before GTM loads
+  // Set Consent Mode v2 defaults
   window.dataLayer.push({
-    event: 'consent_default',
+    event: 'default_consent', // Updated event name
     ...consent,
   })
 
-  // Load GTM
-  const initEvent: GTMEvent = {
-    'gtm.start': new Date().getTime(),
-    event: 'gtm.js',
+  // Only push gtm.js event if GTM hasn't been initialized
+  if (!window.dataLayer.some((item) => item.event === 'gtm.js')) {
+    const initEvent: GTMEvent = {
+      'gtm.start': new Date().getTime(),
+      event: 'gtm.js',
+    }
+    window.dataLayer.push(initEvent)
   }
-  window.dataLayer.push(initEvent)
 }
 
 export const updateGTMConsent = (consent: ConsentSettings) => {
   if (typeof window === 'undefined') return
 
-  // Initialize dataLayer if it doesn't exist (e.g., if script hasn't loaded yet)
   window.dataLayer = window.dataLayer || []
-
   window.dataLayer.push({
     event: 'consent_update',
     ...consent,

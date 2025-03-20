@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { updateGTMConsent } from '@/lib/gtm'
 
 export interface CookieConsent {
   necessary: boolean
@@ -26,12 +27,22 @@ export const useCookieConsent = create<CookieConsentStore>()(
       isOpen: false,
       setConsent: (consent) => set({ consent, isOpen: false }),
       setOpen: (open) => set({ isOpen: open }),
-      resetConsent: () => set({ consent: null, isOpen: true }),
+      resetConsent: () =>
+        set((state) => {
+          // Update GTM consent to "denied" for all categories on reset
+          updateGTMConsent({
+            analytics_storage: 'denied',
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+          })
+          return { consent: null, isOpen: true }
+        }),
     }),
     {
       name: 'cookie-consent',
       partialize: (state) => ({ consent: state.consent }),
-      onRehydrateStorage: () => (state) => {
+      onRehydrateStorage: () => (state: CookieConsentStore | undefined) => {
         // Check if consent has expired
         if (state?.consent) {
           const expiryTime = state.consent.timestamp + CONSENT_EXPIRY_DAYS * 24 * 60 * 60 * 1000
