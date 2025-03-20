@@ -146,7 +146,7 @@ export const GalleryGridBlockClient: React.FC<GalleryGridBlockClientProps> = ({
                     alt={image.title || `Obrázek ${imageIndex + 1}`}
                     fill
                     className="object-cover transition-all duration-300 group-hover:scale-105"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    sizes="(min-width: 1024px) 302px, (min-width: 640px) calc(50vw - 12px), calc(100vw - 24px)"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -194,7 +194,7 @@ export const GalleryGridBlockClient: React.FC<GalleryGridBlockClientProps> = ({
                   fill
                   className="object-cover object-center"
                   priority
-                  sizes="(max-width: 768px) 100vw, 90vw"
+                  sizes="(min-width: 768px) 1216px, calc(100vw - 24px)"
                 />
               </motion.div>
 

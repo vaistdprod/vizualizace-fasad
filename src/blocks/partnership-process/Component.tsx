@@ -83,7 +83,7 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
                       alt={step.title}
                       fill
                       className="object-cover"
-                      sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 25vw"
+                      sizes="(min-width: 768px) 608px, calc(100vw - 24px)"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
                   </div>
@@ -173,6 +173,7 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
                                   alt={`1. fáze - Vizualizace ${index + 1}`}
                                   fill
                                   className="object-cover"
+                                  sizes="(min-width: 1024px) 403px, calc(33vw - 8px)"
                                 />
                               </div>
                             ))}
@@ -210,6 +211,7 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
                                   alt={`2. fáze - Vizualizace ${index + 1}`}
                                   fill
                                   className="object-cover"
+                                  sizes="(min-width: 1024px) 201px, calc(50vw - 8px)"
                                 />
                               </div>
                             ))}
@@ -231,6 +233,7 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
                               alt="Finální vizualizace"
                               fill
                               className="object-cover"
+                              sizes="(min-width: 1024px) 403px, calc(100vw - 24px)"
                             />
                           </div>
                           <div className="flex items-center justify-center mt-4 p-3 bg-green-500/10 rounded-lg">

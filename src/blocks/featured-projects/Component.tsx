@@ -38,7 +38,7 @@ export const FeaturedProjectsBlock: React.FC<FeaturedProjectsBlockProps> = async
                     alt={project.title}
                     fill
                     className="object-cover transition-all duration-300 ease-in-out group-hover:scale-105"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    sizes="(min-width: 1024px) 405px, (min-width: 640px) 608px, calc(100vw - 24px)"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out" />
                   <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-all duration-300 ease-in-out">

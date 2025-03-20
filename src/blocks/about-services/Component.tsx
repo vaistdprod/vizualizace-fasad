@@ -98,7 +98,7 @@ export const AboutServicesBlock: React.FC<AboutServicesBlockProps & { id?: strin
                 alt={title || 'Obrázek služby'}
                 fill
                 className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
+                sizes="(min-width: 1024px) 616px, calc(100vw - 24px)"
                 priority
               />
 
