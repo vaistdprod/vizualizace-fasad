@@ -5,7 +5,7 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import sharp from 'sharp'
 import path from 'path'
-import { buildConfig, PayloadRequest, CollectionConfig, PayloadHandler } from 'payload'
+import { buildConfig, PayloadRequest, CollectionConfig, Payload } from 'payload'
 import { fileURLToPath } from 'url'
 import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
@@ -19,7 +19,7 @@ import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 import { anyone } from './access/anyone'
 import { authenticated } from './access/authenticated'
-import { NextApiResponse } from 'next'
+import type { CustomFormSubmission } from './payload-types'
 
 // Extend PayloadRequest to include params
 interface CustomPayloadRequest extends PayloadRequest {
@@ -27,8 +27,7 @@ interface CustomPayloadRequest extends PayloadRequest {
 }
 
 // Centralized S3 configuration
-const R2_PUBLIC_BUCKET = process.env.R2_PUBLIC_BUCKET ?? throwError('R2_PUBLIC_BUCKET')
-const R2_PRIVATE_BUCKET = process.env.R2_PRIVATE_BUCKET ?? throwError('R2_PRIVATE_BUCKET')
+const R2_BUCKET = process.env.R2_PRIVATE_BUCKET ?? throwError('R2_PRIVATE_BUCKET')
 const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID ?? throwError('R2_ACCESS_KEY_ID')
 const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY ?? throwError('R2_SECRET_ACCESS_KEY')
 const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID ?? throwError('R2_ACCOUNT_ID')
@@ -110,7 +109,7 @@ const FormSubmissions: CollectionConfig = {
       type: 'date',
       defaultValue: () => {
         const date = new Date()
-        date.setDate(date.getDate() + 30) // 30 days expiration
+        date.setMonth(date.getMonth() + 3) // 3 months expiration
         return date.toISOString()
       },
     },
@@ -235,11 +234,11 @@ export default buildConfig({
   plugins: [
     ...plugins,
     s3Storage({
-      bucket: R2_PRIVATE_BUCKET,
+      bucket: R2_BUCKET,
       collections: {
-        [Media.slug]: { bucket: R2_PUBLIC_BUCKET },
-        [PrivateMedia.slug]: { bucket: R2_PRIVATE_BUCKET },
-        [Projects.slug]: { bucket: R2_PUBLIC_BUCKET },
+        [Media.slug]: true,
+        [PrivateMedia.slug]: true,
+        [Projects.slug]: true,
       },
       config: s3Config,
       disableLocalStorage: true,
@@ -250,6 +249,17 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
+  onInit: async (payload) => {
+    const tomorrow = new Date()
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    tomorrow.setHours(0, 0, 0, 0)
+    await payload.jobs.queue({
+      task: 'clean-expired-media',
+      input: {},
+      waitUntil: tomorrow,
+    })
+    console.log(`Initial clean-expired-media job queued for ${tomorrow.toISOString()}`)
+  },
   jobs: {
     access: {
       run: ({ req }: { req: PayloadRequest }): boolean => {
@@ -258,15 +268,80 @@ export default buildConfig({
         return authHeader === `Bearer ${process.env.CRON_SECRET}`
       },
     },
-    tasks: [],
+    tasks: [
+      {
+        slug: 'clean-expired-media',
+        handler: async (args) => {
+          const { req } = args
+          const payload = req.payload
+          const threeMonthsAgo = new Date()
+          threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
+          const expiredSubmissions = await payload.find({
+            collection: 'custom_form_submissions',
+            where: { createdAt: { less_than: threeMonthsAgo.toISOString() } },
+          })
+          console.log(`Found ${expiredSubmissions.docs.length} expired submissions`)
+
+          for (const submission of expiredSubmissions.docs as CustomFormSubmission[]) {
+            if (submission.attachments && Array.isArray(submission.attachments)) {
+              await Promise.all(
+                submission.attachments.map(async (attachment) => {
+                  const attachmentId =
+                    typeof attachment === 'object' && attachment && 'id' in attachment
+                      ? attachment.id
+                      : attachment
+                  if (!attachmentId) {
+                    console.log(`Skipping invalid attachment in submission ${submission.id}`)
+                    return
+                  }
+                  try {
+                    await payload.delete({
+                      collection: 'private_media',
+                      id: attachmentId as string | number,
+                    })
+                    console.log(`Deleted private_media ${attachmentId}`)
+                  } catch (err) {
+                    console.log(
+                      `Failed to delete private_media ${attachmentId}: ${(err as Error).message}`,
+                    )
+                  }
+                }),
+              )
+            }
+            try {
+              await payload.delete({ collection: 'custom_form_submissions', id: submission.id })
+              console.log(`Deleted submission ${submission.id}`)
+            } catch (err) {
+              console.log(`Failed to delete submission ${submission.id}: ${(err as Error).message}`)
+            }
+          }
+          console.log(`Cleaned up ${expiredSubmissions.docs.length} expired submissions`)
+
+          // Check for existing future jobs
+          const existingJobs = await payload.find({
+            collection: 'payload-jobs', // Fixed from 'payload_jobs' to 'payload-jobs'
+            where: {
+              taskSlug: { equals: 'clean-expired-media' },
+              waitUntil: { greater_than: new Date().toISOString() },
+            },
+          })
+          if (existingJobs.docs.length === 0) {
+            const tomorrow = new Date()
+            tomorrow.setDate(tomorrow.getDate() + 1)
+            tomorrow.setHours(0, 0, 0, 0)
+            await payload.jobs.queue({
+              task: 'clean-expired-media',
+              input: {},
+              waitUntil: tomorrow,
+            })
+            console.log(`Re-queued clean-expired-media for ${tomorrow.toISOString()}`)
+          } else {
+            console.log('Next clean-expired-media job already queued, skipping re-queue')
+          }
+
+          return { state: 'succeeded' as const, output: undefined }
+        },
+      },
+    ],
   },
-  endpoints: [
-    {
-      path: '/test-endpoint',
-      method: 'get',
-      handler: (async (req: CustomPayloadRequest, res: NextApiResponse) => {
-        res.status(200).send('Test endpoint working!')
-      }) as unknown as PayloadHandler,
-    },
-  ],
 })

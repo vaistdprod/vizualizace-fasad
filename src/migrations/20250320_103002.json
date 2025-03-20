@@ -1,5 +1,5 @@
 {
-  "id": "bdc1152d-68e4-4351-a247-550f8f29b101",
+  "id": "b64b2e3c-432a-4d5a-ab6c-fb0a96657c7b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -773,6 +773,116 @@
           "name": "pages_blocks_partnership_process_steps_parent_id_fk",
           "tableFrom": "pages_blocks_partnership_process_steps",
           "tableTo": "pages_blocks_partnership_process",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.pages_blocks_partnership_process_viz_detail_phases_images": {
+      "name": "pages_blocks_partnership_process_viz_detail_phases_images",
+      "schema": "",
+      "columns": {
+        "_order": {
+          "name": "_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "image_id": {
+          "name": "image_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "pages_blocks_partnership_process_viz_detail_phases_images_order_idx": {
+          "name": "pages_blocks_partnership_process_viz_detail_phases_images_order_idx",
+          "columns": [
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "pages_blocks_partnership_process_viz_detail_phases_images_parent_id_idx": {
+          "name": "pages_blocks_partnership_process_viz_detail_phases_images_parent_id_idx",
+          "columns": [
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "pages_blocks_partnership_process_viz_detail_phases_images_image_idx": {
+          "name": "pages_blocks_partnership_process_viz_detail_phases_images_image_idx",
+          "columns": [
+            {
+              "expression": "image_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "pages_blocks_partnership_process_viz_detail_phases_images_image_id_media_id_fk": {
+          "name": "pages_blocks_partnership_process_viz_detail_phases_images_image_id_media_id_fk",
+          "tableFrom": "pages_blocks_partnership_process_viz_detail_phases_images",
+          "tableTo": "media",
+          "columnsFrom": [
+            "image_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "pages_blocks_partnership_process_viz_detail_phases_images_parent_id_fk": {
+          "name": "pages_blocks_partnership_process_viz_detail_phases_images_parent_id_fk",
+          "tableFrom": "pages_blocks_partnership_process_viz_detail_phases_images",
+          "tableTo": "pages_blocks_partnership_process_viz_detail_phases",
           "columnsFrom": [
             "_parent_id"
           ],
@@ -4763,6 +4873,122 @@
           "name": "_pages_v_blocks_partnership_process_steps_parent_id_fk",
           "tableFrom": "_pages_v_blocks_partnership_process_steps",
           "tableTo": "_pages_v_blocks_partnership_process",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public._pages_v_blocks_partnership_process_viz_detail_phases_images": {
+      "name": "_pages_v_blocks_partnership_process_viz_detail_phases_images",
+      "schema": "",
+      "columns": {
+        "_order": {
+          "name": "_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "image_id": {
+          "name": "image_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "_uuid": {
+          "name": "_uuid",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "_pages_v_blocks_partnership_process_viz_detail_phases_images_order_idx": {
+          "name": "_pages_v_blocks_partnership_process_viz_detail_phases_images_order_idx",
+          "columns": [
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_pages_v_blocks_partnership_process_viz_detail_phases_images_parent_id_idx": {
+          "name": "_pages_v_blocks_partnership_process_viz_detail_phases_images_parent_id_idx",
+          "columns": [
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_pages_v_blocks_partnership_process_viz_detail_phases_images_image_idx": {
+          "name": "_pages_v_blocks_partnership_process_viz_detail_phases_images_image_idx",
+          "columns": [
+            {
+              "expression": "image_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "_pages_v_blocks_partnership_process_viz_detail_phases_images_image_id_media_id_fk": {
+          "name": "_pages_v_blocks_partnership_process_viz_detail_phases_images_image_id_media_id_fk",
+          "tableFrom": "_pages_v_blocks_partnership_process_viz_detail_phases_images",
+          "tableTo": "media",
+          "columnsFrom": [
+            "image_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "_pages_v_blocks_partnership_process_viz_detail_phases_images_parent_id_fk": {
+          "name": "_pages_v_blocks_partnership_process_viz_detail_phases_images_parent_id_fk",
+          "tableFrom": "_pages_v_blocks_partnership_process_viz_detail_phases_images",
+          "tableTo": "_pages_v_blocks_partnership_process_viz_detail_phases",
           "columnsFrom": [
             "_parent_id"
           ],
@@ -13455,6 +13681,7 @@
       "schema": "public",
       "values": [
         "inline",
+        "clean-expired-media",
         "schedulePublish"
       ]
     },
@@ -13471,6 +13698,7 @@
       "schema": "public",
       "values": [
         "inline",
+        "clean-expired-media",
         "schedulePublish"
       ]
     },

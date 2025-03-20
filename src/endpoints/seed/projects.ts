@@ -37,19 +37,13 @@ export const seedProjects = async (payload: Payload): Promise<void> => {
   const projectData: (ProjectSeedData | null)[] = await Promise.all(
     projectFolders.map(async (folderName) => {
       const projectPath = path.join(projectsDir, folderName)
-      const files = (await readdir(projectPath)).filter((file) => /\.(jpg|jpeg|png)$/.test(file))
+      const configPath = path.join(projectPath, 'project-config.ts')
 
-      if (files.length === 0) {
-        payload.logger.warn(`No images found for project folder: ${folderName}, skipping...`)
-        return null
-      }
-
-      const slug = folderName.toLowerCase()
       let title: string
       let description: string
       let imageConfigs: Array<{ filename: string; title: string }> = []
 
-      const configPath = path.join(projectPath, 'project-config.ts')
+      // Load project config
       try {
         const configContent = await readFile(configPath, 'utf-8')
         payload.logger.info(`Read config file for ${folderName} at ${configPath}`)
@@ -81,36 +75,41 @@ export const seedProjects = async (payload: Payload): Promise<void> => {
         payload.logger.error(
           `Failed to load or parse project-config.ts for ${folderName} at ${configPath}: ${err}`,
         )
-        title = folderName.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase())
-        description = `Projekt ${title} zahrnuje návrh a realizaci fasády.`
+        return null // Skip projects without a valid config
       }
 
+      // Fetch images in the order specified by projectConfig.images
       const imageFiles = await Promise.all(
-        files.map(async (fileName) => {
-          const relativePath = path.join(folderName, fileName)
-          const file = await fetchFileByPath(relativePath)
-          payload.logger.info(`Loaded ${relativePath}, size: ${file.size} bytes`)
-          return { fileName, file }
+        imageConfigs.map(async ({ filename, title }) => {
+          const relativePath = path.join(folderName, filename)
+          try {
+            const file = await fetchFileByPath(relativePath)
+            payload.logger.info(`Loaded ${relativePath}, size: ${file.size} bytes`)
+            return { fileName: filename, file, title }
+          } catch (err) {
+            payload.logger.error(`Failed to load image ${relativePath}: ${err}`)
+            return null
+          }
         }),
       )
 
-      const images: Array<{ title: string; image: File }> = imageFiles.map(
-        ({ fileName, file }, index) => {
-          const config = imageConfigs.find((img) => img.filename === fileName)
-          if (config) {
-            return { title: config.title, image: file }
-          }
-          let title = 'Image ' + (index + 1)
-          if (fileName.includes('puvodni')) title = 'Původní stav'
-          else if (fileName.includes('navrh')) title = `Vizualizace - varianta ${index + 1}`
-          else if (fileName.includes('realizace')) title = 'Finální realizace'
-          return { title, image: file }
-        },
+      // Filter out any failed image loads
+      const validImageFiles = imageFiles.filter(
+        (item): item is { fileName: string; file: File; title: string } => item !== null,
       )
 
-      if (images.length === 0) {
-        throw new Error(`Unexpected empty images array for ${folderName}`)
+      if (validImageFiles.length === 0) {
+        payload.logger.warn(`No valid images loaded for project ${folderName}, skipping...`)
+        return null
       }
+
+      const images: Array<{ title: string; image: File }> = validImageFiles.map(
+        ({ title, file }) => ({
+          title,
+          image: file,
+        }),
+      )
+
       const nonEmptyImages = images as [
         { title: string; image: File },
         ...Array<{ title: string; image: File }>,
@@ -121,7 +120,7 @@ export const seedProjects = async (payload: Payload): Promise<void> => {
 
       return {
         title,
-        slug,
+        slug: folderName.toLowerCase(),
         description,
         images,
         featuredImage,

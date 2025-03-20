@@ -10,6 +10,15 @@ type UvodArgs = {
   predPo: Media
   rodinnyDomek: Media
   contactForm: Form
+  navrh2: Media
+  navrh3: Media
+  navrh4: Media
+  navrh5: Media
+  navrh6: Media
+  navrh7: Media
+  navrh8: Media
+  navrh9: Media
+  navrh10: Media
 }
 
 export const uvod: (args: UvodArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
@@ -20,6 +29,15 @@ export const uvod: (args: UvodArgs) => RequiredDataFromCollectionSlug<'pages'> =
   predPo,
   rodinnyDomek,
   contactForm,
+  navrh2,
+  navrh3,
+  navrh4,
+  navrh5,
+  navrh6,
+  navrh7,
+  navrh8,
+  navrh9,
+  navrh10,
 }) => ({
   slug: 'uvod',
   _status: 'published',
@@ -31,8 +49,7 @@ export const uvod: (args: UvodArgs) => RequiredDataFromCollectionSlug<'pages'> =
       description:
         'Dokončujete novostavbu? Zateplujete? Děláte rekonstrukci nebo uvažujete o novém nátěru fasády? Nechte si ještě před zahájením stavebních prací ukázat, jak bude dům vypadat.',
       primaryButtonText: 'Nezávazná poptávka',
-      primaryButtonHref: '/kontakt',
-      secondaryButtonHref: '/',
+      primaryButtonHref: '/poptavka',
       backgroundImage: dumKamenDrevo.id,
       badgeText: 'Vizualizace fasád',
       scrollIndicator: {
@@ -42,7 +59,7 @@ export const uvod: (args: UvodArgs) => RequiredDataFromCollectionSlug<'pages'> =
     },
     {
       blockType: 'backgroundImage',
-      backgroundType: 'gridPattern', // Explicitly grid for this client
+      backgroundType: 'gridPattern',
       blocks: [
         {
           blockType: 'whyChooseUs',
@@ -102,7 +119,7 @@ export const uvod: (args: UvodArgs) => RequiredDataFromCollectionSlug<'pages'> =
           secondaryButton: {
             enabled: true,
             text: 'Nezávazná poptávka',
-            link: '/kontakt',
+            link: '/poptavka',
           },
         },
         {
@@ -139,7 +156,7 @@ export const uvod: (args: UvodArgs) => RequiredDataFromCollectionSlug<'pages'> =
           cta: {
             enabled: true,
             text: 'Nezávazná poptávka',
-            link: '/kontakt',
+            link: '/poptavka',
           },
         },
         {
@@ -189,16 +206,36 @@ export const uvod: (args: UvodArgs) => RequiredDataFromCollectionSlug<'pages'> =
                 title: 'Úvodní koncepty',
                 subtitle: 'Připravíme 5 - 10 návrhů',
                 number: 1,
+                images: [
+                  { image: navrh2.id },
+                  { image: navrh3.id },
+                  { image: navrh4.id },
+                  { image: navrh5.id },
+                  { image: navrh6.id },
+                  { image: navrh7.id },
+                  { image: navrh8.id },
+                  { image: navrh9.id },
+                  { image: navrh10.id },
+                ],
               },
               {
                 title: 'Série návrhů',
                 subtitle: 'Obdržíte 6 variant vizualizací',
                 number: 2,
+                images: [
+                  { image: navrh2.id },
+                  { image: navrh3.id },
+                  { image: navrh4.id },
+                  { image: navrh5.id },
+                  { image: navrh6.id },
+                  { image: navrh7.id },
+                ],
               },
               {
                 title: 'Finální návrh',
                 subtitle: '1 finální vizualizace',
                 number: 3,
+                images: [{ image: navrh2.id }],
               },
             ],
             timeframe: 'Celý proces trvá přibližně 5-7 pracovních dní',

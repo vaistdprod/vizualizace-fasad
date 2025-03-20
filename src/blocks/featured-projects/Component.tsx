@@ -28,7 +28,7 @@ export const FeaturedProjectsBlock: React.FC<FeaturedProjectsBlockProps> = async
                 key={project.id}
                 className="group relative aspect-[4/3] overflow-hidden rounded-lg bg-muted/30"
               >
-                <Link href={`/fotogalerie-fasad#project-${project.slug}`}>
+                <Link href={`/fotogalerie-fasad#${project.slug}`}>
                   <Image
                     src={
                       typeof project.featuredImage === 'object' && project.featuredImage?.url

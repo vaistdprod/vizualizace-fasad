@@ -1,4 +1,3 @@
-// src/endpoints/seed/contact-form.ts
 import type { Form as BaseForm } from '@/payload-types'
 export const contactForm: Omit<BaseForm, 'createdAt' | 'id' | 'sizes' | 'updatedAt'> &
   Partial<Pick<BaseForm, 'id'>> = {
@@ -44,7 +43,25 @@ export const contactForm: Omit<BaseForm, 'createdAt' | 'id' | 'sizes' | 'updated
               format: 0,
               mode: 'normal',
               style: '',
-              text: 'Děkujeme za vaši poptávku!\n\nPokud jste přiložili fotografie, budou zpracovány spolu s vaším požadavkem. Brzy vám zašleme potvrzovací e-mail a připravíme cenovou nabídku.',
+              text: 'Děkujeme za vaši poptávku!',
+              version: 1,
+            },
+          ],
+          direction: 'ltr',
+          format: '',
+          indent: 0,
+          version: 1,
+        },
+        {
+          type: 'paragraph',
+          children: [
+            {
+              type: 'text',
+              detail: 0,
+              format: 0,
+              mode: 'normal',
+              style: '',
+              text: 'Pokud jste přiložili fotografie, budou zpracovány spolu s vaším požadavkem. Brzy vám zašleme potvrzovací e-mail a připravíme cenovou nabídku.',
               version: 1,
             },
           ],

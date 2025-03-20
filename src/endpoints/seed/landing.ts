@@ -19,8 +19,8 @@ export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pag
       title: 'Proměňte svou architektonickou vizi v realitu',
       description:
         'Profesionální služby 3D vizualizace s dodáním do 48 hodin. Oživte své návrhy s fotorealistickou kvalitou.',
-      primaryButtonText: 'Získat bezplatnou konzultaci',
-      primaryButtonHref: '/kontakt',
+      primaryButtonText: 'Získat nabídku zdarma',
+      primaryButtonHref: '#kontaktni-formular',
       secondaryButtonText: 'Zobrazit portfolio',
       secondaryButtonHref: '/fotogalerie-fasad',
       backgroundImage: rodinnyDum.id,
@@ -99,11 +99,11 @@ export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pag
           urgencyText: 'Pospěšte si, nabídka je časově omezená!',
           primaryCTA: {
             text: 'Získat nabídku',
-            href: '/kontakt',
+            href: '#kontaktni-formular',
           },
           secondaryCTA: {
-            text: 'Zjistit více',
-            href: '/',
+            text: 'Kompletní ceník',
+            href: '/kontakt-cenik',
           },
           trustBadges: [
             {

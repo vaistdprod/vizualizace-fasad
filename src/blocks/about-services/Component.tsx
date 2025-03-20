@@ -92,7 +92,7 @@ export const AboutServicesBlock: React.FC<AboutServicesBlockProps & { id?: strin
             variants={imageVariants}
             className={`relative ${imageOrder}`}
           >
-            <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
+            <div className="relative aspect-[2/3] rounded-xl overflow-hidden">
               <Image
                 src={typeof image === 'object' && image?.url ? image.url : ''}
                 alt={title || 'Obrázek služby'}

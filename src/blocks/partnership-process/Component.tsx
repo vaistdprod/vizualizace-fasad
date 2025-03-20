@@ -128,7 +128,7 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
 
                 return (
                   <MagicCard key={phaseNumber} className="bg-card overflow-hidden flex-col">
-                    {/* Phase header - add rounded-t-xl */}
+                    {/* Phase header */}
                     <div
                       className={`${bgClass} p-4 border-b border-border/50 flex items-center justify-between rounded-t-xl`}
                     >
@@ -145,14 +145,21 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
                     {phaseNumber === 1 && (
                       <div className="p-6 flex-grow">
                         <div className="grid grid-cols-3 gap-3 mb-4">
-                          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
+                          {phase.images?.slice(0, 9).map((image, index) => (
                             <div
-                              key={i}
-                              className="aspect-square relative rounded-md overflow-hidden bg-muted"
+                              key={index}
+                              className="aspect-square relative rounded-md overflow-hidden"
                             >
-                              <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
-                                <ImageIcon className="h-8 w-8 opacity-40" />
-                              </div>
+                              <Image
+                                src={
+                                  typeof image.image === 'object' && image.image?.url
+                                    ? image.image.url
+                                    : ''
+                                }
+                                alt={`1. fáze - Vizualizace ${index + 1}`}
+                                fill
+                                className="object-cover"
+                              />
                             </div>
                           ))}
                         </div>
@@ -175,14 +182,21 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
                     {phaseNumber === 2 && (
                       <div className="p-6 flex-grow">
                         <div className="grid grid-cols-2 gap-3">
-                          {[1, 2, 3, 4, 5, 6].map((i) => (
+                          {phase.images?.slice(0, 6).map((image, index) => (
                             <div
-                              key={i}
-                              className="aspect-square relative rounded-md overflow-hidden bg-muted"
+                              key={index}
+                              className="aspect-square relative rounded-md overflow-hidden"
                             >
-                              <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
-                                <ImageIcon className="h-8 w-8 opacity-40" />
-                              </div>
+                              <Image
+                                src={
+                                  typeof image.image === 'object' && image.image?.url
+                                    ? image.image.url
+                                    : ''
+                                }
+                                alt={`2. fáze - Vizualizace ${index + 1}`}
+                                fill
+                                className="object-cover"
+                              />
                             </div>
                           ))}
                         </div>
@@ -190,10 +204,20 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
                     )}
                     {phaseNumber === 3 && (
                       <div className="p-6 flex-grow flex flex-col justify-between">
-                        <div className="aspect-[4/3] relative rounded-md overflow-hidden bg-muted mb-4">
-                          <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
-                            <ImageIcon className="h-12 w-12 opacity-40" />
-                          </div>
+                        <div className="aspect-[4/3] relative rounded-md overflow-hidden mb-4">
+                          <Image
+                            src={
+                              phase.images &&
+                              phase.images[0] &&
+                              typeof phase.images[0].image === 'object' &&
+                              phase.images[0].image?.url
+                                ? phase.images[0].image.url
+                                : ''
+                            }
+                            alt="Finální vizualizace"
+                            fill
+                            className="object-cover"
+                          />
                         </div>
                         <div className="flex items-center justify-center mt-4 p-3 bg-green-500/10 rounded-lg">
                           <CheckCircle className="h-5 w-5 text-green-500 mr-2" />

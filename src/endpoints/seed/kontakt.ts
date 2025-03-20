@@ -24,14 +24,14 @@ export const kontakt: (args: KontaktArgs) => RequiredDataFromCollectionSlug<'pag
           heading: 'Ceník návrhů fasád',
           description:
             'Ceny vypracování návrhu fasády jsou individuální a odvíjejí se od požadavků klienta. Chcete vědět kolik vás bude vizualizace stát právě pro váš dům? Pošlete fotografie domu a vaše představy a požadavky, rádi vám nezávazně vypracujeme cenovou nabídku. Pro vaši prvotní představu uvádíme výchozí ceník našich služeb. Zpracování fotografií nebo výkresů na dům v šesti barevných provedeních.',
-          buttonText: 'Objednat',
-          buttonHref: '/kontakt',
+          buttonText: 'Nezávazná poptávka',
+          buttonHref: '#kontaktni-formular',
           afterPricingText:
             'Uvedené ceny jsou orientační a mohou se lišit v závislosti na složitosti projektu. Pro větší projekty nebo specifické požadavky nabízíme individuální kalkulaci. Neváhejte nás kontaktovat pro nezávaznou konzultaci a přesnou cenovou nabídku na míru vašim potřebám.',
           primaryButton: {
             enabled: true,
             text: 'Nezávazná poptávka',
-            link: '/kontakt',
+            link: '#kontaktni-formular',
           },
           secondaryButton: {
             enabled: true,

@@ -121,13 +121,15 @@ export const GalleryGridBlockClient: React.FC<GalleryGridBlockClientProps> = ({
       </div>
 
       {projects.map((project, projectIndex) => (
-        <div key={project.id} id={`project-${project.slug}`} className="mb-32 last:mb-0">
+        <div key={project.id} id={`${project.slug}`} className="mb-32 last:mb-0">
           <div className="mb-10">
             <h2 className="text-3xl font-bold tracking-tight mb-4">{project.title}</h2>
             {project.description && (
-              <p className="text-lg text-muted-foreground max-w-3xl leading-relaxed">
-                {project.description}
-              </p>
+              <div className="text-lg text-muted-foreground max-w-3xl leading-relaxed space-y-4">
+                {project.description.split('\n').map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
+              </div>
             )}
           </div>
 

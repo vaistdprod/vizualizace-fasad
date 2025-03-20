@@ -36,3 +36,40 @@ export const rodinnyDum: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
 export const kontaktujteNas: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
   alt: 'Osoba vyplňující poptávkový formulář na notebooku v příjemném prostředí, kontaktující studio pro návrh fasády svého domu.',
 }
+
+// New images for visualization phases
+export const navrh2: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
+  alt: 'Vizualizace fasády - návrh 2',
+}
+
+export const navrh3: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
+  alt: 'Vizualizace fasády - návrh 3',
+}
+
+export const navrh4: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
+  alt: 'Vizualizace fasády - návrh 4',
+}
+
+export const navrh5: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
+  alt: 'Vizualizace fasády - návrh 5',
+}
+
+export const navrh6: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
+  alt: 'Vizualizace fasády - návrh 6',
+}
+
+export const navrh7: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
+  alt: 'Vizualizace fasády - návrh 7',
+}
+
+export const navrh8: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
+  alt: 'Vizualizace fasády - návrh 8',
+}
+
+export const navrh9: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
+  alt: 'Vizualizace fasády - návrh 9',
+}
+
+export const navrh10: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
+  alt: 'Vizualizace fasády - návrh 10',
+}

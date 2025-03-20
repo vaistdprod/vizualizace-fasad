@@ -13,7 +13,7 @@ export async function POST(req: Request) {
   console.log('Route hit with headers:', Object.fromEntries(req.headers))
 
   // Apply rate limiting
-  const rateLimitResult = rateLimit(req as any) // Cast to any to match PayloadRequest type
+  const rateLimitResult = rateLimit(req as any)
   if (rateLimitResult.limited) {
     return NextResponse.json(
       { error: rateLimitResult.message || 'Too many requests' },
@@ -116,7 +116,7 @@ export async function POST(req: Request) {
           submissionData,
           attachments: uploadedFiles,
           accessToken: crypto.randomUUID(),
-          expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days
+          expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(), // 3 months
         },
         overrideAccess: true,
         context: { skipTransaction: false },
@@ -190,7 +190,7 @@ async function handleFormSubmission(
     },
   })
 
-  // Generate signed URLs for attachments
+  // Generate signed URLs for attachments (30 days expiration)
   const fileLinks = submission.attachments?.length
     ? `<p><strong>Přílohy:</strong><br>` +
       (
@@ -208,7 +208,7 @@ async function handleFormSubmission(
               Bucket: process.env.R2_PRIVATE_BUCKET ?? throwError('R2_PRIVATE_BUCKET'),
               Key: mediaDoc.filename,
             })
-            const signedUrl = await getSignedUrl(s3Client, command, { expiresIn: 3600 }) // 1-hour expiration
+            const signedUrl = await getSignedUrl(s3Client, command, { expiresIn: 604800 }) // 30 days
             console.log(`Generated signed URL for ${mediaDoc.filename}: ${signedUrl}`)
             return `<a href="${signedUrl}">Soubor ${attachment.id}</a>`
           }),

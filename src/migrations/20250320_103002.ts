@@ -28,9 +28,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE TYPE "public"."enum__projects_v_version_status" AS ENUM('draft', 'published');
   CREATE TYPE "public"."enum_redirects_to_type" AS ENUM('reference', 'custom');
   CREATE TYPE "public"."enum_forms_confirmation_type" AS ENUM('message', 'redirect');
-  CREATE TYPE "public"."enum_payload_jobs_log_task_slug" AS ENUM('inline', 'schedulePublish');
+  CREATE TYPE "public"."enum_payload_jobs_log_task_slug" AS ENUM('inline', 'clean-expired-media', 'schedulePublish');
   CREATE TYPE "public"."enum_payload_jobs_log_state" AS ENUM('failed', 'succeeded');
-  CREATE TYPE "public"."enum_payload_jobs_task_slug" AS ENUM('inline', 'schedulePublish');
+  CREATE TYPE "public"."enum_payload_jobs_task_slug" AS ENUM('inline', 'clean-expired-media', 'schedulePublish');
   CREATE TYPE "public"."enum_header_nav_items_link_type" AS ENUM('reference', 'custom');
   CREATE TYPE "public"."enum_footer_company_info_icon" AS ENUM('Building2', 'MapPin', 'Phone', 'Mail', 'Clock', 'Briefcase');
   CREATE TABLE IF NOT EXISTS "pages_blocks_featured_projects" (
@@ -103,6 +103,13 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"title" varchar,
   	"description" varchar,
   	"icon" "enum_pages_blocks_partnership_process_steps_icon",
+  	"image_id" integer
+  );
+  
+  CREATE TABLE IF NOT EXISTS "pages_blocks_partnership_process_viz_detail_phases_images" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" varchar NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
   	"image_id" integer
   );
   
@@ -472,6 +479,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"title" varchar,
   	"description" varchar,
   	"icon" "enum__pages_v_blocks_partnership_process_steps_icon",
+  	"image_id" integer,
+  	"_uuid" varchar
+  );
+  
+  CREATE TABLE IF NOT EXISTS "_pages_v_blocks_partnership_process_viz_detail_phases_images" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"id" serial PRIMARY KEY NOT NULL,
   	"image_id" integer,
   	"_uuid" varchar
   );
@@ -1277,6 +1292,18 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   END $$;
   
   DO $$ BEGIN
+   ALTER TABLE "pages_blocks_partnership_process_viz_detail_phases_images" ADD CONSTRAINT "pages_blocks_partnership_process_viz_detail_phases_images_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "pages_blocks_partnership_process_viz_detail_phases_images" ADD CONSTRAINT "pages_blocks_partnership_process_viz_detail_phases_images_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages_blocks_partnership_process_viz_detail_phases"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
    ALTER TABLE "pages_blocks_partnership_process_viz_detail_phases" ADD CONSTRAINT "pages_blocks_partnership_process_viz_detail_phases_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages_blocks_partnership_process"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
@@ -1506,6 +1533,18 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   
   DO $$ BEGIN
    ALTER TABLE "_pages_v_blocks_partnership_process_steps" ADD CONSTRAINT "_pages_v_blocks_partnership_process_steps_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v_blocks_partnership_process"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "_pages_v_blocks_partnership_process_viz_detail_phases_images" ADD CONSTRAINT "_pages_v_blocks_partnership_process_viz_detail_phases_images_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "_pages_v_blocks_partnership_process_viz_detail_phases_images" ADD CONSTRAINT "_pages_v_blocks_partnership_process_viz_detail_phases_images_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v_blocks_partnership_process_viz_detail_phases"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
@@ -1965,6 +2004,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "pages_blocks_partnership_process_steps_order_idx" ON "pages_blocks_partnership_process_steps" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "pages_blocks_partnership_process_steps_parent_id_idx" ON "pages_blocks_partnership_process_steps" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "pages_blocks_partnership_process_steps_image_idx" ON "pages_blocks_partnership_process_steps" USING btree ("image_id");
+  CREATE INDEX IF NOT EXISTS "pages_blocks_partnership_process_viz_detail_phases_images_order_idx" ON "pages_blocks_partnership_process_viz_detail_phases_images" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "pages_blocks_partnership_process_viz_detail_phases_images_parent_id_idx" ON "pages_blocks_partnership_process_viz_detail_phases_images" USING btree ("_parent_id");
+  CREATE INDEX IF NOT EXISTS "pages_blocks_partnership_process_viz_detail_phases_images_image_idx" ON "pages_blocks_partnership_process_viz_detail_phases_images" USING btree ("image_id");
   CREATE INDEX IF NOT EXISTS "pages_blocks_partnership_process_viz_detail_phases_order_idx" ON "pages_blocks_partnership_process_viz_detail_phases" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "pages_blocks_partnership_process_viz_detail_phases_parent_id_idx" ON "pages_blocks_partnership_process_viz_detail_phases" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "pages_blocks_partnership_process_order_idx" ON "pages_blocks_partnership_process" USING btree ("_order");
@@ -2053,6 +2095,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_partnership_process_steps_order_idx" ON "_pages_v_blocks_partnership_process_steps" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_partnership_process_steps_parent_id_idx" ON "_pages_v_blocks_partnership_process_steps" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_partnership_process_steps_image_idx" ON "_pages_v_blocks_partnership_process_steps" USING btree ("image_id");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_partnership_process_viz_detail_phases_images_order_idx" ON "_pages_v_blocks_partnership_process_viz_detail_phases_images" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_partnership_process_viz_detail_phases_images_parent_id_idx" ON "_pages_v_blocks_partnership_process_viz_detail_phases_images" USING btree ("_parent_id");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_partnership_process_viz_detail_phases_images_image_idx" ON "_pages_v_blocks_partnership_process_viz_detail_phases_images" USING btree ("image_id");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_partnership_process_viz_detail_phases_order_idx" ON "_pages_v_blocks_partnership_process_viz_detail_phases" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_partnership_process_viz_detail_phases_parent_id_idx" ON "_pages_v_blocks_partnership_process_viz_detail_phases" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_partnership_process_order_idx" ON "_pages_v_blocks_partnership_process" USING btree ("_order");
@@ -2268,6 +2313,7 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "pages_blocks_about_services_features" CASCADE;
   DROP TABLE "pages_blocks_about_services" CASCADE;
   DROP TABLE "pages_blocks_partnership_process_steps" CASCADE;
+  DROP TABLE "pages_blocks_partnership_process_viz_detail_phases_images" CASCADE;
   DROP TABLE "pages_blocks_partnership_process_viz_detail_phases" CASCADE;
   DROP TABLE "pages_blocks_partnership_process" CASCADE;
   DROP TABLE "pages_blocks_cta_section" CASCADE;
@@ -2297,6 +2343,7 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "_pages_v_blocks_about_services_features" CASCADE;
   DROP TABLE "_pages_v_blocks_about_services" CASCADE;
   DROP TABLE "_pages_v_blocks_partnership_process_steps" CASCADE;
+  DROP TABLE "_pages_v_blocks_partnership_process_viz_detail_phases_images" CASCADE;
   DROP TABLE "_pages_v_blocks_partnership_process_viz_detail_phases" CASCADE;
   DROP TABLE "_pages_v_blocks_partnership_process" CASCADE;
   DROP TABLE "_pages_v_blocks_cta_section" CASCADE;

@@ -115,6 +115,7 @@ export interface Config {
   };
   jobs: {
     tasks: {
+      'clean-expired-media': TaskCleanExpiredMedia;
       schedulePublish: TaskSchedulePublish;
       inline: {
         input: unknown;
@@ -399,6 +400,15 @@ export interface PartnershipProcessBlock {
           title: string;
           subtitle?: string | null;
           number: number;
+          /**
+           * Upload images for this phase: up to 9 for Phase 1, 6 for Phase 2, 1 for Phase 3.
+           */
+          images?:
+            | {
+                image: number | Media;
+                id?: string | null;
+              }[]
+            | null;
           id?: string | null;
         }[]
       | null;
@@ -1111,7 +1121,7 @@ export interface PayloadJob {
     | {
         executedAt: string;
         completedAt: string;
-        taskSlug: 'inline' | 'schedulePublish';
+        taskSlug: 'inline' | 'clean-expired-media' | 'schedulePublish';
         taskID: string;
         input?:
           | {
@@ -1144,7 +1154,7 @@ export interface PayloadJob {
         id?: string | null;
       }[]
     | null;
-  taskSlug?: ('inline' | 'schedulePublish') | null;
+  taskSlug?: ('inline' | 'clean-expired-media' | 'schedulePublish') | null;
   queue?: string | null;
   waitUntil?: string | null;
   processing?: boolean | null;
@@ -1385,6 +1395,12 @@ export interface PartnershipProcessBlockSelect<T extends boolean = true> {
               title?: T;
               subtitle?: T;
               number?: T;
+              images?:
+                | T
+                | {
+                    image?: T;
+                    id?: T;
+                  };
               id?: T;
             };
         timeframe?: T;
@@ -2167,6 +2183,14 @@ export interface FooterSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskClean-expired-media".
+ */
+export interface TaskCleanExpiredMedia {
+  input?: unknown;
+  output?: unknown;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

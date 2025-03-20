@@ -15,13 +15,22 @@ import {
   novostavba,
   rodinnyDomek,
   kontaktujteNas,
+  navrh2,
+  navrh3,
+  navrh4,
+  navrh5,
+  navrh6,
+  navrh7,
+  navrh8,
+  navrh9,
+  navrh10,
 } from './images'
 import { contactForm } from './contact-form'
-import { seedProjects } from './projects' // Add this import
+import { seedProjects } from './projects'
 import type { Header } from '@/payload-types'
 import { fileURLToPath } from 'url'
 
-const collections: CollectionSlug[] = ['categories', 'media', 'pages', 'forms', 'users', 'projects'] // Add 'projects'
+const collections: CollectionSlug[] = ['categories', 'media', 'pages', 'forms', 'users', 'projects']
 const globals: GlobalSlug[] = ['header', 'footer']
 
 export const seed = async ({
@@ -128,9 +137,54 @@ export const seed = async ({
     data: kontaktujteNas,
     file: await fetchFileByPath('./kontaktujte-nas.jpg'),
   })
+  const navrh2Doc = await payload.create({
+    collection: 'media',
+    data: navrh2,
+    file: await fetchFileByPath('./rodinny-dum/navrh-2.jpg'),
+  })
+  const navrh3Doc = await payload.create({
+    collection: 'media',
+    data: navrh3,
+    file: await fetchFileByPath('./rodinny-dum/navrh-3.jpg'),
+  })
+  const navrh4Doc = await payload.create({
+    collection: 'media',
+    data: navrh4,
+    file: await fetchFileByPath('./rodinny-dum/navrh-4.jpg'),
+  })
+  const navrh5Doc = await payload.create({
+    collection: 'media',
+    data: navrh5,
+    file: await fetchFileByPath('./rodinny-dum/navrh-5.jpg'),
+  })
+  const navrh6Doc = await payload.create({
+    collection: 'media',
+    data: navrh6,
+    file: await fetchFileByPath('./rodinny-dum/navrh-6.jpg'),
+  })
+  const navrh7Doc = await payload.create({
+    collection: 'media',
+    data: navrh7,
+    file: await fetchFileByPath('./rodinny-dum/navrh-7.jpg'),
+  })
+  const navrh8Doc = await payload.create({
+    collection: 'media',
+    data: navrh8,
+    file: await fetchFileByPath('./rodinny-dum/navrh-8.jpg'),
+  })
+  const navrh9Doc = await payload.create({
+    collection: 'media',
+    data: navrh9,
+    file: await fetchFileByPath('./rodinny-dum/navrh-9.jpg'),
+  })
+  const navrh10Doc = await payload.create({
+    collection: 'media',
+    data: navrh10,
+    file: await fetchFileByPath('./rodinny-dum/navrh-10.jpg'),
+  })
 
   // Seed projects
-  await seedProjects(payload) // Add this call
+  await seedProjects(payload)
 
   // Seed forms
   payload.logger.info('— Seeding forms...')
@@ -152,6 +206,15 @@ export const seed = async ({
       predPo: predPoDoc,
       rodinnyDomek: rodinnyDomekDoc,
       contactForm: contactFormDoc,
+      navrh2: navrh2Doc,
+      navrh3: navrh3Doc,
+      navrh4: navrh4Doc,
+      navrh5: navrh5Doc,
+      navrh6: navrh6Doc,
+      navrh7: navrh7Doc,
+      navrh8: navrh8Doc,
+      navrh9: navrh9Doc,
+      navrh10: navrh10Doc,
     }),
   })
   await payload.create({
@@ -238,9 +301,15 @@ export const seed = async ({
           {
             title: 'Návrhy fasád',
             links: [
-              { label: 'Fasáda rodinného domu', url: '/fasady' },
-              { label: 'Barevné kombinace s obkladem - kámen', url: '/fotogalerie-fasad' },
-              { label: 'Vizualizace fasády, zábradlí a schodů', url: '/kontakt-cenik' },
+              { label: 'Fasáda rodinného domu', url: '/fotogalerie-fasad#fasada-rodinneho-domu' },
+              {
+                label: 'Barevné kombinace s obkladem - kámen',
+                url: '/fotogalerie-fasad#navrh-fasady-barevne-kombinace-s-obkladem-kamen',
+              },
+              {
+                label: 'Vizualizace fasády, zábradlí a schodů',
+                url: '/fotogalerie-fasad#vizualizace-fasady-zabradli-a-schodu',
+              },
               { label: 'Všechny', url: '/fotogalerie-fasad' },
             ],
           },

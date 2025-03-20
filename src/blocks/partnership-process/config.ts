@@ -125,6 +125,26 @@ export const PartnershipProcess: Block = {
               min: 1,
               max: 3,
             },
+            {
+              name: 'images',
+              type: 'array',
+              label: 'Phase Images',
+              minRows: 1,
+              maxRows: 9, // Static max; enforced via admin note
+              admin: {
+                description:
+                  'Upload images for this phase: up to 9 for Phase 1, 6 for Phase 2, 1 for Phase 3.',
+              },
+              fields: [
+                {
+                  name: 'image',
+                  type: 'upload',
+                  relationTo: 'media',
+                  required: true,
+                  label: 'Image',
+                },
+              ],
+            },
           ],
         },
         {

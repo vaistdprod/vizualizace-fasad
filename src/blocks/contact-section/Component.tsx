@@ -112,7 +112,7 @@ export const ContactSectionBlock: React.FC<{
 
           {enableContactContent && contactContent && (
             <div className="mb-8">
-              {contactContent.split('\n').map((paragraph, i) => (
+              {contactContent.split('\n\n').map((paragraph, i) => (
                 <p key={i} className="mb-4 text-muted-foreground leading-relaxed">
                   {paragraph}
                 </p>
