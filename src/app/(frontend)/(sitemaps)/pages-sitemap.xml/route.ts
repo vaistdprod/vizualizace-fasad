@@ -33,10 +33,10 @@ const getPagesSitemap = unstable_cache(
 
     const sitemap = results.docs
       ? results.docs
-          .filter((page) => Boolean(page?.slug) || page?.slug === '') // Allow empty slugs if you switch later
+          .filter((page) => typeof page?.slug === 'string') // Ensure slug is a string (includes '')
           .map((page) => {
             // Homepage is always /
-            const isHomepage = page?.slug === 'uvod'
+            const isHomepage = page?.slug === ''
             return {
               loc: isHomepage ? `${SITE_URL}/` : `${SITE_URL}/${page?.slug}`,
               lastmod: page.updatedAt || dateFallback,

@@ -1,0 +1,10 @@
+@import '~@payloadcms/ui/scss';
+
+.logo {
+  &[data-theme="light"] {
+    filter: none; // Black on light background
+  }
+  &[data-theme="dark"] {
+    filter: brightness(0) invert(1); // White on dark background
+  }
+}

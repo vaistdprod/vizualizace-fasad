@@ -38,24 +38,19 @@ const nextConfig = {
     keepAlive: true,
   },
   async rewrites() {
-    return [
-      {
-        source: '/', // User visits /
-        destination: '/uvod', // Serve content from /uvod (slug: 'uvod')
-      },
-    ]
+    return [] // Removed the / to /uvod rewrite
   },
   async redirects() {
     // Combine with existing redirects from redirects.js
     const existingRedirects = typeof redirects === 'function' ? await redirects() : redirects || []
     return [
-      ...existingRedirects,
+      ...existingRedirects.filter((r) => r.source !== '/uvod'), // Remove the /uvod redirect if it exists in redirects.js
+      // Keep the other redirects as-is
       {
-        source: '/uvod', // User visits /uvod
-        destination: '/', // Redirect to / with a 301
-        permanent: true, // Permanent redirect (301) for SEO
+        source: '/uvod',
+        destination: '/',
+        permanent: true,
       },
-      // New redirects for /kontakt and /kontakty
       {
         source: '/kontakt',
         destination: '/kontakt-cenik',
@@ -66,7 +61,7 @@ const nextConfig = {
         destination: '/kontakt-cenik',
         permanent: true,
       },
-      // New redirects for photogallery-related paths
+      // Photogallery-related redirects
       {
         source: '/fasady-rodinnych-domu-fotogalerie',
         destination: '/fotogalerie-fasad',
@@ -112,7 +107,7 @@ const nextConfig = {
         destination: '/fotogalerie-fasad',
         permanent: true,
       },
-      // New redirects for visualization-related paths
+      // Visualization-related redirects
       {
         source: '/navrhy-vizualizace-fasad',
         destination: '/fasady',

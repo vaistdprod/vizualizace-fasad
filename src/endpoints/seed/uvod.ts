@@ -39,7 +39,7 @@ export const uvod: (args: UvodArgs) => RequiredDataFromCollectionSlug<'pages'> =
   navrh9,
   navrh10,
 }) => ({
-  slug: 'uvod',
+  slug: '',
   _status: 'published',
   title: 'studiofasad.cz - Profesionální návrhy fasád',
   layout: [

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import { Cookie } from 'lucide-react'
 import {
@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
-import { useCookieConsent, type CookieConsent } from '@/hooks/useCookieConsent'
+import { useCookieConsent, type CookieConsent, CONSENT_EXPIRY_DAYS } from '@/hooks/useCookieConsent'
 import { updateGTMConsent, pushEvent } from '@/lib/gtm'
 
 const defaultConsent: Omit<CookieConsent, 'timestamp'> = {
@@ -24,14 +24,33 @@ const defaultConsent: Omit<CookieConsent, 'timestamp'> = {
 }
 
 export function CookieBanner() {
-  const { consent, isOpen, setConsent, setOpen } = useCookieConsent()
+  const { consent, isOpen, setConsent, setOpen, resetConsent } = useCookieConsent()
+  const [tempConsent, setTempConsent] = useState(defaultConsent)
+  const [isHydrated, setIsHydrated] = useState(false)
 
   useEffect(() => {
+    setIsHydrated(true)
+  }, [])
+
+  useEffect(() => {
+    if (!isHydrated) return
+
     if (!consent) {
       setOpen(true)
-      pushEvent('cookie_banner_shown') // Optional: Track banner display
+      pushEvent('cookie_banner_shown')
+    } else {
+      const expiryTime = consent.timestamp + CONSENT_EXPIRY_DAYS * 24 * 60 * 60 * 1000
+      if (Date.now() > expiryTime) {
+        resetConsent()
+      }
     }
-  }, [consent, setOpen])
+  }, [consent, setOpen, resetConsent, isHydrated])
+
+  useEffect(() => {
+    if (isOpen && consent) {
+      setTempConsent({ ...defaultConsent, ...consent })
+    }
+  }, [isOpen, consent])
 
   const handleSave = (preferences: Omit<CookieConsent, 'timestamp'>) => {
     const newConsent = {
@@ -40,8 +59,6 @@ export function CookieBanner() {
     }
     setConsent(newConsent)
     setOpen(false)
-
-    // Update GTM consent
     updateGTMConsent({
       analytics_storage: preferences.analytics ? 'granted' : 'denied',
       ad_storage: preferences.marketing ? 'granted' : 'denied',
@@ -59,10 +76,19 @@ export function CookieBanner() {
     })
   }
 
+  // Custom handler to prevent closing on overlay click
+  const handleOpenChange = (open: boolean) => {
+    if (!open) {
+      // Ignore closing unless explicitly triggered by a button
+      return
+    }
+    setOpen(open)
+  }
+
   return (
     <AnimatePresence>
       {isOpen && (
-        <Dialog open={isOpen} onOpenChange={setOpen}>
+        <Dialog open={isOpen} onOpenChange={handleOpenChange}>
           <DialogContent className="sm:max-w-[600px]">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
@@ -98,9 +124,9 @@ export function CookieBanner() {
                     </p>
                   </div>
                   <Switch
-                    checked={consent?.analytics ?? defaultConsent.analytics}
+                    checked={tempConsent.analytics}
                     onCheckedChange={(checked) =>
-                      handleSave({ ...defaultConsent, ...consent, analytics: checked })
+                      setTempConsent((prev) => ({ ...prev, analytics: checked }))
                     }
                     aria-label="Analytické cookies"
                   />
@@ -115,9 +141,9 @@ export function CookieBanner() {
                     </p>
                   </div>
                   <Switch
-                    checked={consent?.marketing ?? defaultConsent.marketing}
+                    checked={tempConsent.marketing}
                     onCheckedChange={(checked) =>
-                      handleSave({ ...defaultConsent, ...consent, marketing: checked })
+                      setTempConsent((prev) => ({ ...prev, marketing: checked }))
                     }
                     aria-label="Marketingové cookies"
                   />
@@ -132,9 +158,9 @@ export function CookieBanner() {
                     </p>
                   </div>
                   <Switch
-                    checked={consent?.preferences ?? defaultConsent.preferences}
+                    checked={tempConsent.preferences}
                     onCheckedChange={(checked) =>
-                      handleSave({ ...defaultConsent, ...consent, preferences: checked })
+                      setTempConsent((prev) => ({ ...prev, preferences: checked }))
                     }
                     aria-label="Preferenční cookies"
                   />
@@ -165,7 +191,7 @@ export function CookieBanner() {
               </Button>
               <Button
                 variant="outline"
-                onClick={() => handleSave({ ...defaultConsent, ...consent })}
+                onClick={() => handleSave(tempConsent)}
                 className="sm:flex-1"
               >
                 Uložit preference

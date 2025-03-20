@@ -4,7 +4,7 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import sharp from 'sharp'
 import path from 'path'
-import { buildConfig, PayloadRequest, CollectionConfig } from 'payload'
+import { buildConfig, PayloadRequest, CollectionConfig, Config } from 'payload'
 import { fileURLToPath } from 'url'
 import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
@@ -187,8 +187,24 @@ export default buildConfig({
       beforeLogin: ['./components/BeforeLogin'],
       beforeDashboard: ['./components/BeforeDashboard'],
     },
+    graphics: {
+      Logo: path.resolve(dirname, 'graphics/Logo/index.tsx#Logo'),
+      Icon: path.resolve(dirname, 'graphics/Icon/index.tsx#Icon'),
+    },
+    css: '/admin.css', // Tell Payload where to find your CSS
     importMap: {
       baseDir: path.resolve(dirname),
+    },
+    meta: {
+      description: 'Admin panel of your website',
+      titleSuffix: ' - Admin', // Static suffix for admin page
+      icons: [
+        {
+          type: 'image/svg+xml',
+          rel: 'icon',
+          url: '/favicon.svg', // Client’s favicon
+        },
+      ],
     },
     user: Users.slug,
     livePreview: {
@@ -198,7 +214,7 @@ export default buildConfig({
         { label: 'Desktop', name: 'desktop', width: 1440, height: 900 },
       ],
     },
-  },
+  } as Config['admin'], // Explicitly type it
   editor: defaultLexical,
   db: postgresAdapter({
     pool: {

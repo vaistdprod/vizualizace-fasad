@@ -76,7 +76,7 @@ export const SeedButton: React.FC = () => {
   return (
     <Fragment>
       <button className="seedButton" onClick={handleClick}>
-        Naplnit databázi
+        Seed the database
       </button>
       {message}
     </Fragment>

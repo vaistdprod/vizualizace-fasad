@@ -114,112 +114,123 @@ const generateOrganizationSchema = (): SchemaType => ({
   sameAs: [],
 })
 
-const generateWebPageSchema = (page: NonNullable<StructuredDataProps['page']>): SchemaType => ({
-  '@context': 'https://schema.org',
-  '@type': 'WebPage',
-  '@id': `${getServerSideURL()}/${page.slug}#webpage`,
-  url: `${getServerSideURL()}/${page.slug}`,
-  name: page.title,
-  description: page.meta?.description || '',
-  datePublished: page.publishedAt,
-  dateModified: new Date().toISOString(),
-  publisher: { '@id': `${getServerSideURL()}#organization` },
-  inLanguage: 'cs-CZ',
-})
+const generateWebPageSchema = (page: NonNullable<StructuredDataProps['page']>): SchemaType => {
+  const url = page.slug === '' ? getServerSideURL() : `${getServerSideURL()}/${page.slug}`
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${url}#webpage`,
+    url,
+    name: page.title,
+    description: page.meta?.description || '',
+    datePublished: page.publishedAt,
+    dateModified: new Date().toISOString(),
+    publisher: { '@id': `${getServerSideURL()}#organization` },
+    inLanguage: 'cs-CZ',
+  }
+}
 
-const generateBreadcrumbSchema = (page: NonNullable<StructuredDataProps['page']>): SchemaType => ({
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Domů', item: getServerSideURL() },
-    {
-      '@type': 'ListItem',
-      position: 2,
-      name: page.title,
-      item: `${getServerSideURL()}/${page.slug}`,
+const generateBreadcrumbSchema = (page: NonNullable<StructuredDataProps['page']>): SchemaType => {
+  const pageUrl = page.slug === '' ? getServerSideURL() : `${getServerSideURL()}/${page.slug}`
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Domů', item: getServerSideURL() },
+      { '@type': 'ListItem', position: 2, name: page.title, item: pageUrl },
+    ],
+  }
+}
+
+const generateServiceSchema = (page: NonNullable<StructuredDataProps['page']>): SchemaType => {
+  const url = `${getServerSideURL()}/${page.slug}`
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${url}#service`,
+    serviceType: 'Návrhy a vizualizace fasád',
+    provider: { '@id': `${getServerSideURL()}#organization` },
+    description: page.meta?.description || '',
+    url,
+  }
+}
+
+const generateOfferSchema = (page: NonNullable<StructuredDataProps['page']>): SchemaType => {
+  const url = `${getServerSideURL()}/${page.slug}`
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Offer',
+    '@id': `${url}#offer`,
+    name: 'Návrhy fasád',
+    description: page.meta?.description || '',
+    offeredBy: { '@id': `${getServerSideURL()}#organization` },
+    priceCurrency: 'CZK',
+    price: '2900',
+    priceValidUntil: '2025-12-31',
+    url,
+  }
+}
+
+const generateImageGallerySchema = (page: NonNullable<StructuredDataProps['page']>): SchemaType => {
+  const url = `${getServerSideURL()}/${page.slug}`
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ImageGallery',
+    '@id': `${url}#gallery`,
+    name: page.title,
+    description: page.meta?.description || '',
+    url,
+    publisher: { '@id': `${getServerSideURL()}#organization` },
+  }
+}
+
+const generateContactPageSchema = (page: NonNullable<StructuredDataProps['page']>): SchemaType => {
+  const url = `${getServerSideURL()}/${page.slug}`
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    '@id': `${url}#contact`,
+    name: page.title,
+    description: page.meta?.description || '',
+    url,
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: '+420 725 136 901',
+      email: 'info@vizualizacefasad.cz',
+      contactType: 'customer service',
+      availableLanguage: 'cs',
     },
-  ],
-})
-
-const generateServiceSchema = (page: NonNullable<StructuredDataProps['page']>): SchemaType => ({
-  '@context': 'https://schema.org',
-  '@type': 'Service',
-  '@id': `${getServerSideURL()}/${page.slug}#service`,
-  serviceType: 'Návrhy a vizualizace fasád',
-  provider: { '@id': `${getServerSideURL()}#organization` },
-  description: page.meta?.description || '',
-  url: `${getServerSideURL()}/${page.slug}`,
-})
-
-const generateOfferSchema = (page: NonNullable<StructuredDataProps['page']>): SchemaType => ({
-  '@context': 'https://schema.org',
-  '@type': 'Offer',
-  '@id': `${getServerSideURL()}/${page.slug}#offer`,
-  name: 'Návrhy fasád',
-  description: page.meta?.description || '',
-  offeredBy: { '@id': `${getServerSideURL()}#organization` },
-  priceCurrency: 'CZK',
-  price: '2900',
-  priceValidUntil: '2025-12-31',
-  url: `${getServerSideURL()}/${page.slug}`,
-})
-
-const generateImageGallerySchema = (
-  page: NonNullable<StructuredDataProps['page']>,
-): SchemaType => ({
-  '@context': 'https://schema.org',
-  '@type': 'ImageGallery',
-  '@id': `${getServerSideURL()}/${page.slug}#gallery`,
-  name: page.title,
-  description: page.meta?.description || '',
-  url: `${getServerSideURL()}/${page.slug}`,
-  publisher: { '@id': `${getServerSideURL()}#organization` },
-})
-
-const generateContactPageSchema = (page: NonNullable<StructuredDataProps['page']>): SchemaType => ({
-  '@context': 'https://schema.org',
-  '@type': 'ContactPage',
-  '@id': `${getServerSideURL()}/${page.slug}#contact`,
-  name: page.title,
-  description: page.meta?.description || '',
-  url: `${getServerSideURL()}/${page.slug}`,
-  contactPoint: {
-    '@type': 'ContactPoint',
-    telephone: '+420 725 136 901',
-    email: 'info@vizualizacefasad.cz',
-    contactType: 'customer service',
-    availableLanguage: 'cs',
-  },
-})
+  }
+}
 
 export const StructuredData: React.FC<StructuredDataProps> = ({ page }) => {
   const schemas: SchemaType[] = [generateOrganizationSchema()]
 
   if (page) {
     const slug = page.slug || ''
+    const pageUrl = slug === '' ? getServerSideURL() : `${getServerSideURL()}/${slug}`
     schemas.push(generateWebPageSchema(page), generateBreadcrumbSchema(page))
 
     switch (slug) {
-      case 'sluzby':
+      case 'fasady':
         schemas.push(generateServiceSchema(page))
         break
-      case 'cenik':
+      case 'kontakt-cenik':
         schemas.push(generateOfferSchema(page))
         break
-      case 'fotogalerie':
+      case 'fotogalerie-fasad':
         schemas.push(generateImageGallerySchema(page))
         break
-      case 'kontakt':
+      case 'poptavka':
         schemas.push(generateContactPageSchema(page))
         break
-      case 'uvod':
+      case '': // Homepage
       case 'fasady':
-        // Explicitly extend WebPage schema with mainEntity
         schemas.push({
           '@context': 'https://schema.org',
           '@type': 'WebPage',
-          '@id': `${getServerSideURL()}/${page.slug}#webpage`,
-          url: `${getServerSideURL()}/${page.slug}`,
+          '@id': `${pageUrl}#webpage`,
+          url: pageUrl,
           name: page.title,
           description: page.meta?.description || '',
           datePublished: page.publishedAt,

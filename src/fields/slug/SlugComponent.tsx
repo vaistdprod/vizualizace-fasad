@@ -41,13 +41,11 @@ export const SlugComponent: React.FC<SlugComponentProps> = ({
   })
 
   useEffect(() => {
-    if (checkboxValue) {
+    if (checkboxValue && !value) {
+      // Only set slug if it's empty
       if (targetFieldValue) {
         const formattedSlug = formatSlug(targetFieldValue)
-
-        if (value !== formattedSlug) setValue(formattedSlug)
-      } else {
-        if (value !== '') setValue('')
+        setValue(formattedSlug)
       }
     }
   }, [targetFieldValue, checkboxValue, setValue, value])

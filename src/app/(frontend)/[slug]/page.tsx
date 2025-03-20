@@ -25,9 +25,7 @@ export async function generateStaticParams() {
   })
 
   const params = pages.docs
-    ?.filter((doc) => {
-      return doc.slug !== 'uvod'
-    })
+    ?.filter((doc) => doc.slug !== '') // Exclude empty slug (homepage) from static params
     .map(({ slug }) => {
       return { slug }
     })
@@ -43,8 +41,9 @@ type Args = {
 
 export default async function Page({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
-  const { slug = 'uvod' } = await paramsPromise
-  const url = '/' + slug
+  const { slug: rawSlug } = await paramsPromise
+  const slug = rawSlug || '' // Default to empty string for homepage
+  const url = slug === '' ? '/' : `/${slug}` // Adjust URL based on slug
 
   const page = await queryPageBySlug({
     slug,
@@ -71,7 +70,8 @@ export default async function Page({ params: paramsPromise }: Args) {
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { slug = 'uvod' } = await paramsPromise
+  const { slug: rawSlug } = await paramsPromise
+  const slug = rawSlug || '' // Default to empty string for homepage
   const page = await queryPageBySlug({
     slug,
   })

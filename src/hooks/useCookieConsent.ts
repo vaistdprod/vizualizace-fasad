@@ -18,7 +18,7 @@ interface CookieConsentStore {
   resetConsent: () => void
 }
 
-const CONSENT_EXPIRY_DAYS = 90
+export const CONSENT_EXPIRY_DAYS = 90 // Add 'export' here
 
 export const useCookieConsent = create<CookieConsentStore>()(
   persist(
@@ -29,7 +29,6 @@ export const useCookieConsent = create<CookieConsentStore>()(
       setOpen: (open) => set({ isOpen: open }),
       resetConsent: () =>
         set((state) => {
-          // Update GTM consent to "denied" for all categories on reset
           updateGTMConsent({
             analytics_storage: 'denied',
             ad_storage: 'denied',
@@ -43,7 +42,6 @@ export const useCookieConsent = create<CookieConsentStore>()(
       name: 'cookie-consent',
       partialize: (state) => ({ consent: state.consent }),
       onRehydrateStorage: () => (state: CookieConsentStore | undefined) => {
-        // Check if consent has expired
         if (state?.consent) {
           const expiryTime = state.consent.timestamp + CONSENT_EXPIRY_DAYS * 24 * 60 * 60 * 1000
           if (Date.now() > expiryTime) {
