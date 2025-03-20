@@ -102,7 +102,7 @@ export const LandingHeroBlock: React.FC<LandingHeroBlockProps & { id?: string }>
                 repeatType: 'loop',
               }}
             >
-              <ChevronDown className="h-5 w-5 text-foreground cursor-pointer hover:text-primary transition-colors duration-300" />
+              <ChevronDown className="h-5 w-5 text-foreground hover:text-primary transition-colors duration-300" />
             </motion.div>
           </div>
         </motion.div>
