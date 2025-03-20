@@ -1,9 +1,8 @@
+// src/fields/slug/SlugComponent.tsx
 'use client'
 import React, { useCallback, useEffect } from 'react'
 import { TextFieldClientProps } from 'payload'
-
 import { useField, Button, TextInput, FieldLabel, useFormFields, useForm } from '@payloadcms/ui'
-
 import { formatSlug } from './formatSlug'
 import './index.scss'
 
@@ -20,40 +19,27 @@ export const SlugComponent: React.FC<SlugComponentProps> = ({
   readOnly: readOnlyFromProps,
 }) => {
   const { label } = field
-
   const checkboxFieldPath = path?.includes('.')
     ? `${path}.${checkboxFieldPathFromProps}`
     : checkboxFieldPathFromProps
 
   const { value, setValue } = useField<string>({ path: path || field.name })
-
   const { dispatchFields } = useForm()
 
-  // The value of the checkbox
-  // We're using separate useFormFields to minimise re-renders
-  const checkboxValue = useFormFields(([fields]) => {
-    return fields[checkboxFieldPath]?.value as string
-  })
+  const checkboxValue = useFormFields(([fields]) => fields[checkboxFieldPath]?.value as string)
+  const targetFieldValue = useFormFields(([fields]) => fields[fieldToUse]?.value as string)
 
-  // The value of the field we're listening to for the slug
-  const targetFieldValue = useFormFields(([fields]) => {
-    return fields[fieldToUse]?.value as string
-  })
-
+  // Only update slug if it's undefined/null on initial load
   useEffect(() => {
-    if (checkboxValue && !value) {
-      // Only set slug if it's empty
-      if (targetFieldValue) {
-        const formattedSlug = formatSlug(targetFieldValue)
-        setValue(formattedSlug)
-      }
+    if (checkboxValue && value === undefined && targetFieldValue) {
+      const formattedSlug = formatSlug(targetFieldValue)
+      setValue(formattedSlug)
     }
-  }, [targetFieldValue, checkboxValue, setValue, value])
+  }, [checkboxValue, targetFieldValue, setValue, value])
 
   const handleLock = useCallback(
     (e: React.MouseEvent<Element>) => {
       e.preventDefault()
-
       dispatchFields({
         type: 'UPDATE',
         path: checkboxFieldPath,
@@ -69,14 +55,12 @@ export const SlugComponent: React.FC<SlugComponentProps> = ({
     <div className="field-type slug-field-component">
       <div className="label-wrapper">
         <FieldLabel htmlFor={`field-${path}`} label={label} />
-
         <Button className="lock-button" buttonStyle="none" onClick={handleLock}>
           {checkboxValue ? 'Unlock' : 'Lock'}
         </Button>
       </div>
-
       <TextInput
-        value={value}
+        value={value ?? ''} // Ensure empty string if undefined
         onChange={setValue}
         path={path || field.name}
         readOnly={Boolean(readOnly)}
