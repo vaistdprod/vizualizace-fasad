@@ -23,7 +23,10 @@ export const LandingHeroBlock: React.FC<LandingHeroBlockProps & { id?: string }>
   } = props
 
   return (
-    <section className="relative min-h-screen flex items-center pb-20" id={`block-${id}`}>
+    <section
+      className="relative min-h-[calc(100vh-154px)] sm:min-h-[calc(100vh-126px)] flex items-center pb-20"
+      id={`block-${id}`}
+    >
       {backgroundImage && typeof backgroundImage === 'object' && backgroundImage?.url && (
         <Image
           src={backgroundImage.url}
@@ -34,7 +37,7 @@ export const LandingHeroBlock: React.FC<LandingHeroBlockProps & { id?: string }>
           sizes="100vw"
         />
       )}
-      <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background/40 backdrop-blur-xs" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/80 to-background/60" />
 
       <motion.div
         initial="hidden"

@@ -155,8 +155,8 @@ export const uvod: (args: UvodArgs) => RequiredDataFromCollectionSlug<'pages'> =
           ],
           cta: {
             enabled: true,
-            text: 'Nezávazná poptávka',
-            link: '/poptavka',
+            text: 'Ceník vizualizací',
+            link: '/kontakt-cenik',
           },
         },
         {
@@ -272,6 +272,9 @@ export const uvod: (args: UvodArgs) => RequiredDataFromCollectionSlug<'pages'> =
           ],
           form: contactForm.id,
           enableIntro: false,
+          enableContactContent: true,
+          contactContent:
+            'Maximální velikost každého přiloženého souboru v poptávkovém formuláři může být 5MB. Máte-li větší fotografie, použijte pro komunikaci s námi e-mailovou adresu info@vizualizacefasad.cz.\n\nNečekejte až budou řemeslníci stavět lešení. Mějte jasno o podobě fasády vašeho domu ještě před tím.',
         },
       ],
     },

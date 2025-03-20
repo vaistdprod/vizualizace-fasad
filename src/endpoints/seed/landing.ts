@@ -18,7 +18,7 @@ export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pag
       blockType: 'landingHero',
       title: 'Proměňte svou architektonickou vizi v realitu',
       description:
-        'Profesionální služby 3D vizualizace s dodáním do 48 hodin. Oživte své návrhy s fotorealistickou kvalitou.',
+        'Profesionální služby vizualizace fasád s dodáním do 5 pracovních dní. Oživte svůj dům novou fasádou a mějte jistotu, že bude taková, jakou si ji představujete!',
       primaryButtonText: 'Získat nabídku zdarma',
       primaryButtonHref: '#kontaktni-formular',
       secondaryButtonText: 'Zobrazit portfolio',
@@ -166,6 +166,9 @@ export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pag
           ],
           form: contactForm.id,
           enableIntro: false,
+          enableContactContent: true,
+          contactContent:
+            'Maximální velikost každého přiloženého souboru v poptávkovém formuláři může být 5MB. Máte-li větší fotografie, použijte pro komunikaci s námi e-mailovou adresu info@vizualizacefasad.cz.\n\nNečekejte až budou řemeslníci stavět lešení. Mějte jasno o podobě fasády vašeho domu ještě před tím.',
         },
       ],
     },

@@ -13,6 +13,7 @@ import {
   Camera,
   Clock,
   CreditCard,
+  ChevronRight,
 } from 'lucide-react'
 import type { PartnershipProcessBlock as PartnershipProcessBlockProps } from '@/payload-types'
 import { fadeInUp, staggerContainer, staggerItem, defaultViewport } from '@/utilities/animations'
@@ -89,7 +90,14 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
 
                   {/* Step description */}
                   <div className="p-6 flex-grow">
-                    <p className="text-muted-foreground">{step.description}</p>
+                    <div className="text-muted-foreground space-y-4">
+                      {step.description
+                        .split('\n')
+                        .filter(Boolean)
+                        .map((paragraph, index) => (
+                          <p key={index}>{paragraph}</p>
+                        ))}
+                    </div>
                   </div>
                 </MagicCard>
               </motion.div>
@@ -111,13 +119,18 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
                 <ImageIcon className="h-8 w-8 text-primary" />
               </div>
               <h3 className="text-2xl font-bold text-center">{vizDetail.heading}</h3>
-              <p className="text-muted-foreground text-center mt-2 max-w-2xl">
-                {vizDetail.description}
-              </p>
+              <div className="text-muted-foreground text-center mt-2 max-w-2xl space-y-4">
+                {(vizDetail?.description || '')
+                  .split('\n')
+                  .filter(Boolean)
+                  .map((paragraph, index) => (
+                    <p key={index}>{paragraph}</p>
+                  ))}
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {vizDetail.phases?.map((phase) => {
+            <div className="relative grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {vizDetail.phases?.map((phase, index) => {
                 const phaseNumber = phase.number
                 const bgClass =
                   phaseNumber === 1
@@ -127,105 +140,114 @@ export const PartnershipProcessBlock: React.FC<PartnershipProcessBlockProps & { 
                       : 'bg-blue-900/5'
 
                 return (
-                  <MagicCard key={phaseNumber} className="bg-card overflow-hidden flex-col">
-                    {/* Phase header */}
-                    <div
-                      className={`${bgClass} p-4 border-b border-border/50 flex items-center justify-between rounded-t-xl`}
-                    >
-                      <div className="flex flex-col">
-                        <h4 className="text-xl font-bold">{phase.title}</h4>
-                        <p className="text-sm text-muted-foreground">{phase.subtitle}</p>
-                      </div>
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white text-primary-foreground">
-                        <span className="text-xl font-bold text-primary">{phaseNumber}</span>
-                      </div>
-                    </div>
-
-                    {/* Phase content */}
-                    {phaseNumber === 1 && (
-                      <div className="p-6 flex-grow">
-                        <div className="grid grid-cols-3 gap-3 mb-4">
-                          {phase.images?.slice(0, 9).map((image, index) => (
-                            <div
-                              key={index}
-                              className="aspect-square relative rounded-md overflow-hidden"
-                            >
-                              <Image
-                                src={
-                                  typeof image.image === 'object' && image.image?.url
-                                    ? image.image.url
-                                    : ''
-                                }
-                                alt={`1. fáze - Vizualizace ${index + 1}`}
-                                fill
-                                className="object-cover"
-                              />
-                            </div>
-                          ))}
+                  <div key={phaseNumber} className="relative">
+                    <MagicCard className="bg-card overflow-hidden flex-col">
+                      {/* Phase header */}
+                      <div
+                        className={`${bgClass} p-4 border-b border-border/50 flex items-center justify-between rounded-t-xl`}
+                      >
+                        <div className="flex flex-col">
+                          <h4 className="text-xl font-bold">{phase.title}</h4>
+                          <p className="text-sm text-muted-foreground">{phase.subtitle}</p>
                         </div>
-                        <div className="flex justify-between items-center mt-4 pt-3 border-t border-border/30">
-                          <div className="text-sm font-medium">Vyberete vzory a barvy</div>
-                          <div className="w-12 h-6 group">
-                            <svg viewBox="0 0 24 24" fill="none" className="w-full h-full">
-                              <path
-                                d="M5 13L9 17L19 7"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white text-primary-foreground">
+                          <span className="text-xl font-bold text-primary">{phaseNumber}</span>
+                        </div>
+                      </div>
+
+                      {/* Phase content */}
+                      {phaseNumber === 1 && (
+                        <div className="p-6 flex-grow">
+                          <div className="grid grid-cols-3 gap-3 mb-4">
+                            {phase.images?.slice(0, 9).map((image, index) => (
+                              <div
+                                key={index}
+                                className="aspect-square relative rounded-md overflow-hidden"
+                              >
+                                <Image
+                                  src={
+                                    typeof image.image === 'object' && image.image?.url
+                                      ? image.image.url
+                                      : ''
+                                  }
+                                  alt={`1. fáze - Vizualizace ${index + 1}`}
+                                  fill
+                                  className="object-cover"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                          <div className="flex justify-between items-center mt-4 pt-3 border-t border-border/30">
+                            <div className="text-sm font-medium">Vyberete vzory a barvy</div>
+                            <div className="w-12 h-6 group">
+                              <svg viewBox="0 0 24 24" fill="none" className="w-full h-full">
+                                <path
+                                  d="M5 13L9 17L19 7"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                              </svg>
+                            </div>
                           </div>
                         </div>
+                      )}
+                      {phaseNumber === 2 && (
+                        <div className="p-6 flex-grow">
+                          <div className="grid grid-cols-2 gap-3">
+                            {phase.images?.slice(0, 6).map((image, index) => (
+                              <div
+                                key={index}
+                                className="aspect-square relative rounded-md overflow-hidden"
+                              >
+                                <Image
+                                  src={
+                                    typeof image.image === 'object' && image.image?.url
+                                      ? image.image.url
+                                      : ''
+                                  }
+                                  alt={`2. fáze - Vizualizace ${index + 1}`}
+                                  fill
+                                  className="object-cover"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {phaseNumber === 3 && (
+                        <div className="p-6 flex-grow flex flex-col justify-between">
+                          <div className="aspect-[4/3] relative rounded-md overflow-hidden mb-4">
+                            <Image
+                              src={
+                                phase.images &&
+                                phase.images[0] &&
+                                typeof phase.images[0].image === 'object' &&
+                                phase.images[0].image?.url
+                                  ? phase.images[0].image.url
+                                  : ''
+                              }
+                              alt="Finální vizualizace"
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                          <div className="flex items-center justify-center mt-4 p-3 bg-green-500/10 rounded-lg">
+                            <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                            <span className="text-green-500 font-medium">Hotovo!</span>
+                          </div>
+                        </div>
+                      )}
+                    </MagicCard>
+
+                    {/* Arrow connector between cards (hidden on mobile) */}
+                    {index < (vizDetail?.phases?.length ?? 0) - 1 && (
+                      <div className="hidden lg:block absolute top-1/2 -right-8  transform -translate-y-1/2 z-10">
+                        <ChevronRight className="h-8 w-8 text-primary/50" />
                       </div>
                     )}
-                    {phaseNumber === 2 && (
-                      <div className="p-6 flex-grow">
-                        <div className="grid grid-cols-2 gap-3">
-                          {phase.images?.slice(0, 6).map((image, index) => (
-                            <div
-                              key={index}
-                              className="aspect-square relative rounded-md overflow-hidden"
-                            >
-                              <Image
-                                src={
-                                  typeof image.image === 'object' && image.image?.url
-                                    ? image.image.url
-                                    : ''
-                                }
-                                alt={`2. fáze - Vizualizace ${index + 1}`}
-                                fill
-                                className="object-cover"
-                              />
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                    {phaseNumber === 3 && (
-                      <div className="p-6 flex-grow flex flex-col justify-between">
-                        <div className="aspect-[4/3] relative rounded-md overflow-hidden mb-4">
-                          <Image
-                            src={
-                              phase.images &&
-                              phase.images[0] &&
-                              typeof phase.images[0].image === 'object' &&
-                              phase.images[0].image?.url
-                                ? phase.images[0].image.url
-                                : ''
-                            }
-                            alt="Finální vizualizace"
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                        <div className="flex items-center justify-center mt-4 p-3 bg-green-500/10 rounded-lg">
-                          <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                          <span className="text-green-500 font-medium">Hotovo!</span>
-                        </div>
-                      </div>
-                    )}
-                  </MagicCard>
+                  </div>
                 )
               })}
             </div>
