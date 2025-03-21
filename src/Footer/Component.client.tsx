@@ -35,17 +35,19 @@ export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
             className="space-y-8"
           >
             <div className="flex items-center">
-              {logoSvg ? (
-                <div
-                  dangerouslySetInnerHTML={{ __html: logoSvg }}
-                  className="w-[81px] h-[54px] object-contain"
-                />
-              ) : (
-                <div className="flex items-center gap-2">
-                  <Building2 className="h-6 w-6" />
-                  <span className="text-xl font-semibold">studiofasad.cz</span>
-                </div>
-              )}
+              <Link href="/">
+                {logoSvg ? (
+                  <div
+                    dangerouslySetInnerHTML={{ __html: logoSvg }}
+                    className="w-[81px] h-[54px] object-contain"
+                  />
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <Building2 className="h-6 w-6" />
+                    <span className="text-xl font-semibold">studiofasad.cz</span>
+                  </div>
+                )}
+              </Link>
             </div>
             <div className="space-y-4">
               {companyInfo?.map((item, index) => {
