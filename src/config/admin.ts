@@ -8,8 +8,8 @@ const dirname = path.dirname(filename)
 
 export const adminConfig: Config['admin'] = {
   components: {
-    beforeLogin: ['./components/BeforeLogin'],
-    beforeDashboard: ['./components/BeforeDashboard'],
+    beforeLogin: ['../components/BeforeLogin'],
+    beforeDashboard: ['../components/BeforeDashboard'],
     graphics: {
       Logo: 'src/graphics/Logo/index.tsx#Logo',
     },
