@@ -1,131 +1,123 @@
+// src/blocks/conversion-block/config.ts
 import type { Block } from 'payload'
 
 export const ConversionBlock: Block = {
   slug: 'conversionBlock',
   interfaceName: 'ConversionBlockProps',
   labels: {
-    singular: 'Conversion Block',
-    plural: 'Conversion Blocks',
+    singular: { en: 'Conversion Block', cs: 'Konverzní blok' },
+    plural: { en: 'Conversion Blocks', cs: 'Konverzní bloky' },
   },
   fields: [
     {
       name: 'badgeText',
       type: 'text',
-      label: 'Badge Text',
+      label: { en: 'Badge Text', cs: 'Text odznaku' },
     },
     {
       name: 'headline',
       type: 'text',
       required: true,
-      label: 'Headline',
+      label: { en: 'Headline', cs: 'Titulek' },
     },
     {
       name: 'subheading',
       type: 'textarea',
       required: true,
-      label: 'Subheading',
+      label: { en: 'Subheading', cs: 'Podnadpis' },
     },
     {
       name: 'endDate',
       type: 'date',
-      label: 'Offer End Date',
+      label: { en: 'Offer End Date', cs: 'Datum konce nabídky' },
       admin: {
-        description: 'Date when the offer expires',
+        description: { en: 'Date when the offer expires', cs: 'Datum, kdy nabídka vyprší' },
       },
     },
     {
       name: 'originalPrice',
       type: 'number',
-      label: 'Original Price',
+      label: { en: 'Original Price', cs: 'Původní cena' },
       admin: {
-        description: 'Original price before discount',
+        description: { en: 'Original price before discount', cs: 'Původní cena před slevou' },
       },
     },
     {
       name: 'discountPrice',
       type: 'text',
-      label: 'Discount Price',
+      label: { en: 'Discount Price', cs: 'Cena po slevě' },
       admin: {
-        description: 'Price after discount',
+        description: { en: 'Price after discount', cs: 'Cena po slevě' },
       },
     },
     {
       name: 'discountPercentage',
       type: 'number',
-      label: 'Discount Percentage',
+      label: { en: 'Discount Percentage', cs: 'Procento slevy' },
       min: 0,
       max: 100,
       admin: {
-        description: 'Percentage of discount (0-100)',
+        description: { en: 'Percentage of discount (0-100)', cs: 'Procento slevy (0-100)' },
       },
     },
     {
       name: 'currency',
       type: 'text',
-      label: 'Currency',
+      label: { en: 'Currency', cs: 'Měna' },
     },
     {
       name: 'testimonial',
       type: 'group',
-      label: 'Testimonial',
+      label: { en: 'Testimonial', cs: 'Ohlas' },
       fields: [
         {
           name: 'quote',
           type: 'textarea',
-          label: 'Quote',
+          label: { en: 'Quote', cs: 'Citát' },
           required: true,
         },
         {
           name: 'name',
           type: 'text',
-          label: 'Name',
+          label: { en: 'Name', cs: 'Jméno' },
           required: true,
         },
         {
           name: 'role',
           type: 'text',
-          label: 'Role/Position',
+          label: { en: 'Role/Position', cs: 'Role/Pozice' },
           required: true,
         },
         {
           name: 'image',
           type: 'upload',
           relationTo: 'media',
-          label: 'Avatar Image',
+          label: { en: 'Avatar Image', cs: 'Obrázek avatara' },
         },
       ],
     },
     {
       name: 'trustBadges',
       type: 'array',
-      label: 'Trust Badges',
+      label: { en: 'Trust Badges', cs: 'Odznaky důvěry' },
       minRows: 0,
       maxRows: 3,
       fields: [
         {
           name: 'icon',
           type: 'select',
-          label: 'Icon',
+          label: { en: 'Icon', cs: 'Ikona' },
           options: [
-            {
-              label: 'Shield Check',
-              value: 'ShieldCheck',
-            },
-            {
-              label: 'Check Circle',
-              value: 'CheckCircle',
-            },
-            {
-              label: 'Clock',
-              value: 'Clock',
-            },
+            { label: { en: 'Shield Check', cs: 'Štít s kontrolou' }, value: 'ShieldCheck' },
+            { label: { en: 'Check Circle', cs: 'Kruh s kontrolou' }, value: 'CheckCircle' },
+            { label: { en: 'Clock', cs: 'Hodiny' }, value: 'Clock' },
           ],
           required: true,
         },
         {
           name: 'text',
           type: 'text',
-          label: 'Text',
+          label: { en: 'Text', cs: 'Text' },
           required: true,
         },
       ],
@@ -133,18 +125,18 @@ export const ConversionBlock: Block = {
     {
       name: 'primaryCTA',
       type: 'group',
-      label: 'Primary Call to Action',
+      label: { en: 'Primary Call to Action', cs: 'Primární výzva k akci' },
       fields: [
         {
           name: 'text',
           type: 'text',
-          label: 'Button Text',
+          label: { en: 'Button Text', cs: 'Text tlačítka' },
           required: true,
         },
         {
           name: 'href',
           type: 'text',
-          label: 'Button Link',
+          label: { en: 'Button Link', cs: 'Odkaz tlačítka' },
           required: true,
         },
       ],
@@ -152,17 +144,17 @@ export const ConversionBlock: Block = {
     {
       name: 'secondaryCTA',
       type: 'group',
-      label: 'Secondary Call to Action',
+      label: { en: 'Secondary Call to Action', cs: 'Sekundární výzva k akci' },
       fields: [
         {
           name: 'text',
           type: 'text',
-          label: 'Button Text',
+          label: { en: 'Button Text', cs: 'Text tlačítka' },
         },
         {
           name: 'href',
           type: 'text',
-          label: 'Button Link',
+          label: { en: 'Button Link', cs: 'Odkaz tlačítka' },
           required: true,
         },
       ],
@@ -170,28 +162,28 @@ export const ConversionBlock: Block = {
     {
       name: 'urgencyText',
       type: 'text',
-      label: 'Urgency Text',
+      label: { en: 'Urgency Text', cs: 'Text naléhavosti' },
     },
     {
       name: 'packageDetails',
       type: 'group',
-      label: 'Package Details',
+      label: { en: 'Package Details', cs: 'Detaily balíčku' },
       fields: [
         {
           name: 'title',
           type: 'text',
-          label: 'Package Title',
+          label: { en: 'Package Title', cs: 'Název balíčku' },
         },
         {
           name: 'features',
           type: 'array',
-          label: 'Features',
+          label: { en: 'Features', cs: 'Vlastnosti' },
           minRows: 1,
           fields: [
             {
               name: 'text',
               type: 'text',
-              label: 'Feature Text',
+              label: { en: 'Feature Text', cs: 'Text vlastnosti' },
               required: true,
             },
           ],
@@ -199,7 +191,7 @@ export const ConversionBlock: Block = {
         {
           name: 'additionalFeeText',
           type: 'text',
-          label: 'Additional Fee Text',
+          label: { en: 'Additional Fee Text', cs: 'Text dodatečného poplatku' },
         },
       ],
     },

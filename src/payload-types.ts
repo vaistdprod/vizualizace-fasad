@@ -54,6 +54,7 @@ export type SupportedTimezones =
   | 'Asia/Singapore'
   | 'Asia/Tokyo'
   | 'Asia/Seoul'
+  | 'Australia/Brisbane'
   | 'Australia/Sydney'
   | 'Pacific/Guam'
   | 'Pacific/Noumea'
@@ -977,7 +978,6 @@ export interface CustomFormSubmission {
    * Permanent links for attached media (requires token access)
    */
   attachmentLinks?: string | null;
-  debugFlag?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1858,7 +1858,6 @@ export interface CustomFormSubmissionsSelect<T extends boolean = true> {
   accessToken?: T;
   expiresAt?: T;
   attachmentLinks?: T;
-  debugFlag?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -1,12 +1,12 @@
+// src/collections/Users/index.ts
 import type { CollectionConfig } from 'payload'
-
 import { authenticated } from '../../access/authenticated'
 
 export const Users: CollectionConfig = {
   slug: 'users',
   labels: {
-    singular: 'User',
-    plural: 'Users',
+    singular: { en: 'User', cs: 'Uživatel' },
+    plural: { en: 'Users', cs: 'Uživatelé' },
   },
   access: {
     admin: authenticated,
@@ -19,51 +19,60 @@ export const Users: CollectionConfig = {
     defaultColumns: ['name', 'email'],
     useAsTitle: 'name',
   },
-  auth: true, // Authentication is already enabled, which is perfect
+  auth: true,
   fields: [
     {
       name: 'name',
       type: 'text',
-      label: 'Name',
+      label: { en: 'Name', cs: 'Jméno' },
     },
   ],
   timestamps: true,
   hooks: {
-    // Add the beforeChange hook for password validation
     beforeChange: [
       async ({ data, req }) => {
-        // Check if a password is being set or updated
         if (data.password) {
           const password = data.password
-
-          // Define your password rules
           const minLength = 12
           const hasUpperCase = /[A-Z]/.test(password)
           const hasLowerCase = /[a-z]/.test(password)
           const hasNumbers = /\d/.test(password)
           const hasSymbols = /[!@#$%^&*(),.?":{}|<>]/.test(password)
 
-          // Validate the password against your rules
-          if (password.length < minLength) {
-            throw new Error('Password must be at least 12 characters long.')
+          // Define error messages as a map
+          const errors = {
+            length: {
+              cs: `Heslo musí mít alespoň ${minLength} znaků.`,
+              en: `Password must be at least ${minLength} characters long.`,
+            },
+            upperCase: {
+              cs: 'Heslo musí obsahovat alespoň jedno velké písmeno.',
+              en: 'Password must contain at least one uppercase letter.',
+            },
+            lowerCase: {
+              cs: 'Heslo musí obsahovat alespoň jedno malé písmeno.',
+              en: 'Password must contain at least one lowercase letter.',
+            },
+            number: {
+              cs: 'Heslo musí obsahovat alespoň jedno číslo.',
+              en: 'Password must contain at least one number.',
+            },
+            symbol: {
+              cs: 'Heslo musí obsahovat alespoň jeden speciální znak (např. !@#$%^&*).',
+              en: 'Password must contain at least one special character (e.g., !@#$%^&*).',
+            },
           }
-          if (!hasUpperCase) {
-            throw new Error('Password must contain at least one uppercase letter.')
-          }
-          if (!hasLowerCase) {
-            throw new Error('Password must contain at least one lowercase letter.')
-          }
-          if (!hasNumbers) {
-            throw new Error('Password must contain at least one number.')
-          }
-          if (!hasSymbols) {
-            throw new Error(
-              'Password must contain at least one special character (e.g., !@#$%^&*).',
-            )
-          }
-        }
 
-        return data // Return the data if validation passes
+          // Assert locale type based on supportedLanguages (cs, en)
+          const locale = (req.locale || 'cs') as 'cs' | 'en'
+
+          if (password.length < minLength) throw new Error(errors.length[locale])
+          if (!hasUpperCase) throw new Error(errors.upperCase[locale])
+          if (!hasLowerCase) throw new Error(errors.lowerCase[locale])
+          if (!hasNumbers) throw new Error(errors.number[locale])
+          if (!hasSymbols) throw new Error(errors.symbol[locale])
+        }
+        return data
       },
     ],
   },

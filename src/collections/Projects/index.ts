@@ -1,3 +1,4 @@
+// src/collections/Projects/index.ts
 import type { CollectionConfig } from 'payload'
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
@@ -7,16 +8,23 @@ import { revalidateProject } from './hooks/revalidateProject'
 
 export const Projects: CollectionConfig = {
   slug: 'projects',
+  labels: {
+    singular: { en: 'Project', cs: 'Projekt' },
+    plural: { en: 'Projects', cs: 'Projekty' },
+  },
   access: {
     create: authenticated,
     delete: authenticated,
-    read: authenticatedOrPublished, // Allow published projects to be public
+    read: authenticatedOrPublished,
     update: authenticated,
   },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'updatedAt'],
-    description: 'A collection of projects with titles, descriptions, and images.',
+    description: {
+      en: 'A collection of projects with titles, descriptions, and images.',
+      cs: 'Sbírka projektů s názvy, popisy a obrázky.',
+    },
     livePreview: {
       url: ({ data, req }) => {
         return generatePreviewPath({
@@ -38,30 +46,33 @@ export const Projects: CollectionConfig = {
       name: 'title',
       type: 'text',
       required: true,
-      label: 'Project Title',
+      label: { en: 'Project Title', cs: 'Název projektu' },
     },
     {
       name: 'slug',
       type: 'text',
       required: true,
       unique: true,
-      label: 'Slug',
+      label: { en: 'Slug', cs: 'Slug' },
       admin: {
-        description: 'URL-friendly identifier for the project (e.g., "realizace-fasady-ostrava").',
+        description: {
+          en: 'URL-friendly identifier for the project (e.g., "realizace-fasady-ostrava").',
+          cs: 'URL-přátelský identifikátor projektu (např. "realizace-fasady-ostrava").',
+        },
       },
     },
     {
       name: 'description',
       type: 'textarea',
-      label: 'Project Description',
+      label: { en: 'Project Description', cs: 'Popis projektu' },
       admin: {
-        description: 'Brief description of the project.',
+        description: { en: 'Brief description of the project.', cs: 'Stručný popis projektu.' },
       },
     },
     {
       name: 'images',
       type: 'array',
-      label: 'Project Images',
+      label: { en: 'Project Images', cs: 'Obrázky projektu' },
       minRows: 1,
       maxRows: 16,
       fields: [
@@ -69,21 +80,24 @@ export const Projects: CollectionConfig = {
           name: 'title',
           type: 'text',
           required: true,
-          label: 'Image Title',
+          label: { en: 'Image Title', cs: 'Název obrázku' },
         },
         {
           name: 'image',
           type: 'upload',
           relationTo: 'media',
           required: true,
-          label: 'Image',
+          label: { en: 'Image', cs: 'Obrázek' },
         },
         {
           name: 'caption',
           type: 'text',
-          label: 'Image Caption',
+          label: { en: 'Image Caption', cs: 'Popisek obrázku' },
           admin: {
-            description: 'Optional caption for the image.',
+            description: {
+              en: 'Optional caption for the image.',
+              cs: 'Volitelný popisek obrázku.',
+            },
           },
         },
       ],
@@ -91,25 +105,32 @@ export const Projects: CollectionConfig = {
     {
       name: 'featured',
       type: 'checkbox',
-      label: 'Featured Project',
+      label: { en: 'Featured Project', cs: 'Vybraný projekt' },
       defaultValue: false,
       admin: {
         position: 'sidebar',
-        description: 'Check this box to feature this project on the homepage.',
+        description: {
+          en: 'Check this box to feature this project on the homepage.',
+          cs: 'Zaškrtněte toto políčko, aby byl projekt zobrazen na domovské stránce.',
+        },
       },
     },
     {
       name: 'featuredImage',
       type: 'upload',
       relationTo: 'media',
-      label: 'Featured Image',
+      label: { en: 'Featured Image', cs: 'Hlavní obrázek' },
       admin: {
-        description: 'The main image to represent this project (used on homepage).',
+        description: {
+          en: 'The main image to represent this project (used on homepage).',
+          cs: 'Hlavní obrázek reprezentující tento projekt (použitý na domovské stránce).',
+        },
       },
     },
     {
       name: 'publishedAt',
       type: 'date',
+      label: { en: 'Published At', cs: 'Zveřejněno dne' },
       admin: {
         position: 'sidebar',
       },

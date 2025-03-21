@@ -1,9 +1,10 @@
+// src/Footer/config.ts
 import type { GlobalConfig } from 'payload'
 import { revalidateFooter } from './hooks/revalidateFooter'
 
 export const Footer: GlobalConfig = {
   slug: 'footer',
-  label: 'Footer',
+  label: { en: 'Footer', cs: 'Patička' },
   access: {
     read: () => true,
   },
@@ -11,7 +12,7 @@ export const Footer: GlobalConfig = {
     {
       name: 'logoSvg',
       type: 'code',
-      label: 'Logo SVG Code',
+      label: { en: 'Logo SVG Code', cs: 'SVG kód loga' },
       admin: {
         language: 'html', // Sets the editor to HTML mode for SVG
       },
@@ -19,26 +20,26 @@ export const Footer: GlobalConfig = {
     {
       name: 'companyInfo',
       type: 'array',
-      label: 'Company Information',
+      label: { en: 'Company Information', cs: 'Informace o společnosti' },
       fields: [
         {
           name: 'icon',
           type: 'select',
-          label: 'Icon',
+          label: { en: 'Icon', cs: 'Ikona' },
           options: [
-            { label: 'Building2', value: 'Building2' },
-            { label: 'MapPin', value: 'MapPin' },
-            { label: 'Phone', value: 'Phone' },
-            { label: 'Mail', value: 'Mail' },
-            { label: 'Clock', value: 'Clock' },
-            { label: 'Briefcase', value: 'Briefcase' },
+            { label: { en: 'Building', cs: 'Budova' }, value: 'Building2' },
+            { label: { en: 'Map Pin', cs: 'Mapa' }, value: 'MapPin' },
+            { label: { en: 'Phone', cs: 'Telefon' }, value: 'Phone' },
+            { label: { en: 'Mail', cs: 'E-mail' }, value: 'Mail' },
+            { label: { en: 'Clock', cs: 'Hodiny' }, value: 'Clock' },
+            { label: { en: 'Briefcase', cs: 'Kufřík' }, value: 'Briefcase' },
           ],
           required: true,
         },
         {
           name: 'text',
           type: 'text',
-          label: 'Text',
+          label: { en: 'Text', cs: 'Text' },
           required: true,
         },
       ],
@@ -46,31 +47,31 @@ export const Footer: GlobalConfig = {
     {
       name: 'footerColumns',
       type: 'array',
-      label: 'Footer Columns',
+      label: { en: 'Footer Columns', cs: 'Sloupce patičky' },
       maxRows: 2,
       fields: [
         {
           name: 'title',
           type: 'text',
           required: true,
-          label: 'Title',
+          label: { en: 'Title', cs: 'Název' },
         },
         {
           name: 'links',
           type: 'array',
-          label: 'Links',
+          label: { en: 'Links', cs: 'Odkazy' },
           fields: [
             {
               name: 'label',
               type: 'text',
               required: true,
-              label: 'Text',
+              label: { en: 'Text', cs: 'Text' },
             },
             {
               name: 'url',
               type: 'text',
               required: false,
-              label: 'URL',
+              label: { en: 'URL', cs: 'URL' },
             },
           ],
         },

@@ -1,5 +1,5 @@
+// src/collections/Categories.ts
 import type { CollectionConfig } from 'payload'
-
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
 import { slugField } from '@/fields/slug'
@@ -7,8 +7,8 @@ import { slugField } from '@/fields/slug'
 export const Categories: CollectionConfig = {
   slug: 'categories',
   labels: {
-    singular: 'Category',
-    plural: 'Categories',
+    singular: { en: 'Category', cs: 'Kategorie' },
+    plural: { en: 'Categories', cs: 'Kategorie' },
   },
   access: {
     create: authenticated,
@@ -24,7 +24,7 @@ export const Categories: CollectionConfig = {
       name: 'title',
       type: 'text',
       required: true,
-      label: 'Title',
+      label: { en: 'Title', cs: 'Název' },
     },
     ...slugField(),
   ],

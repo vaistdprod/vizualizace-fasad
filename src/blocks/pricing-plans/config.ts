@@ -1,69 +1,76 @@
+// src/blocks/pricing-plans/config.ts
 import type { Block } from 'payload'
 
 export const PricingPlans: Block = {
   slug: 'pricingPlans',
   interfaceName: 'PricingPlansBlock',
   labels: {
-    singular: 'Pricing Table',
-    plural: 'Pricing Tables',
+    singular: { en: 'Pricing Table', cs: 'Cenová tabulka' },
+    plural: { en: 'Pricing Tables', cs: 'Cenové tabulky' },
   },
   fields: [
     {
       name: 'badgeText',
       type: 'text',
-      label: 'Badge Text',
+      label: { en: 'Badge Text', cs: 'Text odznaku' },
     },
     {
       name: 'heading',
       type: 'text',
-      label: 'Section Heading',
+      label: { en: 'Section Heading', cs: 'Nadpis sekce' },
       required: true,
     },
     {
       name: 'description',
       type: 'textarea',
-      label: 'Description',
+      label: { en: 'Description', cs: 'Popis' },
     },
     {
       name: 'buttonText',
       type: 'text',
       required: true,
-      label: 'Button Text',
+      label: { en: 'Button Text', cs: 'Text tlačítka' },
     },
     {
       name: 'buttonHref',
       type: 'text',
       required: false,
-      label: 'Button Link',
+      label: { en: 'Button Link', cs: 'Odkaz tlačítka' },
       admin: {
-        description: 'URL for the call-to-action buttons',
+        description: {
+          en: 'URL for the call-to-action buttons',
+          cs: 'URL pro tlačítka výzvy k akci',
+        },
       },
     },
     {
       name: 'afterPricingText',
       type: 'textarea',
       required: false,
-      label: 'Text After Pricing Table',
+      label: { en: 'Text After Pricing Table', cs: 'Text po cenové tabulce' },
       admin: {
-        description: 'Additional text to display after the pricing table',
+        description: {
+          en: 'Additional text to display after the pricing table',
+          cs: 'Dodatečný text zobrazený po cenové tabulce',
+        },
       },
     },
     {
       name: 'primaryButton',
       type: 'group',
-      label: 'Primary Button',
+      label: { en: 'Primary Button', cs: 'Primární tlačítko' },
       fields: [
         {
           name: 'enabled',
           type: 'checkbox',
-          label: 'Enable Primary Button',
+          label: { en: 'Enable Primary Button', cs: 'Povolit primární tlačítko' },
           defaultValue: false,
         },
         {
           name: 'text',
           type: 'text',
           required: false,
-          label: 'Button Text',
+          label: { en: 'Button Text', cs: 'Text tlačítka' },
           admin: {
             condition: (_, siblingData) => siblingData?.enabled,
           },
@@ -72,7 +79,7 @@ export const PricingPlans: Block = {
           name: 'link',
           type: 'text',
           required: false,
-          label: 'Button Link',
+          label: { en: 'Button Link', cs: 'Odkaz tlačítka' },
           admin: {
             condition: (_, siblingData) => siblingData?.enabled,
           },
@@ -82,19 +89,19 @@ export const PricingPlans: Block = {
     {
       name: 'secondaryButton',
       type: 'group',
-      label: 'Secondary Button',
+      label: { en: 'Secondary Button', cs: 'Sekundární tlačítko' },
       fields: [
         {
           name: 'enabled',
           type: 'checkbox',
-          label: 'Enable Secondary Button',
+          label: { en: 'Enable Secondary Button', cs: 'Povolit sekundární tlačítko' },
           defaultValue: false,
         },
         {
           name: 'text',
           type: 'text',
           required: false,
-          label: 'Button Text',
+          label: { en: 'Button Text', cs: 'Text tlačítka' },
           admin: {
             condition: (_, siblingData) => siblingData?.enabled,
           },
@@ -103,7 +110,7 @@ export const PricingPlans: Block = {
           name: 'link',
           type: 'text',
           required: false,
-          label: 'Button Link',
+          label: { en: 'Button Link', cs: 'Odkaz tlačítka' },
           admin: {
             condition: (_, siblingData) => siblingData?.enabled,
           },
@@ -113,31 +120,34 @@ export const PricingPlans: Block = {
     {
       name: 'options',
       type: 'array',
-      label: 'Price Options',
+      label: { en: 'Price Options', cs: 'Možnosti cen' },
       required: true,
       minRows: 1,
       admin: {
-        description: 'Pricing options to display in the table',
+        description: {
+          en: 'Pricing options to display in the table',
+          cs: 'Možnosti cen k zobrazení v tabulce',
+        },
       },
       fields: [
         {
           name: 'count',
           type: 'number',
           required: true,
-          label: 'Photo Count',
+          label: { en: 'Photo Count', cs: 'Počet fotografií' },
           min: 1,
         },
         {
           name: 'base',
           type: 'number',
           required: true,
-          label: 'Base Price',
+          label: { en: 'Base Price', cs: 'Základní cena' },
         },
         {
           name: 'discount',
           type: 'number',
           required: true,
-          label: 'Discount %',
+          label: { en: 'Discount %', cs: 'Sleva %' },
           min: 0,
           max: 100,
         },
@@ -145,108 +155,114 @@ export const PricingPlans: Block = {
           name: 'final',
           type: 'number',
           required: true,
-          label: 'Final Price',
+          label: { en: 'Final Price', cs: 'Konečná cena' },
         },
         {
           name: 'fee',
           type: 'number',
           required: true,
-          label: 'Additional Fee',
+          label: { en: 'Additional Fee', cs: 'Dodatečný poplatek' },
         },
         {
           name: 'concepts',
           type: 'number',
           required: true,
-          label: 'Initial Concepts',
+          label: { en: 'Initial Concepts', cs: 'Počáteční koncepty' },
         },
         {
           name: 'series',
           type: 'number',
           required: true,
-          label: 'Second Series',
+          label: { en: 'Second Series', cs: 'Druhá série' },
         },
         {
           name: 'adjust',
           type: 'number',
           required: true,
-          label: 'Final Adjustments',
+          label: { en: 'Final Adjustments', cs: 'Závěrečné úpravy' },
         },
       ],
     },
     {
       name: 'tableHeaders',
       type: 'group',
-      label: 'Table Headers',
+      label: { en: 'Table Headers', cs: 'Hlavičky tabulky' },
       admin: {
-        description: 'Headers for the pricing table columns',
+        description: {
+          en: 'Headers for the pricing table columns',
+          cs: 'Hlavičky sloupců cenové tabulky',
+        },
       },
       fields: [
         {
           name: 'service',
           type: 'text',
-          label: 'Service Column',
+          label: { en: 'Service Column', cs: 'Sloupec služby' },
         },
         {
           name: 'concepts',
           type: 'text',
-          label: 'Concepts Column',
+          label: { en: 'Concepts Column', cs: 'Sloupec konceptů' },
         },
         {
           name: 'series',
           type: 'text',
-          label: 'Series Column',
+          label: { en: 'Series Column', cs: 'Sloupec série' },
         },
         {
           name: 'adjust',
           type: 'text',
-          label: 'Adjustments Column',
+          label: { en: 'Adjustments Column', cs: 'Sloupec úprav' },
         },
         {
           name: 'fee',
           type: 'text',
-          label: 'Fee Column',
+          label: { en: 'Fee Column', cs: 'Sloupec poplatku' },
         },
       ],
     },
     {
       name: 'labels',
       type: 'group',
-      label: 'Text Labels',
+      label: { en: 'Text Labels', cs: 'Textové štítky' },
       admin: {
-        description: 'Text labels used in the pricing component',
+        description: {
+          en: 'Text labels used in the pricing component',
+          cs: 'Textové štítky použité v cenové komponentě',
+        },
       },
       fields: [
         {
           name: 'discount',
           type: 'text',
-          label: 'Discount Label',
+          label: { en: 'Discount Label', cs: 'Štítek slevy' },
         },
         {
           name: 'photo',
           type: 'text',
-          label: 'Photo Label (singular)',
+          label: { en: 'Photo Label (singular)', cs: 'Štítek fotografie (jednotné číslo)' },
         },
         {
           name: 'photos',
           type: 'text',
-          label: 'Photo Label (plural)',
+          label: { en: 'Photo Label (plural)', cs: 'Štítek fotografií (množné číslo)' },
         },
         {
           name: 'currency',
           type: 'text',
-          label: 'Currency Symbol',
+          label: { en: 'Currency Symbol', cs: 'Symbol měny' },
           defaultValue: 'Kč',
         },
         {
           name: 'from',
           type: 'text',
-          label: 'From Label',
+          label: { en: 'From Label', cs: 'Štítek "od"' },
           defaultValue: 'od',
         },
         {
           name: 'for',
           type: 'text',
-          label: 'For Label',
+          label: { en: 'For Label', cs: 'Štítek "za"' },
           defaultValue: 'za',
         },
       ],
@@ -254,7 +270,7 @@ export const PricingPlans: Block = {
     {
       name: 'note',
       type: 'text',
-      label: 'Footer Note',
+      label: { en: 'Footer Note', cs: 'Poznámka v patičce' },
     },
   ],
 }

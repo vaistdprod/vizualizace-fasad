@@ -1,68 +1,72 @@
+// src/blocks/about-services/config.ts
 import type { Block } from 'payload'
 
 export const AboutServices: Block = {
   slug: 'aboutServices',
   interfaceName: 'AboutServicesBlock',
   labels: {
-    singular: 'About Services',
-    plural: 'About Services Sections',
+    singular: { en: 'About Services', cs: 'O službách' },
+    plural: { en: 'About Services Sections', cs: 'Sekce o službách' },
   },
   fields: [
     {
       name: 'title',
       type: 'text',
       required: true,
-      label: 'Title',
+      label: { en: 'Title', cs: 'Název' },
     },
     {
       name: 'badgeText',
       type: 'text',
       required: false,
-      label: 'Badge Text',
+      label: { en: 'Badge Text', cs: 'Text odznaku' },
     },
     {
       name: 'description',
       type: 'textarea',
       required: true,
-      label: 'Description',
+      label: { en: 'Description', cs: 'Popis' },
     },
     {
       name: 'image',
       type: 'upload',
       relationTo: 'media',
       required: true,
-      label: 'Image',
+      label: { en: 'Image', cs: 'Obrázek' },
     },
     {
       name: 'features',
       type: 'array',
-      label: 'Service Features',
+      label: { en: 'Service Features', cs: 'Vlastnosti služby' },
       minRows: 0,
       maxRows: 4,
       labels: {
-        singular: 'Feature',
-        plural: 'Features',
+        singular: { en: 'Feature', cs: 'Vlastnost' },
+        plural: { en: 'Features', cs: 'Vlastnosti' },
       },
       fields: [
         {
           name: 'title',
           type: 'text',
           required: true,
-          label: 'Feature Title',
+          label: { en: 'Feature Title', cs: 'Název vlastnosti' },
         },
         {
           name: 'description',
           type: 'textarea',
           required: true,
-          label: 'Feature Description',
+          label: { en: 'Feature Description', cs: 'Popis vlastnosti' },
         },
         {
           name: 'icon',
           type: 'text',
           required: false,
-          label: 'Icon Name (optional)',
+          label: { en: 'Icon Name (optional)', cs: 'Název ikony (volitelné)' },
           admin: {
-            description: 'Enter an icon name from Lucide Icons (e.g., "check", "star", "shield")',
+            description: {
+              en: 'Enter an icon name from Lucide Icons (e.g., "check", "star", "shield")',
+              cs: 'Zadejte název ikony z Lucide Icons (např. "check", "star", "shield")',
+            },
           },
         },
       ],
@@ -70,31 +74,27 @@ export const AboutServices: Block = {
     {
       name: 'cta',
       type: 'group',
-      label: 'Call to Action',
+      label: { en: 'Call to Action', cs: 'Výzva k akci' },
       fields: [
         {
           name: 'enabled',
           type: 'checkbox',
-          label: 'Enable CTA Button',
+          label: { en: 'Enable CTA Button', cs: 'Povolit tlačítko CTA' },
           defaultValue: false,
         },
         {
           name: 'text',
           type: 'text',
           required: false,
-          label: 'Button Text',
-          admin: {
-            condition: (_, siblingData) => siblingData?.enabled,
-          },
+          label: { en: 'Button Text', cs: 'Text tlačítka' },
+          admin: { condition: (_, siblingData) => siblingData?.enabled },
         },
         {
           name: 'link',
           type: 'text',
           required: false,
-          label: 'Button Link',
-          admin: {
-            condition: (_, siblingData) => siblingData?.enabled,
-          },
+          label: { en: 'Button Link', cs: 'Odkaz tlačítka' },
+          admin: { condition: (_, siblingData) => siblingData?.enabled },
         },
       ],
     },
@@ -102,14 +102,14 @@ export const AboutServices: Block = {
       name: 'layout',
       type: 'select',
       required: true,
-      label: 'Layout Style',
+      label: { en: 'Layout Style', cs: 'Styl rozložení' },
       options: [
         {
-          label: 'Image on Left',
+          label: { en: 'Image on Left', cs: 'Obrázek vlevo' },
           value: 'imageLeft',
         },
         {
-          label: 'Image on Right',
+          label: { en: 'Image on Right', cs: 'Obrázek vpravo' },
           value: 'imageRight',
         },
       ],

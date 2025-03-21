@@ -1,28 +1,29 @@
+// src/blocks/gallery-grid/config.ts
 import { Block } from 'payload'
 
 export const GalleryGrid: Block = {
   slug: 'galleryGrid',
   interfaceName: 'GalleryGridBlock',
   labels: {
-    singular: 'Gallery Grid',
-    plural: 'Gallery Grids',
+    singular: { en: 'Gallery Grid', cs: 'Galerie mřížka' },
+    plural: { en: 'Gallery Grids', cs: 'Galerie mřížky' },
   },
   fields: [
     {
       name: 'badgeText',
       type: 'text',
-      label: 'Badge Text',
+      label: { en: 'Badge Text', cs: 'Text odznaku' },
     },
     {
       name: 'heading',
       type: 'text',
-      label: 'Section Heading',
+      label: { en: 'Section Heading', cs: 'Nadpis sekce' },
       required: true,
     },
     {
       name: 'description',
       type: 'textarea',
-      label: 'Description',
+      label: { en: 'Description', cs: 'Popis' },
     },
   ],
 }

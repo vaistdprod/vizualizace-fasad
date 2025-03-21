@@ -1,51 +1,52 @@
+// src/blocks/featured-projects/config.ts
 import { Block } from 'payload'
 
 export const FeaturedProjects: Block = {
   slug: 'featuredProjects',
   interfaceName: 'FeaturedProjectsBlock',
   labels: {
-    singular: 'Featured Projects',
-    plural: 'Featured Projects',
+    singular: { en: 'Featured Projects', cs: 'Vybrané projekty' },
+    plural: { en: 'Featured Projects', cs: 'Vybrané projekty' },
   },
   fields: [
     {
       name: 'title',
       type: 'text',
       required: true,
-      label: 'Title',
+      label: { en: 'Title', cs: 'Název' },
     },
     {
       name: 'description',
       type: 'textarea',
       required: true,
-      label: 'Description',
+      label: { en: 'Description', cs: 'Popis' },
     },
     {
       name: 'afterProjectsText',
       type: 'textarea',
-      label: 'Text After Projects',
+      label: { en: 'Text After Projects', cs: 'Text po projektech' },
     },
     {
       name: 'primaryButton',
       type: 'group',
-      label: 'Primary Button',
+      label: { en: 'Primary Button', cs: 'Primární tlačítko' },
       fields: [
         {
           name: 'enabled',
           type: 'checkbox',
-          label: 'Enable Primary Button',
+          label: { en: 'Enable Primary Button', cs: 'Povolit primární tlačítko' },
           defaultValue: false,
         },
         {
           name: 'text',
           type: 'text',
-          label: 'Button Text',
+          label: { en: 'Button Text', cs: 'Text tlačítka' },
           admin: { condition: (_, siblingData) => siblingData?.enabled },
         },
         {
           name: 'link',
           type: 'text',
-          label: 'Button Link',
+          label: { en: 'Button Link', cs: 'Odkaz tlačítka' },
           admin: { condition: (_, siblingData) => siblingData?.enabled },
         },
       ],
@@ -53,24 +54,24 @@ export const FeaturedProjects: Block = {
     {
       name: 'secondaryButton',
       type: 'group',
-      label: 'Secondary Button',
+      label: { en: 'Secondary Button', cs: 'Sekundární tlačítko' },
       fields: [
         {
           name: 'enabled',
           type: 'checkbox',
-          label: 'Enable Secondary Button',
+          label: { en: 'Enable Secondary Button', cs: 'Povolit sekundární tlačítko' },
           defaultValue: false,
         },
         {
           name: 'text',
           type: 'text',
-          label: 'Button Text',
+          label: { en: 'Button Text', cs: 'Text tlačítka' },
           admin: { condition: (_, siblingData) => siblingData?.enabled },
         },
         {
           name: 'link',
           type: 'text',
-          label: 'Button Link',
+          label: { en: 'Button Link', cs: 'Odkaz tlačítka' },
           admin: { condition: (_, siblingData) => siblingData?.enabled },
         },
       ],

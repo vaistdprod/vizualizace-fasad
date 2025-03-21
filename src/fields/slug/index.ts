@@ -1,5 +1,5 @@
+// src/fields/slug/index.ts
 import type { CheckboxField, TextField } from 'payload'
-
 import { formatSlugHook } from './formatSlug'
 
 type Overrides = {
@@ -20,6 +20,7 @@ export const slugField: Slug = (fieldToUse = 'title', overrides = {}) => {
       hidden: true,
       position: 'sidebar',
     },
+    label: { en: 'Lock Slug', cs: 'Zamknout slug' }, // Added label (optional, usually hidden)
     ...checkboxOverrides,
   }
 
@@ -28,10 +29,8 @@ export const slugField: Slug = (fieldToUse = 'title', overrides = {}) => {
     name: 'slug',
     type: 'text',
     index: true,
-    label: 'Slug',
-    ...(slugOverrides || {}),
+    label: { en: 'Slug', cs: 'Slug' },
     hooks: {
-      // Kept this in for hook or API based updates
       beforeValidate: [formatSlugHook(fieldToUse)],
     },
     admin: {
@@ -47,6 +46,7 @@ export const slugField: Slug = (fieldToUse = 'title', overrides = {}) => {
         },
       },
     },
+    ...slugOverrides,
   }
 
   return [slugField, checkBoxField]

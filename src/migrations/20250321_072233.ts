@@ -920,7 +920,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"access_token" varchar,
   	"expires_at" timestamp(3) with time zone,
   	"attachment_links" varchar,
-  	"debug_flag" varchar,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );

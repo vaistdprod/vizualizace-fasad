@@ -1,5 +1,5 @@
+// src/blocks/Form/config.ts
 import type { Block } from 'payload'
-
 import {
   FixedToolbarFeature,
   HeadingFeature,
@@ -11,8 +11,8 @@ export const FormBlock: Block = {
   slug: 'formBlock',
   interfaceName: 'FormBlock',
   labels: {
-    singular: 'Formulář',
-    plural: 'Formuláře',
+    singular: { en: 'Form', cs: 'Formulář' },
+    plural: { en: 'Forms', cs: 'Formuláře' },
   },
   fields: [
     {
@@ -20,12 +20,12 @@ export const FormBlock: Block = {
       type: 'relationship',
       relationTo: 'forms',
       required: true,
-      label: 'Formulář',
+      label: { en: 'Form', cs: 'Formulář' },
     },
     {
       name: 'enableIntro',
       type: 'checkbox',
-      label: 'Povolit úvodní obsah',
+      label: { en: 'Enable intro content', cs: 'Povolit úvodní obsah' },
     },
     {
       name: 'introContent',
@@ -34,16 +34,14 @@ export const FormBlock: Block = {
         condition: (_, { enableIntro }) => Boolean(enableIntro),
       },
       editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [
-            ...rootFeatures,
-            HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-            FixedToolbarFeature(),
-            InlineToolbarFeature(),
-          ]
-        },
+        features: ({ rootFeatures }) => [
+          ...rootFeatures,
+          HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+          FixedToolbarFeature(),
+          InlineToolbarFeature(),
+        ],
       }),
-      label: 'Úvodní obsah',
+      label: { en: 'Intro Content', cs: 'Úvodní obsah' },
     },
   ],
 }

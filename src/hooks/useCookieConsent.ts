@@ -28,7 +28,7 @@ export const useCookieConsent = create<CookieConsentStore>()(
       setConsent: (consent) => set({ consent, isOpen: false }),
       setOpen: (open) => set({ isOpen: open }),
       resetConsent: () =>
-        set((state) => {
+        set((_state) => {
           updateGTMConsent({
             analytics_storage: 'denied',
             ad_storage: 'denied',

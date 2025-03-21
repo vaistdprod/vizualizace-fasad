@@ -1,5 +1,5 @@
+// src/collections/Pages/index.ts
 import type { CollectionConfig } from 'payload'
-
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { FeaturedProjects } from '../../blocks/featured-projects/config'
@@ -25,6 +25,10 @@ import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
+  labels: {
+    singular: { en: 'Page', cs: 'Stránka' },
+    plural: { en: 'Pages', cs: 'Stránky' },
+  },
   access: {
     create: authenticated,
     delete: authenticated,
@@ -60,6 +64,7 @@ export const Pages: CollectionConfig = {
       name: 'title',
       type: 'text',
       required: true,
+      label: { en: 'Title', cs: 'Název' },
     },
     {
       type: 'tabs',
@@ -88,19 +93,20 @@ export const Pages: CollectionConfig = {
                 ConversionBlock,
               ],
               required: true,
+              label: { en: 'Layout', cs: 'Rozvržení' },
               admin: {
                 initCollapsed: true,
               },
             },
           ],
-          label: 'Content',
+          label: { en: 'Content', cs: 'Obsah' },
         },
-        // Removed 'meta' tab; SEO plugin will handle it
       ],
     },
     {
       name: 'publishedAt',
       type: 'date',
+      label: { en: 'Published At', cs: 'Zveřejněno dne' },
       admin: {
         position: 'sidebar',
       },

@@ -8,8 +8,8 @@ const css = `
     fill: #fff; /* White in dark mode */
   }
   .graphic-logo {
-    width: 150px;
-    height: auto;
+    width: 80px;
+    height: 80px;
   }
 `
 

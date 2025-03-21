@@ -1,57 +1,60 @@
+// src/blocks/landing-hero/config.ts
 import type { Block } from 'payload'
 
 export const LandingHero: Block = {
   slug: 'landingHero',
   interfaceName: 'LandingHeroBlock',
   labels: {
-    singular: 'Landing Hero',
-    plural: 'Landing Hero Sections',
+    singular: { en: 'Landing Hero', cs: 'Úvodní hero sekce' },
+    plural: { en: 'Landing Hero Sections', cs: 'Úvodní hero sekce' },
   },
   fields: [
     {
       name: 'title',
       type: 'text',
       required: true,
-      label: 'Title',
+      label: { en: 'Title', cs: 'Název' },
     },
     {
       name: 'description',
       type: 'textarea',
       required: true,
-      label: 'Description',
+      label: { en: 'Description', cs: 'Popis' },
     },
     {
       name: 'primaryButtonText',
       type: 'text',
       required: true,
-      label: 'Primary Button Text',
+      label: { en: 'Primary Button Text', cs: 'Text primárního tlačítka' },
     },
     {
       name: 'primaryButtonHref',
       type: 'text',
       required: false,
-      label: 'Primary Button Link',
+      label: { en: 'Primary Button Link', cs: 'Odkaz primárního tlačítka' },
       admin: {
-        description: 'URL for the primary button',
+        description: { en: 'URL for the primary button', cs: 'URL pro primární tlačítko' },
       },
     },
     {
       name: 'secondaryButtonText',
       type: 'text',
       required: false,
-      label: 'Secondary Button Text',
+      label: { en: 'Secondary Button Text', cs: 'Text sekundárního tlačítka' },
       admin: {
-        description:
-          'Optional secondary button text. If left empty, no secondary button will be displayed.',
+        description: {
+          en: 'Optional secondary button text. If left empty, no secondary button will be displayed.',
+          cs: 'Volitelný text sekundárního tlačítka. Pokud zůstane prázdné, sekundární tlačítko se nezobrazí.',
+        },
       },
     },
     {
       name: 'secondaryButtonHref',
       type: 'text',
       required: false,
-      label: 'Secondary Button Link',
+      label: { en: 'Secondary Button Link', cs: 'Odkaz sekundárního tlačítka' },
       admin: {
-        description: 'URL for the secondary button',
+        description: { en: 'URL for the secondary button', cs: 'URL pro sekundární tlačítko' },
         condition: (_, siblingData) => Boolean(siblingData?.secondaryButtonText),
       },
     },
@@ -60,33 +63,39 @@ export const LandingHero: Block = {
       type: 'upload',
       relationTo: 'media',
       required: true,
-      label: 'Background Image',
+      label: { en: 'Background Image', cs: 'Obrázek pozadí' },
     },
     {
       name: 'badgeText',
       type: 'text',
-      label: 'Badge Text',
+      label: { en: 'Badge Text', cs: 'Text odznaku' },
       admin: {
-        description: 'Text displayed in the badge above the title',
+        description: {
+          en: 'Text displayed in the badge above the title',
+          cs: 'Text zobrazený v odznaku nad názvem',
+        },
       },
     },
     {
       name: 'scrollIndicator',
       type: 'group',
-      label: 'Scroll Indicator',
+      label: { en: 'Scroll Indicator', cs: 'Indikátor posunu' },
       admin: {
-        description: 'Settings for the scroll indicator at the bottom of the hero section',
+        description: {
+          en: 'Settings for the scroll indicator at the bottom of the hero section',
+          cs: 'Nastavení indikátoru posunu ve spodní části hero sekce',
+        },
       },
       fields: [
         {
           name: 'enabled',
           type: 'checkbox',
-          label: 'Show Scroll Indicator',
+          label: { en: 'Show Scroll Indicator', cs: 'Zobrazit indikátor posunu' },
         },
         {
           name: 'text',
           type: 'text',
-          label: 'Scroll Text',
+          label: { en: 'Scroll Text', cs: 'Text posunu' },
           admin: {
             condition: (_, siblingData) => siblingData?.enabled,
           },

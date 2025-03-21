@@ -1,61 +1,62 @@
+// src/blocks/team-section/config.ts
 import type { Block } from 'payload'
 
 export const TeamSection: Block = {
   slug: 'teamSection',
   interfaceName: 'TeamSectionBlock',
   labels: {
-    singular: 'Team Section',
-    plural: 'Team Sections',
+    singular: { en: 'Team Section', cs: 'Sekce týmu' },
+    plural: { en: 'Team Sections', cs: 'Sekce týmů' },
   },
   fields: [
     {
       name: 'title',
       type: 'text',
       required: true,
-      label: 'Title',
+      label: { en: 'Title', cs: 'Název' },
     },
     {
       name: 'description',
       type: 'textarea',
       required: true,
-      label: 'Description',
+      label: { en: 'Description', cs: 'Popis' },
     },
     {
       name: 'team',
       type: 'array',
-      label: 'Team Members',
+      label: { en: 'Team Members', cs: 'Členové týmu' },
       minRows: 1,
       fields: [
         {
           name: 'name',
           type: 'text',
           required: true,
-          label: 'Name',
+          label: { en: 'Name', cs: 'Jméno' },
         },
         {
           name: 'role',
           type: 'text',
           required: true,
-          label: 'Role',
+          label: { en: 'Role', cs: 'Role' },
         },
         {
           name: 'email',
           type: 'text',
           required: true,
-          label: 'Email',
+          label: { en: 'Email', cs: 'E-mail' },
         },
         {
           name: 'phone',
           type: 'text',
           required: true,
-          label: 'Phone',
+          label: { en: 'Phone', cs: 'Telefon' },
         },
         {
           name: 'image',
           type: 'upload',
           relationTo: 'media',
           required: false,
-          label: 'Image',
+          label: { en: 'Image', cs: 'Obrázek' },
         },
       ],
     },

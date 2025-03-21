@@ -1,8 +1,22 @@
 import { NextResponse } from 'next/server'
-import { getPayload } from 'payload'
+import { getPayload, type Payload } from 'payload'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { S3Client } from '@aws-sdk/client-s3'
 import { GetObjectCommand } from '@aws-sdk/client-s3'
+import { rateLimit } from '@/utilities/rateLimit'
+// Changed import path - assuming you're using Payload CMS
+import type { PayloadRequest } from 'payload' // Updated import
+
+// Define interface for rate limit result
+interface RateLimitResult {
+  limited: boolean
+  message?: string
+}
+
+// Define interface for attachment reference
+interface AttachmentRef {
+  id: number
+}
 
 function throwError(varName: string): never {
   throw new Error(`Environment variable ${varName} is missing.`)
@@ -11,8 +25,14 @@ function throwError(varName: string): never {
 export async function POST(req: Request) {
   console.log('Route hit with headers:', Object.fromEntries(req.headers))
 
+  // Convert Request to PayloadRequest
+  const payloadRequest = req as PayloadRequest
+  payloadRequest.context = {}
+  payloadRequest.i18n = {} as any
+  payloadRequest.payloadAPI = 'REST'
+
   // Apply rate limiting
-  const rateLimitResult = rateLimit(req as any)
+  const rateLimitResult: RateLimitResult = rateLimit(payloadRequest)
   if (rateLimitResult.limited) {
     return NextResponse.json(
       { error: rateLimitResult.message || 'Too many requests' },
@@ -21,7 +41,9 @@ export async function POST(req: Request) {
   }
 
   try {
-    const payload = await getPayload({ config: (await import('@/payload.config')).default })
+    const payload: Payload = await getPayload({
+      config: (await import('@/payload.config')).default,
+    })
     console.log('Payload initialized')
 
     console.log('Parsing request...')
@@ -115,7 +137,7 @@ export async function POST(req: Request) {
           submissionData,
           attachments: uploadedFiles,
           accessToken: crypto.randomUUID(),
-          expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(), // 3 months
+          expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
         },
         overrideAccess: true,
         context: { skipTransaction: false },
@@ -165,7 +187,7 @@ async function handleFormSubmission(
     attachments?: number[]
     submissionId: string
   },
-  payload: any,
+  payload: Payload,
 ) {
   const email = submissionData.find((d) => d.field === 'email')?.value || 'Není uveden'
   const name = submissionData.find((d) => d.field === 'name')?.value || 'Není uvedeno'
@@ -193,7 +215,7 @@ async function handleFormSubmission(
     ? `<p><strong>Přílohy:</strong><br>` +
       (
         await Promise.all(
-          submission.attachments.map(async (attachment: { id: number }) => {
+          (submission.attachments as AttachmentRef[]).map(async (attachment: AttachmentRef) => {
             const mediaDoc = await payload.findByID({
               collection: 'private_media',
               id: attachment.id,
@@ -206,7 +228,7 @@ async function handleFormSubmission(
               Bucket: process.env.R2_PRIVATE_BUCKET ?? throwError('R2_PRIVATE_BUCKET'),
               Key: mediaDoc.filename,
             })
-            const signedUrl = await getSignedUrl(s3Client, command, { expiresIn: 604800 }) // 30 days
+            const signedUrl = await getSignedUrl(s3Client, command, { expiresIn: 604800 })
             console.log(`Generated signed URL for ${mediaDoc.filename}: ${signedUrl}`)
             return `<a href="${signedUrl}">Soubor ${attachment.id}</a>`
           }),
@@ -257,6 +279,3 @@ async function handleFormSubmission(
 
   return { success: true }
 }
-
-// Import rateLimit function from payload.config.ts
-import { rateLimit } from '@/payload.config'

@@ -12,7 +12,7 @@ export const landing: (args: LandingArgs) => RequiredDataFromCollectionSlug<'pag
 }) => ({
   slug: 'fasady',
   _status: 'published',
-  title: 'Domovská stránka',
+  title: 'Landing page',
   layout: [
     {
       blockType: 'landingHero',

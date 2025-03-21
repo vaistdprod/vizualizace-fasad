@@ -14,6 +14,8 @@ import { MetaTitleComponent as MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c08
 import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaImageComponent as MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
+import { Icon as Icon_c91f387b1e1e266abbd316576a738bc6 } from 'src/graphics/Icon/index.tsx'
+import { Logo as Logo_0c05d89cc4c8a8bbbb6822cd8c3420f3 } from 'src/graphics/Logo/index.tsx'
 import { default as default_d84a8b36b9e5ae54e467b6bb479a7fd4 } from '../../../components/BeforeDashboard'
 import { default as default_419a8da2bc438d88facd06b1b2091c5d } from '../../../components/BeforeLogin'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
@@ -35,6 +37,8 @@ export const importMap = {
   "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaImageComponent": MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
+  "src/graphics/Icon/index.tsx#Icon": Icon_c91f387b1e1e266abbd316576a738bc6,
+  "src/graphics/Logo/index.tsx#Logo": Logo_0c05d89cc4c8a8bbbb6822cd8c3420f3,
   "./components/BeforeDashboard#default": default_d84a8b36b9e5ae54e467b6bb479a7fd4,
   "./components/BeforeLogin#default": default_419a8da2bc438d88facd06b1b2091c5d,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24

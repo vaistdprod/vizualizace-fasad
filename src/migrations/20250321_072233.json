@@ -1,5 +1,5 @@
 {
-  "id": "6b5a7a24-a259-4132-be44-af23506a53fa",
+  "id": "d9727293-2e19-4031-bbac-98ab960fda12",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -9403,12 +9403,6 @@
         },
         "attachment_links": {
           "name": "attachment_links",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "debug_flag": {
-          "name": "debug_flag",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false

@@ -1,3 +1,4 @@
+// src/fields/defaultLexical.ts
 import { Config, type TextFieldSingleValidation } from 'payload'
 import {
   BoldFeature,
@@ -32,13 +33,17 @@ export const defaultLexical: Config['editor'] = lexicalEditor({
               admin: {
                 condition: (_data, siblingData) => siblingData?.linkType !== 'internal',
               },
-              label: ({ t }) => t('fields:enterURL'),
+              label: { en: 'Enter URL', cs: 'Zadejte URL' },
               required: true,
               validate: ((value, options) => {
                 if ((options?.siblingData as LinkFields)?.linkType === 'internal') {
-                  return true // no validation needed, as no url should exist for internal links
+                  return true // No validation needed for internal links
                 }
-                return value ? true : 'URL je povinné'
+                if (!value) {
+                  const locale = (options.req?.locale || 'cs') as 'cs' | 'en'
+                  return locale === 'cs' ? 'URL je povinné' : 'URL is required'
+                }
+                return true
               }) as TextFieldSingleValidation,
             },
           ]

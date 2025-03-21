@@ -1,4 +1,4 @@
-// blocks/contact-section/config.ts
+// src/blocks/contact-section/config.ts
 import type { Block } from 'payload'
 import {
   FixedToolbarFeature,
@@ -11,75 +11,73 @@ export const ContactSection: Block = {
   slug: 'contactSection',
   interfaceName: 'ContactSectionBlock',
   labels: {
-    singular: 'Contact Section',
-    plural: 'Contact Sections',
+    singular: { en: 'Contact Section', cs: 'Kontaktní sekce' },
+    plural: { en: 'Contact Sections', cs: 'Kontaktní sekce' },
   },
   fields: [
     {
       name: 'badgeText',
       type: 'text',
-      label: 'Badge Text',
+      label: { en: 'Badge Text', cs: 'Text odznaku' },
     },
     {
       name: 'heading',
       type: 'text',
-      label: 'Section Heading',
+      label: { en: 'Section Heading', cs: 'Nadpis sekce' },
       required: true,
     },
     {
       name: 'description',
       type: 'textarea',
-      label: 'Description',
+      label: { en: 'Description', cs: 'Popis' },
     },
     {
       name: 'contactTitle',
       type: 'text',
-      label: 'Contact Info Title',
+      label: { en: 'Contact Info Title', cs: 'Název kontaktních informací' },
     },
     {
       name: 'enableContactContent',
       type: 'checkbox',
-      label: 'Enable Contact Content',
+      label: { en: 'Enable Contact Content', cs: 'Povolit kontaktní obsah' },
       defaultValue: false,
     },
     {
       name: 'contactContent',
       type: 'textarea',
-      label: 'Contact Content',
-      admin: {
-        condition: (_, { enableContactContent }) => Boolean(enableContactContent),
-      },
+      label: { en: 'Contact Content', cs: 'Kontaktní obsah' },
+      admin: { condition: (_, { enableContactContent }) => Boolean(enableContactContent) },
     },
     {
       name: 'contactItems',
       type: 'array',
-      label: 'Contact Items',
+      label: { en: 'Contact Items', cs: 'Kontaktní položky' },
       minRows: 1,
       fields: [
         {
           name: 'icon',
           type: 'select',
           required: true,
-          label: 'Icon',
+          label: { en: 'Icon', cs: 'Ikona' },
           options: [
-            { label: 'Mail', value: 'Mail' },
-            { label: 'Phone', value: 'Phone' },
-            { label: 'MapPin', value: 'MapPin' },
-            { label: 'Clock', value: 'Clock' },
-            { label: 'Building', value: 'Building' },
+            { label: { en: 'Mail', cs: 'E-mail' }, value: 'Mail' },
+            { label: { en: 'Phone', cs: 'Telefon' }, value: 'Phone' },
+            { label: { en: 'MapPin', cs: 'Poloha' }, value: 'MapPin' },
+            { label: { en: 'Clock', cs: 'Hodiny' }, value: 'Clock' },
+            { label: { en: 'Building', cs: 'Budova' }, value: 'Building' },
           ],
         },
         {
           name: 'label',
           type: 'text',
           required: true,
-          label: 'Label',
+          label: { en: 'Label', cs: 'Popisek' },
         },
         {
           name: 'value',
           type: 'text',
           required: true,
-          label: 'Value',
+          label: { en: 'Value', cs: 'Hodnota' },
         },
       ],
     },
@@ -88,20 +86,17 @@ export const ContactSection: Block = {
       type: 'relationship',
       relationTo: 'forms',
       required: true,
-      label: 'Formulář',
-      // Removed admin: { depth: 1 } as it's not valid here
+      label: { en: 'Form', cs: 'Formulář' },
     },
     {
       name: 'enableIntro',
       type: 'checkbox',
-      label: 'Povolit úvodní obsah formuláře',
+      label: { en: 'Enable intro form content', cs: 'Povolit úvodní obsah formuláře' },
     },
     {
       name: 'introContent',
       type: 'richText',
-      admin: {
-        condition: (_, { enableIntro }) => Boolean(enableIntro),
-      },
+      admin: { condition: (_, { enableIntro }) => Boolean(enableIntro) },
       editor: lexicalEditor({
         features: ({ rootFeatures }) => [
           ...rootFeatures,
@@ -110,7 +105,7 @@ export const ContactSection: Block = {
           InlineToolbarFeature(),
         ],
       }),
-      label: 'Úvodní obsah formuláře',
+      label: { en: 'Form', cs: 'Formulář' },
     },
   ],
 }

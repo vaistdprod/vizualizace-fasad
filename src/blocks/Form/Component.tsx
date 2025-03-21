@@ -104,9 +104,9 @@ export const FormBlock: React.FC<{ id?: string } & FormBlockType> = (props) => {
       viewport={defaultViewport}
       variants={fadeInUp}
       className="mx-auto max-w-3xl px-4 md:px-6"
-      id="kontaktni-formular"
+      id={`block-${id}`}
     >
-      <MagicCard className="h-full">
+      <MagicCard className="h-full" id="kontaktni-formular">
         <div className="rounded-xl bg-card/30 p-8">
           {enableIntro && introContent && !hasSubmitted && (
             <RichText className="mb-6" data={introContent} enableGutter={false} />

@@ -16,19 +16,19 @@ export const BackgroundImage: Block = {
   slug: 'backgroundImage',
   interfaceName: 'BackgroundImageBlock',
   labels: {
-    singular: 'Background Wrapper',
-    plural: 'Background Wrappers',
+    singular: { en: 'Background Wrapper', cs: 'Obal pozadí' },
+    plural: { en: 'Background Wrappers', cs: 'Obaly pozadí' },
   },
   fields: [
     {
       name: 'backgroundType',
       type: 'select',
-      label: 'Background Type',
-      defaultValue: 'gridPattern', // Still good for this client
+      label: { en: 'Background Type', cs: 'Typ pozadí' },
+      defaultValue: 'gridPattern',
       options: [
-        { label: 'Custom Image', value: 'image' },
-        { label: 'Grid Pattern', value: 'gridPattern' },
-        { label: 'Dot Pattern', value: 'dotPattern' }, // New option
+        { label: { en: 'Custom Image', cs: 'Vlastní obrázek' }, value: 'image' },
+        { label: { en: 'Grid Pattern', cs: 'Mřížkový vzor' }, value: 'gridPattern' },
+        { label: { en: 'Dot Pattern', cs: 'Tečkovaný vzor' }, value: 'dotPattern' },
       ],
       required: true,
     },
@@ -36,28 +36,29 @@ export const BackgroundImage: Block = {
       name: 'image',
       type: 'upload',
       relationTo: 'media',
-      label: 'Background Image',
-      admin: {
-        condition: (_, siblingData) => siblingData.backgroundType === 'image',
-      },
+      label: { en: 'Background Image', cs: 'Obrázek pozadí' },
+      admin: { condition: (_, siblingData) => siblingData.backgroundType === 'image' },
     },
     {
       name: 'opacity',
       type: 'number',
-      label: 'Image Opacity',
+      label: { en: 'Image Opacity', cs: 'Průhlednost obrázku' },
       min: 0,
       max: 1,
       defaultValue: 0.15,
       admin: {
         step: 0.01,
-        description: 'Value between 0 (transparent) and 1 (opaque). Only applies to images.',
+        description: {
+          en: 'Value between 0 (transparent) and 1 (opaque). Only applies to images.',
+          cs: 'Hodnota mezi 0 (průhledné) a 1 (neprůhledné). Platí pouze pro obrázky.',
+        },
         condition: (_, siblingData) => siblingData.backgroundType === 'image',
       },
     },
     {
       name: 'blocks',
       type: 'blocks',
-      label: 'Nested Blocks',
+      label: { en: 'Nested Blocks', cs: 'Vnořené bloky' },
       blocks: [
         FeaturedProjects,
         WhyChooseUs,
